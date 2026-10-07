@@ -1,4 +1,5 @@
 import { pipesDefinition } from '@/features/pipes/pipes-definition'
+import { solitaireDefinition } from '@/features/solitaire/solitaire-definition'
 import { starsDefinition } from '@/features/stars/stars-definition'
 
 import type { GameDefinition } from './game-definition'
@@ -9,7 +10,8 @@ import type { GameDefinition } from './game-definition'
  */
 export const GAMES = [
   starsDefinition,
-  pipesDefinition
+  pipesDefinition,
+  solitaireDefinition
 ] as const satisfies readonly GameDefinition[]
 
 export type GameId = (typeof GAMES)[number]['id']

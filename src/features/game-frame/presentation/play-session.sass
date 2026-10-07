@@ -9,5 +9,12 @@
     .board-area
       padding: var(--space-m) var(--space-3xs) 0
 
+      // A board that sizes itself to the room left takes the page's spare
+      // height, the note and the tools pushed down under it.
+      &:has(> [data-fills-height])
+        display: flex
+        flex: 1
+        flex-direction: column
+
     .game-tools
       margin-top: auto

@@ -52,7 +52,7 @@ export const EN_DICTIONARY = defineDictionary({
       next: defineTranslation('Next puzzle · No. {number:number}', {
         number: { number: { useGrouping: false } }
       }),
-      nextVariant: 'Next size',
+      nextVariant: 'Next one',
       replay: 'Play again',
       stamp: 'Solved',
       streak: 'Streak',
@@ -97,6 +97,61 @@ export const EN_DICTIONARY = defineDictionary({
         plural: { count: { one: '{?} tile', other: '{?} tiles' } }
       }),
       wet: 'wet'
+    },
+    solitaire: {
+      board: 'Solitaire table',
+      card: '{rank} of {suit}',
+      cardCount: defineTranslation('{count:plural}', {
+        plural: { count: { one: '{?} card', other: '{?} cards' } }
+      }),
+      empty: 'empty',
+      finish: 'Finish',
+      hiddenCount: defineTranslation('{count:plural}', {
+        plural: {
+          count: { one: '{?} card face down', other: '{?} cards face down' }
+        }
+      }),
+      hints: {
+        draw: 'Nothing to play on the table: turn a card over from the stock.',
+        recycle:
+          'The stock is out: turn the waste over to go through it again.',
+        toColumn: 'These cards can go down onto the marked pile.',
+        toFoundation: 'This card can go up to its foundation.'
+      },
+      homeCount: defineTranslation('{count:plural} of {total:number}', {
+        plural: { count: { one: '{?} card home', other: '{?} cards home' } }
+      }),
+      name: 'Solitaire',
+      piles: {
+        column: 'Column {column:number}',
+        foundation: '{suit} foundation',
+        stock: 'Stock',
+        waste: 'Waste'
+      },
+      rankMarks: {
+        ace: 'A',
+        jack: 'J',
+        king: 'K',
+        queen: 'Q'
+      },
+      ranks: {
+        ace: 'Ace',
+        jack: 'Jack',
+        king: 'King',
+        queen: 'Queen'
+      },
+      recycle: 'turn the waste over',
+      rule: 'Build the four suits from ace to king, laying the columns down red on black.',
+      suits: {
+        clubs: 'clubs',
+        diamonds: 'diamonds',
+        hearts: 'hearts',
+        spades: 'spades'
+      },
+      variants: {
+        random: 'Random',
+        winnable: 'Winnable'
+      }
     },
     stars: {
       board: 'Stars grid, {size:number} by {size:number}',

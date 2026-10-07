@@ -55,7 +55,7 @@ export const FR_DICTIONARY = defineDictionary({
       next: defineTranslation('Puzzle suivant · N° {number:number}', {
         number: { number: { useGrouping: false } }
       }),
-      nextVariant: 'Taille du suivant',
+      nextVariant: 'Le suivant',
       replay: 'Rejouer',
       stamp: 'Résolu',
       streak: 'Série',
@@ -103,6 +103,63 @@ export const FR_DICTIONARY = defineDictionary({
         }
       ),
       wet: 'en eau'
+    },
+    solitaire: {
+      board: 'Table de solitaire',
+      card: '{rank} de {suit}',
+      cardCount: defineTranslation('{count:plural}', {
+        plural: { count: { one: '{?} carte', other: '{?} cartes' } }
+      }),
+      empty: 'vide',
+      finish: 'Tout ranger',
+      hiddenCount: defineTranslation('{count:plural}', {
+        plural: {
+          count: { one: '{?} carte cachée', other: '{?} cartes cachées' }
+        }
+      }),
+      hints: {
+        draw: 'Rien à jouer sur la table : retournez une carte de la pioche.',
+        recycle:
+          'La pioche est vide : retournez la défausse pour la reprendre.',
+        toColumn: 'Ces cartes peuvent descendre sur la pile marquée.',
+        toFoundation: 'Cette carte peut monter sur sa fondation.'
+      },
+      homeCount: defineTranslation('{count:plural} sur {total:number}', {
+        plural: {
+          count: { one: '{?} carte rangée', other: '{?} cartes rangées' }
+        }
+      }),
+      name: 'Solitaire',
+      piles: {
+        column: 'Colonne {column:number}',
+        foundation: 'Fondation {suit}',
+        stock: 'Pioche',
+        waste: 'Défausse'
+      },
+      rankMarks: {
+        ace: 'A',
+        jack: 'V',
+        king: 'R',
+        queen: 'D'
+      },
+      ranks: {
+        ace: 'As',
+        jack: 'Valet',
+        king: 'Roi',
+        queen: 'Dame'
+      },
+      recycle: 'retourner la défausse',
+      rule: 'Rangez les quatre couleurs de l’as au roi, en descendant les colonnes rouge sur noir.',
+      suits: {
+        clubs: 'trèfle',
+        diamonds: 'carreau',
+        hearts: 'cœur',
+        spades: 'pique'
+      },
+      variants: {
+        random: 'Au hasard',
+        winnable: 'Gagnable'
+      }
     },
     stars: {
       board: 'Grille Étoiles {size:number} par {size:number}',
