@@ -16,14 +16,14 @@ const day = (iso: string) => Temporal.PlainDate.from(iso)
 const winFree = (record: PlayRecord, number: number, elapsedMs: number) =>
   recordWin({
     elapsedMs,
-    puzzle: freePuzzle({ gameId: 'lights', number, variantId: '3' }),
+    puzzle: freePuzzle({ gameId: 'stars', number, variantId: '8' }),
     record
   })
 
-const winDaily = (record: PlayRecord, iso: string, gameId = 'lights') =>
+const winDaily = (record: PlayRecord, iso: string, gameId = 'stars') =>
   recordWin({
     elapsedMs: 60_000,
-    puzzle: dailyPuzzle({ day: day(iso), gameId, variantId: '3' }),
+    puzzle: dailyPuzzle({ day: day(iso), gameId, variantId: '8' }),
     record
   }).record
 
@@ -33,7 +33,7 @@ describe('play record', () => {
     expect(won.isNewBest).toBe(true)
     expect(won.previousBestMs).toBeNull()
     expect(
-      variantRecordOf({ gameId: 'lights', record: won.record, variantId: '3' })
+      variantRecordOf({ gameId: 'stars', record: won.record, variantId: '8' })
     ).toEqual({
       bestMs: 42_000,
       nextNumber: 2,
@@ -48,24 +48,24 @@ describe('play record', () => {
     expect(slower.previousBestMs).toBe(42_000)
     expect(
       variantRecordOf({
-        gameId: 'lights',
+        gameId: 'stars',
         record: slower.record,
-        variantId: '3'
+        variantId: '8'
       }).bestMs
     ).toBe(42_000)
-    expect(solvedCountOf(slower.record, 'lights')).toBe(2)
+    expect(solvedCountOf(slower.record, 'stars')).toBe(2)
   })
 
   it('[play-record] marks a daily done without turning the free play page', () => {
     const record = winDaily(EMPTY_PLAY_RECORD, '2026-10-07')
     expect(
-      dailyTimeOf({ day: day('2026-10-07'), gameId: 'lights', record })
+      dailyTimeOf({ day: day('2026-10-07'), gameId: 'stars', record })
     ).toBe(60_000)
     expect(
-      dailyTimeOf({ day: day('2026-10-08'), gameId: 'lights', record })
+      dailyTimeOf({ day: day('2026-10-08'), gameId: 'stars', record })
     ).toBeNull()
     expect(
-      variantRecordOf({ gameId: 'lights', record, variantId: '3' }).nextNumber
+      variantRecordOf({ gameId: 'stars', record, variantId: '8' }).nextNumber
     ).toBe(1)
   })
 

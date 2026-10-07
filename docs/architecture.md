@@ -63,8 +63,8 @@ code, outside Biome and cspell.
 
 ## A game, as the frame sees it
 
-`features/game-frame/` owns everything games share, proven on Lights, a
-placeholder that leaves when Stars arrives. A game hands it two things:
+`features/game-frame/` owns everything games share; it was proven on a
+placeholder game before Stars, the first real one, took its place. A game hands it two things:
 
 - **A definition** (`<game>-definition.ts`), light and loaded with the hub:
   name and rule keys, chapter ink, variants and the daily one, its glyph, and

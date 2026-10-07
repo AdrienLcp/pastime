@@ -17,13 +17,13 @@ const saved = (puzzle: SavedGame['puzzle'], savedAtMs: number): SavedGame => ({
 })
 
 const free = (savedAtMs: number) =>
-  saved(freePuzzle({ gameId: 'lights', number: 3, variantId: '3' }), savedAtMs)
+  saved(freePuzzle({ gameId: 'stars', number: 3, variantId: '8' }), savedAtMs)
 
 const daily = (iso: string, savedAtMs: number) =>
   saved(
     dailyPuzzle({
       day: Temporal.PlainDate.from(iso),
-      gameId: 'lights',
+      gameId: 'stars',
       variantId: '4'
     }),
     savedAtMs

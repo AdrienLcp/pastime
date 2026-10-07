@@ -64,21 +64,71 @@ export const FR_DICTIONARY = defineDictionary({
     }
   },
   games: {
-    lights: {
-      board: 'Grille Lumières, {size:number} par {size:number}',
-      hint: 'Touchez la lampe entourée : elle fait partie du plus court chemin.',
-      lamp: 'Ligne {row:number}, colonne {column:number}',
-      lit: 'allumée',
-      litCount: defineTranslation('{count:plural} sur {total:number}', {
+    stars: {
+      board: 'Grille Étoiles {size:number} par {size:number}',
+      cell: 'Ligne {row:number}, colonne {column:number}, région {region:number}',
+      conflicts: {
+        column: 'trop d’étoiles dans une colonne',
+        region: 'trop d’étoiles dans une région',
+        row: 'trop d’étoiles sur une ligne',
+        touching: 'deux étoiles se touchent'
+      },
+      hints: {
+        columnInRegion:
+          'Cette colonne ne peut placer son étoile que dans une région : le reste de la région est vide.',
+        columnsInRegions:
+          'Ces colonnes ne placent leurs étoiles que dans autant de régions : le reste de ces régions est vide.',
+        fullColumn: 'Cette colonne a toutes ses étoiles : le reste est vide.',
+        fullRegion: 'Cette région a toutes ses étoiles : le reste est vide.',
+        fullRow: 'Cette ligne a toutes ses étoiles : le reste est vide.',
+        nextToStar: 'Une case qui touche une étoile reste vide.',
+        regionInColumn:
+          'Cette région ne tient plus que dans une colonne : le reste de la colonne est vide.',
+        regionInRow:
+          'Cette région ne tient plus que dans une ligne : le reste de la ligne est vide.',
+        regionsInColumns:
+          'Ces régions ne tiennent plus que dans autant de colonnes : le reste de ces colonnes est vide.',
+        regionsInRows:
+          'Ces régions ne tiennent plus que dans autant de lignes : le reste de ces lignes est vide.',
+        rowInRegion:
+          'Cette ligne ne peut placer son étoile que dans une région : le reste de la région est vide.',
+        rowsInRegions:
+          'Ces lignes ne placent leurs étoiles que dans autant de régions : le reste de ces régions est vide.',
+        singleColumn:
+          'Cette colonne n’a plus de place que pour ses étoiles : elles vont dans les cases entourées.',
+        singleRegion:
+          'Cette région n’a plus de place que pour ses étoiles : elles vont dans les cases entourées.',
+        singleRow:
+          'Cette ligne n’a plus de place que pour ses étoiles : elles vont dans les cases entourées.',
+        touchingColumn:
+          'Une étoile ici ne laisserait plus de place à une colonne : la case est vide.',
+        touchingRegion:
+          'Une étoile ici ne laisserait plus de place à une région : la case est vide.',
+        touchingRow:
+          'Une étoile ici ne laisserait plus de place à une ligne : la case est vide.',
+        wrongCross: 'Cette croix cache une étoile : effacez-la.',
+        wrongStar: 'Cette étoile n’est pas à sa place : effacez-la.'
+      },
+      marks: {
+        cross: 'croix',
+        ruledOut: 'exclue',
+        star: 'étoile'
+      },
+      name: 'Étoiles',
+      rule: 'Une étoile par ligne, colonne et région, sans qu’elles se touchent.',
+      starCount: defineTranslation('{count:plural} sur {total:number}', {
         plural: {
-          count: { one: '{?} lampe allumée', other: '{?} lampes allumées' }
+          count: { one: '{?} étoile posée', other: '{?} étoiles posées' }
         }
       }),
-      name: 'Lumières',
-      rule: 'Éteignez toutes les lampes. Chacune bascule avec ses voisines.',
       variants: {
-        size3: '3×3',
-        size4: '4×4'
+        size5: '5×5',
+        size6: '6×6',
+        size7: '7×7',
+        size8: '8×8',
+        size9: '9×9',
+        size10: '10×10',
+        size10Double: '10×10 2★'
       }
     }
   },
@@ -134,6 +184,10 @@ export const FR_DICTIONARY = defineDictionary({
     }
   },
   settings: {
+    autoCross: {
+      label: 'Croix automatiques',
+      prose: 'Les cases qu’une étoile exclut se barrent toutes seules.'
+    },
     backup: {
       cancel: 'Garder mes données',
       confirm: 'Tout remplacer',

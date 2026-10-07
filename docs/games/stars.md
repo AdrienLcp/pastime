@@ -29,6 +29,61 @@ on larger grids), and no two stars touch, diagonals included.
    confined to a row/column, touching exclusions, then pair and
    triple confinements (N regions in N rows).
 
-Sizes 5×5 to 10×10 (1★), 10×10 to 12×12 (2★). Region colours from a
-palette that stays distinct for colour-blind players, plus a thick border
-between regions so colour is never the only cue.
+Sizes 5×5 to 10×10 (1★), 10×10 to 12×12 (2★) — 10×10 2★ only for now, see
+below. Region colours from a palette that stays distinct for colour-blind
+players, plus a thick border between regions so colour is never the only cue.
+
+## As built (step 04)
+
+**Play.** A tap cycles blank → cross → star; a long press (420 ms) stars a
+cell or rubs its star out; a drag crosses every cell it runs over, or rubs
+crosses out when it starts on one. Keyboard: arrows move, Enter cycles.
+Auto-cross is a play setting (`autoCross`, on by default) and only draws:
+the crosses it adds are derived from the stars, lighter than the player's,
+and vanish with the star — they are never moves, so undo never sees them.
+
+**Solver** (`solver/`). Techniques, easiest first, each sound on its own:
+
+| Technique | What it sees |
+| --- | --- |
+| next-to-star | a cell touching a star holds none |
+| full-unit | a unit with all its stars: the rest holds none |
+| single | a unit with exactly as many open cells as stars it lacks |
+| confinement | one unit's open cells inside one unit of another kind (region in a row, row in a region…), lacking as many stars |
+| touching | a star on this cell would leave some unit without room — one placement deep, never further |
+| pair, triple | the same count over two or three units |
+
+Logic reaching a full grid means the solution is unique; the generator test
+checks it against a separate brute-force counter on 200 seeds per size. The
+hint skips the first two techniques (auto-cross draws them) and points first
+at a wrong star or a cross over a solution star.
+
+**Generator** (`generator/`). A random solution (row backtracking), regions
+flood-filled from its stars (paired two by two on 2★ grids), then reshaped a
+cell at a time — 70 % of the time a cell logic left open — keeping each change
+that lets logic decide at least as much, until logic solves the grid at the
+size's minimum difficulty (`STARS_VARIANTS`). 600 reshapes per grid, four
+grids per seed, then the seed is given up on (a deterministic give-up, so a
+retry draws the same derived seed on every device).
+
+Generation time, 20 seeds per size, Chrome with the CPU throttled ×4
+(a mid-range phone), 2026-10-07:
+
+| Size | Median | 90th pct | Worst |
+| --- | --- | --- | --- |
+| 5×5 | 4 ms | 33 ms | 89 ms |
+| 6×6 | 8 ms | 45 ms | 77 ms |
+| 7×7 | 37 ms | 112 ms | 190 ms |
+| 8×8 (daily) | 76 ms | 311 ms | 487 ms |
+| 9×9 | 171 ms | 796 ms | 971 ms |
+| 10×10 | 332 ms | 1.3 s | 1.5 s |
+| 10×10 2★ | 340 ms | 1.9 s | 2.0 s |
+
+The worker's 6 s timeout sits well above the worst case: a slow phone that
+timed out would move to the next derived seed and print a different daily
+than everyone else, so that margin is what keeps the daily shared.
+
+**Not yet: 11×11 and 12×12 2★.** With these techniques the reshaping never
+reached a logic-only 12×12 2★ grid within budget. Those sizes need the 2★
+techniques real puzzle books use (2×2 blocks counting at most one star each,
+over pairs of rows) before they can be printed.

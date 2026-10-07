@@ -1,4 +1,4 @@
-import { lightsDefinition } from '@/features/lights/lights-definition'
+import { starsDefinition } from '@/features/stars/stars-definition'
 
 import type { GameDefinition } from './game-definition'
 
@@ -7,7 +7,7 @@ import type { GameDefinition } from './game-definition'
  * one line here; nothing else in the frame or the hub names a game.
  */
 export const GAMES = [
-  lightsDefinition
+  starsDefinition
 ] as const satisfies readonly GameDefinition[]
 
 export type GameId = (typeof GAMES)[number]['id']

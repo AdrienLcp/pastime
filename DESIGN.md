@@ -348,7 +348,12 @@ from a seed so a mark looks the same on every render.
   conflict is circled in pencil (a loop around both stars when they touch, one
   around each otherwise) and named in a hand note under the board (« deux
   étoiles se touchent »). The hint draws a dashed pencil box around the cells
-  it is about, and says it in words below.
+  it is about, and says it in words below. Auto-cross draws its crosses at
+  42 % against the player's 80 %, so the hand still reads as the player's.
+  The cells are transparent buttons laid exactly over the print — the SVG
+  only draws — so the board is played by pointer, keyboard (arrows, Enter)
+  and screen reader alike. Region tints and patterns are given out so that
+  bordering regions differ in both. Built: `src/features/stars/presentation/`.
 - **Pipes** (`--chapter-pipes`): 40-unit tiles, cell lines 1 unit in
   `--rule`. A pipe is a 13-unit ink stroke with a 6-unit channel inside it:
   `--paper` when dry, `--water` when connected (a 200 ms colour change). A dead

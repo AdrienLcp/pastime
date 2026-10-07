@@ -15,8 +15,7 @@ const CHAPTER_INKS = [
   '--chapter-pipes',
   '--chapter-solitaire',
   '--chapter-stars',
-  '--chapter-color-dots',
-  '--chapter-lights'
+  '--chapter-color-dots'
 ]
 
 const PAIRS: ContrastPair[] = [

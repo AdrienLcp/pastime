@@ -88,6 +88,12 @@ export const SettingsPage: React.FC = () => {
           onChange={(haptics) => changePlaySettings({ haptics })}
           prose={translate('settings.haptics.prose')}
         />
+        <SettingSwitch
+          isOn={settings.autoCross}
+          label={translate('settings.autoCross.label')}
+          onChange={(autoCross) => changePlaySettings({ autoCross })}
+          prose={translate('settings.autoCross.prose')}
+        />
       </div>
 
       <div className='settings-group'>

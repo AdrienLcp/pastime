@@ -61,19 +61,69 @@ export const EN_DICTIONARY = defineDictionary({
     }
   },
   games: {
-    lights: {
-      board: 'Lights grid, {size:number} by {size:number}',
-      hint: 'Press the circled lamp: it is part of the shortest way out.',
-      lamp: 'Row {row:number}, column {column:number}',
-      lit: 'lit',
-      litCount: defineTranslation('{count:plural} of {total:number}', {
-        plural: { count: { one: '{?} lamp lit', other: '{?} lamps lit' } }
+    stars: {
+      board: 'Stars grid, {size:number} by {size:number}',
+      cell: 'Row {row:number}, column {column:number}, region {region:number}',
+      conflicts: {
+        column: 'too many stars in a column',
+        region: 'too many stars in a region',
+        row: 'too many stars in a row',
+        touching: 'two stars touch'
+      },
+      hints: {
+        columnInRegion:
+          'This column can only place its star in one region: the rest of that region is empty.',
+        columnsInRegions:
+          'These columns can only place their stars in as many regions: the rest of those regions is empty.',
+        fullColumn: 'This column has all its stars: the rest is empty.',
+        fullRegion: 'This region has all its stars: the rest is empty.',
+        fullRow: 'This row has all its stars: the rest is empty.',
+        nextToStar: 'A cell touching a star stays empty.',
+        regionInColumn:
+          'This region only fits in one column now: the rest of that column is empty.',
+        regionInRow:
+          'This region only fits in one row now: the rest of that row is empty.',
+        regionsInColumns:
+          'These regions only fit in as many columns: the rest of those columns is empty.',
+        regionsInRows:
+          'These regions only fit in as many rows: the rest of those rows is empty.',
+        rowInRegion:
+          'This row can only place its star in one region: the rest of that region is empty.',
+        rowsInRegions:
+          'These rows can only place their stars in as many regions: the rest of those regions is empty.',
+        singleColumn:
+          'This column only has room left for its stars: they go in the circled cells.',
+        singleRegion:
+          'This region only has room left for its stars: they go in the circled cells.',
+        singleRow:
+          'This row only has room left for its stars: they go in the circled cells.',
+        touchingColumn:
+          'A star here would leave a column no room: the cell is empty.',
+        touchingRegion:
+          'A star here would leave a region no room: the cell is empty.',
+        touchingRow:
+          'A star here would leave a row no room: the cell is empty.',
+        wrongCross: 'This cross hides a star: rub it out.',
+        wrongStar: 'This star is in the wrong place: rub it out.'
+      },
+      marks: {
+        cross: 'cross',
+        ruledOut: 'ruled out',
+        star: 'star'
+      },
+      name: 'Stars',
+      rule: 'One star in every row, column and region, none touching.',
+      starCount: defineTranslation('{count:plural} of {total:number}', {
+        plural: { count: { one: '{?} star placed', other: '{?} stars placed' } }
       }),
-      name: 'Lights',
-      rule: 'Switch every lamp off. Each one flips with its neighbours.',
       variants: {
-        size3: '3×3',
-        size4: '4×4'
+        size5: '5×5',
+        size6: '6×6',
+        size7: '7×7',
+        size8: '8×8',
+        size9: '9×9',
+        size10: '10×10',
+        size10Double: '10×10 2★'
       }
     }
   },
@@ -129,6 +179,10 @@ export const EN_DICTIONARY = defineDictionary({
     }
   },
   settings: {
+    autoCross: {
+      label: 'Automatic crosses',
+      prose: 'The cells a star rules out cross themselves.'
+    },
     backup: {
       cancel: 'Keep my data',
       confirm: 'Replace everything',

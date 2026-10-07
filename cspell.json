@@ -8,6 +8,7 @@
     "pnpm-lock.yaml",
     "public/fonts/*-OFL.txt"
   ],
+  "ignoreRegExpList": ["'[A-L]{5,12}( [.*x]{5,12})?'"],
   "import": ["@cspell/dict-fr-fr/cspell-ext.json"],
   "language": "en,en-GB",
   "overrides": [

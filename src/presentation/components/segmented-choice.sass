@@ -12,22 +12,27 @@
       @include typography.meta
       color: var(--ink-soft)
 
+    // Too many options for one line wrap onto the next, filling it: the gap
+    // shows the rule colour behind them, so every option keeps its hairline.
     .segmented-options
-      display: grid
-      grid-auto-flow: column
+      display: flex
+      flex-wrap: wrap
+      gap: var(--stroke-hair)
+      max-width: 100%
+      background: var(--rule)
       border: var(--print-line)
 
     .segmented-option
       @include typography.control
       display: grid
       place-items: center
+      flex: 1 0 auto
       min-height: var(--target)
       padding-inline: var(--space-s)
+      background: var(--paper)
+      white-space: nowrap
       cursor: pointer
       transition: background-color var(--transition-fast, 0), color var(--transition-fast, 0)
-
-      & + .segmented-option
-        border-left: var(--hairline)
 
       &[data-pressed]:not([data-selected])
         background: var(--paper-sunk)

@@ -10,7 +10,7 @@ import {
 const backup = gatherBackup({
   entries: {
     'pastime.locale': 'fr',
-    'pastime.play-record.v1': '{"lights":{}}'
+    'pastime.play-record.v1': '{"stars":{}}'
   },
   today: Temporal.PlainDate.from('2026-10-07')
 })
