@@ -17,6 +17,9 @@ logic, daily puzzle included.
    on a throttled mobile profile and note it in the game doc.
 4. Board: cells, region borders, conflicts, auto-cross option, hint with its
    reason in words.
+5. Register Stars in `game-frame/game-registry.ts` and remove the Lights
+   placeholder (`features/lights/`, its `games.lights` keys, its
+   `--chapter-lights` token and contrast pair).
 
 ## Tests
 

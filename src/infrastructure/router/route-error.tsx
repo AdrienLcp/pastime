@@ -6,9 +6,9 @@ import { Button } from '@/presentation/components/button'
 import { Link } from '@/presentation/components/link'
 import { Main } from '@/presentation/components/main'
 import { DocumentTitle } from '@/presentation/head/document-title'
-import { useTranslate } from '@/presentation/i18n/i18n-provider'
+import { useI18n, useTranslate } from '@/presentation/i18n/i18n-provider'
 
-import { paths, useCurrentPath, useRouteFailure } from './navigation'
+import { hubPathFor, useCurrentPath, useRouteFailure } from './navigation'
 
 import './route-error.sass'
 
@@ -38,7 +38,7 @@ export const ErrorScreen: React.FC = () => {
 
 /** An address no route owns: said plainly, rather than silently rerouted. */
 export const NotFoundPage: React.FC = () => {
-  const translate = useTranslate()
+  const { locale, translate } = useI18n()
   const path = useCurrentPath()
 
   return (
@@ -46,7 +46,7 @@ export const NotFoundPage: React.FC = () => {
       <DocumentTitle>{`${translate('notFound.title')} — ${translate('app.name')}`}</DocumentTitle>
       <h1>{translate('notFound.title')}</h1>
       <p>{translate('notFound.prose', { path })}</p>
-      <Link href={paths.hub}>{translate('notFound.toHub')}</Link>
+      <Link href={hubPathFor(locale)}>{translate('notFound.toHub')}</Link>
     </Main>
   )
 }

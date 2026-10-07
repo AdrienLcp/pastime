@@ -1,0 +1,26 @@
+@use '../../../presentation/styles/typography'
+
+@layer components
+  .pause-cover
+    display: grid
+    align-content: center
+    justify-items: start
+    gap: var(--space-s)
+    width: min(100%, 22rem)
+    aspect-ratio: 1
+    margin-inline: auto
+    padding: var(--space-xl) var(--space-l)
+    // the board's frame, kept so the page does not jump
+    border: var(--stroke-frame) solid var(--ink)
+    background: repeating-linear-gradient(-45deg, transparent 0 var(--space-xs), color-mix(in oklab, var(--rule) 45%, transparent) var(--space-xs) calc(var(--space-xs) + var(--stroke-hair))), var(--paper-sunk)
+
+    .pause-title
+      @include typography.number
+
+    .pause-prose
+      max-width: 30ch
+      color: var(--ink-soft)
+      text-wrap: pretty
+
+    .pressable
+      margin-top: var(--space-xs)

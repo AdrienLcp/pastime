@@ -1,0 +1,17 @@
+/*
+ * The interface's icons, drawn at one stroke: lucide's, imported here alone.
+ * A game's own marks — its chapter glyph, its pieces — are drawn in its folder.
+ */
+export {
+  ArrowRight as NextIcon,
+  ChevronLeft as BackIcon,
+  Download as ExportIcon,
+  House as HomeIcon,
+  Lightbulb as HintIcon,
+  Pause as PauseIcon,
+  Play as ResumeIcon,
+  RotateCcw as RestartIcon,
+  Settings2 as SettingsIcon,
+  Undo2 as UndoIcon,
+  Upload as ImportIcon
+} from 'lucide-react'

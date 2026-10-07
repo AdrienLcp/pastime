@@ -1,0 +1,28 @@
+@layer components
+  .game-clock
+    display: flex
+    align-items: center
+
+    .clock-face
+      min-width: 4ch
+      font-size: var(--text-timer)
+      font-stretch: 90%
+      font-weight: 800
+      text-align: right
+
+    .clock-toggle
+      display: grid
+      place-items: center
+      width: var(--control-height)
+      height: var(--control-height)
+
+      svg
+        width: 24px
+        height: 24px
+
+      &[data-pressed]
+        background: color-mix(in oklab, var(--cover-ink) 12%, var(--chapter))
+
+      &[data-focus-visible]
+        outline: var(--outline-thick) solid var(--cover-ink)
+        outline-offset: calc(-1 * var(--outline-thick))

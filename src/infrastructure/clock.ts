@@ -12,3 +12,9 @@ export const zonedNow = (): Temporal.ZonedDateTime =>
 
 /** The device's calendar day: the daily puzzle's day. */
 export const today = (): Temporal.PlainDate => zonedNow().toPlainDate()
+
+/**
+ * A count that only moves forward, for the time a puzzle takes: unlike the
+ * wall clock, a phone setting its time mid-game cannot add or remove minutes.
+ */
+export const elapsedClockMs = (): number => performance.now()

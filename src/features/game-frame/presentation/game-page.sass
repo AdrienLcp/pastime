@@ -1,0 +1,22 @@
+@use '../../../presentation/styles/typography'
+
+@layer components
+  .print-failed
+    display: grid
+    align-content: start
+    justify-items: start
+    gap: var(--space-s)
+    padding: var(--space-xl) var(--gutter) 0
+    border-top: var(--space-s) solid var(--chapter)
+
+    h1
+      @include typography.number
+
+    p
+      max-width: 36ch
+      color: var(--ink-soft)
+
+  .daily-done
+    display: flex
+    flex-direction: column
+    min-height: 100dvh

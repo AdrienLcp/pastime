@@ -61,6 +61,35 @@ code, outside Biome and cspell.
   (`infrastructure/install-temporal.ts`); the day comes from
   `infrastructure/clock.ts`.
 
+## A game, as the frame sees it
+
+`features/game-frame/` owns everything games share, proven on Lights, a
+placeholder that leaves when Stars arrives. A game hands it two things:
+
+- **A definition** (`<game>-definition.ts`), light and loaded with the hub:
+  name and rule keys, chapter ink, variants and the daily one, its glyph, and
+  `load()`, a dynamic import of the rest. `game-registry.ts` lists them.
+- **A module** (`<game>-module.ts`), loaded with the game's page and sealed by
+  `sealGameModule`: the pure `GameEngine` (`start`, `applyMove`, `isWon`,
+  `hint`, the level and move schemas), the `Board` component, the hint's
+  sentence key, and `createGeneratorWorker` — a `?worker` import whose script
+  calls `serveGenerator(generate)`.
+
+The seal keeps a game's four types (level, state, move, hint) together inside
+one value, so the registry holds games of different types and a board is only
+ever handed its own engine's state. `applyMove` and a generator answer
+`Result<{ board }>` / `Result<{ level }>`: `Result` over a bare type parameter
+does not narrow to its `data`.
+
+The route loader (`game-loader.ts`) resumes the saved game or prints the next
+puzzle, then the page plays it (`use-play-session.ts`): every move is saved
+(level, moves, time), undo keeps every board, the clock counts only while the
+puzzle is in front of the player, and hiding the page pauses it.
+
+A puzzle is `(game, variant, number)`: free play numbers count up per variant
+(`nextNumber` in the play record), the daily's number is the issue — days since
+1 January 2026, plus one — and its seed the game and the date.
+
 ## Generation
 
 - Seeded PRNG (one helper), so a level is reproducible from `(game, size,
@@ -72,10 +101,15 @@ code, outside Biome and cspell.
 
 ## Storage
 
-Per game: the game in progress (resumable after the app is killed), best
-times per size and difficulty, streak of daily puzzles, settings. Keys are
-versioned so a format change migrates or drops cleanly. Export/import of all
-data as a file, so changing phone loses nothing.
+Every key starts with `pastime.` and carries its version
+(`pastime.saved-game.v1.<game>.<mode>`, `pastime.play-record.v1`,
+`pastime.play-settings.v1`), and each is read through its zod schema: a value
+the app no longer understands reads as absent. One game in progress waits per
+game and mode; the play record holds, per game, the best time, solved count and
+next number per variant, and each daily solved by its day — the streak counts
+days with any daily solved. The backup file carries every `pastime.*` entry
+raw, so a key added later is in it without a change; a restore replaces them
+all and reloads.
 
 ## PWA
 

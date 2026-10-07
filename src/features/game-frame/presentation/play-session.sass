@@ -1,0 +1,13 @@
+@layer components
+  // A puzzle owns the whole page height: the tools sit under the thumb.
+  .play-session
+    display: flex
+    flex-direction: column
+    gap: var(--space-s)
+    min-height: 100dvh
+
+    .board-area
+      padding: var(--space-m) var(--space-3xs) 0
+
+    .game-tools
+      margin-top: auto

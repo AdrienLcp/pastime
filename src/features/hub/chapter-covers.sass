@@ -1,0 +1,55 @@
+@use '../../presentation/styles/typography'
+
+@layer components
+  .chapter-covers
+    list-style: none
+
+    li + li
+      border-top: var(--stroke-bold) solid var(--paper)
+
+    .chapter-cover
+      position: relative
+      display: grid
+      align-content: center
+      gap: var(--space-2xs)
+      min-height: 8rem
+      padding: var(--space-m) 8.5rem var(--space-m) var(--gutter)
+      overflow: hidden
+      background: var(--chapter)
+      color: var(--cover-ink)
+      text-decoration: none
+
+      &[data-pressed]
+        background: color-mix(in oklab, var(--cover-ink) 10%, var(--chapter))
+
+      &[data-focus-visible]
+        outline: var(--outline-thick) solid var(--cover-ink)
+        outline-offset: calc(-2 * var(--outline-thick))
+
+    .cover-title
+      @include typography.cover-title
+
+    .cover-rule
+      max-width: 30ch
+      font-size: var(--text-small)
+      font-weight: 500
+      line-height: 1.3
+      text-wrap: pretty
+
+    .cover-meta
+      @include typography.meta
+      margin-top: var(--space-3xs)
+      font-weight: 700
+
+    // The chapter's mark, printed oversize and run off the cover's edge.
+    .cover-glyph
+      position: absolute
+      top: 50%
+      right: calc(-1 * var(--space-m))
+      width: 8.5rem
+      aspect-ratio: 1
+      translate: 0 -50%
+
+      svg
+        width: 100%
+        height: 100%

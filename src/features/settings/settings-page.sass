@@ -1,0 +1,131 @@
+@use '../../presentation/styles/print'
+@use '../../presentation/styles/typography'
+
+@layer components
+  .settings-page
+    display: grid
+    align-content: start
+    padding-bottom: var(--space-2xl)
+
+    .settings-head
+      display: flex
+      align-items: center
+      gap: var(--space-2xs)
+      padding: var(--space-xs) var(--gutter) var(--space-s) var(--space-3xs)
+      border-bottom: var(--stroke-heavy) solid var(--ink)
+
+    .settings-back
+      display: grid
+      place-items: center
+      width: var(--control-height)
+      height: var(--control-height)
+
+      svg
+        width: 24px
+        height: 24px
+
+      &[data-pressed]
+        background: var(--paper-sunk)
+
+      &[data-focus-visible]
+        outline: var(--ring)
+        outline-offset: calc(-1 * var(--outline-thick))
+
+    .settings-title
+      @include typography.number
+
+    .settings-group
+      display: grid
+      gap: var(--space-m)
+      padding: var(--space-l) var(--gutter)
+
+      & + .settings-group
+        border-top: var(--hairline)
+
+    .setting-switch
+      display: flex
+      align-items: center
+      justify-content: space-between
+      gap: var(--space-m)
+      min-height: var(--target)
+      cursor: pointer
+
+      &[data-focus-visible] .switch-track
+        outline: var(--ring)
+        outline-offset: var(--ring-offset)
+
+      &[data-pressed] .switch-track
+        background: var(--paper-sunk)
+
+      &[data-selected] .switch-track
+        background: var(--ink)
+
+      &[data-selected][data-pressed] .switch-track
+        background: var(--ink-soft)
+
+      &[data-selected] .switch-knob
+        translate: 100% 0
+        background: var(--paper)
+
+    .switch-text
+      display: grid
+
+    .switch-label
+      @include typography.control
+
+    .switch-prose
+      font-size: var(--text-small)
+      color: var(--ink-soft)
+
+    // A printed box the knob slides across: on, the box is inked full.
+    .switch-track
+      flex: none
+      display: flex
+      width: calc(2 * var(--space-xl))
+      height: var(--space-xl)
+      padding: var(--space-3xs)
+      border: var(--print-line)
+      transition: background-color var(--transition-fast, 0ms)
+
+    .switch-knob
+      width: 50%
+      height: 100%
+      background: var(--ink)
+      transition: translate var(--transition-fast, 0ms) var(--ease-out), background-color var(--transition-fast, 0ms)
+
+    .section-head
+      @include print.section-head
+
+    .backup-prose
+      max-width: 40ch
+      margin-inline: var(--gutter)
+      font-size: var(--text-small)
+      color: var(--ink-soft)
+      text-wrap: pretty
+
+    .backup-actions,
+    .restore-actions
+      display: flex
+      flex-wrap: wrap
+      gap: var(--space-xs)
+
+    .backup-actions
+      margin: var(--space-m) var(--gutter) 0
+
+    .backup-outcome
+      margin: var(--space-m) var(--gutter) 0
+
+    .restore-confirm
+      display: grid
+      gap: var(--space-s)
+      padding: var(--space-m)
+      border: var(--stroke-frame) solid var(--stamp)
+
+      p
+        font-weight: 600
+
+    .restore-refused
+      padding: var(--space-xs) var(--space-s)
+      border: var(--print-line)
+      font-size: var(--text-small)
+      font-weight: 600

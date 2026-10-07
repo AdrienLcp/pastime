@@ -1,0 +1,86 @@
+@use '@adrienlcp/styles/accessibility'
+@use '../../presentation/styles/typography'
+
+@layer components
+  .today-list
+    list-style: none
+
+    li + li .today-row
+      border-top: var(--hairline)
+
+    .today-row
+      display: flex
+      align-items: center
+      gap: var(--space-s)
+      min-height: calc(var(--target) + var(--space-s))
+      padding-right: var(--gutter)
+      text-decoration: none
+
+      &[data-pressed]
+        background: var(--paper-sunk)
+
+      &[data-focus-visible]
+        outline: var(--ring)
+        outline-offset: calc(-1 * var(--outline-thick))
+
+    .today-tab
+      display: grid
+      place-items: center
+      align-self: stretch
+      width: 2.5rem
+      padding: var(--space-xs)
+      background: var(--chapter)
+      color: var(--cover-ink)
+
+      svg
+        width: 100%
+
+    .today-number
+      flex: none
+      min-width: 3.5rem
+      font-size: var(--text-control)
+      font-stretch: 75%
+      font-weight: 800
+
+    .today-name
+      font-size: var(--text-control)
+      font-weight: 600
+      white-space: nowrap
+
+      small
+        margin-left: var(--space-3xs)
+        font-size: var(--text-meta)
+        font-weight: 500
+        color: var(--ink-soft)
+
+    .leader
+      flex: 1
+      min-width: var(--space-s)
+      border-bottom: var(--stroke-bold) dotted var(--rule-strong)
+      translate: 0 var(--space-3xs)
+
+    .today-state
+      @include typography.meta
+      display: inline-flex
+      align-items: center
+      gap: var(--space-3xs)
+      color: var(--ink-soft)
+      white-space: nowrap
+
+      &.done
+        @include typography.hand
+        color: var(--pencil)
+
+    .tick
+      width: 20px
+      height: 20px
+
+      path
+        fill: none
+        stroke: currentColor
+        stroke-width: 3.2
+        stroke-linecap: round
+        stroke-linejoin: round
+
+    .visually-hidden
+      @include accessibility.visually-hidden

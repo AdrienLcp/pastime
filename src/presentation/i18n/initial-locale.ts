@@ -3,7 +3,7 @@ import { warnOnFailure } from '@/infrastructure/diagnostics'
 import { readStoredLocale } from '@/infrastructure/storage/locale-storage'
 
 import { i18n } from './i18n'
-import type { Locale } from './locale'
+import { isLocale, type Locale } from './locale'
 
 const storedLocaleOrNone = (): Locale | null => {
   const read = readStoredLocale()
@@ -11,13 +11,26 @@ const storedLocaleOrNone = (): Locale | null => {
   return read.status === 'success' ? read.data : null
 }
 
+const localeInPath = (pathname: string): Locale | null => {
+  const [, segment = ''] = pathname.split('/')
+  return isLocale(segment) ? segment : null
+}
+
 /**
- * This device's last choice first, then what the browser says it reads. Called
- * before React renders, so `<html lang>` is right from the first paint and no
- * browser offers to translate a page it misreads.
+ * The address first — a link shared in French opens in French — then this
+ * device's last choice, then what the browser says it reads.
+ */
+export const initialLocale = (): Locale =>
+  localeInPath(window.location.pathname) ??
+  storedLocaleOrNone() ??
+  i18n.negotiate(preferredLocales())
+
+/**
+ * Called before React renders, so `<html lang>` is right from the first paint
+ * and no browser offers to translate a page it misreads.
  */
 export const applyInitialLocale = (): Locale => {
-  const locale = storedLocaleOrNone() ?? i18n.negotiate(preferredLocales())
+  const locale = initialLocale()
   document.documentElement.lang = locale
   return locale
 }

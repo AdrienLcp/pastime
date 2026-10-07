@@ -1,0 +1,14 @@
+@use 'typography'
+
+/// A section head on the page, ruled out to the margin like a printed booklet's.
+@mixin section-head
+  @include typography.section
+  display: flex
+  align-items: center
+  gap: var(--space-s)
+  margin: var(--space-xl) var(--gutter) var(--space-s)
+
+  &::after
+    content: ''
+    flex: 1
+    border-top: var(--print-line)

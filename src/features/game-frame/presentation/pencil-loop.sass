@@ -1,0 +1,26 @@
+@layer components
+  .pencil-loop
+    position: absolute
+    inset: calc(-1 * var(--space-3xs))
+    width: calc(100% + 2 * var(--space-3xs))
+    height: calc(100% + 2 * var(--space-3xs))
+    overflow: visible
+    pointer-events: none
+
+    path
+      fill: none
+      stroke: var(--pencil)
+      stroke-width: var(--stroke-bold)
+      stroke-linecap: round
+      stroke-dasharray: 1
+      stroke-dashoffset: 1
+      animation: pencil-loop-draw var(--transition-base, 0ms) var(--ease-out) forwards
+
+  @keyframes pencil-loop-draw
+    to
+      stroke-dashoffset: 0
+
+  @media (prefers-reduced-motion: reduce)
+    .pencil-loop path
+      animation: none
+      stroke-dashoffset: 0

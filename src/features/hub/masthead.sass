@@ -2,7 +2,12 @@
 
 @layer components
   .masthead
-    padding: var(--space-s) var(--gutter) 0
+    padding: var(--space-2xs) var(--gutter) 0
+
+    .masthead-top
+      display: flex
+      align-items: center
+      justify-content: space-between
 
     .ink-bar
       display: flex
@@ -27,9 +32,26 @@
       &.key
         background: var(--ink)
 
+    .settings-link
+      display: grid
+      place-items: center
+      width: var(--target)
+      height: var(--target)
+      margin-right: calc(-1 * var(--space-s))
+
+      svg
+        width: 22px
+        height: 22px
+
+      &[data-pressed]
+        background: var(--paper-sunk)
+
+      &[data-focus-visible]
+        outline: var(--ring)
+        outline-offset: calc(-1 * var(--outline-thick))
+
     .masthead-title
       @include typography.masthead
-      margin-top: var(--space-xs)
 
     // The cover's double rule: a heavy line over a thin one.
     .masthead-rule
@@ -40,8 +62,27 @@
 
     .issue-line
       @include typography.meta
+      display: flex
+      flex-wrap: wrap
+      align-items: center
+      justify-content: space-between
+      gap: var(--space-xs) var(--space-s)
       padding-top: var(--space-xs)
       color: var(--ink-soft)
 
-      &::first-letter
+      time::first-letter
         text-transform: uppercase
+
+    .streak
+      display: inline-flex
+      align-items: baseline
+      gap: var(--space-2xs)
+      padding: var(--space-4xs) var(--space-xs)
+      border: var(--print-line)
+      color: var(--ink)
+      white-space: nowrap
+
+      b
+        @include typography.hand
+        line-height: 1
+        color: var(--pencil)

@@ -15,3 +15,40 @@
 @mixin control
   font-size: var(--text-control)
   font-weight: 800
+
+/// A puzzle's number, the book's display face: condensed and black.
+@mixin number
+  font-size: var(--text-number)
+  font-stretch: var(--stretch-condensed)
+  font-weight: 900
+  letter-spacing: var(--tracking-number)
+  line-height: 1
+
+/// A section head on the page, before its rule.
+@mixin section
+  font-size: var(--text-section)
+  font-stretch: var(--stretch-tight)
+  font-weight: 800
+  letter-spacing: -0.01em
+
+/// A chapter's name on its cover.
+@mixin cover-title
+  font-size: var(--text-cover)
+  font-stretch: var(--stretch-cover)
+  font-weight: 900
+  line-height: var(--leading-display)
+  text-transform: uppercase
+
+/// The player's own writing: times, ticks, notes in the margin.
+@mixin hand
+  font-family: var(--font-hand)
+  font-size: var(--text-hand)
+  font-weight: 400
+  line-height: 1.2
+
+/// A small label set in capitals: the heads of the score box.
+@mixin caps
+  font-size: var(--text-caps)
+  font-weight: 800
+  letter-spacing: var(--tracking-caps)
+  text-transform: uppercase

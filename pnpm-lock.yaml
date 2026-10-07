@@ -178,6 +178,9 @@ importers:
       '@adrienlcp/react':
         specifier: ^0.4.0
         version: 0.4.0(react@19.3.0)
+      '@adrienlcp/react-aria':
+        specifier: ^0.1.1
+        version: 0.1.1(react-aria-components@1.21.1(react-dom@19.3.0(react@19.3.0))(react@19.3.0))(react@19.3.0)(sass@1.105.1)
       '@adrienlcp/react-router':
         specifier: ^0.1.2
         version: 0.1.2(react-aria-components@1.21.1(react-dom@19.3.0(react@19.3.0))(react@19.3.0))(react-router@8.4.0(react-dom@19.3.0(react@19.3.0))(react@19.3.0))(react@19.3.0)
@@ -188,11 +191,14 @@ importers:
         specifier: ^0.1.1
         version: 0.1.1
       '@adrienlcp/styles':
-        specifier: ^0.7.0
-        version: 0.7.0(sass@1.105.1)
+        specifier: ^0.8.0
+        version: 0.8.0(sass@1.105.1)
       '@adrienlcp/theme-preference':
         specifier: ^0.3.1
         version: 0.3.1(react@19.3.0)(vite@8.3.3(@types/node@26.6.4)(sass@1.105.1)(terser@5.51.2)(yaml@2.9.1))
+      lucide-react:
+        specifier: ^1.52.0
+        version: 1.52.0(@types/react@19.3.0)(react@19.3.0)
       react:
         specifier: 19.3.0
         version: 19.3.0
@@ -211,6 +217,9 @@ importers:
       workbox-window:
         specifier: ^7.4.1
         version: 7.4.1
+      zod:
+        specifier: ^4.6.5
+        version: 4.6.5
     devDependencies:
       '@adrienlcp/biome-config':
         specifier: ^0.2.1
@@ -294,6 +303,16 @@ packages:
   '@adrienlcp/i18n@0.5.1':
     resolution: {integrity: sha512-V/tZYT41FjLIk00d2BGO2DiQ9WSGwqHvH9uVv3hFp7NIvtgcf4Tog7QD1hzz0SDy73yuWu9hi2Jd2H1cDW4IRA==}
 
+  '@adrienlcp/react-aria@0.1.1':
+    resolution: {integrity: sha512-oxzhLPO/YrlDcZH1ouMLAV0SX4sopQltToGIQNQixe2R0Nd1k8SKrjv3NgdvhcIPjtWgEFft3DGIqR763bVhXA==}
+    peerDependencies:
+      react: '>=19'
+      react-aria-components: '>=1.21.0'
+      sass: '>=1.80.0'
+    peerDependenciesMeta:
+      sass:
+        optional: true
+
   '@adrienlcp/react-router@0.1.2':
     resolution: {integrity: sha512-aOSQveB3zywYNXVGykcLLWY9pyDKT1m3qW9aUTDDD1r0R7D9vhDimxxFBbKro0pScMMDm+tyOtsNQFNGOvdiwQ==}
     peerDependencies:
@@ -312,8 +331,8 @@ packages:
   '@adrienlcp/safe-storage@0.1.1':
     resolution: {integrity: sha512-zDhZcQi2OVy3EijNi0hvZG0tnM2zRAP3oZpqy7RbAqn4dozFfltzImN8CN/Ntjkhx02QgO+PJ6m3abrSGG4qxQ==}
 
-  '@adrienlcp/styles@0.7.0':
-    resolution: {integrity: sha512-FEFZ5R40qDlzx9eLvMerglzZ6f5wRnNiwrJxTxRFIao9gA5+Ac9y04maM3sOR55GJtMl2ZnDgZJVsuDY/NA8Jw==}
+  '@adrienlcp/styles@0.8.0':
+    resolution: {integrity: sha512-bC6DhW9WMxOXJ8+ocWm+fWfHloBL2/You9tx9I9ch0EAYPucKAz20sr/03sZcZVBmscq7LF64ETQZfgqf/h3fg==}
     peerDependencies:
       sass: '>=1.80.0'
     peerDependenciesMeta:
@@ -2761,6 +2780,15 @@ packages:
   lru-cache@5.1.1:
     resolution: {integrity: sha512-KpNARQA3Iwv+jTA0utUVVbrh+Jlrr1Fv0e56GGzAFOXN7dk/FviaDW8LHmK52DlcH4WP2n6gI8vN1aesBFgo9w==}
 
+  lucide-react@1.52.0:
+    resolution: {integrity: sha512-TUgPtl5ZI9WgxOcbu4ckaC5B3l1qxPQrCMgb6OfUB9owx/OvSJfcf93SMgUWAxRw5/1XDfh9uI5F5iNGXCcGDQ==}
+    peerDependencies:
+      '@types/react': '*'
+      react: ^16.5.1 || ^17.0.0 || ^18.0.0 || ^19.0.0
+    peerDependenciesMeta:
+      '@types/react':
+        optional: true
+
   magic-string@0.30.21:
     resolution: {integrity: sha512-vd2F4YUyEXKGcLHoq+TEyCjxueSeHnFxyyjNp80yg0XV4vUhnDer/lvvlqM/arB5bXQN5K2/3oinyCRyx8T2CQ==}
 
@@ -3434,6 +3462,9 @@ packages:
     engines: {node: '>= 14.6'}
     hasBin: true
 
+  zod@4.6.5:
+    resolution: {integrity: sha512-v5l/aFXZQeai4awLbOpSoHecE9UiMrnfx75tEXLjNonXVARxQ5mOeipTjROUchszUNCqnE+hqAMujRsRHsut2Q==}
+
 snapshots:
 
   '@adrienlcp/biome-config@0.2.1(@biomejs/biome@2.5.14)':
@@ -3447,6 +3478,14 @@ snapshots:
       react: 19.3.0
 
   '@adrienlcp/i18n@0.5.1': {}
+
+  '@adrienlcp/react-aria@0.1.1(react-aria-components@1.21.1(react-dom@19.3.0(react@19.3.0))(react@19.3.0))(react@19.3.0)(sass@1.105.1)':
+    dependencies:
+      '@adrienlcp/react': 0.4.0(react@19.3.0)
+      react: 19.3.0
+      react-aria-components: 1.21.1(react-dom@19.3.0(react@19.3.0))(react@19.3.0)
+    optionalDependencies:
+      sass: 1.105.1
 
   '@adrienlcp/react-router@0.1.2(react-aria-components@1.21.1(react-dom@19.3.0(react@19.3.0))(react@19.3.0))(react-router@8.4.0(react-dom@19.3.0(react@19.3.0))(react@19.3.0))(react@19.3.0)':
     dependencies:
@@ -3464,7 +3503,7 @@ snapshots:
     dependencies:
       '@adrienlcp/result': 0.1.1
 
-  '@adrienlcp/styles@0.7.0(sass@1.105.1)':
+  '@adrienlcp/styles@0.8.0(sass@1.105.1)':
     dependencies:
       '@adrienlcp/result': 0.1.1
       culori: 4.0.2
@@ -5761,6 +5800,12 @@ snapshots:
     dependencies:
       yallist: 3.1.1
 
+  lucide-react@1.52.0(@types/react@19.3.0)(react@19.3.0):
+    dependencies:
+      react: 19.3.0
+    optionalDependencies:
+      '@types/react': 19.3.0
+
   magic-string@0.30.21:
     dependencies:
       '@jridgewell/sourcemap-codec': 1.6.0
@@ -6586,3 +6631,5 @@ snapshots:
   yallist@3.1.1: {}
 
   yaml@2.9.1: {}
+
+  zod@4.6.5: {}

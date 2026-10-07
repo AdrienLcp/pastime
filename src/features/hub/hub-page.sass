@@ -1,12 +1,42 @@
+@use '../../presentation/styles/print'
+@use '../../presentation/styles/typography'
+
 @layer components
   .hub-page
     display: grid
     align-content: start
+    padding-bottom: var(--space-xl)
 
-    .tagline
-      max-width: 34ch
-      margin: var(--space-xl) var(--gutter) 0
+    .section-head
+      @include print.section-head
+
+    .fresh-book
+      display: grid
+      justify-items: start
+      gap: var(--space-2xs)
+      margin-inline: var(--gutter)
+      padding: var(--space-m)
+      background: var(--sheet)
+      border: var(--print-line)
+      filter: drop-shadow(0 4px 8px var(--shadow))
+
+      .pressable
+        margin-top: var(--space-s)
+
+    .fresh-title
       font-size: var(--text-title)
       font-stretch: var(--stretch-tight)
-      font-weight: 700
+      font-weight: 800
+
+    .fresh-prose
+      max-width: 34ch
+      font-size: var(--text-small)
+      color: var(--ink-soft)
       text-wrap: pretty
+
+    .hub-colophon
+      @include typography.meta
+      margin-top: var(--space-l)
+      padding-inline: var(--gutter)
+      color: var(--ink-soft)
+      text-align: center

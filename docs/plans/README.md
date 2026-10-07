@@ -11,7 +11,7 @@ Steps run in order: each one ends deployed and seen in a browser (sound at 0).
 |---|---|---|---|
 | 01 | Bootstrap | Root app from toolkit's web-app template, PWA from Séance, CI, Pages on `pastime.adrienlcp.com` | done 2026-10-07 |
 | 02 | Design direction | `impeccable`: full example pages per direction (hub + one board per game), Adrien picks | done 2026-10-07 |
-| 03 | Hub and game frame | Registry, hub, timer/undo/hint/win screen, saves, stats, settings, daily seed | to do |
+| 03 | Hub and game frame | Registry, hub, timer/undo/hint/win screen, saves, stats, settings, daily seed | done 2026-10-07 |
 | 04 | Stars | Engine, logical solver, unique-solution generator, difficulty grading | to do |
 | 05 | Pipes | Spanning-tree generator, unique solution, live water fill | to do |
 | 06 | Solitaire | Klondike draw 1, drag + tap-to-move, winnable deals only | to do |
