@@ -7,6 +7,9 @@ seed, saves and statistics sit in local storage. The app is static files on
 Cloudflare Pages (free: unlimited requests and bandwidth, 500 deploys a month),
 served at `pastime.adrienlcp.com`, deployed from `main` by GitHub Actions — the
 same flow as the portfolio and Séance's public demo (skill `cloudflare-pages`).
+The Pages project is `pastime`, its own host `pastime-2e1.pages.dev` (kept out
+of search engines by `public/_headers`); the custom domain is a proxied CNAME
+to it. Unknown paths answer 200 with the app, which shows its not-found page.
 
 The **daily puzzle** needs no server either: its seed is the date, so every
 player gets the same puzzle on the same day.
