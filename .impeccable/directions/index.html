@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pastime directions</title>
+<style>
+  :root { color-scheme: light dark; --ground: oklch(98% 0 0); --ink: oklch(22% 0 0); --muted: oklch(45% 0 0); --rule: oklch(88% 0 0); }
+  @media (prefers-color-scheme: dark) { :root { --ground: oklch(18% 0 0); --ink: oklch(94% 0 0); --muted: oklch(72% 0 0); --rule: oklch(32% 0 0); } }
+  body { margin: 0; background: var(--ground); color: var(--ink); font: 16px/1.5 system-ui, sans-serif; }
+  main { max-width: 40rem; margin: 0 auto; padding: 24px 16px 48px; }
+  h1 { font-size: 1.5rem; margin: 0 0 4px; }
+  p { margin: 0 0 16px; color: var(--muted); }
+  a.card { display: block; padding: 16px 0; border-top: 1px solid var(--rule); color: inherit; text-decoration: none; min-height: 44px; }
+  a.card strong { font-size: 1.15rem; }
+  a.card span { display: block; color: var(--muted); }
+  h2 { font-size: 1rem; margin: 32px 0 8px; }
+  li { color: var(--muted); margin-bottom: 6px; }
+</style>
+</head>
+<body>
+<main>
+  <h1>Pastime — trois directions</h1>
+  <p>Chaque page est l'app entière : accueil, Étoiles, Tuyaux, Solitaire, victoire, icône, en clair et en sombre. Une barre en haut change d'écran.</p>
+
+  <a class="card" href="plaque/index.html"><strong>A · Plaque émaillée</strong>
+    <span>Chaque jeu est une ligne d'un même réseau, comme les lignes de métro : plaques en émail bleu de Paris, liseré vert, un numéro et une couleur par jeu.</span>
+    <span>Risque : le monde de la signalétique peut paraître froid si les plateaux ne sont pas assez tactiles.</span></a>
+
+  <a class="card" href="grille/index.html"><strong>B · Grille construite</strong>
+    <span>Une grille de construction visible, façon affiches de Wim Crouwel : plateaux, titres et chiffres sont tous bâtis sur les mêmes cases. Un aplat de couleur par jeu.</span>
+    <span>Risque : les lettres en cases sont moins lisibles en petit ; elles restent réservées aux titres et aux chiffres.</span></a>
+
+  <a class="card" href="cahier/index.html"><strong>C · Cahier de jeux</strong>
+    <span>Un carnet de jeux de poche qui ne s'épuise jamais : un chapitre par jeu en encre quadri, des puzzles numérotés, des marques au crayon.</span>
+    <span>Risque : c'est la voie la plus familière, là où atterrissent beaucoup d'apps de puzzle.</span></a>
+
+  <h2>Écartées (reprises dans A)</h2>
+  <ul>
+    <li>Champ de données noir et blanc (Ikeda) — trop stroboscopique pour le soir ; A garde son engagement total sur une palette fermée.</li>
+    <li>Manuel à onglets et calques — fait pour lire, pas pour jouer ; A garde « l'épaisseur est le seul rang ».</li>
+    <li>Mur de catalogue façon streaming — c'est le hub générique à éviter ; A garde « la partie en cours avance, le reste recule ».</li>
+    <li>Jaquette de cassette manuscrite, typo bitmap Emigre — hors du monde du joueur ; A garde les temps alignés à droite en chiffres tabulaires.</li>
+  </ul>
+  <p>Mélanger deux directions est possible.</p>
+</main>
+</body>
+</html>

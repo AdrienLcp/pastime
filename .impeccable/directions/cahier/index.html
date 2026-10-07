@@ -1,0 +1,908 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Pastime Cahier</title>
+<meta name="color-scheme" content="light dark">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&family=Gochi+Hand&display=swap" rel="stylesheet">
+<style>
+:root {
+  --paper: oklch(0.985 0.004 240);
+  --paper-2: oklch(0.945 0.006 240);
+  --sheet: oklch(0.998 0.002 240);
+  --desk: oklch(0.93 0.006 240);
+  --ink: oklch(0.2 0.012 260);
+  --ink-soft: oklch(0.43 0.012 260);
+  --rule: oklch(0.8 0.008 250);
+  --pencil: oklch(0.36 0.008 260);
+  --cover-ink: oklch(0.17 0.012 260);
+  --cyan: oklch(0.73 0.135 228);
+  --magenta: oklch(0.63 0.225 0);
+  --yellow: oklch(0.88 0.165 96);
+  --green: oklch(0.72 0.15 150);
+  --water: oklch(0.6 0.14 232);
+  --card: oklch(0.995 0.002 240);
+  --card-black: oklch(0.2 0.012 260);
+  --red: oklch(0.53 0.21 15);
+  --stamp: oklch(0.53 0.21 15);
+  --pat: oklch(0.2 0.012 260 / 0.34);
+  --t1: 14%; --t2: 34%; --t3: 56%; --t4: 80%;
+  --btn-bg: oklch(0.2 0.012 260);
+  --btn-fg: oklch(0.985 0.004 240);
+  --shadow: oklch(0.2 0.02 260 / 0.16);
+  --knock: var(--paper);
+  --font: "Archivo", system-ui, sans-serif;
+  --hand: "Gochi Hand", "Segoe Print", cursive;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper: oklch(0.17 0.008 260);
+    --paper-2: oklch(0.225 0.01 260);
+    --sheet: oklch(0.215 0.01 260);
+    --desk: oklch(0.13 0.006 260);
+    --ink: oklch(0.92 0.014 95);
+    --ink-soft: oklch(0.76 0.012 95);
+    --rule: oklch(0.4 0.01 260);
+    --pencil: oklch(0.84 0.006 260);
+    --cyan: oklch(0.72 0.12 228);
+    --magenta: oklch(0.63 0.2 0);
+    --yellow: oklch(0.85 0.145 95);
+    --green: oklch(0.7 0.13 150);
+    --water: oklch(0.74 0.13 226);
+    --card: oklch(0.93 0.01 95);
+    --red: oklch(0.49 0.2 15);
+    --stamp: oklch(0.68 0.19 18);
+    --pat: oklch(0.92 0.014 95 / 0.24);
+    --t1: 9%; --t2: 18%; --t3: 28%; --t4: 38%;
+    --btn-bg: oklch(0.92 0.014 95);
+    --btn-fg: oklch(0.17 0.008 260);
+    --shadow: oklch(0 0 0 / 0.5);
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --paper: oklch(0.17 0.008 260);
+  --paper-2: oklch(0.225 0.01 260);
+  --sheet: oklch(0.215 0.01 260);
+  --desk: oklch(0.13 0.006 260);
+  --ink: oklch(0.92 0.014 95);
+  --ink-soft: oklch(0.76 0.012 95);
+  --rule: oklch(0.4 0.01 260);
+  --pencil: oklch(0.84 0.006 260);
+  --cyan: oklch(0.72 0.12 228);
+  --magenta: oklch(0.63 0.2 0);
+  --yellow: oklch(0.85 0.145 95);
+  --green: oklch(0.7 0.13 150);
+  --water: oklch(0.74 0.13 226);
+  --card: oklch(0.93 0.01 95);
+  --red: oklch(0.49 0.2 15);
+  --stamp: oklch(0.68 0.19 18);
+  --pat: oklch(0.92 0.014 95 / 0.24);
+  --t1: 9%; --t2: 18%; --t3: 28%; --t4: 38%;
+  --btn-bg: oklch(0.92 0.014 95);
+  --btn-fg: oklch(0.17 0.008 260);
+  --shadow: oklch(0 0 0 / 0.5);
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  background: var(--desk);
+  color: var(--ink);
+  font-family: var(--font);
+  font-size: 16px;
+  line-height: 1.4;
+  font-variant-numeric: tabular-nums;
+  scrollbar-color: var(--ink-soft) var(--paper);
+}
+::selection { background: var(--yellow); color: var(--cover-ink); }
+button { font: inherit; color: inherit; background: none; border: 0; padding: 0; cursor: pointer; text-align: inherit; }
+:focus-visible { outline: 2.5px solid var(--ink); outline-offset: 2px; }
+svg { display: block; }
+[hidden] { display: none !important; }
+
+/* Prototype bar: outside the app, deliberately neutral */
+.proto {
+  max-width: 430px; margin: 0 auto; background: oklch(0.28 0.005 260); color: oklch(0.95 0 0);
+  font: 500 12px/1.35 system-ui, sans-serif;
+}
+.proto summary { padding: 8px 12px; cursor: pointer; list-style: none; display: flex; justify-content: space-between; }
+.proto summary::-webkit-details-marker { display: none; }
+.proto summary span + span { opacity: .75; }
+.proto[open] .p-closed, .proto:not([open]) .p-open { display: none; }
+.proto-body { padding: 0 12px 10px; display: grid; gap: 8px; }
+.proto-row { display: flex; flex-wrap: wrap; gap: 4px; align-items: center; }
+.proto-row > b { width: 44px; font-weight: 600; opacity: .8; }
+.proto button { min-height: 32px; padding: 0 9px; border-radius: 4px; background: oklch(0.36 0.005 260); }
+.proto button[aria-pressed="true"] { background: oklch(0.95 0 0); color: oklch(0.2 0 0); }
+.proto p { margin: 0; opacity: .85; max-width: 60ch; }
+.proto :focus-visible { outline-color: oklch(0.95 0 0); }
+
+.app { max-width: 430px; margin: 0 auto; min-height: 100dvh; background: var(--paper); position: relative; overflow-x: clip; }
+@media (min-width: 460px) { .app { box-shadow: 0 0 0 1px var(--rule); } }
+.screen { min-height: calc(100dvh - 34px); display: flex; flex-direction: column; }
+
+/* ===== Hub ===== */
+.mast { padding: 10px 16px 0; }
+.colorbar { display: flex; gap: 3px; }
+.colorbar i { width: 12px; height: 8px; display: block; }
+.mast-title {
+  margin: 8px 0 0; font-weight: 900; font-stretch: 118%; font-size: clamp(54px, 17.6vw, 80px);
+  line-height: .86; letter-spacing: -0.035em;
+}
+.mast-rule { height: 0; border-top: 5px solid var(--ink); border-bottom: 1.5px solid var(--ink); padding-top: 3px; margin-top: 10px; }
+.mast-line { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 7px 0 0; font-size: 13px; font-weight: 600; }
+.mast-line .issue { color: var(--ink-soft); }
+.mast-line .issue b { color: var(--ink); font-weight: 800; }
+.streak { display: inline-flex; align-items: baseline; gap: 6px; border: 1.5px solid var(--ink); padding: 2px 8px; white-space: nowrap; }
+.streak b { font-family: var(--hand); font-weight: 400; font-size: 19px; line-height: 1; color: var(--pencil); }
+
+.sec-h { display: flex; align-items: center; gap: 10px; margin: 30px 16px 12px; font-size: 19px; font-weight: 800; font-stretch: 92%; letter-spacing: -0.01em; }
+.sec-h::after { content: ""; flex: 1; border-top: 1.5px solid var(--ink); }
+
+.resume-wrap { margin: 0 16px; filter: drop-shadow(0 4px 8px var(--shadow)); }
+.resume {
+  position: relative; display: grid; grid-template-columns: auto 1fr; gap: 14px; align-items: center; width: 100%;
+  background: var(--sheet); border: 1.5px solid var(--ink); padding: 14px 16px 14px 14px;
+  clip-path: polygon(0 0, calc(100% - 30px) 0, 100% 30px, 100% 100%, 0 100%);
+}
+.dogear { position: absolute; top: -1.5px; right: -1.5px; width: 31.5px; height: 31.5px; }
+.resume .mini { width: 98px; height: 98px; }
+.r-num { font-weight: 900; font-stretch: 72%; font-size: 44px; line-height: .9; letter-spacing: -0.02em; }
+.r-num small { font-size: 22px; font-weight: 800; margin-right: 2px; }
+.r-game { font-weight: 700; font-size: 15px; margin-top: 4px; }
+.r-meta { color: var(--ink-soft); font-size: 13px; font-weight: 500; }
+.r-go { display: inline-flex; align-items: center; gap: 6px; margin-top: 10px; font-weight: 800; font-size: 14px; border-bottom: 2px solid var(--ink); padding-bottom: 1px; }
+.r-go svg { width: 16px; height: 16px; }
+.resume.empty { grid-template-columns: 1fr; }
+.empty-title { font-weight: 800; font-size: 18px; font-stretch: 92%; }
+.empty-text { color: var(--ink-soft); font-size: 14px; margin: 4px 0 0; max-width: 34ch; }
+.btn-ink { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 48px; padding: 0 18px; background: var(--btn-bg); color: var(--btn-fg); font-weight: 800; font-size: 15px; }
+.btn-ink svg { width: 18px; height: 18px; }
+.resume .btn-ink { margin-top: 12px; justify-self: start; }
+
+.toc { list-style: none; margin: 0; padding: 0; }
+.toc li + li .toc-row { border-top: 1px solid var(--rule); }
+.toc-row { display: flex; align-items: center; gap: 10px; width: 100%; min-height: 54px; padding-right: 16px; }
+.tab { align-self: stretch; width: 40px; display: grid; place-items: center; background: var(--c); color: var(--cover-ink); --knock: var(--c); }
+.tab svg { width: 22px; height: 22px; }
+.toc-num { font-weight: 800; font-stretch: 75%; font-size: 15px; width: 52px; flex: none; }
+.toc-name { font-weight: 600; font-size: 15px; white-space: nowrap; }
+.toc-name small { color: var(--ink-soft); font-size: 13px; font-weight: 500; margin-left: 4px; }
+.leader { flex: 1; min-width: 12px; border-bottom: 2px dotted var(--ink-soft); transform: translateY(4px); }
+.toc-state { font-size: 13px; font-weight: 600; color: var(--ink-soft); white-space: nowrap; display: inline-flex; align-items: center; gap: 4px; }
+.toc-state.done { color: var(--pencil); font-family: var(--hand); font-weight: 400; font-size: 19px; }
+.toc-state svg { width: 20px; height: 20px; }
+
+.covers { margin-top: 0; display: grid; }
+.cover {
+  position: relative; overflow: hidden; display: block; width: 100%; min-height: 128px; padding: 16px 132px 16px 16px;
+  background: var(--c); color: var(--cover-ink); --knock: var(--c); border-top: 2px solid var(--paper);
+}
+.cover h3 { margin: 0; font-size: 40px; font-weight: 900; font-stretch: 70%; line-height: .95; letter-spacing: -0.01em; text-transform: uppercase; }
+.cover p { margin: 6px 0 0; font-size: 14px; font-weight: 500; line-height: 1.3; }
+.cover .meta { font-weight: 700; font-size: 13px; margin-top: 8px; }
+.cover .glyph { position: absolute; right: -14px; top: 50%; width: 136px; height: 136px; transform: translateY(-50%); }
+.colophon { text-align: center; font-size: 12px; font-weight: 600; color: var(--ink-soft); padding: 22px 16px 32px; letter-spacing: .02em; }
+
+/* ===== Game frame ===== */
+.band { display: grid; grid-template-columns: 48px 1fr auto; align-items: center; gap: 6px; min-height: 68px; padding: 6px 8px 6px 4px; background: var(--c); color: var(--cover-ink); }
+.icon-btn { width: 48px; height: 48px; display: grid; place-items: center; }
+.icon-btn svg { width: 24px; height: 24px; }
+.band-title { display: flex; align-items: baseline; gap: 10px; min-width: 0; }
+.band-num { font-weight: 900; font-stretch: 72%; font-size: 34px; line-height: 1; letter-spacing: -0.02em; white-space: nowrap; }
+.band-num small { font-size: 18px; font-weight: 800; margin-right: 2px; }
+.band-sub { font-size: 13px; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.band-time { display: flex; align-items: center; }
+.timer { font-weight: 800; font-size: 17px; font-stretch: 90%; min-width: 3.2ch; text-align: right; }
+
+.board-wrap { padding: 14px 4px 0; }
+.board-wrap svg { width: 100%; height: auto; touch-action: manipulation; user-select: none; -webkit-user-select: none; }
+.note { min-height: 30px; margin: 6px 16px 0; font-family: var(--hand); font-size: 20px; line-height: 1.2; color: var(--pencil); display: flex; align-items: center; gap: 6px; }
+.note svg { width: 22px; height: 22px; flex: none; }
+.hint { margin: 8px 16px 0; border: 1.5px solid var(--ink); display: flex; gap: 10px; align-items: flex-start; padding: 10px 12px; font-size: 14px; font-weight: 500; max-width: 65ch; }
+.hint b { font-weight: 800; }
+.hint svg { width: 20px; height: 20px; flex: none; margin-top: 1px; }
+.status-line { margin: 10px 16px 0; font-size: 14px; color: var(--ink-soft); font-weight: 500; display: flex; justify-content: space-between; gap: 8px; flex-wrap: wrap; }
+.status-line b { color: var(--ink); font-weight: 800; }
+.status-line span { display: inline-flex; align-items: center; gap: 6px; }
+.status-line svg { width: 18px; height: 18px; }
+.tools { margin-top: auto; display: grid; grid-template-columns: repeat(3, 1fr); border-top: 2px solid var(--ink); }
+.tools button { min-height: 60px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; font-size: 12px; font-weight: 700; }
+.tools button + button { border-left: 1px solid var(--rule); }
+.tools svg { width: 22px; height: 22px; }
+.tools button[aria-pressed="true"] { background: var(--paper-2); }
+.tools button:active, .toc-row:active, .cover:active { background-color: var(--paper-2); }
+.cover:active { filter: brightness(.95); background-color: var(--c); }
+.ic { fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+
+/* pencil marks */
+.mk { fill: none; stroke: var(--pencil); stroke-linecap: round; stroke-linejoin: round; }
+.mk.fresh { stroke-dasharray: 1; stroke-dashoffset: 1; animation: draw 260ms cubic-bezier(.16, 1, .3, 1) forwards; }
+@keyframes draw { to { stroke-dashoffset: 0; } }
+
+/* pipes */
+.tile .spin { transform-box: fill-box; transform-origin: center; transition: transform 170ms cubic-bezier(.16, 1, .3, 1); }
+.tile .hit { fill: transparent; }
+.tile { cursor: pointer; }
+.p-out { stroke: var(--ink); fill: none; }
+.p-outf { fill: var(--ink); }
+.p-in { stroke: var(--paper); fill: none; transition: stroke 200ms; }
+.p-inf { fill: var(--paper); transition: fill 200ms; }
+.tile.wet .p-in { stroke: var(--water); }
+.tile.wet .p-inf { fill: var(--water); }
+
+/* solitaire */
+.felt { padding: 14px 6px 0; container-type: inline-size; }
+.row7 { --cw: calc((100cqw - 24px) / 7); }
+.row7 { display: grid; grid-template-columns: repeat(7, var(--cw)); gap: 4px; justify-content: center; }
+.slot { position: relative; width: var(--cw); aspect-ratio: 5 / 7; border: 1.5px dashed var(--ink-soft); border-radius: 5px; display: grid; place-items: center; color: var(--ink-soft); }
+.slot svg { width: 45%; height: 45%; fill: none; stroke: currentColor; stroke-width: 1.5; }
+.slot.bare { border: 0; }
+.tableau { margin-top: 14px; align-items: start; }
+.pile { position: relative; width: var(--cw); }
+.card {
+  position: absolute; left: 0; width: var(--cw); aspect-ratio: 5 / 7; border-radius: 5px; border: 1.25px solid var(--card-black);
+  background: var(--card); color: var(--card-black); overflow: hidden;
+}
+.slot > .card { top: -1.5px; left: -1.5px; }
+.card.red { color: var(--red); }
+.card .rank { position: absolute; top: 2px; left: 3px; font-weight: 800; font-stretch: 78%; font-size: 15px; line-height: 1; letter-spacing: -0.02em; }
+.card .pip { position: absolute; top: 3px; right: 3px; width: 12px; height: 12px; fill: currentColor; }
+.card .big { position: absolute; left: 50%; bottom: 14%; width: 46%; height: auto; aspect-ratio: 1; transform: translateX(-50%); fill: currentColor; }
+.card.back { background: var(--card); }
+.card.back::before {
+  content: ""; position: absolute; inset: 3px; border-radius: 2px;
+  background-color: var(--magenta);
+  background-image: radial-gradient(circle, var(--card) 0 1.05px, transparent 1.25px);
+  background-size: 4.5px 4.5px;
+}
+.card.back::after { content: ""; position: absolute; inset: 7px; border: 1.25px solid var(--card); border-radius: 1px; }
+button.slot, .stock { cursor: pointer; }
+
+/* win */
+.win-body { padding: 18px 16px 24px; display: grid; gap: 22px; }
+.win-plate { position: relative; width: min(74%, 270px); margin: 6px auto 0; }
+.win-plate svg { width: 100%; height: auto; }
+.stamp-wrap { position: absolute; right: -16%; bottom: -10%; }
+.stamp {
+  color: var(--stamp); border: 4px solid currentColor; outline: 1.5px solid currentColor; outline-offset: 3px; border-radius: 6px;
+  padding: 6px 14px 7px; text-align: center; transform: rotate(-9deg); background: color-mix(in oklch, var(--paper) 70%, transparent);
+  filter: url(#grain);
+}
+.stamp-word { display: block; font-weight: 900; font-stretch: 78%; font-size: 38px; line-height: .95; text-transform: uppercase; letter-spacing: .04em; }
+.stamp-meta { display: block; font-weight: 800; font-size: 13px; letter-spacing: .06em; margin-top: 2px; }
+.win-play .stamp-wrap { animation: press 520ms cubic-bezier(.16, 1, .3, 1) both; }
+.win-play .stamp { animation: spread 900ms ease-out both; }
+@keyframes press { 0% { transform: scale(1.5); opacity: 0; } 45% { transform: scale(.96); opacity: 1; } 100% { transform: scale(1); opacity: 1; } }
+@keyframes spread { 0%, 40% { box-shadow: 0 0 0 0 currentColor; text-shadow: none; } 100% { box-shadow: 0 0 0 .6px currentColor; text-shadow: 0 0 .5px currentColor; } }
+.score { display: grid; grid-template-columns: repeat(3, 1fr); border: 2.5px solid var(--ink); }
+.score > div { padding: 8px 10px 10px; min-height: 92px; position: relative; }
+.score > div + div { border-left: 1.5px solid var(--ink); }
+.score dt { font-size: 11px; font-weight: 800; letter-spacing: .07em; text-transform: uppercase; }
+.score dd { margin: 6px 0 0; font-family: var(--hand); font-size: 30px; line-height: 1; color: var(--pencil); }
+.score dd small { font-size: 18px; }
+.score .was { font-size: 19px; position: relative; display: inline-block; margin-bottom: 2px; color: var(--pencil); }
+.score .was svg { position: absolute; left: -3px; top: 45%; width: calc(100% + 6px); height: 8px; overflow: visible; }
+.score .circled { position: relative; display: inline-block; }
+.score .circled svg { position: absolute; inset: -9px -10px; width: calc(100% + 20px); height: calc(100% + 18px); overflow: visible; }
+.score .scribble { display: block; font-family: var(--hand); font-size: 16px; color: var(--pencil); margin-top: 6px; line-height: 1.1; }
+.actions { display: grid; gap: 8px; }
+.actions .btn-ink { width: 100%; min-height: 54px; font-size: 16px; }
+.actions-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.btn-line { min-height: 50px; border: 1.5px solid var(--ink); font-weight: 800; font-size: 15px; display: flex; align-items: center; justify-content: center; gap: 8px; }
+.btn-line svg { width: 18px; height: 18px; }
+
+/* icon sheet */
+.ico-body { padding: 18px 16px 32px; display: grid; gap: 26px; }
+.ico-body h2 { margin: 0 0 10px; font-size: 16px; font-weight: 800; display: flex; gap: 10px; align-items: center; }
+.ico-body h2::after { content: ""; flex: 1; border-top: 1.5px solid var(--ink); }
+.ico-hero { width: 100%; max-width: 300px; aspect-ratio: 1; margin: 0 auto; }
+.sizes { display: flex; align-items: flex-end; gap: 18px; flex-wrap: wrap; }
+.sizes figure { margin: 0; display: grid; gap: 6px; justify-items: center; font-size: 12px; font-weight: 600; color: var(--ink-soft); }
+.homes { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.home { padding: 18px 8px 14px; display: grid; justify-items: center; gap: 6px; font-size: 12px; font-weight: 500; }
+.home.l { background: oklch(0.9 0.02 230); color: oklch(0.2 0 0); }
+.home.d { background: oklch(0.2 0.02 260); color: oklch(0.96 0 0); }
+.home .app-ic { width: 60px; height: 60px; border-radius: 15px; overflow: hidden; box-shadow: 0 2px 6px oklch(0 0 0 / .25); }
+.masks { display: flex; gap: 16px; align-items: center; flex-wrap: wrap; }
+.masks figure { margin: 0; display: grid; gap: 6px; justify-items: center; font-size: 12px; font-weight: 600; color: var(--ink-soft); }
+.masks .circ { width: 120px; height: 120px; border-radius: 50%; overflow: hidden; }
+
+@media (prefers-reduced-motion: reduce) {
+  .mk.fresh { animation: none; stroke-dasharray: none; stroke-dashoffset: 0; }
+  .tile .spin, .p-in, .p-inf { transition: none; }
+  .win-play .stamp-wrap, .win-play .stamp { animation: none; }
+  .win-play .stamp { box-shadow: 0 0 0 .6px currentColor; }
+}
+</style>
+</head>
+<body>
+<!--
+DIRECTION CONTRACT — Cahier de jeux
+THESIS: Pastime is a pocket puzzle book that never runs out — each game a chapter with its own process-colour cover, each puzzle numbered; refuses the generic game hub of gradient tiles and badges.
+OWN-WORLD: print, but NOT the cream-paper + italic-serif cliché: the paper is a cool, bright white in light mode; the covers are flat process inks at full strength (cyan, magenta-red, yellow, green), solid, owning whole regions of the screen (chapter openers, the game's header band). Grids printed in black ink with heavier outer frames; player marks in "pencil" (graphite grey strokes, slightly rough — an SVG filter). Dark mode (first-class, evening): the booklet read under a night lamp: deep ink-black ground, grid lines in chalky off-white, covers kept as inks, slightly deepened, still AA. Type: Archivo (variable width) for headings and puzzle numbers, big puzzle numbers (« N° 214 ») as the display element; Gochi Hand for pencil writing.
+STORY: Adrien opens the app at night: the booklet's contents page — chapters by colour, today's puzzles numbered, the one in progress with its pencil marks; he picks up where he left off.
+FIRST VIEWPORT (hub): a cover-like masthead band (« Pastime », small issue line with today's date), then « Reprendre » as a dog-eared page (puzzle number, game, time), « Aujourd'hui » as the contents list with numbers and chapter colour tabs, then the four chapters as solid ink cover blocks with a printed glyph.
+Boards: Stars regions as printed tints of the chapter colour plus a halftone/hatch pattern per region and heavy region borders; stars and crosses drawn in pencil; the conflict circled in pencil with a short pencil note. Pipes: printed pipes, water as solid ink fill, dry ones outline. Solitaire: printed cards (black/red ink plus suit shapes), card back in a halftone of the chapter ink. Win: a stamp (« Résolu ») pressed onto the page, with time, record, streak written like a score box.
+Signature interaction: marks appear as pencil strokes drawn in (short stroke animation), the win stamp presses with a small ink spread; both static under reduced motion.
+FORM: the designer's own top-ranked grounded candidate (1 of 7). Honest risk: this is the most familiar route — print-puzzle aesthetics are where many puzzle apps land.
+FINISH: unreviewed and undocumented is unfinished; this build ends with the finish review, the verdict, and DESIGN.md.
+-->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs id="defs">
+    <filter id="pencil" filterUnits="userSpaceOnUse" x="-40" y="-40" width="1000" height="1000">
+      <feTurbulence type="fractalNoise" baseFrequency="1.3" numOctaves="1" seed="4" result="grain"/>
+      <feDisplacementMap in="SourceGraphic" in2="grain" scale="1.6" xChannelSelector="R" yChannelSelector="G" result="wob"/>
+      <feColorMatrix in="grain" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  -1.3 0 0 0 1.45" result="mask"/>
+      <feComposite in="wob" in2="mask" operator="in"/>
+    </filter>
+    <filter id="grain" x="-5%" y="-5%" width="110%" height="110%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="2" seed="9" result="n"/>
+      <feColorMatrix in="n" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  -1.4 0 0 0 1.6" result="m"/>
+      <feComposite in="SourceGraphic" in2="m" operator="in"/>
+    </filter>
+    <pattern id="pat-dots" width="6" height="6" patternUnits="userSpaceOnUse"><circle cx="3" cy="3" r="1.1" style="fill:var(--pat)"/></pattern>
+    <pattern id="pat-hatch" width="6" height="6" patternUnits="userSpaceOnUse"><path d="M0 6L6 0M-1 1L1 -1M5 7L7 5" style="stroke:var(--pat)" stroke-width="1"/></pattern>
+    <pattern id="pat-hlines" width="6" height="6" patternUnits="userSpaceOnUse"><path d="M0 3H6" style="stroke:var(--pat)" stroke-width="1.1"/></pattern>
+    <pattern id="pat-cross" width="7" height="7" patternUnits="userSpaceOnUse"><path d="M0 7L7 0M0 0L7 7" style="stroke:var(--pat)" stroke-width=".8"/></pattern>
+    <pattern id="pat-hatch2" width="6" height="6" patternUnits="userSpaceOnUse"><path d="M0 0L6 6M-1 5L1 7M5 -1L7 1" style="stroke:var(--pat)" stroke-width="1"/></pattern>
+    <pattern id="pat-bigdots" width="9" height="9" patternUnits="userSpaceOnUse"><circle cx="4.5" cy="4.5" r="2" style="fill:var(--pat)"/></pattern>
+    <pattern id="pat-vlines" width="6" height="6" patternUnits="userSpaceOnUse"><path d="M3 0V6" style="stroke:var(--pat)" stroke-width="1.1"/></pattern>
+  </defs>
+  <symbol id="suit-h" viewBox="0 0 24 24"><path d="M12 21.3s-7.6-4.7-9.7-9.3C.8 8.6 2.9 4.4 6.8 4.4c2.3 0 3.9 1.3 5.2 3.2 1.3-1.9 2.9-3.2 5.2-3.2 3.9 0 6 4.2 4.5 7.6-2.1 4.6-9.7 9.3-9.7 9.3z"/></symbol>
+  <symbol id="suit-d" viewBox="0 0 24 24"><path d="M12 2l8 10-8 10-8-10z"/></symbol>
+  <symbol id="suit-s" viewBox="0 0 24 24"><path d="M12 2.2s-8.2 5.7-9.5 10.2c-.9 3 1.1 5.6 4 5.6 1.9 0 3.3-1 4.2-2.3-.3 2.4-1.2 4.2-2.8 5.5h8.2c-1.6-1.3-2.5-3.1-2.8-5.5.9 1.3 2.3 2.3 4.2 2.3 2.9 0 4.9-2.6 4-5.6C20.2 7.9 12 2.2 12 2.2z"/></symbol>
+  <symbol id="suit-c" viewBox="0 0 24 24"><path d="M12 2.4a4.3 4.3 0 0 0-4.1 5.6 4.3 4.3 0 1 0 2.6 7.3c-.3 2.3-1.2 4-2.7 5.2h8.4c-1.5-1.2-2.4-2.9-2.7-5.2a4.3 4.3 0 1 0 2.6-7.3A4.3 4.3 0 0 0 12 2.4z"/></symbol>
+  <symbol id="i-back" viewBox="0 0 24 24"><path class="ic" d="M15 5l-7 7 7 7"/></symbol>
+  <symbol id="i-undo" viewBox="0 0 24 24"><path class="ic" d="M9 5L4 10l5 5M4 10h10.5a5 5 0 0 1 0 10H11"/></symbol>
+  <symbol id="i-hint" viewBox="0 0 24 24"><path class="ic" d="M9.5 18h5M10.5 21h3M12 3a6 6 0 0 0-3.6 10.8c.7.5 1.1 1.3 1.1 2.2h5c0-.9.4-1.7 1.1-2.2A6 6 0 0 0 12 3z"/></symbol>
+  <symbol id="i-restart" viewBox="0 0 24 24"><path class="ic" d="M4.5 13a7.5 7.5 0 1 0 2.2-5.3M4.5 3.5v4.7h4.7"/></symbol>
+  <symbol id="i-pause" viewBox="0 0 24 24"><path class="ic" d="M9 5.5v13M15 5.5v13"/></symbol>
+  <symbol id="i-rotate" viewBox="0 0 24 24"><path class="ic" d="M19.5 13a7.5 7.5 0 1 1-2.2-5.3M19.5 3.5v4.7h-4.7"/></symbol>
+  <symbol id="i-next" viewBox="0 0 24 24"><path class="ic" d="M5 12h14M13 6l6 6-6 6"/></symbol>
+  <symbol id="i-home" viewBox="0 0 24 24"><path class="ic" d="M4 10.5L12 4l8 6.5V20h-5.5v-5.5h-5V20H4z"/></symbol>
+</svg>
+
+<details class="proto">
+  <summary><span>Prototype · Cahier de jeux</span><span class="p-open">replier</span><span class="p-closed">régler</span></summary>
+  <div class="proto-body">
+    <div class="proto-row" data-group="screen"><b>Écran</b>
+      <button data-v="hub">Accueil</button><button data-v="stars">Étoiles</button><button data-v="pipes">Tuyaux</button><button data-v="cards">Solitaire</button><button data-v="win">Victoire</button><button data-v="icon">Icône</button>
+    </div>
+    <div class="proto-row" data-group="theme"><b>Thème</b>
+      <button data-v="auto">Auto</button><button data-v="light">Clair</button><button data-v="dark">Sombre</button>
+    </div>
+    <div class="proto-row" data-group="hubstate"><b>État</b>
+      <button data-v="busy">En cours</button><button data-v="empty">Premier lancement</button>
+    </div>
+    <div class="proto-row" data-group="winstate"><b>État</b>
+      <button data-v="plain">Temps normal</button><button data-v="record">Nouveau record</button>
+    </div>
+    <p>Risque assumé : c'est la piste la plus familière, l'esthétique « cahier de jeux imprimé » est là où atterrissent beaucoup d'apps de puzzle. Ce qui la distingue : encres de quadri pleines, papier blanc froid, crayon gris, tampon.</p>
+  </div>
+</details>
+
+<main class="app" id="app">
+
+  <!-- ===== HUB ===== -->
+  <section class="screen" id="s-hub" aria-label="Accueil">
+    <header class="mast">
+      <div class="colorbar" aria-hidden="true"><i style="background:var(--cyan)"></i><i style="background:var(--magenta)"></i><i style="background:var(--yellow)"></i><i style="background:var(--green)"></i><i style="background:var(--ink)"></i></div>
+      <h1 class="mast-title">Pastime</h1>
+      <div class="mast-rule"></div>
+      <div class="mast-line">
+        <span class="issue">Cahier n° <b class="js-issue">280</b> · <span class="js-date">mercredi 7 octobre</span></span>
+        <span class="streak js-streak">Série <b>12 j.</b></span>
+      </div>
+    </header>
+
+    <div class="busy-only">
+      <h2 class="sec-h">Reprendre</h2>
+      <div class="resume-wrap">
+        <button class="resume" data-go="stars" aria-label="Reprendre Étoiles numéro 214, 8 par 8, 3 minutes 12 secondes">
+          <svg class="mini" id="mini-stars" viewBox="-3 -3 358 358" aria-hidden="true"></svg>
+          <span>
+            <span class="r-num"><small>N°</small>214</span>
+            <span class="r-game" style="display:block">Étoiles · 8×8</span>
+            <span class="r-meta" style="display:block">3 min 12 s · 22 cases notées</span>
+            <span class="r-go">Reprendre <svg aria-hidden="true"><use href="#i-next"/></svg></span>
+          </span>
+          <svg class="dogear" viewBox="0 0 31.5 31.5" aria-hidden="true"><path d="M0 0L31.5 31.5H0z" style="fill:var(--paper-2);stroke:var(--ink)" stroke-width="1.5" stroke-linejoin="round"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <div class="empty-only">
+      <h2 class="sec-h">Pour commencer</h2>
+      <div class="resume-wrap">
+        <div class="resume empty">
+          <span class="empty-title">Cahier neuf, rien en cours.</span>
+          <p class="empty-text">Le puzzle du jour est le même pour tout le monde. Une partie interrompue vous attendra ici.</p>
+          <button class="btn-ink" data-go="stars">Étoiles N° 280 <svg aria-hidden="true"><use href="#i-next"/></svg></button>
+          <svg class="dogear" viewBox="0 0 31.5 31.5" aria-hidden="true"><path d="M0 0L31.5 31.5H0z" style="fill:var(--paper-2);stroke:var(--ink)" stroke-width="1.5" stroke-linejoin="round"/></svg>
+        </div>
+      </div>
+    </div>
+
+    <h2 class="sec-h">Aujourd'hui</h2>
+    <ul class="toc" id="toc"></ul>
+
+    <h2 class="sec-h">Chapitres</h2>
+    <div class="covers" id="covers"></div>
+    <p class="colophon">Hors ligne · sans compte · sans publicité</p>
+  </section>
+
+  <!-- ===== STARS ===== -->
+  <section class="screen" id="s-stars" style="--c:var(--yellow)" aria-label="Étoiles" hidden>
+    <header class="band">
+      <button class="icon-btn" data-go="hub" aria-label="Retour au cahier"><svg aria-hidden="true"><use href="#i-back"/></svg></button>
+      <div class="band-title"><span class="band-num"><small>N°</small>214</span><span class="band-sub">Étoiles · 8×8</span></div>
+      <div class="band-time"><span class="timer" data-t="192">3:12</span><button class="icon-btn" aria-label="Pause"><svg aria-hidden="true"><use href="#i-pause"/></svg></button></div>
+    </header>
+    <div class="board-wrap"><svg id="stars-board" viewBox="-3 -3 358 358" role="img" aria-label="Grille Étoiles 8 par 8 : une étoile par ligne, colonne et région"></svg></div>
+    <p class="note" id="stars-note" role="status"></p>
+    <div class="hint" id="stars-hint"><svg aria-hidden="true"><use href="#i-hint"/></svg><span><b>Indice.</b> Cette région n'a plus qu'une colonne possible.</span></div>
+    <nav class="tools" aria-label="Outils">
+      <button id="stars-undo"><svg aria-hidden="true"><use href="#i-undo"/></svg>Annuler</button>
+      <button id="stars-hint-btn" aria-pressed="true"><svg aria-hidden="true"><use href="#i-hint"/></svg>Indice</button>
+      <button id="stars-reset"><svg aria-hidden="true"><use href="#i-restart"/></svg>Recommencer</button>
+    </nav>
+  </section>
+
+  <!-- ===== PIPES ===== -->
+  <section class="screen" id="s-pipes" style="--c:var(--cyan)" aria-label="Tuyaux" hidden>
+    <header class="band">
+      <button class="icon-btn" data-go="hub" aria-label="Retour au cahier"><svg aria-hidden="true"><use href="#i-back"/></svg></button>
+      <div class="band-title"><span class="band-num"><small>N°</small>96</span><span class="band-sub">Tuyaux · 9×9</span></div>
+      <div class="band-time"><span class="timer" data-t="134">2:14</span><button class="icon-btn" aria-label="Pause"><svg aria-hidden="true"><use href="#i-pause"/></svg></button></div>
+    </header>
+    <div class="board-wrap"><svg id="pipes-board" viewBox="-3 -3 366 366" role="img" aria-label="Grille Tuyaux 9 par 9, source au centre"></svg></div>
+    <div class="status-line">
+      <span id="pipes-count"><b>0</b>&nbsp;pièces sur 81 en eau</span>
+      <span><svg aria-hidden="true"><use href="#i-rotate"/></svg>Touchez pour tourner</span>
+    </div>
+    <nav class="tools" aria-label="Outils">
+      <button><svg aria-hidden="true"><use href="#i-undo"/></svg>Annuler</button>
+      <button><svg aria-hidden="true"><use href="#i-hint"/></svg>Indice</button>
+      <button id="pipes-reset"><svg aria-hidden="true"><use href="#i-restart"/></svg>Recommencer</button>
+    </nav>
+  </section>
+
+  <!-- ===== SOLITAIRE ===== -->
+  <section class="screen" id="s-cards" style="--c:var(--magenta)" aria-label="Solitaire" hidden>
+    <header class="band">
+      <button class="icon-btn" data-go="hub" aria-label="Retour au cahier"><svg aria-hidden="true"><use href="#i-back"/></svg></button>
+      <div class="band-title"><span class="band-num"><small>N°</small>1207</span><span class="band-sub">Solitaire</span></div>
+      <div class="band-time"><span class="timer" data-t="347">5:47</span><button class="icon-btn" aria-label="Pause"><svg aria-hidden="true"><use href="#i-pause"/></svg></button></div>
+    </header>
+    <div class="felt">
+      <div class="row7" id="cards-top"></div>
+      <div class="row7 tableau" id="cards-tab"></div>
+    </div>
+    <div class="status-line"><span><b>48</b>&nbsp;coups</span><span>Donne gagnable vérifiée</span></div>
+    <nav class="tools" aria-label="Outils">
+      <button><svg aria-hidden="true"><use href="#i-undo"/></svg>Annuler</button>
+      <button><svg aria-hidden="true"><use href="#i-hint"/></svg>Indice</button>
+      <button><svg aria-hidden="true"><use href="#i-restart"/></svg>Recommencer</button>
+    </nav>
+  </section>
+
+  <!-- ===== WIN ===== -->
+  <section class="screen" id="s-win" style="--c:var(--yellow)" aria-label="Victoire" hidden>
+    <header class="band">
+      <button class="icon-btn" data-go="hub" aria-label="Retour au cahier"><svg aria-hidden="true"><use href="#i-back"/></svg></button>
+      <div class="band-title"><span class="band-num"><small>N°</small>214</span><span class="band-sub">Étoiles · 8×8</span></div>
+      <span></span>
+    </header>
+    <div class="win-body">
+      <div class="win-plate">
+        <svg id="win-board" viewBox="-3 -3 358 358" aria-hidden="true"></svg>
+        <div class="stamp-wrap"><div class="stamp" role="img" aria-label="Résolu"><span class="stamp-word">Résolu</span><span class="stamp-meta js-stampdate">N° 214 · 07.10</span></div></div>
+      </div>
+      <dl class="score">
+        <div><dt>Temps</dt><dd class="js-time">5:06</dd></div>
+        <div><dt>Record</dt><dd class="js-record"></dd></div>
+        <div><dt>Série</dt><dd>12 <small>jours</small></dd></div>
+      </dl>
+      <div class="actions">
+        <button class="btn-ink" data-go="stars">Puzzle suivant · N° 215 <svg aria-hidden="true"><use href="#i-next"/></svg></button>
+        <div class="actions-2">
+          <button class="btn-line" data-go="stars"><svg aria-hidden="true"><use href="#i-restart"/></svg>Rejouer</button>
+          <button class="btn-line" data-go="hub"><svg aria-hidden="true"><use href="#i-home"/></svg>Accueil</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== ICON ===== -->
+  <section class="screen" id="s-icon" aria-label="Icône" hidden>
+    <header class="band" style="--c:var(--ink);color:var(--paper)">
+      <button class="icon-btn" data-go="hub" aria-label="Retour au cahier"><svg aria-hidden="true"><use href="#i-back"/></svg></button>
+      <div class="band-title"><span class="band-num">Icône</span><span class="band-sub">PWA · favicon</span></div>
+      <span></span>
+    </header>
+    <div class="ico-body" id="ico-body"></div>
+  </section>
+</main>
+
+<script>
+(() => {
+  const $ = (s, r = document) => r.querySelector(s);
+  const $$ = (s, r = document) => [...r.querySelectorAll(s)];
+  const NS = 'http://www.w3.org/2000/svg';
+  const rng = seed => () => { seed |= 0; seed = seed + 0x6D2B79F5 | 0; let t = Math.imul(seed ^ seed >>> 15, 1 | seed); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; };
+  const f = n => Math.round(n * 10) / 10;
+  const reduced = matchMedia('(prefers-reduced-motion: reduce)');
+
+  /* ---------- date & issue ---------- */
+  const now = new Date();
+  const dateFr = now.toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'long' });
+  const issue = Math.floor((now - new Date(now.getFullYear(), 0, 0)) / 864e5);
+  $$('.js-date').forEach(e => e.textContent = dateFr);
+  $$('.js-issue').forEach(e => e.textContent = issue);
+  $('.js-stampdate').textContent = `N° 214 · ${String(now.getDate()).padStart(2, '0')}.${String(now.getMonth() + 1).padStart(2, '0')}`;
+
+  /* ---------- glyph symbols ---------- */
+  const starPoly = (cx, cy, R, r) => {
+    let p = [];
+    for (let k = 0; k < 10; k++) { const a = -Math.PI / 2 + k * Math.PI / 5, rr = k % 2 ? r : R; p.push(f(cx + rr * Math.cos(a)) + ',' + f(cy + rr * Math.sin(a))); }
+    return p.join(' ');
+  };
+  const sym = (id, inner) => { const s = document.createElementNS(NS, 'symbol'); s.id = id; s.setAttribute('viewBox', '0 0 48 48'); s.innerHTML = inner; $('#defs').parentNode.appendChild(s); };
+  sym('g-stars', `<path d="M24 6V42M6 24H42" stroke="currentColor" stroke-width="1.6"/><path d="M6 24H24V42" fill="none" stroke="currentColor" stroke-width="4"/><rect x="6" y="6" width="36" height="36" fill="none" stroke="currentColor" stroke-width="4"/><polygon points="${starPoly(33, 15.5, 7, 2.9)}" fill="currentColor"/><path d="M10.5 28.5l6 6M16.5 28.5l-6 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>`);
+  sym('g-pipes', `<path d="M8 24H24V4M24 24V44" fill="none" stroke="currentColor" stroke-width="13"/><circle cx="8" cy="24" r="8" fill="currentColor"/><path d="M8 24H24V4M24 24V44" fill="none" style="stroke:var(--knock)" stroke-width="5.5"/><circle cx="8" cy="24" r="4" style="fill:var(--knock)"/>`);
+  sym('g-cards', `<rect x="5" y="9" width="24" height="33" rx="3" transform="rotate(-12 17 25)" fill="currentColor"/><rect x="18" y="7" width="24" height="33" rx="3" style="fill:var(--knock)" stroke="currentColor" stroke-width="2.6"/><use href="#suit-s" x="22" y="15" width="16" height="16" fill="currentColor"/>`);
+  sym('g-dots', `<path d="M9 39L24 24L39 39M24 24V9" fill="none" stroke="currentColor" stroke-width="3"/><circle cx="24" cy="9" r="6.5" fill="currentColor"/><circle cx="9" cy="39" r="6" style="fill:var(--knock)" stroke="currentColor" stroke-width="3"/><circle cx="39" cy="39" r="6.5" fill="currentColor"/><circle cx="24" cy="24" r="5" style="fill:var(--knock)" stroke="currentColor" stroke-width="3"/>`);
+  sym('i-check', `<path d="M8 25c4 3 7 7 9 11 5-11 13-20 23-26" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round" filter="url(#pencil)"/>`);
+
+  /* ---------- pencil path helpers ---------- */
+  function starPath(cx, cy, R, seed) {
+    const j = rng(seed), pts = [];
+    for (let k = 0; k < 5; k++) { const a = (-90 + k * 72 + (j() - .5) * 7) * Math.PI / 180, rr = R * (0.9 + j() * 0.18); pts.push([cx + rr * Math.cos(a), cy + rr * Math.sin(a)]); }
+    const o = [0, 2, 4, 1, 3], d = o.map((i, n) => (n ? 'L' : 'M') + f(pts[i][0]) + ' ' + f(pts[i][1])).join('');
+    return d + `L${f(pts[0][0] + (j() - .5) * 3)} ${f(pts[0][1] + 1 + j() * 2)}`;
+  }
+  function crossPath(cx, cy, s, seed) {
+    const j = rng(seed), q = () => (j() - .5) * 2.4;
+    return `M${f(cx - s + q())} ${f(cy - s + q())}L${f(cx + s + q())} ${f(cy + s + q())}M${f(cx + s + q())} ${f(cy - s + q())}L${f(cx - s + q())} ${f(cy + s + q())}`;
+  }
+  function loopPath(cx, cy, rx, ry, rot, seed) {
+    const j = rng(seed), a0 = -2.2 + j() * .4, turns = 1.14, steps = 54, c = Math.cos(rot), s = Math.sin(rot);
+    let d = '';
+    for (let i = 0; i <= steps; i++) {
+      const t = a0 + i / steps * Math.PI * 2 * turns, w = 1 + (j() - .5) * .05 + i / steps * .06;
+      const x = rx * w * Math.cos(t), y = ry * w * Math.sin(t);
+      d += (i ? 'L' : 'M') + f(cx + x * c - y * s) + ' ' + f(cy + x * s + y * c);
+    }
+    return d;
+  }
+  const el = (tag, attrs, parent) => { const e = document.createElementNS(NS, tag); for (const k in attrs) e.setAttribute(k, attrs[k]); if (parent) parent.appendChild(e); return e; };
+
+  /* ---------- STARS ---------- */
+  const N = 8, CS = 44;
+  const REG = ['AABBBCDD', 'ABBBCCDD', 'AEBCCCDD', 'AEEFCDDH', 'EEEFFGDH', 'EFFFFGGH', 'EEFGGGHH', 'EEFGGHHH'];
+  const reg = (r, c) => REG[r].charCodeAt(c) - 65;
+  const TINT = ['--t2', '--t4', '--t1', '--t3', '--t1', '--t3', '--t4', '--t2'];
+  const PAT = [null, 'dots', 'hatch', 'hlines', 'cross', 'hatch2', 'bigdots', 'vlines'];
+  const SOLUTION = [0, 2, 4, 6, 1, 3, 5, 7];
+
+  function initialMarks() {
+    const m = new Array(64).fill(0);
+    [[0,0],[2,4],[3,5]].forEach(([r,c]) => m[r*8+c] = 2);
+    [[0,1],[1,0],[1,1],[2,0],[3,0],[1,3],[1,4],[1,5],[2,3],[2,5],[3,3],[3,4],[0,5],[0,6],[0,7],[2,6],[6,6],[7,6],[7,5]].forEach(([r,c]) => m[r*8+c] = 1);
+    return m;
+  }
+
+  function drawGrid(svg, { patterns = true, chalk = 1 } = {}) {
+    svg.innerHTML = '';
+    const g = el('g', {}, svg);
+    for (let r = 0; r < N; r++) for (let c = 0; c < N; c++) {
+      const k = reg(r, c), x = c * CS, y = r * CS;
+      el('rect', { x, y, width: CS, height: CS, style: `fill:color-mix(in oklab, var(--yellow) var(${TINT[k]}), var(--paper))` }, g);
+      if (patterns && PAT[k]) el('rect', { x, y, width: CS, height: CS, fill: `url(#pat-${PAT[k]})` }, g);
+    }
+    let thin = '', thick = '';
+    for (let r = 0; r < N; r++) for (let c = 0; c < N; c++) {
+      const x = c * CS, y = r * CS;
+      if (c < N - 1) { const seg = `M${x + CS} ${y}V${y + CS}`; reg(r, c) !== reg(r, c + 1) ? thick += seg : thin += seg; }
+      if (r < N - 1) { const seg = `M${x} ${y + CS}H${x + CS}`; reg(r, c) !== reg(r + 1, c) ? thick += seg : thin += seg; }
+    }
+    el('path', { d: thin, style: 'stroke:var(--ink)', 'stroke-width': 0.9 * chalk, fill: 'none', opacity: .55 }, svg);
+    el('path', { d: thick, style: 'stroke:var(--ink)', 'stroke-width': 3.4 * chalk, 'stroke-linecap': 'square', fill: 'none' }, svg);
+    el('rect', { x: 0, y: 0, width: N * CS, height: N * CS, style: 'stroke:var(--ink)', 'stroke-width': 5, fill: 'none' }, svg);
+  }
+
+  function drawMarks(layer, marks, fresh = -1, width = 1) {
+    layer.innerHTML = '';
+    marks.forEach((v, i) => {
+      if (!v) return;
+      const r = i >> 3, c = i & 7, cx = c * CS + CS / 2, cy = r * CS + CS / 2;
+      const d = v === 2 ? starPath(cx, cy, CS * 0.34, i * 7 + 3) : crossPath(cx, cy, CS * 0.17, i * 13 + 1);
+      el('path', { d, class: 'mk' + (i === fresh ? ' fresh' : ''), pathLength: 1, 'stroke-width': (v === 2 ? 2.7 : 1.9) * width, opacity: v === 2 ? 1 : .8 }, layer);
+    });
+  }
+
+  function conflicts(marks) {
+    const s = []; marks.forEach((v, i) => v === 2 && s.push([i >> 3, i & 7]));
+    const out = [];
+    for (let a = 0; a < s.length; a++) for (let b = a + 1; b < s.length; b++) {
+      const [r1, c1] = s[a], [r2, c2] = s[b];
+      let why = null;
+      if (Math.abs(r1 - r2) <= 1 && Math.abs(c1 - c2) <= 1) why = 'touch';
+      else if (r1 === r2) why = 'row';
+      else if (c1 === c2) why = 'col';
+      else if (reg(r1, c1) === reg(r2, c2)) why = 'reg';
+      if (why) out.push({ a: s[a], b: s[b], why });
+    }
+    return out;
+  }
+  const WHY = { touch: 'deux étoiles se touchent', row: 'deux étoiles sur la même ligne', col: 'deux étoiles sur la même colonne', reg: 'deux étoiles dans la même région' };
+
+  const starsSvg = $('#stars-board');
+  let marks = initialMarks(), history = [], hintOn = true, lastConflictKey = '';
+  drawGrid(starsSvg);
+  const hintLayer = el('g', {}, starsSvg);
+  const markLayer = el('g', { filter: 'url(#pencil)' }, starsSvg);
+  const overLayer = el('g', { filter: 'url(#pencil)' }, starsSvg);
+
+  function renderStars(fresh = -1) {
+    drawMarks(markLayer, marks, fresh);
+    hintLayer.innerHTML = '';
+    if (hintOn) el('rect', { x: 7 * CS + 4, y: 3 * CS + 4, width: CS - 8, height: 5 * CS - 8, rx: 6, fill: 'none', style: 'stroke:var(--pencil)', 'stroke-width': 2, 'stroke-dasharray': '6 5', opacity: .8 }, hintLayer);
+    const cf = conflicts(marks), key = cf.map(x => x.a + x.b).join('|');
+    overLayer.innerHTML = '';
+    const isNew = key !== lastConflictKey; lastConflictKey = key;
+    cf.forEach((x, n) => {
+      const [r1, c1] = x.a, [r2, c2] = x.b;
+      const cls = 'mk' + (isNew ? ' fresh' : '');
+      if (x.why === 'touch') {
+        const cx = (c1 + c2 + 1) * CS / 2, cy = (r1 + r2 + 1) * CS / 2, dist = Math.hypot(c2 - c1, r2 - r1) * CS;
+        el('path', { d: loopPath(cx, cy, dist / 2 + CS * .58, CS * .56, Math.atan2(r2 - r1, c2 - c1), 11 + n), class: cls, pathLength: 1, 'stroke-width': 2.2 }, overLayer);
+      } else {
+        [x.a, x.b].forEach(([r, c], m) => el('path', { d: loopPath(c * CS + CS / 2, r * CS + CS / 2, CS * .5, CS * .48, .3, 20 + n * 2 + m), class: cls, pathLength: 1, 'stroke-width': 2.2 }, overLayer));
+      }
+    });
+    const note = $('#stars-note');
+    note.innerHTML = cf.length ? `<svg viewBox="0 0 24 24" aria-hidden="true"><path class="mk" d="M12 21V4M6 10l6-6 6 6" stroke-width="2" filter="url(#pencil)"/></svg><span>${WHY[cf[0].why]}</span>` : '';
+    $('#stars-hint').hidden = !hintOn;
+    $('#stars-hint-btn').setAttribute('aria-pressed', hintOn);
+    $('#stars-undo').disabled = !history.length;
+  }
+  starsSvg.addEventListener('click', e => {
+    const pt = starsSvg.createSVGPoint(); pt.x = e.clientX; pt.y = e.clientY;
+    const p = pt.matrixTransform(starsSvg.getScreenCTM().inverse());
+    const c = Math.floor(p.x / CS), r = Math.floor(p.y / CS);
+    if (r < 0 || c < 0 || r >= N || c >= N) return;
+    history.push(marks.slice());
+    const i = r * N + c; marks[i] = (marks[i] + 1) % 3;
+    renderStars(marks[i] ? i : -1);
+  });
+  $('#stars-undo').onclick = () => { if (history.length) { marks = history.pop(); renderStars(); } };
+  $('#stars-reset').onclick = () => { history.push(marks.slice()); marks = new Array(64).fill(0); renderStars(); };
+  $('#stars-hint-btn').onclick = () => { hintOn = !hintOn; renderStars(); };
+  renderStars();
+
+  // hub thumbnail: the in-progress board with its pencil marks
+  const mini = $('#mini-stars');
+  drawGrid(mini, { patterns: false, chalk: 1.6 });
+  drawMarks(el('g', {}, mini), initialMarks(), -1, 2.2);
+  // win plate: the solved board
+  const winSvg = $('#win-board');
+  drawGrid(winSvg);
+  const solved = new Array(64).fill(0); SOLUTION.forEach((c, r) => solved[r * 8 + c] = 2);
+  drawMarks(el('g', { filter: 'url(#pencil)' }, winSvg), solved);
+
+  /* ---------- PIPES ---------- */
+  const P = 9, PC = 40, SRC = 4 * P + 4;
+  const DIRS = [[-1, 0, 1, 4], [0, 1, 2, 8], [1, 0, 4, 1], [0, -1, 8, 2]];
+  const rotCW = (m, n) => { for (let i = 0; i < n; i++) m = ((m << 1) | (m >> 3)) & 15; return m; };
+  const pr = rng(96);
+  const shape = new Array(P * P).fill(0), deg = new Array(P * P).fill(0), inTree = new Set([SRC]), order = [SRC];
+  while (inTree.size < P * P) {
+    let cand = [];
+    inTree.forEach(a => DIRS.forEach(([dr, dc, bit, opp]) => {
+      const r = Math.floor(a / P) + dr, c = a % P + dc;
+      if (r < 0 || c < 0 || r >= P || c >= P) return;
+      const b = r * P + c; if (!inTree.has(b)) cand.push([a, b, bit, opp]);
+    }));
+    const ok = cand.filter(x => deg[x[0]] < 3); if (ok.length) cand = ok;
+    const [a, b, bit, opp] = cand[Math.floor(pr() * cand.length)];
+    shape[a] |= bit; shape[b] |= opp; deg[a]++; deg[b]++; inTree.add(b); order.push(b);
+  }
+  const SOLVED_FIRST = 32;
+  const solvedSet = new Set(order.slice(0, SOLVED_FIRST));
+  const startRot = shape.map((m, i) => solvedSet.has(i) ? 0 : (m === 5 || m === 10) ? 1 : 1 + Math.floor(pr() * 3));
+  let rot = startRot.slice();
+
+  const pipesSvg = $('#pipes-board');
+  const ARM = { 1: 'M20 20V0', 2: 'M20 20H40', 4: 'M20 20V40', 8: 'M20 20H0' };
+  function drawPipes() {
+    pipesSvg.innerHTML = '';
+    let grid = '';
+    for (let i = 1; i < P; i++) grid += `M${i * PC} 0V${P * PC}M0 ${i * PC}H${P * PC}`;
+    el('path', { d: grid, style: 'stroke:var(--rule)', 'stroke-width': 1, fill: 'none' }, pipesSvg);
+    shape.forEach((m, i) => {
+      const r = Math.floor(i / P), c = i % P;
+      const t = el('g', { class: 'tile', transform: `translate(${c * PC} ${r * PC})`, 'data-i': i }, pipesSvg);
+      const s = el('g', { class: 'spin' }, t);
+      s.style.transform = `rotate(${rot[i] * 90}deg)`;
+      el('rect', { class: 'hit', x: 0, y: 0, width: PC, height: PC }, s);
+      const d = [1, 2, 4, 8].filter(b => m & b).map(b => ARM[b]).join('');
+      const end = [1, 2, 4, 8].filter(b => m & b).length === 1;
+      el('path', { d, class: 'p-out', 'stroke-width': 13 }, s);
+      el('circle', { cx: 20, cy: 20, r: end && i !== SRC ? 10.5 : 6.5, class: 'p-outf' }, s);
+      el('path', { d, class: 'p-in', 'stroke-width': 6 }, s);
+      el('circle', { cx: 20, cy: 20, r: end && i !== SRC ? 6.5 : 3, class: 'p-inf' }, s);
+      if (i === SRC) {
+        el('rect', { x: 8, y: 8, width: 24, height: 24, class: 'p-outf' }, s);
+        el('rect', { x: 12.5, y: 12.5, width: 15, height: 15, style: 'fill:var(--water)' }, s);
+        el('rect', { x: 17, y: 17, width: 6, height: 6, class: 'p-outf' }, s);
+      }
+    });
+    el('rect', { x: 0, y: 0, width: P * PC, height: P * PC, style: 'stroke:var(--ink)', 'stroke-width': 5, fill: 'none' }, pipesSvg);
+    water();
+  }
+  function water() {
+    const cur = shape.map((m, i) => rotCW(m, rot[i] % 4)), wet = new Set([SRC]), q = [SRC];
+    while (q.length) {
+      const a = q.shift(), r = Math.floor(a / P), c = a % P;
+      DIRS.forEach(([dr, dc, bit, opp]) => {
+        const rr = r + dr, cc = c + dc; if (rr < 0 || cc < 0 || rr >= P || cc >= P) return;
+        const b = rr * P + cc;
+        if ((cur[a] & bit) && (cur[b] & opp) && !wet.has(b)) { wet.add(b); q.push(b); }
+      });
+    }
+    $$('.tile', pipesSvg).forEach(t => t.classList.toggle('wet', wet.has(+t.dataset.i)));
+    $('#pipes-count b').textContent = wet.size;
+  }
+  pipesSvg.addEventListener('click', e => {
+    const t = e.target.closest('.tile'); if (!t) return;
+    const i = +t.dataset.i; rot[i]++;
+    $('.spin', t).style.transform = `rotate(${rot[i] * 90}deg)`;
+    water();
+  });
+  $('#pipes-reset').onclick = () => { rot = startRot.slice(); drawPipes(); };
+  drawPipes();
+
+  /* ---------- SOLITAIRE ---------- */
+  const SUITS = { s: ['pique', 0], h: ['cœur', 1], d: ['carreau', 1], c: ['trèfle', 0] };
+  const RANKN = { A: 'As', V: 'Valet', D: 'Dame', R: 'Roi' };
+  const cardHTML = (code, top) => {
+    if (code === 'X') return `<div class="card back" style="top:${top}px" aria-label="Carte face cachée"></div>`;
+    const rank = code.slice(0, -1), su = code.slice(-1), [name, red] = SUITS[su];
+    return `<div class="card${red ? ' red' : ''}" style="top:${top}px" role="img" aria-label="${RANKN[rank] || rank} de ${name}"><span class="rank">${rank}</span><svg class="pip" viewBox="0 0 24 24"><use href="#suit-${su}"/></svg><svg class="big" viewBox="0 0 24 24"><use href="#suit-${su}"/></svg></div>`;
+  };
+  const stockCards = ['7c', '2s', 'Vd', '9s', '4d'];
+  let wasteIdx = 0;
+  function renderTop() {
+    const found = [['3s', 's'], ['2h', 'h'], [null, 'd'], ['Ac', 'c']];
+    $('#cards-top').innerHTML =
+      `<button class="slot stock" id="stock" aria-label="Pioche, toucher pour retourner une carte">${wasteIdx < stockCards.length ? cardHTML('X', -1.5) : '<svg viewBox="0 0 24 24"><use href="#i-restart"/></svg>'}</button>` +
+      `<div class="slot bare">${wasteIdx ? cardHTML(stockCards[wasteIdx - 1], -1.5) : ''}</div><div class="slot bare"></div>` +
+      found.map(([c, s]) => `<div class="slot" aria-label="Fondation ${SUITS[s][0]}">${c ? cardHTML(c, -1.5) : `<svg viewBox="0 0 24 24"><use href="#suit-${s}"/></svg>`}</div>`).join('');
+    $('#stock').onclick = () => { wasteIdx = wasteIdx < stockCards.length ? wasteIdx + 1 : 0; renderTop(); };
+  }
+  if (!wasteIdx) wasteIdx = 1;
+  renderTop();
+  const TAB = [[0, ['R', 'h'], ['D', 's'], ['V', 'h']], [1, ['9', 'd'], ['8', 'c']], [2, ['D', 'd']], [2, ['10', 's'], ['9', 'h'], ['8', 's'], ['7', 'd']], [4, ['6', 'c']], [5, ['V', 'c'], ['10', 'd']], [5, ['5', 'h'], ['4', 's']]];
+  function renderTab() {
+    const w = parseFloat(getComputedStyle($('.pile') || $('.slot')).width) || 46, h = w * 1.4, down = Math.max(7, w * .17), up = Math.max(19, w * .44);
+    $('#cards-tab').innerHTML = TAB.map(([nd, ...ups]) => {
+      let html = '', y = 0;
+      for (let k = 0; k < nd; k++) { html += cardHTML('X', y); y += down; }
+      ups.forEach(([r, s]) => { html += cardHTML(r + s, y); y += up; });
+      return `<div class="pile" style="height:${y - up + h}px">${html}</div>`;
+    }).join('');
+  }
+  renderTab();
+  addEventListener('resize', renderTab);
+
+  /* ---------- WIN ---------- */
+  const strike = `<svg viewBox="0 0 40 8" preserveAspectRatio="none" aria-hidden="true"><path class="mk" d="M1 5C12 3 26 4 39 2" stroke-width="2" filter="url(#pencil)"/></svg>`;
+  const circle = `<svg viewBox="0 0 80 50" preserveAspectRatio="none" aria-hidden="true"><path class="mk fresh" pathLength="1" d="${loopPath(40, 25, 36, 21, -.08, 5)}" stroke-width="1.8" filter="url(#pencil)" vector-effect="non-scaling-stroke"/></svg>`;
+  function setWin(state) {
+    const rec = state === 'record';
+    $('.js-time').innerHTML = rec ? '4:05' : '5:06';
+    $('.js-record').innerHTML = rec
+      ? `<span class="was">4:12${strike}</span><br><span class="circled">4:05${circle}</span><span class="scribble">nouveau record !</span>`
+      : '4:12';
+  }
+  function playStamp() { const w = $('#s-win'); w.classList.remove('win-play'); void w.offsetWidth; w.classList.add('win-play'); }
+
+  /* ---------- HUB ---------- */
+  const GAMES = [
+    { id: 'stars', name: 'Étoiles', c: '--yellow', g: 'g-stars', text: 'Une étoile par ligne, colonne et région.', meta: '213 résolus · record 2 min 58 s', toc: ['N° 280', 'Étoiles', '10×10'], done: '6:40' },
+    { id: 'pipes', name: 'Tuyaux', c: '--cyan', g: 'g-pipes', text: 'Tournez les pièces, l\'eau doit tout irriguer.', meta: '95 résolus · record 3 min 21 s', toc: ['N° 280', 'Tuyaux', '11×11'] },
+    { id: 'cards', name: 'Solitaire', c: '--magenta', g: 'g-cards', text: 'Klondike, pioche 1. Toutes les donnes sont gagnables.', meta: '1 206 donnes · 61 % gagnées', toc: ['N° 280', 'Solitaire', 'pioche 1'] },
+    { id: null, name: 'Color Dots', c: '--green', g: 'g-dots', text: 'Chaque bille rejoint son anneau. L\'ordre est tout.', meta: 'Niveau 51 · 4 parfaits', toc: ['N° 280', 'Color Dots', 'boss'] },
+  ];
+  function renderHub(empty) {
+    $$('.busy-only').forEach(e => e.hidden = empty);
+    $$('.empty-only').forEach(e => e.hidden = !empty);
+    $('.js-streak').innerHTML = empty ? 'Série <b>—</b>' : 'Série <b>12 j.</b>';
+    $('#toc').innerHTML = GAMES.map(g => {
+      const done = !empty && g.done;
+      return `<li><button class="toc-row"${g.id ? ` data-go="${g.id}"` : ''} aria-label="${g.toc[1]} ${g.toc[0]}, ${done ? 'fait en ' + g.done : 'à faire'}">
+        <span class="tab" style="--c:var(${g.c})"><svg aria-hidden="true"><use href="#${g.g}"/></svg></span>
+        <span class="toc-num">${g.toc[0]}</span>
+        <span class="toc-name">${g.toc[1]}<small>${g.toc[2]}</small></span>
+        <span class="leader" aria-hidden="true"></span>
+        ${done ? `<span class="toc-state done"><svg viewBox="0 0 48 48" aria-hidden="true" style="color:var(--pencil)"><use href="#i-check"/></svg>${g.done}</span>` : '<span class="toc-state">à faire</span>'}
+      </button></li>`;
+    }).join('');
+    $('#covers').innerHTML = GAMES.map(g => `<button class="cover" style="--c:var(${g.c})"${g.id ? ` data-go="${g.id}"` : ''}>
+        <h3>${g.name}</h3><p>${g.text}</p><p class="meta">${empty ? 'Pas encore ouvert' : g.meta}</p>
+        <svg class="glyph" aria-hidden="true"><use href="#${g.g}"/></svg></button>`).join('');
+  }
+
+  /* ---------- ICON ---------- */
+  const iconSVG = (variant = 'full') => {
+    if (variant === 'fav') return `<svg viewBox="0 0 32 32" width="100%" height="100%"><rect width="32" height="32" fill="oklch(0.88 0.165 96)"/><rect x="5" y="5" width="22" height="22" fill="none" stroke="oklch(0.17 0.012 260)" stroke-width="3"/><path d="M16 5V27M5 16H27" stroke="oklch(0.17 0.012 260)" stroke-width="1.4"/><rect x="6.5" y="6.5" width="8.8" height="8.8" fill="oklch(0.63 0.225 0)"/><polygon points="${starPoly(21.5, 21.8, 5, 2)}" fill="oklch(0.17 0.012 260)"/></svg>`;
+    const mask = variant === 'mask', a = mask ? 128 : 84, w = 512 - 2 * a, cs = w / 3, K = 'oklch(0.17 0.012 260)', sc = w / 256;
+    return `<svg viewBox="0 0 512 512" width="100%" height="100%"><rect width="512" height="512" fill="oklch(0.88 0.165 96)"/>
+      <rect x="${a}" y="${a}" width="${cs}" height="${cs}" fill="oklch(0.63 0.225 0)"/>
+      <rect x="${a + 2 * cs}" y="${a + 2 * cs}" width="${cs}" height="${cs}" fill="oklch(0.73 0.135 228)"/>
+      <path d="M${a + cs} ${a}V${a + w}M${a + 2 * cs} ${a}V${a + w}M${a} ${a + cs}H${a + w}M${a} ${a + 2 * cs}H${a + w}" stroke="${K}" stroke-width="${8 * sc}"/>
+      <rect x="${a}" y="${a}" width="${w}" height="${w}" fill="none" stroke="${K}" stroke-width="${26 * sc}"/>
+      <polygon points="${starPoly(256, 258, 36 * sc, 14.5 * sc)}" fill="${K}"/></svg>`;
+  };
+  $('#ico-body').innerHTML = `
+    <div><h2>512 · écran d'installation</h2><div class="ico-hero">${iconSVG()}</div></div>
+    <div><h2>Tailles réelles</h2><div class="sizes">
+      <figure><div style="width:192px;height:192px">${iconSVG()}</div>192</figure>
+      <figure><div style="width:48px;height:48px">${iconSVG()}</div>48</figure>
+      <figure><div style="width:32px;height:32px">${iconSVG('fav')}</div>32</figure>
+      <figure><div style="width:16px;height:16px">${iconSVG('fav')}</div>16</figure>
+    </div></div>
+    <div><h2>Écran d'accueil</h2><div class="homes">
+      <div class="home l"><div class="app-ic">${iconSVG()}</div>Pastime</div>
+      <div class="home d"><div class="app-ic">${iconSVG()}</div>Pastime</div>
+    </div></div>
+    <div><h2>Maskable · zone sûre</h2><div class="masks">
+      <figure><div style="width:120px;height:120px;position:relative">${iconSVG('mask')}<svg viewBox="0 0 512 512" style="position:absolute;inset:0"><circle cx="256" cy="256" r="204.8" fill="none" stroke="oklch(0.2 0 0)" stroke-width="4" stroke-dasharray="14 10"/></svg></div>zone 80 %</figure>
+      <figure><div class="circ">${iconSVG('mask')}</div>masque rond</figure>
+      <figure><div style="width:120px;height:120px;border-radius:28px;overflow:hidden">${iconSVG('mask')}</div>masque arrondi</figure>
+    </div></div>`;
+
+  /* ---------- timers ---------- */
+  const fmt = s => `${Math.floor(s / 60)}:${String(s % 60).padStart(2, '0')}`;
+  setInterval(() => {
+    const scr = $('.screen:not([hidden]) .timer'); if (!scr) return;
+    scr.dataset.t = +scr.dataset.t + 1; scr.textContent = fmt(+scr.dataset.t);
+  }, 1000);
+
+  /* ---------- routing & prototype bar ---------- */
+  const state = { screen: 'hub', theme: 'auto', hubstate: 'busy', winstate: 'plain' };
+  function apply() {
+    $$('.screen').forEach(s => s.hidden = s.id !== 's-' + state.screen);
+    if (state.theme === 'auto') document.documentElement.removeAttribute('data-theme'); else document.documentElement.dataset.theme = state.theme;
+    renderHub(state.hubstate === 'empty');
+    setWin(state.winstate);
+    if (state.screen === 'win') playStamp();
+    if (state.screen === 'cards') renderTab();
+    $$('.proto-row').forEach(row => $$('button', row).forEach(b => b.setAttribute('aria-pressed', state[row.dataset.group] === b.dataset.v)));
+    $('[data-group="hubstate"]').hidden = state.screen !== 'hub';
+    $('[data-group="winstate"]').hidden = state.screen !== 'win';
+    if (location.hash.slice(1) !== state.screen) history_replace();
+  }
+  const history_replace = () => { try { window.history.replaceState(null, '', '#' + state.screen); } catch (e) {} };
+  $$('.proto-row').forEach(row => row.addEventListener('click', e => { const b = e.target.closest('button'); if (!b) return; state[row.dataset.group] = b.dataset.v; apply(); if (row.dataset.group === 'screen') scrollTo(0, 0); }));
+  document.addEventListener('click', e => {
+    const b = e.target.closest('[data-go]'); if (!b || b.closest('.proto')) return;
+    state.screen = b.dataset.go; apply(); scrollTo(0, 0);
+  });
+  const fromHash = location.hash.slice(1);
+  if (['hub', 'stars', 'pipes', 'cards', 'win', 'icon'].includes(fromHash)) state.screen = fromHash;
+  apply();
+  addEventListener('hashchange', () => { const h = location.hash.slice(1); if (h !== state.screen && document.getElementById('s-' + h)) { state.screen = h; apply(); } });
+})();
+</script>
+</body>
+</html>

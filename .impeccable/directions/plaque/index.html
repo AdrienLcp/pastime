@@ -1,0 +1,982 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="light dark">
+<title>Pastime Plaque</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Semi+Condensed:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  /* enamel constants: identical in both themes, enamel does not change at night */
+  --plate: oklch(0.36 0.13 262);
+  --plate-deep: oklch(0.27 0.10 262);
+  --white: oklch(0.985 0.004 250);
+  --deep: oklch(0.27 0.10 262);
+  --green: oklch(0.58 0.12 158);
+  --card-red: oklch(0.52 0.20 28);
+
+  --l1: oklch(0.87 0.16 92);
+  --l2: oklch(0.66 0.13 220);
+  --l3: oklch(0.55 0.20 28);
+  --l4: oklch(0.76 0.16 55);
+
+  --r-a: oklch(0.87 0.16 92);
+  --r-b: oklch(0.80 0.09 225);
+  --r-c: oklch(0.77 0.15 55);
+  --r-d: oklch(0.81 0.13 150);
+  --r-e: oklch(0.73 0.14 345);
+  --r-f: oklch(0.85 0.07 20);
+  --r-g: oklch(0.70 0.11 80);
+  --r-h: oklch(0.77 0.08 290);
+
+  /* light: white enamel ground, deep blue ink */
+  --ground: oklch(0.955 0.010 250);
+  --plaque: oklch(0.995 0.003 250);
+  --ink: oklch(0.32 0.12 262);
+  --ink-soft: oklch(0.44 0.10 262);
+  --rim: oklch(0.50 0.12 158);
+  --fillet: oklch(0.32 0.12 262);
+  --seam: oklch(0.90 0.02 250);
+  --shadow: oklch(0.30 0.10 262 / 0.30);
+  --shadow-near: oklch(0.30 0.10 262 / 0.22);
+  --water: var(--l2);
+
+  --font: "Barlow Semi Condensed", "Arial Narrow", sans-serif;
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --r-plaque: 12px;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --ground: oklch(0.22 0.07 262);
+    --plaque: oklch(0.33 0.12 262);
+    --ink: oklch(0.975 0.005 250);
+    --ink-soft: oklch(0.86 0.05 250);
+    --rim: oklch(0.68 0.13 158);
+    --fillet: oklch(0.975 0.005 250);
+    --seam: oklch(0.27 0.09 262);
+    --shadow: oklch(0.08 0.04 262 / 0.70);
+    --shadow-near: oklch(0.08 0.04 262 / 0.50);
+  }
+}
+:root[data-theme="dark"] {
+  --ground: oklch(0.22 0.07 262);
+  --plaque: oklch(0.33 0.12 262);
+  --ink: oklch(0.975 0.005 250);
+  --ink-soft: oklch(0.86 0.05 250);
+  --rim: oklch(0.68 0.13 158);
+  --fillet: oklch(0.975 0.005 250);
+  --seam: oklch(0.27 0.09 262);
+  --shadow: oklch(0.08 0.04 262 / 0.70);
+  --shadow-near: oklch(0.08 0.04 262 / 0.50);
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  background: var(--ground);
+  color: var(--ink);
+  font-family: var(--font);
+  font-size: 17px;
+  line-height: 1.35;
+  font-variant-numeric: tabular-nums;
+  -webkit-tap-highlight-color: transparent;
+  caret-color: var(--rim);
+}
+::selection { background: var(--l1); color: var(--deep); }
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-thumb { background: var(--rim); border-radius: 8px; }
+html { scrollbar-color: var(--rim) var(--ground); }
+button { font: inherit; color: inherit; background: none; border: 0; padding: 0; cursor: pointer; }
+:focus-visible { outline: 3px solid var(--l1); outline-offset: 2px; border-radius: 6px; }
+svg { display: block; }
+[hidden] { display: none !important; }
+h1, h2, h3, p { margin: 0; }
+
+/* ---------- prototype bar (outside the app) ---------- */
+.proto {
+  max-width: 430px; margin: 0 auto; padding: 6px 16px 0;
+  font-size: 13px; color: var(--ink-soft);
+}
+.proto summary {
+  cursor: pointer; list-style: none; display: inline-flex; align-items: center; gap: 6px;
+  min-height: 32px; font-weight: 600; letter-spacing: 0.02em;
+}
+.proto summary::-webkit-details-marker { display: none; }
+.proto summary::before { content: ""; width: 8px; height: 8px; border-right: 2px solid currentColor; border-bottom: 2px solid currentColor; transform: rotate(-45deg); transition: transform .15s; }
+.proto[open] summary::before { transform: rotate(45deg); }
+.proto-body { display: flex; flex-wrap: wrap; gap: 6px 12px; padding: 4px 0 10px; border-bottom: 1px dashed var(--ink-soft); }
+.proto-group { display: flex; flex-wrap: wrap; gap: 4px; align-items: center; }
+.proto-group > span { width: 100%; font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; }
+.proto button {
+  min-height: 32px; padding: 0 10px; border: 1px solid var(--ink-soft); border-radius: 6px; font-size: 13px;
+}
+.proto button[aria-pressed="true"] { background: var(--ink); color: var(--ground); border-color: var(--ink); }
+
+/* ---------- app frame ---------- */
+.app { max-width: 430px; margin: 0 auto; padding: 12px 16px 28px; min-height: 100dvh; }
+.screen { display: none; }
+.screen.on { display: block; }
+
+/* ---------- plaques: ply is the only rank ---------- */
+.plaque {
+  position: relative;
+  background: var(--plaque);
+  border: 1.5px solid var(--rim);
+  border-radius: var(--r-plaque);
+  transition: transform 110ms var(--ease-out), box-shadow 110ms var(--ease-out);
+}
+.plaque.raised {
+  border-width: 3px;
+  box-shadow:
+    inset 0 0 0 3px var(--plaque),
+    inset 0 0 0 4.5px var(--fillet),
+    0 10px 22px -8px var(--shadow),
+    0 2px 5px -1px var(--shadow-near);
+}
+button.plaque { width: 100%; text-align: left; }
+button.plaque:active, button.plaque.pressing { transform: translateY(1px); }
+button.plaque.raised:active, button.plaque.raised.pressing {
+  transform: translateY(3px);
+  box-shadow: inset 0 0 0 3px var(--plaque), inset 0 0 0 4.5px var(--fillet), 0 1px 2px var(--shadow-near);
+}
+
+.sign {
+  background: var(--plate); color: var(--white);
+  border: 3px solid var(--green);
+  box-shadow: inset 0 0 0 4px var(--plate), inset 0 0 0 5.5px var(--white), 0 10px 22px -8px var(--shadow), 0 2px 5px -1px var(--shadow-near);
+}
+.sign .screw { position: absolute; top: 50%; width: 7px; height: 7px; margin-top: -3.5px; border-radius: 50%; background: var(--plate-deep); box-shadow: inset 0 0 0 1.5px var(--white); }
+.sign .screw.l { left: 12px; } .sign .screw.r { right: 12px; }
+
+.roundel {
+  flex: none; width: 34px; height: 34px; border-radius: 50%;
+  display: grid; place-items: center;
+  background: var(--line); color: var(--deep);
+  font-weight: 700; font-size: 20px; line-height: 1;
+}
+.roundel.on-dark-text { color: var(--white); }
+.roundel.sm { width: 26px; height: 26px; font-size: 15px; }
+
+.num { font-variant-numeric: tabular-nums; font-feature-settings: "tnum" 1; }
+
+/* ---------- hub ---------- */
+.hub-head { padding: 16px 30px 14px; display: flex; align-items: flex-end; justify-content: space-between; gap: 12px; border-radius: 14px; }
+.hub-head .date { font-size: 14px; font-weight: 500; letter-spacing: 0.04em; }
+.hub-head h1 { font-size: 40px; font-weight: 700; line-height: 1; text-transform: uppercase; letter-spacing: 0.01em; margin-top: 2px; }
+.counter { text-align: right; }
+.counter .digits { display: flex; gap: 3px; justify-content: flex-end; }
+.counter .digit { width: 22px; height: 30px; display: grid; place-items: center; background: var(--white); color: var(--deep); border-radius: 4px; font-weight: 700; font-size: 22px; }
+.counter .lab { font-size: 13px; font-weight: 500; margin-top: 4px; }
+
+.resume { margin-top: 20px; padding: 16px 18px; display: grid; grid-template-columns: auto 1fr auto; gap: 4px 14px; align-items: center; }
+.resume .roundel { grid-row: span 2; width: 44px; height: 44px; font-size: 26px; }
+.resume .t { font-size: 22px; font-weight: 700; line-height: 1.1; }
+.resume .s { font-size: 15px; color: var(--ink-soft); grid-column: 2; }
+.resume .time { font-size: 22px; font-weight: 600; text-align: right; }
+.resume .go { justify-self: end; display: flex; align-items: center; gap: 4px; font-weight: 700; font-size: 17px; min-height: 44px; }
+.resume .go svg { width: 20px; height: 20px; }
+
+.empty-note { margin-top: 20px; padding: 16px 18px; }
+.empty-note .t { font-size: 19px; font-weight: 700; }
+.empty-note .s { font-size: 15px; color: var(--ink-soft); margin-top: 2px; }
+
+.sec-h { margin: 26px 2px 10px; display: flex; justify-content: space-between; align-items: baseline; }
+.sec-h h2 { font-size: 20px; font-weight: 700; }
+.sec-h span { font-size: 14px; color: var(--ink-soft); }
+
+.station { padding: 0; overflow: hidden; }
+.station li { list-style: none; }
+.station ul { margin: 0; padding: 0; }
+.station .row { width: 100%; text-align: left; display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 12px; min-height: 56px; padding: 8px 14px; border-radius: 0; }
+.station li + li .row { border-top: 1.5px solid var(--seam); }
+.station .row:active { background: var(--seam); }
+.station .name { font-size: 17px; font-weight: 600; line-height: 1.15; }
+.station .name small { display: block; font-size: 14px; font-weight: 400; color: var(--ink-soft); }
+.status { display: flex; align-items: center; gap: 8px; font-size: 15px; font-weight: 600; }
+.status .mark { width: 20px; height: 20px; border-radius: 50%; border: 2px solid var(--ink); display: grid; place-items: center; }
+.status.done .mark { background: var(--ink); color: var(--plaque); }
+.status.done .mark svg { width: 13px; height: 13px; }
+.status .time { min-width: 3.2ch; text-align: right; }
+
+.lines { display: grid; gap: 10px; }
+.line { display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 12px; padding: 12px 14px; min-height: 68px; }
+.line .name { font-size: 20px; font-weight: 700; line-height: 1.1; }
+.line .name small { display: block; font-size: 14px; font-weight: 400; color: var(--ink-soft); margin-top: 2px; }
+.line .right { display: flex; align-items: center; gap: 12px; }
+.line .best { text-align: right; font-size: 13px; color: var(--ink-soft); line-height: 1.2; }
+.line .best b { display: block; font-size: 17px; color: var(--ink); font-weight: 600; }
+.line .glyph { width: 30px; height: 30px; }
+
+/* ---------- game frame ---------- */
+.topbar { display: grid; grid-template-columns: 44px 1fr auto; align-items: center; gap: 8px; min-height: 52px; }
+.iconbtn { width: 44px; height: 44px; display: grid; place-items: center; border-radius: 10px; }
+.iconbtn:active { background: var(--seam); }
+.iconbtn svg, .tool svg { width: 22px; height: 22px; }
+.topbar .title { display: flex; align-items: center; gap: 10px; min-width: 0; }
+.topbar h1 { font-size: 20px; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.timer { display: flex; align-items: center; gap: 6px; min-height: 44px; padding: 0 12px; font-size: 20px; font-weight: 600; border-radius: 10px; }
+.timer svg { width: 16px; height: 16px; }
+
+.statusline { display: flex; justify-content: space-between; align-items: center; min-height: 34px; margin: 6px 2px; font-size: 15px; color: var(--ink-soft); gap: 8px; }
+.statusline .warn { display: inline-flex; align-items: center; gap: 6px; color: var(--ink); font-weight: 600; }
+.statusline .warn svg { width: 18px; height: 18px; flex: none; }
+
+.board-wrap { width: 100%; max-width: 398px; margin: 0 auto; }
+.board-plate { padding: 6px; background: var(--plate); border: 3px solid var(--green); border-radius: 14px; box-shadow: 0 10px 22px -8px var(--shadow), 0 2px 5px -1px var(--shadow-near); }
+.board-plate svg { width: 100%; height: auto; border-radius: 6px; touch-action: manipulation; }
+.pipes-plate { background: var(--plaque); padding: 4px; }
+.cell { cursor: pointer; }
+
+.hint { margin-top: 12px; padding: 10px 14px; display: flex; gap: 10px; align-items: flex-start; font-size: 16px; }
+.hint svg { width: 22px; height: 22px; flex: none; margin-top: 1px; }
+.hint b { display: block; font-size: 13px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--ink-soft); font-weight: 600; }
+
+.toolbar { display: grid; grid-template-columns: 1fr 1fr 1.3fr 1fr; gap: 8px; margin-top: 14px; }
+.tool { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; min-height: 56px; font-size: 14px; font-weight: 600; text-align: center; }
+.tool.plaque { width: auto; text-align: center; display: flex; }
+
+/* pipes */
+.pipe-tile { transform-origin: 25px 25px; transition: transform 140ms var(--ease-out); }
+.pipe-wall { stroke: var(--ink); }
+.pipe-in { stroke: var(--plaque); transition: stroke 160ms linear; }
+.pipe-cap-wall { fill: var(--ink); }
+.pipe-cap-in { fill: var(--plaque); transition: fill 160ms linear; }
+.wet .pipe-in { stroke: var(--water); }
+.wet .pipe-cap-in { fill: var(--water); }
+.tile-bg { fill: var(--plaque); stroke: var(--seam); stroke-width: 1; }
+
+/* solitaire */
+.sol-top { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 4px; margin-top: 6px; }
+.slot { width: 100%; aspect-ratio: 5 / 7; border-radius: 6px; border: 1.5px dashed var(--ink-soft); display: grid; place-items: center; color: var(--ink-soft); }
+.slot svg { width: 45%; height: 45%; }
+.card {
+  position: relative; width: 100%; aspect-ratio: 5 / 7;
+  background: var(--white); color: var(--deep);
+  border: 1.5px solid var(--plate); border-radius: 6px;
+  box-shadow: inset 0 0 0 2px var(--white), inset 0 0 0 2.75px var(--plate), 0 2px 4px -1px var(--shadow-near);
+  transition: transform 110ms var(--ease-out), box-shadow 110ms var(--ease-out);
+}
+.card.red { color: var(--card-red); }
+.card .ix { position: absolute; top: 3px; left: 5px; display: flex; align-items: center; gap: 1px; font-weight: 700; font-size: 16px; line-height: 1; letter-spacing: -0.02em; }
+.card .ix svg { width: 11px; height: 11px; }
+.card .pip { position: absolute; left: 50%; bottom: 7px; width: 44%; transform: translateX(-50%); }
+.card.back {
+  background: var(--plate); border-color: var(--green);
+  box-shadow: inset 0 0 0 3px var(--plate), inset 0 0 0 4px var(--white), 0 2px 4px -1px var(--shadow-near);
+}
+.card.back::after { content: ""; position: absolute; left: 50%; top: 50%; width: 30%; aspect-ratio: 1; transform: translate(-50%, -50%); border-radius: 50%; border: 1.5px solid var(--white); }
+.card.picked { transform: translateY(-4px); box-shadow: inset 0 0 0 2px var(--white), inset 0 0 0 2.75px var(--plate), 0 0 0 3px var(--l1), 0 8px 14px -4px var(--shadow); }
+.stock-count { position: absolute; right: -2px; bottom: -6px; background: var(--white); color: var(--deep); font-size: 12px; font-weight: 700; padding: 0 5px; border-radius: 8px; border: 1.5px solid var(--plate); line-height: 16px; z-index: 2; }
+.tableau { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 4px; margin-top: 16px; min-height: 200px; }
+.col { position: relative; }
+.col .card { position: absolute; left: 0; }
+.felt-label { font-size: 13px; color: var(--ink-soft); margin: 8px 2px 0; display: flex; justify-content: space-between; }
+
+/* win */
+.win-stage { padding-top: 8px; perspective: 800px; }
+.cord { display: flex; justify-content: space-between; padding: 0 56px; height: 22px; }
+.cord i { width: 2px; background: var(--ink-soft); }
+.win { padding: 22px 26px 22px; border-radius: 16px; text-align: left; transform-origin: 50% -22px; }
+.win.hang { animation: hang 620ms var(--ease-out) both; }
+@keyframes hang {
+  0% { transform: translateY(-40px) rotate(-3deg); opacity: 0; }
+  55% { transform: translateY(4px) rotate(1deg); opacity: 1; }
+  80% { transform: translateY(-1px) rotate(-0.4deg); }
+  100% { transform: none; }
+}
+.win .top { display: flex; align-items: center; gap: 10px; font-size: 15px; font-weight: 500; }
+.win h2 { font-size: 34px; font-weight: 700; text-transform: uppercase; line-height: 1.05; margin-top: 10px; letter-spacing: 0.01em; }
+.win dl { margin: 18px 0 0; display: grid; grid-template-columns: 1fr auto; row-gap: 0; }
+.win dt, .win dd { margin: 0; padding: 9px 0; border-top: 1.5px solid oklch(0.985 0.004 250 / 1); font-size: 17px; }
+.win dt { font-weight: 500; display: flex; align-items: center; gap: 8px; }
+.win dd { text-align: right; font-weight: 700; font-size: 20px; }
+.record-tag { display: inline-flex; align-items: center; gap: 4px; background: var(--l1); color: var(--deep); font-size: 13px; font-weight: 700; padding: 2px 8px; border-radius: 10px; }
+.record-tag svg { width: 12px; height: 12px; }
+.win-actions { display: grid; gap: 10px; margin-top: 22px; }
+.win-actions .two { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.btn { min-height: 52px; display: flex !important; align-items: center; justify-content: center; gap: 8px; font-weight: 700; font-size: 18px; text-align: center !important; }
+.btn svg { width: 20px; height: 20px; }
+.btn.flush { font-weight: 600; font-size: 17px; }
+.win-mini { margin: 22px auto 0; width: 156px; }
+.win-mini .board-plate { padding: 3px; border-width: 2px; border-radius: 9px; box-shadow: none; }
+.win-mini p { text-align: center; font-size: 13px; color: var(--ink-soft); margin-top: 6px; }
+
+/* icon sheet */
+.icon-sheet h2 { font-size: 20px; font-weight: 700; margin: 18px 2px 10px; }
+.sizes { display: flex; align-items: flex-end; gap: 16px; flex-wrap: wrap; }
+.sizes figure { margin: 0; text-align: center; font-size: 13px; color: var(--ink-soft); }
+.sizes figcaption { margin-top: 6px; }
+.homes { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.home { border-radius: 14px; padding: 18px 8px 14px; display: grid; justify-items: center; gap: 6px; font-size: 13px; }
+.home.light { background: oklch(0.93 0.02 230); color: oklch(0.25 0.03 250); }
+.home.dark { background: oklch(0.17 0.02 260); color: oklch(0.95 0.01 250); }
+.mask-row { display: flex; gap: 16px; align-items: center; }
+.mask-row p { font-size: 14px; color: var(--ink-soft); }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { transition-duration: 0ms !important; animation: none !important; }
+}
+@media (max-width: 370px) {
+  .app { padding-left: 12px; padding-right: 12px; }
+  .hub-head h1 { font-size: 34px; }
+}
+</style>
+</head>
+<body>
+<!--
+DIRECTION CONTRACT: Plaque emaillee
+THESIS: each game is a "line" of one network, the way metro lines share one signage system yet each owns a number and a colour; refuses the generic game hub of gradient tiles and badges.
+OWN-WORLD: vitreous enamel. Dark (first-class, evening): the plaque's deep Paris blue as the ground, white enamel type, a thin green rim line like the plaque's frame, rounded-corner plaques with a fired border. Light: white enamel ground, deep blue ink, same rims. Each game has a line roundel (circle with a numeral or glyph) and a line colour drawn from enamel-signage colours: flat, opaque, no tints, no gradients, no greys between (total palette commitment, only the enamel's own colours exist). Type: a signage workhorse with condensed proportions and tabular figures (Barlow Semi Condensed).
+STORY: Adrien opens the app at night, sees a calm blue enamel board listing his lines, the in-progress game is the one plaque raised forward (the active item lifts, the rest recedes), taps it, lands on the board.
+FIRST VIEWPORT (hub): header plaque "Pastime" like a street plaque; resume plaque raised (roundel, "Etoiles 8x8", time, Reprendre); "Aujourd'hui" station-style list; the four game lines. Streak shown like a station counter.
+HIERARCHY: elevation / rim thickness is the only rank signal: raised plaque = primary, flush = secondary. Times right-aligned, tabular.
+BOARDS: Stars regions as enamel tiles with distinct line colours AND thick white region borders + per-region hatch; 5-point white-enamel stars, thin crosses. Pipes: enamel channels, water = filled line colour inside the channel, dry = hollow outline. Solitaire: small white enamel plaques with blue rim, pictogram suits. Win: a station-arrival plaque with time, record, streak.
+SIGNATURE INTERACTION: tapping a plaque presses it flush (ply drops), short and crisp; win plaque slides in like a sign being hung, static under reduced motion.
+FORM: candidate 7 of 7, seed key 69372e79.
+FINISH: unreviewed and undocumented is unfinished; this build ends with the finish review, the verdict, and DESIGN.md.
+-->
+
+<details class="proto" open>
+  <summary>Prototype · Plaque émaillée</summary>
+  <div class="proto-body">
+    <div class="proto-group" data-group="screen">
+      <span>Écran</span>
+      <button data-screen="hub" aria-pressed="true">Accueil</button>
+      <button data-screen="stars">Étoiles</button>
+      <button data-screen="pipes">Tuyaux</button>
+      <button data-screen="solitaire">Solitaire</button>
+      <button data-screen="win">Victoire</button>
+      <button data-screen="icon">Icône</button>
+    </div>
+    <div class="proto-group">
+      <span>Thème</span>
+      <button data-theme-set="light">Clair</button>
+      <button data-theme-set="dark">Sombre</button>
+    </div>
+    <div class="proto-group">
+      <span>État</span>
+      <button id="toggle-empty" aria-pressed="false">Premier lancement</button>
+      <button id="toggle-record" aria-pressed="true">Nouveau record</button>
+    </div>
+  </div>
+</details>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="i-heart" viewBox="0 0 24 24"><path fill="currentColor" d="M12 21.2C12 21.2 2.8 14.6 2.8 8.7 2.8 5.5 5.2 3.3 8 3.3c1.8 0 3.2 1 4 2.5.8-1.5 2.2-2.5 4-2.5 2.8 0 5.2 2.2 5.2 5.4 0 5.9-9.2 12.5-9.2 12.5z"/></symbol>
+    <symbol id="i-diamond" viewBox="0 0 24 24"><path fill="currentColor" d="M12 1.8 20.2 12 12 22.2 3.8 12z"/></symbol>
+    <symbol id="i-spade" viewBox="0 0 24 24"><path fill="currentColor" d="M12 1.8S2.8 8.8 2.8 13.9c0 2.8 2.1 4.6 4.5 4.6 1.6 0 3-.8 3.6-1.9L9.8 22.2h4.4l-1.1-5.6c.6 1.1 2 1.9 3.6 1.9 2.4 0 4.5-1.8 4.5-4.6C21.2 8.8 12 1.8 12 1.8z"/></symbol>
+    <symbol id="i-club" viewBox="0 0 24 24"><g fill="currentColor"><circle cx="12" cy="6.6" r="4.4"/><circle cx="6.6" cy="13.4" r="4.4"/><circle cx="17.4" cy="13.4" r="4.4"/><circle cx="12" cy="12" r="3"/><path d="M11 12.5 9.8 22.2h4.4L13 12.5z"/></g></symbol>
+    <symbol id="i-back" viewBox="0 0 24 24"><path d="M15 5 8 12l7 7" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-next" viewBox="0 0 24 24"><path d="m9 5 7 7-7 7" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24"><path d="m4.5 12.5 4.8 4.8L19.5 7" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-undo" viewBox="0 0 24 24"><path d="M9 14 4 9l5-5M4 9h10.5a5.5 5.5 0 0 1 0 11H11" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-hint" viewBox="0 0 24 24"><path d="M9 18h6M10 21h4M12 3a6 6 0 0 0-3.6 10.8c.7.5 1.1 1.3 1.1 2.2h5c0-.9.4-1.7 1.1-2.2A6 6 0 0 0 12 3z" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-restart" viewBox="0 0 24 24"><path d="M4 12a8 8 0 1 0 2.4-5.7L4 8.6M4 4v4.6h4.6" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-pause" viewBox="0 0 24 24"><path d="M9 5v14M15 5v14" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/></symbol>
+    <symbol id="i-clock" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></g></symbol>
+    <symbol id="i-warn" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round"><path d="M12 3 22 20H2z"/><path d="M12 10v4.5" stroke-linecap="round"/></g><circle cx="12" cy="17.2" r="1.3" fill="currentColor"/></symbol>
+    <symbol id="i-star" viewBox="0 0 24 24"><path fill="currentColor" d="m12 2.5 2.8 6.1 6.7.7-5 4.5 1.4 6.6L12 17l-5.9 3.4 1.4-6.6-5-4.5 6.7-.7z"/></symbol>
+    <symbol id="i-rotate" viewBox="0 0 24 24"><path d="M20 12a8 8 0 1 1-2.4-5.7L20 8.6M20 4v4.6h-4.6" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <!-- game pictograms -->
+    <symbol id="g-stars" viewBox="0 0 30 30"><g fill="none" stroke="currentColor" stroke-width="1.6"><rect x="2" y="2" width="26" height="26" rx="3"/><path d="M15 2v26M2 15h26"/></g><path d="m8.5 4.6 1.3 2.8 3 .3-2.3 2 .7 3-2.7-1.6-2.7 1.6.7-3-2.3-2 3-.3z" fill="var(--l1)" stroke="currentColor" stroke-width="1.1" stroke-linejoin="round"/><path d="m21.5 17.6 1.3 2.8 3 .3-2.3 2 .7 3-2.7-1.6-2.7 1.6.7-3-2.3-2 3-.3z" fill="var(--l1)" stroke="currentColor" stroke-width="1.1" stroke-linejoin="round"/></symbol>
+    <symbol id="g-pipes" viewBox="0 0 30 30"><path d="M2 20h10a3 3 0 0 0 3-3V2" fill="none" stroke="currentColor" stroke-width="9"/><path d="M2 20h10a3 3 0 0 0 3-3V2" fill="none" stroke="var(--l2)" stroke-width="5"/><path d="M15 20v8" fill="none" stroke="currentColor" stroke-width="9"/><path d="M15 21v7" fill="none" stroke="var(--plaque)" stroke-width="5"/></symbol>
+    <symbol id="g-solitaire" viewBox="0 0 30 30"><rect x="3" y="5" width="15" height="21" rx="2.5" fill="var(--plate)" stroke="currentColor" stroke-width="1.5"/><rect x="11" y="3" width="16" height="22" rx="2.5" fill="var(--white)" stroke="currentColor" stroke-width="1.5"/><use href="#i-spade" x="13.5" y="8" width="11" height="11" style="color:var(--deep)"/></symbol>
+    <symbol id="g-dots" viewBox="0 0 30 30"><path d="M15 6v9M15 15 6 24M15 15l9 9" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="15" cy="6" r="4.2" fill="var(--l4)" stroke="currentColor" stroke-width="1.5"/><circle cx="6" cy="24" r="4.2" fill="var(--plaque)" stroke="currentColor" stroke-width="2.2"/><circle cx="24" cy="24" r="4.2" fill="var(--l4)" stroke="currentColor" stroke-width="1.5"/><circle cx="15" cy="15" r="2.4" fill="currentColor"/></symbol>
+  </defs>
+</svg>
+
+<main class="app">
+
+  <!-- ============ HUB ============ -->
+  <section class="screen on" id="screen-hub" aria-label="Accueil">
+    <header class="plaque sign hub-head">
+      <i class="screw l" aria-hidden="true"></i><i class="screw r" aria-hidden="true"></i>
+      <div>
+        <p class="date">mardi 7 octobre</p>
+        <h1>Pastime</h1>
+      </div>
+      <div class="counter" id="streak">
+        <div class="digits num" aria-hidden="true"><span class="digit">1</span><span class="digit">2</span></div>
+        <p class="lab">jours de suite</p>
+      </div>
+    </header>
+
+    <button class="plaque raised resume" id="resume" data-go="stars">
+      <span class="roundel" style="--line:var(--l1)">1</span>
+      <span class="t">Étoiles 8×8</span>
+      <span class="time num" aria-label="3 min 12 s">3:12</span>
+      <span class="s">Partie en cours</span>
+      <span class="go">Reprendre <svg><use href="#i-next"/></svg></span>
+    </button>
+    <div class="plaque empty-note" id="empty-note" hidden>
+      <p class="t">Aucune partie en cours</p>
+      <p class="s">Choisissez un jeu ou le puzzle du jour pour commencer.</p>
+    </div>
+
+    <div class="sec-h"><h2>Aujourd'hui</h2><span id="daily-count">1 sur 3</span></div>
+    <div class="plaque station">
+      <ul id="daily"></ul>
+    </div>
+
+    <div class="sec-h"><h2>Jeux</h2><span>Record</span></div>
+    <div class="lines">
+      <button class="plaque line" data-go="stars">
+        <span class="roundel" style="--line:var(--l1)">1</span>
+        <span class="name">Étoiles<small>Ligne, colonne, région</small></span>
+        <span class="right"><span class="best num"><b>2:41</b>6×6</span><svg class="glyph"><use href="#g-stars"/></svg></span>
+      </button>
+      <button class="plaque line" data-go="pipes">
+        <span class="roundel" style="--line:var(--l2)">2</span>
+        <span class="name">Tuyaux<small>Tout raccorder à la source</small></span>
+        <span class="right"><span class="best num"><b>4:05</b>9×9</span><svg class="glyph"><use href="#g-pipes"/></svg></span>
+      </button>
+      <button class="plaque line" data-go="solitaire">
+        <span class="roundel on-dark-text" style="--line:var(--l3)">3</span>
+        <span class="name">Solitaire<small>Klondike, une carte</small></span>
+        <span class="right"><span class="best num"><b>6:18</b>donne</span><svg class="glyph"><use href="#g-solitaire"/></svg></span>
+      </button>
+      <button class="plaque line" data-go="hub">
+        <span class="roundel" style="--line:var(--l4)">4</span>
+        <span class="name">Color Dots<small>L'ordre des billes</small></span>
+        <span class="right"><span class="best num"><b>12</b>niveau</span><svg class="glyph"><use href="#g-dots"/></svg></span>
+      </button>
+    </div>
+  </section>
+
+  <!-- ============ STARS ============ -->
+  <section class="screen" id="screen-stars" aria-label="Étoiles">
+    <div class="topbar">
+      <button class="iconbtn" data-go="hub" aria-label="Accueil"><svg><use href="#i-back"/></svg></button>
+      <div class="title"><span class="roundel sm" style="--line:var(--l1)">1</span><h1>Étoiles 8×8</h1></div>
+      <button class="timer num" aria-label="Pause"><svg><use href="#i-pause"/></svg><span class="clock" data-start="192">3:12</span></button>
+    </div>
+    <div class="statusline">
+      <span class="num" id="stars-count">5 sur 8</span>
+      <span class="warn" id="stars-warn"><svg><use href="#i-warn"/></svg>Deux étoiles se touchent</span>
+    </div>
+    <div class="board-wrap">
+      <div class="board-plate"><svg id="stars-board" viewBox="0 0 400 400" role="grid" aria-label="Grille Étoiles 8 sur 8"></svg></div>
+    </div>
+    <div class="plaque hint" id="stars-hint">
+      <svg><use href="#i-hint"/></svg>
+      <p><b>Indice</b>Cette région n'a plus qu'une colonne possible.</p>
+    </div>
+    <div class="toolbar">
+      <button class="plaque tool"><svg><use href="#i-undo"/></svg>Annuler</button>
+      <button class="plaque tool" id="hint-btn"><svg><use href="#i-hint"/></svg>Indice</button>
+      <button class="plaque tool"><svg><use href="#i-restart"/></svg>Recommencer</button>
+      <button class="plaque tool" data-go="win"><svg><use href="#i-check"/></svg>Finir</button>
+    </div>
+  </section>
+
+  <!-- ============ PIPES ============ -->
+  <section class="screen" id="screen-pipes" aria-label="Tuyaux">
+    <div class="topbar">
+      <button class="iconbtn" data-go="hub" aria-label="Accueil"><svg><use href="#i-back"/></svg></button>
+      <div class="title"><span class="roundel sm" style="--line:var(--l2)">2</span><h1>Tuyaux 9×9</h1></div>
+      <button class="timer num" aria-label="Pause"><svg><use href="#i-pause"/></svg><span class="clock" data-start="87">1:27</span></button>
+    </div>
+    <div class="statusline">
+      <span class="num" id="pipes-count">0 sur 81 raccordés</span>
+      <span class="warn"><svg><use href="#i-rotate"/></svg>Touchez pour tourner</span>
+    </div>
+    <div class="board-wrap">
+      <div class="board-plate pipes-plate"><svg id="pipes-board" viewBox="0 0 450 450" aria-label="Grille Tuyaux 9 sur 9"></svg></div>
+    </div>
+    <div class="toolbar">
+      <button class="plaque tool"><svg><use href="#i-undo"/></svg>Annuler</button>
+      <button class="plaque tool"><svg><use href="#i-hint"/></svg>Indice</button>
+      <button class="plaque tool"><svg><use href="#i-restart"/></svg>Recommencer</button>
+      <button class="plaque tool" data-go="hub"><svg><use href="#i-back"/></svg>Menu</button>
+    </div>
+  </section>
+
+  <!-- ============ SOLITAIRE ============ -->
+  <section class="screen felt" id="screen-solitaire" aria-label="Solitaire">
+    <div class="topbar">
+      <button class="iconbtn" data-go="hub" aria-label="Accueil"><svg><use href="#i-back"/></svg></button>
+      <div class="title"><span class="roundel sm on-dark-text" style="--line:var(--l3)">3</span><h1>Solitaire</h1></div>
+      <button class="timer num" aria-label="Pause"><svg><use href="#i-pause"/></svg><span class="clock" data-start="254">4:14</span></button>
+    </div>
+    <div class="felt-label"><span>Pioche une carte</span><span class="num">38 coups</span></div>
+    <div class="sol-top" id="sol-top"></div>
+    <div class="tableau" id="tableau"></div>
+    <div class="toolbar">
+      <button class="plaque tool"><svg><use href="#i-undo"/></svg>Annuler</button>
+      <button class="plaque tool"><svg><use href="#i-hint"/></svg>Indice</button>
+      <button class="plaque tool"><svg><use href="#i-restart"/></svg>Nouvelle</button>
+      <button class="plaque tool" data-go="hub"><svg><use href="#i-back"/></svg>Menu</button>
+    </div>
+  </section>
+
+  <!-- ============ WIN ============ -->
+  <section class="screen" id="screen-win" aria-label="Victoire">
+    <div class="topbar">
+      <button class="iconbtn" data-go="hub" aria-label="Accueil"><svg><use href="#i-back"/></svg></button>
+      <div class="title"><span class="roundel sm" style="--line:var(--l1)">1</span><h1>Étoiles 8×8</h1></div>
+      <span></span>
+    </div>
+    <div class="win-stage">
+      <div class="cord" aria-hidden="true"><i></i><i></i></div>
+      <div class="plaque sign win" id="win-plaque" role="status">
+        <div class="top"><span class="roundel sm" style="--line:var(--l1)">1</span>Puzzle du jour · mardi 7 octobre</div>
+        <h2>Grille terminée</h2>
+        <dl class="num">
+          <dt>Temps</dt><dd>4:38</dd>
+          <dt id="rec-dt">Record <span class="record-tag" id="rec-tag"><svg><use href="#i-star"/></svg>Nouveau record</span></dt><dd id="rec-dd">4:38</dd>
+          <dt>Série</dt><dd>13 jours</dd>
+        </dl>
+      </div>
+      <div class="win-actions">
+        <button class="plaque raised btn" data-go="stars">Puzzle suivant <svg><use href="#i-next"/></svg></button>
+        <div class="two">
+          <button class="plaque btn flush" data-go="stars"><svg><use href="#i-restart"/></svg>Rejouer</button>
+          <button class="plaque btn flush" data-go="hub">Accueil</button>
+        </div>
+      </div>
+      <div class="win-mini">
+        <div class="board-plate"><svg id="stars-solved" viewBox="0 0 400 400" aria-label="Grille résolue"></svg></div>
+        <p>La grille résolue</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ ICON ============ -->
+  <section class="screen icon-sheet" id="screen-icon" aria-label="Icône">
+    <h2>Tailles</h2>
+    <div class="sizes">
+      <figure><svg width="148" height="148" viewBox="0 0 512 512"><use href="#app-icon"/></svg><figcaption>512</figcaption></figure>
+      <figure><svg width="96" height="96" viewBox="0 0 512 512"><use href="#app-icon"/></svg><figcaption>192</figcaption></figure>
+      <figure><svg width="48" height="48" viewBox="0 0 512 512"><use href="#app-icon-small"/></svg><figcaption>48</figcaption></figure>
+      <figure><svg width="32" height="32" viewBox="0 0 512 512"><use href="#app-icon-small"/></svg><figcaption>32</figcaption></figure>
+      <figure><svg width="16" height="16" viewBox="0 0 512 512"><use href="#app-icon-small"/></svg><figcaption>16</figcaption></figure>
+    </div>
+    <h2>Écran d'accueil</h2>
+    <div class="homes">
+      <div class="home light"><svg width="64" height="64" viewBox="0 0 512 512"><use href="#app-icon"/></svg>Pastime</div>
+      <div class="home dark"><svg width="64" height="64" viewBox="0 0 512 512"><use href="#app-icon"/></svg>Pastime</div>
+    </div>
+    <h2>Maskable</h2>
+    <div class="mask-row">
+      <svg width="132" height="132" viewBox="0 0 512 512" aria-label="Icône maskable, zone sûre">
+        <use href="#app-icon-mask"/>
+        <circle cx="256" cy="256" r="204.8" fill="none" stroke="var(--white)" stroke-width="5" stroke-dasharray="14 10"/>
+      </svg>
+      <svg width="96" height="96" viewBox="0 0 512 512" aria-label="Icône maskable, découpe ronde">
+        <clipPath id="mask-circle"><circle cx="256" cy="256" r="256"/></clipPath>
+        <g clip-path="url(#mask-circle)"><use href="#app-icon-mask"/></g>
+      </svg>
+      <p>Pointillé : zone sûre de 80 %. À droite, la découpe ronde d'Android.</p>
+    </div>
+    <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+      <defs>
+        <g id="icon-mark">
+          <circle cx="182" cy="182" r="70" fill="var(--l1)"/>
+          <circle cx="330" cy="182" r="70" fill="var(--l2)"/>
+          <circle cx="182" cy="330" r="70" fill="var(--l3)"/>
+          <circle cx="330" cy="330" r="70" fill="var(--l4)"/>
+          <path fill="var(--white)" stroke="var(--deep)" stroke-width="7" stroke-linejoin="round" d="m182 140 12.3 26.9 29.4 3.1-22 19.8 6.2 29-25.9-15-25.9 15 6.2-29-22-19.8 29.4-3.1z"/>
+        </g>
+        <g id="app-icon">
+          <rect width="512" height="512" rx="112" fill="var(--green)"/>
+          <rect x="22" y="22" width="468" height="468" rx="92" fill="var(--plate)"/>
+          <rect x="50" y="50" width="412" height="412" rx="68" fill="none" stroke="var(--white)" stroke-width="8"/>
+          <use href="#icon-mark"/>
+        </g>
+        <g id="app-icon-small">
+          <rect width="512" height="512" rx="112" fill="var(--green)"/>
+          <rect x="36" y="36" width="440" height="440" rx="84" fill="var(--plate)"/>
+          <circle cx="178" cy="178" r="82" fill="var(--l1)"/>
+          <circle cx="334" cy="178" r="82" fill="var(--l2)"/>
+          <circle cx="178" cy="334" r="82" fill="var(--l3)"/>
+          <circle cx="334" cy="334" r="82" fill="var(--l4)"/>
+        </g>
+        <g id="app-icon-mask">
+          <rect width="512" height="512" fill="var(--plate)"/>
+          <g transform="translate(256 256) scale(0.78) translate(-256 -256)"><use href="#icon-mark"/></g>
+        </g>
+      </defs>
+    </svg>
+  </section>
+</main>
+
+<script>
+(() => {
+  const NS = "http://www.w3.org/2000/svg";
+  const el = (tag, attrs = {}, parent) => {
+    const n = document.createElementNS(NS, tag);
+    for (const k in attrs) n.setAttribute(k, attrs[k]);
+    if (parent) parent.appendChild(n);
+    return n;
+  };
+  const fmt = (s) => `${Math.floor(s / 60)}:${String(s % 60).padStart(2, "0")}`;
+
+  /* ---------------- theme + screens ---------------- */
+  const root = document.documentElement;
+  const themeBtns = document.querySelectorAll("[data-theme-set]");
+  const setTheme = (t) => {
+    root.dataset.theme = t;
+    themeBtns.forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.themeSet === t)));
+  };
+  setTheme(matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+  themeBtns.forEach((b) => b.addEventListener("click", () => setTheme(b.dataset.themeSet)));
+
+  const show = (name) => {
+    document.querySelectorAll(".screen").forEach((s) => s.classList.toggle("on", s.id === `screen-${name}`));
+    document.querySelectorAll("[data-screen]").forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.screen === name)));
+    if (name === "win") {
+      const p = document.getElementById("win-plaque");
+      p.classList.remove("hang"); void p.offsetWidth; p.classList.add("hang");
+    }
+    window.scrollTo(0, 0);
+  };
+  document.querySelectorAll("[data-screen]").forEach((b) => b.addEventListener("click", () => show(b.dataset.screen)));
+  document.querySelectorAll("[data-go]").forEach((b) => b.addEventListener("click", () => {
+    const target = b.dataset.go;
+    setTimeout(() => show(target), 120);
+  }));
+
+  /* ---------------- hub ---------------- */
+  const daily = [
+    { line: "--l1", n: "1", name: "Étoiles du jour", size: "7×7", done: true, time: 278 },
+    { line: "--l2", n: "2", name: "Tuyaux du jour", size: "9×9", done: false },
+    { line: "--l3", n: "3", name: "Donne du jour", size: "Klondike", done: false, light: true },
+  ];
+  const renderDaily = (empty) => {
+    const ul = document.getElementById("daily");
+    ul.innerHTML = "";
+    daily.forEach((d) => {
+      const done = d.done && !empty;
+      const li = document.createElement("li");
+      li.innerHTML = `<button class="row" data-go="${d.n === "1" ? "stars" : d.n === "2" ? "pipes" : "solitaire"}">
+        <span class="roundel sm${d.light ? " on-dark-text" : ""}" style="--line:var(${d.line})">${d.n}</span>
+        <span class="name">${d.name}<small>${d.size}</small></span>
+        <span class="status${done ? " done" : ""}">
+          <span class="mark">${done ? '<svg><use href="#i-check"/></svg>' : ""}</span>
+          ${done ? `Fait <span class="time num">${fmt(d.time)}</span>` : "À faire"}
+        </span></button>`;
+      li.querySelector("button").addEventListener("click", (e) => {
+        const t = e.currentTarget.dataset.go;
+        setTimeout(() => show(t), 120);
+      });
+      ul.appendChild(li);
+    });
+    document.getElementById("daily-count").textContent = empty ? "0 sur 3" : "1 sur 3";
+  };
+  renderDaily(false);
+
+  const emptyBtn = document.getElementById("toggle-empty");
+  emptyBtn.addEventListener("click", () => {
+    const on = emptyBtn.getAttribute("aria-pressed") !== "true";
+    emptyBtn.setAttribute("aria-pressed", String(on));
+    document.getElementById("resume").hidden = on;
+    document.getElementById("empty-note").hidden = !on;
+    const digits = document.querySelector("#streak .digits");
+    digits.innerHTML = on ? '<span class="digit">0</span>' : '<span class="digit">1</span><span class="digit">2</span>';
+    document.querySelector("#streak .lab").textContent = on ? "jour de suite" : "jours de suite";
+    renderDaily(on);
+    show("hub");
+  });
+
+  const recBtn = document.getElementById("toggle-record");
+  recBtn.addEventListener("click", () => {
+    const on = recBtn.getAttribute("aria-pressed") !== "true";
+    recBtn.setAttribute("aria-pressed", String(on));
+    document.getElementById("rec-tag").hidden = !on;
+    document.getElementById("rec-dd").textContent = on ? "4:38" : "3:57";
+    show("win");
+  });
+
+  /* pressed ply on touch: keep the press visible long enough to read */
+  document.addEventListener("pointerdown", (e) => {
+    const p = e.target.closest("button.plaque");
+    if (!p) return;
+    p.classList.add("pressing");
+    const up = () => { setTimeout(() => p.classList.remove("pressing"), 90); window.removeEventListener("pointerup", up); window.removeEventListener("pointercancel", up); };
+    window.addEventListener("pointerup", up); window.addEventListener("pointercancel", up);
+  });
+
+  /* ---------------- timers ---------------- */
+  const clocks = [...document.querySelectorAll(".clock")].map((c) => ({ c, t: Number(c.dataset.start) }));
+  setInterval(() => clocks.forEach((k) => {
+    if (k.c.closest(".screen").classList.contains("on")) { k.t += 1; k.c.textContent = fmt(k.t); }
+  }), 1000);
+
+  /* ---------------- stars ---------------- */
+  const REG = [
+    "AAABBBDD",
+    "AABBCCDD",
+    "AEECCCDD",
+    "EEECCDDD",
+    "EEFFGGGD",
+    "EFFFGHHH",
+    "EFFGGGHH",
+    "FFGGHHHH",
+  ];
+  const SOL = [1, 3, 5, 7, 0, 2, 4, 6];
+  const regionColour = { A: "--r-a", B: "--r-b", C: "--r-c", D: "--r-d", E: "--r-e", F: "--r-f", G: "--r-g", H: "--r-h" };
+  const S = 50;
+  const state = Array.from({ length: 8 }, () => Array(8).fill(0));
+  [[0, 1], [4, 0], [6, 4], [2, 5], [3, 6]].forEach(([r, c]) => (state[r][c] = 2));
+  [[0, 0], [0, 2], [1, 0], [1, 1], [1, 2], [2, 0], [3, 0], [3, 1], [4, 1], [5, 0], [5, 1], [6, 0], [7, 0],
+   [0, 3], [0, 4], [5, 3], [5, 4], [5, 5], [6, 3], [6, 5], [7, 3], [7, 4], [7, 5], [6, 1]].forEach(([r, c]) => (state[r][c] = 1));
+  const hintCells = [[4, 2], [5, 2], [6, 2]];
+  let hintOn = true;
+
+  const starPath = (cx, cy, R) => {
+    const r = R * 0.45, pts = [];
+    for (let i = 0; i < 10; i++) {
+      const a = -Math.PI / 2 + (i * Math.PI) / 5, rr = i % 2 ? r : R;
+      pts.push(`${(cx + rr * Math.cos(a)).toFixed(1)},${(cy + rr * Math.sin(a)).toFixed(1)}`);
+    }
+    return `M${pts.join("L")}Z`;
+  };
+
+  const patterns = (defs) => {
+    const p = (id, body) => {
+      const pat = el("pattern", { id, width: 10, height: 10, patternUnits: "userSpaceOnUse" }, defs);
+      pat.innerHTML = body;
+    };
+    const k = 'stroke="var(--deep)" stroke-width="0.8" fill="none"';
+    p("hB", `<path d="M-2 2 2 -2M0 10 10 0M8 12 12 8" ${k}/>`);
+    p("hC", `<circle cx="5" cy="5" r="1.1" fill="var(--deep)"/>`);
+    p("hD", `<path d="M0 5h10" ${k}/>`);
+    p("hE", `<path d="M-2 8 2 12M0 0 10 10M8 -2 12 2" ${k}/>`);
+    p("hF", `<path d="M5 0v10" ${k}/>`);
+    p("hG", `<path d="M0 0h10M0 0v10" ${k} stroke-width="0.9"/>`);
+    p("hH", `<circle cx="5" cy="5" r="2.4" ${k}/>`);
+  };
+
+  const drawStars = (svg, grid, opts = {}) => {
+    svg.innerHTML = "";
+    const defs = el("defs", {}, svg);
+    patterns(defs);
+    const g = el("g", {}, svg);
+    for (let r = 0; r < 8; r++) for (let c = 0; c < 8; c++) {
+      const reg = REG[r][c];
+      el("rect", { x: c * S, y: r * S, width: S, height: S, fill: `var(${regionColour[reg]})` }, g);
+      if (reg !== "A") el("rect", { x: c * S, y: r * S, width: S, height: S, fill: `url(#h${reg})` }, g);
+    }
+    // thin cell seams, then thick white region borders
+    for (let i = 1; i < 8; i++) {
+      el("path", { d: `M${i * S} 0V400M0 ${i * S}H400`, stroke: "var(--deep)", "stroke-width": 1, opacity: 1 }, g);
+    }
+    let d = "";
+    for (let r = 0; r < 8; r++) for (let c = 0; c < 8; c++) {
+      if (c < 7 && REG[r][c] !== REG[r][c + 1]) d += `M${(c + 1) * S} ${r * S - 2.5}V${(r + 1) * S + 2.5}`;
+      if (r < 7 && REG[r][c] !== REG[r + 1][c]) d += `M${c * S - 2.5} ${(r + 1) * S}H${(c + 1) * S + 2.5}`;
+    }
+    el("path", { d, stroke: "var(--white)", "stroke-width": 5, "stroke-linecap": "square" }, g);
+    el("rect", { x: 0, y: 0, width: 400, height: 400, fill: "none", stroke: "var(--white)", "stroke-width": 5 }, g);
+
+    if (opts.hint) hintCells.forEach(([r, c]) => {
+      el("rect", { x: c * S + 6, y: r * S + 6, width: S - 12, height: S - 12, rx: 6, fill: "none", stroke: "var(--white)", "stroke-width": 5 }, g);
+      el("rect", { x: c * S + 6, y: r * S + 6, width: S - 12, height: S - 12, rx: 6, fill: "none", stroke: "var(--deep)", "stroke-width": 2 }, g);
+    });
+
+    for (let r = 0; r < 8; r++) for (let c = 0; c < 8; c++) {
+      const v = grid[r][c], cx = c * S + S / 2, cy = r * S + S / 2;
+      if (v === 1) el("path", { d: `M${cx - 6} ${cy - 6}L${cx + 6} ${cy + 6}M${cx + 6} ${cy - 6}L${cx - 6} ${cy + 6}`, stroke: "var(--deep)", "stroke-width": 2, "stroke-linecap": "round" }, g);
+      if (v === 2) el("path", { d: starPath(cx, cy + 1, 17), fill: "var(--white)", stroke: "var(--deep)", "stroke-width": 2.5, "stroke-linejoin": "round" }, g);
+    }
+
+    let conflicts = 0;
+    if (opts.conflicts) {
+      const stars = [];
+      for (let r = 0; r < 8; r++) for (let c = 0; c < 8; c++) if (grid[r][c] === 2) stars.push([r, c]);
+      for (let i = 0; i < stars.length; i++) for (let j = i + 1; j < stars.length; j++) {
+        const [a, b] = [stars[i], stars[j]];
+        const touch = Math.abs(a[0] - b[0]) <= 1 && Math.abs(a[1] - b[1]) <= 1;
+        const same = a[0] === b[0] || a[1] === b[1] || REG[a[0]][a[1]] === REG[b[0]][b[1]];
+        if (!touch && !same) continue;
+        conflicts++;
+        const x = Math.min(a[1], b[1]) * S + 3, y = Math.min(a[0], b[0]) * S + 3;
+        const w = (Math.abs(a[1] - b[1]) + 1) * S - 6, h = (Math.abs(a[0] - b[0]) + 1) * S - 6;
+        el("rect", { x, y, width: w, height: h, rx: 9, fill: "none", stroke: "var(--white)", "stroke-width": 6 }, g);
+        el("rect", { x, y, width: w, height: h, rx: 9, fill: "none", stroke: "var(--deep)", "stroke-width": 3, "stroke-dasharray": "7 5" }, g);
+        const bx = x + w - 2, by = y + 2;
+        el("circle", { cx: bx, cy: by, r: 10, fill: "var(--deep)", stroke: "var(--white)", "stroke-width": 2.5 }, g);
+        el("path", { d: `M${bx} ${by - 5}V${by + 1}`, stroke: "var(--white)", "stroke-width": 2.6, "stroke-linecap": "round" }, g);
+        el("circle", { cx: bx, cy: by + 4.6, r: 1.5, fill: "var(--white)" }, g);
+      }
+    }
+
+    if (opts.interactive) {
+      for (let r = 0; r < 8; r++) for (let c = 0; c < 8; c++) {
+        const hit = el("rect", { x: c * S, y: r * S, width: S, height: S, fill: "transparent", class: "cell", role: "gridcell",
+          "aria-label": `Ligne ${r + 1}, colonne ${c + 1}, ${["vide", "croix", "étoile"][grid[r][c]]}` }, svg);
+        hit.addEventListener("click", () => { grid[r][c] = (grid[r][c] + 1) % 3; renderStars(); });
+      }
+    }
+    return conflicts;
+  };
+
+  const renderStars = () => {
+    const n = drawStars(document.getElementById("stars-board"), state, { interactive: true, conflicts: true, hint: hintOn });
+    const count = state.flat().filter((v) => v === 2).length;
+    document.getElementById("stars-count").textContent = `${count} sur 8`;
+    const w = document.getElementById("stars-warn");
+    w.style.visibility = n ? "visible" : "hidden";
+    w.lastChild.textContent = n > 1 ? `${n} conflits` : "Deux étoiles se touchent";
+    document.getElementById("stars-hint").hidden = !hintOn;
+  };
+  document.getElementById("hint-btn").addEventListener("click", () => { hintOn = !hintOn; renderStars(); });
+  renderStars();
+
+  const solved = Array.from({ length: 8 }, (_, r) => Array.from({ length: 8 }, (_, c) => (SOL[r] === c ? 2 : 0)));
+  drawStars(document.getElementById("stars-solved"), solved, {});
+
+  /* ---------------- pipes ---------------- */
+  const mulberry32 = (a) => () => {
+    a |= 0; a = (a + 0x6d2b79f5) | 0;
+    let t = Math.imul(a ^ (a >>> 15), 1 | a);
+    t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+  };
+  const rng = mulberry32(0x69372e79);
+  const N = 9, SRC = 40;
+  const DIRS = [[1, -1, 0], [2, 0, 1], [4, 1, 0], [8, 0, -1]];
+  const opp = { 1: 4, 2: 8, 4: 1, 8: 2 };
+  const pop = (m) => (m & 1) + ((m >> 1) & 1) + ((m >> 2) & 1) + ((m >> 3) & 1);
+  const shape = new Array(N * N).fill(0);
+  const inTree = new Set([SRC]);
+  let frontier = [];
+  const addEdges = (i) => {
+    const r = Math.floor(i / N), c = i % N;
+    DIRS.forEach(([bit, dr, dc]) => {
+      const nr = r + dr, nc = c + dc;
+      if (nr >= 0 && nr < N && nc >= 0 && nc < N) frontier.push([i, nr * N + nc, bit]);
+    });
+  };
+  addEdges(SRC);
+  while (inTree.size < N * N) {
+    frontier = frontier.filter(([, b]) => !inTree.has(b));
+    let pool = frontier.filter(([a]) => pop(shape[a]) < (a === SRC ? 3 : 2) || rng() < 0.25);
+    pool = pool.filter(([a]) => pop(shape[a]) < 3);
+    if (!pool.length) pool = frontier;
+    const [a, b, bit] = pool[Math.floor(rng() * pool.length)];
+    shape[a] |= bit; shape[b] |= opp[bit];
+    inTree.add(b); addEdges(b);
+  }
+  const rotl = (m, r) => ((m << r) | (m >> (4 - r))) & 15;
+  const rot = shape.map((_, i) => {
+    const r = Math.floor(i / N), c = i % N;
+    const near = Math.abs(r - 4) + Math.abs(c - 4) <= 2 || (r <= 4 && c === 4) || (r === 4 && c >= 4);
+    return near ? 0 : 1 + Math.floor(rng() * 3);
+  });
+  const deg = rot.map((r) => r * 90);
+
+  const pipeSvg = document.getElementById("pipes-board");
+  const tiles = [];
+  const C = 25, HALF = 25;
+  const armPath = (m) => {
+    let d = "";
+    if (m & 1) d += `M${C} ${C}V0`;
+    if (m & 2) d += `M${C} ${C}H50`;
+    if (m & 4) d += `M${C} ${C}V50`;
+    if (m & 8) d += `M${C} ${C}H0`;
+    return d;
+  };
+  for (let i = 0; i < N * N; i++) {
+    const r = Math.floor(i / N), c = i % N;
+    const s = el("svg", { x: c * 50, y: r * 50, width: 50, height: 50, viewBox: "0 0 50 50", class: "cell" }, pipeSvg);
+    el("rect", { x: 0, y: 0, width: 50, height: 50, class: "tile-bg" }, s);
+    const g = el("g", { class: "pipe-tile" }, s);
+    const m = shape[i], d = armPath(m), leaf = pop(m) === 1;
+    el("path", { d, class: "pipe-wall", "stroke-width": 19, fill: "none" }, g);
+    el("circle", { cx: C, cy: C, r: leaf ? 11.5 : 9.5, class: "pipe-cap-wall" }, g);
+    el("path", { d, class: "pipe-in", "stroke-width": 10, fill: "none" }, g);
+    el("circle", { cx: C, cy: C, r: leaf ? 7 : 5, class: "pipe-cap-in" }, g);
+    if (i === SRC) {
+      el("circle", { cx: C, cy: C, r: 15, fill: "var(--water)", stroke: "var(--ink)", "stroke-width": 3.5 }, g);
+      el("circle", { cx: C, cy: C, r: 5, fill: "var(--ink)" }, g);
+    }
+    g.style.transform = `rotate(${deg[i]}deg)`;
+    const label = i === SRC ? "Source" : `Tuyau ligne ${r + 1}, colonne ${c + 1}`;
+    s.setAttribute("aria-label", label);
+    s.addEventListener("click", () => {
+      rot[i] = (rot[i] + 1) % 4; deg[i] += 90;
+      g.style.transform = `rotate(${deg[i]}deg)`;
+      water();
+    });
+    tiles.push(s);
+  }
+  const water = () => {
+    const wet = new Set([SRC]), q = [SRC];
+    while (q.length) {
+      const i = q.shift(), r = Math.floor(i / N), c = i % N, m = rotl(shape[i], rot[i]);
+      DIRS.forEach(([bit, dr, dc]) => {
+        const nr = r + dr, nc = c + dc;
+        if (!(m & bit) || nr < 0 || nr >= N || nc < 0 || nc >= N) return;
+        const j = nr * N + nc;
+        if (wet.has(j) || !(rotl(shape[j], rot[j]) & opp[bit])) return;
+        wet.add(j); q.push(j);
+      });
+    }
+    tiles.forEach((t, i) => t.classList.toggle("wet", wet.has(i)));
+    document.getElementById("pipes-count").textContent = `${wet.size} sur 81 raccordés`;
+  };
+  water();
+
+  /* ---------------- solitaire ---------------- */
+  const SUIT = { h: ["i-heart", true], d: ["i-diamond", true], s: ["i-spade", false], c: ["i-club", false] };
+  const card = (rank, suit) => {
+    const [icon, red] = SUIT[suit];
+    const n = document.createElement("button");
+    n.className = `card${red ? " red" : ""}`;
+    n.setAttribute("aria-label", `${rank} de ${{ h: "cœur", d: "carreau", s: "pique", c: "trèfle" }[suit]}`);
+    n.innerHTML = `<span class="ix">${rank}<svg><use href="#${icon}"/></svg></span><svg class="pip" viewBox="0 0 24 24"><use href="#${icon}"/></svg>`;
+    n.addEventListener("click", () => {
+      const was = n.classList.contains("picked");
+      document.querySelectorAll(".card.picked").forEach((x) => x.classList.remove("picked"));
+      if (!was) n.classList.add("picked");
+    });
+    return n;
+  };
+  const back = () => { const n = document.createElement("div"); n.className = "card back"; return n; };
+  const slot = (suit) => {
+    const n = document.createElement("div");
+    n.className = "slot";
+    n.innerHTML = suit ? `<svg viewBox="0 0 24 24"><use href="#${SUIT[suit][0]}"/></svg>` : "";
+    return n;
+  };
+  const top = document.getElementById("sol-top");
+  const stock = back(); stock.style.position = "relative";
+  stock.innerHTML = '<span class="stock-count num">14</span>';
+  top.append(stock, card("7", "c"), document.createElement("div"),
+    card("3", "h"), card("A", "s"), slot("d"), slot("c"));
+
+  const cols = [
+    [0, [["R", "s"], ["D", "h"], ["V", "c"]]],
+    [1, [["10", "d"]]],
+    [2, [["9", "s"], ["8", "h"]]],
+    [3, [["6", "c"]]],
+    [4, [["D", "d"], ["V", "s"], ["10", "h"]]],
+    [5, [["5", "d"]]],
+    [6, [["8", "c"], ["7", "d"]]],
+  ];
+  const tab = document.getElementById("tableau");
+  const layoutTableau = () => {
+    tab.innerHTML = "";
+    const fd = 9, fu = 22;
+    cols.forEach(([down, up]) => {
+      const col = document.createElement("div");
+      col.className = "col";
+      let y = 0;
+      for (let k = 0; k < down; k++) { const b = back(); b.style.top = `${y}px`; col.appendChild(b); y += fd; }
+      up.forEach(([r, s]) => { const c = card(r, s); c.style.top = `${y}px`; col.appendChild(c); y += fu; });
+      tab.appendChild(col);
+    });
+  };
+  layoutTableau();
+
+  /* reduced motion: win plaque already static via CSS */
+})();
+</script>
+</body>
+</html>
