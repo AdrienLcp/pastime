@@ -23,7 +23,7 @@ colors:
 typography:
   masthead:
     fontFamily: "Archivo, system-ui, sans-serif"
-    fontSize: "clamp(3.375rem, 17.6vw, 5rem)"
+    fontSize: "clamp(3.375rem, -0.0027rem + 17.6152vw, 5rem)"
     fontWeight: 900
     lineHeight: 0.86
     letterSpacing: "-0.035em"
@@ -70,15 +70,15 @@ rounded:
   card: "5px"
   stamp: "6px"
 spacing:
-  4xs: "2px"
-  3xs: "4px"
-  2xs: "6px"
-  xs: "8px"
-  s: "12px"
-  m: "16px"
-  l: "22px"
-  xl: "30px"
-  2xl: "42px"
+  4xs: "0.125rem"
+  3xs: "0.25rem"
+  2xs: "0.375rem"
+  xs: "0.5rem"
+  s: "0.75rem"
+  m: "1rem"
+  l: "1.375rem"
+  xl: "1.875rem"
+  2xl: "2.625rem"
 components:
   button-ink:
     backgroundColor: "{colors.ink}"
@@ -204,7 +204,8 @@ and a felt-tip hand for what the player writes.
 ### Hierarchy
 
 - **Masthead** (900, wdth 118 %, `--text-masthead`, 0.86): « Pastime » on the
-  hub's cover band. Once per screen at most.
+  hub's cover band. Once per screen at most. It grows from 3.375rem on a
+  307 px screen to 5rem on a 455 px one, through `sizes.fluid()`.
 - **Number** (900, wdth 72 %, `--text-number` 34 px / `--text-number-large`
   44 px, 1, -0.02em): « N° 214 » in a game's band and on the resume card;
   « N° » set at about half the size, weight 800.
@@ -231,11 +232,13 @@ handwritten.
 
 The booklet's page is a phone: one column, at most `--sheet-width` (430 px),
 centred on `--desk` with a 1 px `--rule` edge beyond it. Side margin
-`--gutter` (16 px) at every width; safe-area insets padded by the shell.
+`--gutter` (1rem) at every width; safe-area insets padded by the shell.
 Boards go nearly edge to edge (4 px padding) so a 360 px phone gets the
 largest cells possible.
 
-Spacing steps from `--space-4xs` (2 px) to `--space-2xl` (42 px). Section
+Spacing steps from `--space-4xs` (0.125rem, 2 px) to `--space-2xl` (2.625rem,
+42 px), in rem so they grow with the reader's font size; px figures in this file
+are at the default 16 px. Section
 heads sit `--space-xl` below what precedes them and `--space-s` above what
 follows. The shell is a grid of notices / page / colophon; the colophon holds
 the theme switch.
