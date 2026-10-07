@@ -69,6 +69,8 @@
     // a region's halftone or hatch, printed over its tint
     --pattern: light-dark(oklch(20% 0.012 260 / 0.34), oklch(92% 0.014 95 / 0.24))
     --shadow: light-dark(oklch(20% 0.02 260 / 0.16), oklch(0% 0 0 / 0.5))
+    // a loose sheet lifted off the page: a filter, so a clipped corner shadows too
+    --sheet-lift: drop-shadow(0 4px 8px var(--shadow))
     --focus: var(--ink)
 
     // a region's tint: color-mix(in oklab, <chapter ink> var(--tint-n), var(--paper))
@@ -103,15 +105,28 @@
     --stretch-tight: 92%
     --stretch-condensed: 72%
     --stretch-cover: 70%
+    --stretch-listing: 75%
+    --stretch-stamp: 78%
+    --stretch-timer: 90%
 
     --leading-masthead: 0.86
     --leading-display: 0.95
+    --leading-snug: 1.3
     --leading-body: 1.4
 
     --tracking-masthead: -0.035em
     --tracking-number: -0.02em
+    --tracking-section: -0.01em
     --tracking-caps: 0.07em
     --tracking-stamp: 0.04em
+    --tracking-stamp-number: 0.06em
+
+    // a sentence on a cover or a pause sheet; a paragraph of explanation
+    --measure-short: 30ch
+    --measure-prose: 36ch
+
+    // the tool bar's icons, between --icon-m and --icon-l
+    --icon-tool: 1.375rem
 
     --space-4xs: 0.125rem
     --space-3xs: 0.25rem

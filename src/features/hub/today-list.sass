@@ -38,19 +38,15 @@
     .today-number
       flex: none
       min-width: 3.5rem
-      font-size: var(--text-control)
-      font-stretch: 75%
-      font-weight: 800
+      @include typography.number-small
 
     .today-name
-      font-size: var(--text-control)
-      font-weight: 600
+      @include typography.listing
       white-space: nowrap
 
       small
         margin-left: var(--space-3xs)
-        font-size: var(--text-meta)
-        font-weight: 500
+        @include typography.meta-light
         color: var(--ink-soft)
 
     .leader
@@ -72,8 +68,8 @@
         color: var(--pencil)
 
     .tick
-      width: 20px
-      height: 20px
+      width: var(--icon-m)
+      height: var(--icon-m)
 
       path
         fill: none

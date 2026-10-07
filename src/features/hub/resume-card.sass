@@ -14,7 +14,7 @@ $dog-ear: 30px
     background: var(--sheet)
     border: var(--print-line)
     clip-path: polygon(0 0, calc(100% - #{$dog-ear}) 0, 100% $dog-ear, 100% 100%, 0 100%)
-    filter: drop-shadow(0 4px 8px var(--shadow))
+    filter: var(--sheet-lift)
     text-decoration: none
 
     // The folded corner: the page beneath shows through the fold.
@@ -55,21 +55,17 @@ $dog-ear: 30px
       min-width: 0
 
     .resume-number
-      @include typography.number
-      font-size: var(--text-number-large)
+      @include typography.number(var(--text-number-large))
 
       small
-        font-size: var(--text-title)
-        font-weight: 800
+        @include typography.number-sign(var(--text-title))
 
     .resume-game
       margin-top: var(--space-3xs)
-      font-size: var(--text-control)
-      font-weight: 700
+      @include typography.game-name
 
     .resume-meta
-      font-size: var(--text-meta)
-      font-weight: 500
+      @include typography.meta-light
       color: var(--ink-soft)
 
     .resume-go
@@ -79,9 +75,8 @@ $dog-ear: 30px
       margin-top: var(--space-xs)
       padding-bottom: var(--space-4xs)
       border-bottom: var(--stroke-bold) solid var(--ink)
-      font-size: var(--text-small)
-      font-weight: 800
+      @include typography.link-label
 
       svg
-        width: 16px
-        height: 16px
+        width: var(--icon-s)
+        height: var(--icon-s)

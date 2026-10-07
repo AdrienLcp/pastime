@@ -25,7 +25,7 @@
       justify-items: center
       padding: var(--space-2xs) var(--space-m) var(--space-2xs)
       color: var(--stamp)
-      background: color-mix(in oklch, var(--paper) 72%, transparent)
+      background: color-mix(in oklab, var(--paper) 72%, transparent)
       border: 4px solid currentColor
       border-radius: var(--radius-stamp)
       outline: var(--stroke-thin) solid currentColor
@@ -37,17 +37,10 @@
       position: static
 
     .stamp-word
-      font-size: var(--text-stamp)
-      font-stretch: 78%
-      font-weight: 900
-      letter-spacing: var(--tracking-stamp)
-      line-height: var(--leading-display)
-      text-transform: uppercase
+      @include typography.stamp
 
     .stamp-number
-      font-size: var(--text-meta)
-      font-weight: 800
-      letter-spacing: 0.06em
+      @include typography.stamp-number
 
     .score
       display: grid
@@ -65,12 +58,10 @@
         @include typography.caps
 
       dd
-        @include typography.hand
+        @include typography.hand-figure(var(--text-hand-large))
         display: grid
         justify-items: start
         margin-top: var(--space-2xs)
-        font-size: var(--text-hand-large)
-        line-height: 1
         color: var(--pencil)
 
     .moves

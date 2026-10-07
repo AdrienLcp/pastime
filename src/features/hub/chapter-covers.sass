@@ -30,16 +30,13 @@
       @include typography.cover-title
 
     .cover-rule
-      max-width: 30ch
-      font-size: var(--text-small)
-      font-weight: 500
-      line-height: 1.3
+      @include typography.cover-blurb
+      max-width: var(--measure-short)
       text-wrap: pretty
 
     .cover-meta
-      @include typography.meta
+      @include typography.meta-strong
       margin-top: var(--space-3xs)
-      font-weight: 700
 
     // The chapter's mark, printed oversize and run off the cover's edge.
     .cover-glyph

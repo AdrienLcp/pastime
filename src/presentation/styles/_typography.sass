@@ -1,3 +1,12 @@
+/// Pure: the booklet's text voices, one mixin each. A component includes one;
+/// a weight, a leading or a tracking is never written beside it.
+
+/// The page's running text, numerals set in columns.
+@mixin body
+  font-size: var(--text-body)
+  font-variant-numeric: tabular-nums
+  line-height: var(--leading-body)
+
 /// The booklet's name on its cover: Archivo at full weight, set wide.
 @mixin masthead
   font-size: var(--text-masthead)
@@ -11,25 +20,99 @@
   font-size: var(--text-meta)
   font-weight: 600
 
+/// A meta line that carries the figure itself: a chapter's count, a band's variant.
+@mixin meta-strong
+  font-size: var(--text-meta)
+  font-weight: 700
+
+/// A meta line set back beside a name: the size of a free puzzle, a time.
+@mixin meta-light
+  font-size: var(--text-meta)
+  font-weight: 500
+
 /// The label of a control the thumb presses.
 @mixin control
   font-size: var(--text-control)
   font-weight: 800
 
+/// A tool's label, small under its icon.
+@mixin tool-label
+  font-size: var(--text-micro)
+  font-weight: 700
+
+/// A link written as a line of print, underlined by its border.
+@mixin link-label
+  font-size: var(--text-small)
+  font-weight: 800
+
+/// A short printed notice: a hint, an update waiting.
+@mixin note
+  font-size: var(--text-small)
+  font-weight: 500
+
+/// The word a note leans on.
+@mixin emphasis
+  font-weight: 800
+
+/// A sentence that warns before an irreversible step.
+@mixin alert($size: var(--text-body))
+  font-size: $size
+  font-weight: 600
+
+/// A loose sheet's title.
+@mixin title
+  font-size: var(--text-title)
+  font-stretch: var(--stretch-tight)
+  font-weight: 800
+
+/// A game's name on a contents row.
+@mixin listing
+  font-size: var(--text-control)
+  font-weight: 600
+
+/// A game's name under its puzzle number, on the resume card.
+@mixin game-name
+  font-size: var(--text-control)
+  font-weight: 700
+
+/// A chapter cover's sentence, set close under its title.
+@mixin cover-blurb
+  font-size: var(--text-small)
+  font-weight: 500
+  line-height: var(--leading-snug)
+
 /// A puzzle's number, the book's display face: condensed and black.
-@mixin number
-  font-size: var(--text-number)
+@mixin number($size: var(--text-number))
+  font-size: $size
   font-stretch: var(--stretch-condensed)
   font-weight: 900
   letter-spacing: var(--tracking-number)
   line-height: 1
+
+/// « N° » before a number, at about half its size.
+@mixin number-sign($size)
+  font-size: $size
+  font-weight: 800
+
+/// A puzzle's number on a contents row, condensed to line up with the others.
+@mixin number-small
+  font-size: var(--text-control)
+  font-stretch: var(--stretch-listing)
+  font-weight: 800
+
+/// The running clock in a game's band.
+@mixin timer
+  font-size: var(--text-timer)
+  font-stretch: var(--stretch-timer)
+  font-variant-numeric: tabular-nums
+  font-weight: 800
 
 /// A section head on the page, before its rule.
 @mixin section
   font-size: var(--text-section)
   font-stretch: var(--stretch-tight)
   font-weight: 800
-  letter-spacing: -0.01em
+  letter-spacing: var(--tracking-section)
 
 /// A chapter's name on its cover.
 @mixin cover-title
@@ -39,12 +122,33 @@
   line-height: var(--leading-display)
   text-transform: uppercase
 
+/// « Résolu » on the stamp: condensed black capitals.
+@mixin stamp
+  font-size: var(--text-stamp)
+  font-stretch: var(--stretch-stamp)
+  font-weight: 900
+  letter-spacing: var(--tracking-stamp)
+  line-height: var(--leading-display)
+  text-transform: uppercase
+
+/// The puzzle and the date under « Résolu ».
+@mixin stamp-number
+  font-size: var(--text-meta)
+  font-weight: 800
+  letter-spacing: var(--tracking-stamp-number)
+
 /// The player's own writing: times, ticks, notes in the margin.
 @mixin hand
   font-family: var(--font-hand)
   font-size: var(--text-hand)
   font-weight: 400
   line-height: 1.2
+
+/// A figure the player wrote — a time, a streak — set solid on its line.
+@mixin hand-figure($size: var(--text-hand))
+  @include hand
+  font-size: $size
+  line-height: 1
 
 /// A small label set in capitals: the heads of the score box.
 @mixin caps

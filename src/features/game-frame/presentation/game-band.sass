@@ -18,8 +18,8 @@
       height: var(--control-height)
 
       svg
-        width: 24px
-        height: 24px
+        width: var(--icon-l)
+        height: var(--icon-l)
 
       &[data-pressed]
         background: color-mix(in oklab, var(--cover-ink) 12%, var(--chapter))
@@ -40,12 +40,10 @@
       white-space: nowrap
 
       small
-        font-size: var(--text-hand)
-        font-weight: 800
+        @include typography.number-sign(var(--text-hand))
 
     .band-caption
-      @include typography.meta
-      font-weight: 700
+      @include typography.meta-strong
       overflow: hidden
       text-overflow: ellipsis
       white-space: nowrap

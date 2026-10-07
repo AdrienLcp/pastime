@@ -21,8 +21,8 @@
       height: var(--control-height)
 
       svg
-        width: 24px
-        height: 24px
+        width: var(--icon-l)
+        height: var(--icon-l)
 
       &[data-pressed]
         background: var(--paper-sunk)
@@ -97,7 +97,7 @@
       @include print.section-head
 
     .backup-prose
-      max-width: 40ch
+      max-width: var(--measure-prose)
       margin-inline: var(--gutter)
       font-size: var(--text-small)
       color: var(--ink-soft)
@@ -122,10 +122,9 @@
       border: var(--stroke-frame) solid var(--stamp)
 
       p
-        font-weight: 600
+        @include typography.alert
 
     .restore-refused
       padding: var(--space-xs) var(--space-s)
       border: var(--print-line)
-      font-size: var(--text-small)
-      font-weight: 600
+      @include typography.alert(var(--text-small))

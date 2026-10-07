@@ -40,8 +40,8 @@
       margin-right: calc(-1 * var(--space-s))
 
       svg
-        width: 22px
-        height: 22px
+        width: var(--icon-tool)
+        height: var(--icon-tool)
 
       &[data-pressed]
         background: var(--paper-sunk)
@@ -83,6 +83,5 @@
       white-space: nowrap
 
       b
-        @include typography.hand
-        line-height: 1
+        @include typography.hand-figure
         color: var(--pencil)

@@ -18,18 +18,16 @@
       padding: var(--space-m)
       background: var(--sheet)
       border: var(--print-line)
-      filter: drop-shadow(0 4px 8px var(--shadow))
+      filter: var(--sheet-lift)
 
       .pressable
         margin-top: var(--space-s)
 
     .fresh-title
-      font-size: var(--text-title)
-      font-stretch: var(--stretch-tight)
-      font-weight: 800
+      @include typography.title
 
     .fresh-prose
-      max-width: 34ch
+      max-width: var(--measure-prose)
       font-size: var(--text-small)
       color: var(--ink-soft)
       text-wrap: pretty

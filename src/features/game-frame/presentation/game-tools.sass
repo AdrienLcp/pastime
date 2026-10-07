@@ -1,3 +1,5 @@
+@use '../../../presentation/styles/typography'
+
 @layer components
   .game-tools
     display: grid
@@ -11,8 +13,7 @@
       justify-content: center
       gap: var(--space-3xs)
       min-height: calc(var(--control-height) + var(--space-s))
-      font-size: var(--text-micro)
-      font-weight: 700
+      @include typography.tool-label
       cursor: pointer
       transition: background-color var(--transition-fast, 0ms)
 
@@ -20,8 +21,8 @@
         border-left: var(--hairline)
 
       svg
-        width: 22px
-        height: 22px
+        width: var(--icon-tool)
+        height: var(--icon-tool)
 
       &[data-pressed]:not([data-disabled])
         background: var(--paper-sunk)

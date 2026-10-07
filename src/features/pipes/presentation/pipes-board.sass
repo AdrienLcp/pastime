@@ -135,22 +135,21 @@
       @include typography.meta
       margin: 0
       color: var(--ink-soft)
-      font-variant-numeric: tabular-nums
 
     .direction
       @include typography.meta
       display: inline-flex
       align-items: center
       gap: var(--space-2xs)
-      min-height: 44px
+      min-height: var(--target)
       padding: 0 var(--space-xs)
       margin-inline-end: calc(-1 * var(--space-xs))
       color: var(--ink)
       cursor: pointer
 
       svg
-        width: 20px
-        height: 20px
+        width: var(--icon-m)
+        height: var(--icon-m)
 
       &[data-pressed]
         background: var(--paper-sunk)

@@ -1,3 +1,5 @@
+@use '../../../presentation/styles/typography'
+
 @layer components
   .hint-note-slot
     margin-inline: var(--gutter)
@@ -9,12 +11,11 @@
     max-width: var(--measure)
     padding: var(--space-xs) var(--space-s)
     border: var(--print-line)
-    font-size: var(--text-small)
-    font-weight: 500
+    @include typography.note
     transition: opacity var(--transition-base, 0ms) var(--ease-out), translate var(--transition-base, 0ms) var(--ease-out)
 
     b
-      font-weight: 800
+      @include typography.emphasis
 
     svg
       flex: none
