@@ -1,0 +1,11 @@
+**/coverage
+**/dist
+**/node_modules
+
+*.tsbuildinfo
+
+.claude/settings.local.json
+
+# Review screenshots from the design passes: evidence, not source.
+.impeccable/review/
+.playwright-mcp/
