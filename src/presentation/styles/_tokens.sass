@@ -163,7 +163,16 @@
     --transition-base: 260ms
     // the stamp pressed onto the page
     --transition-slow: 520ms
+    // water reaching a pipe's channel, and its wait per tile from the join
+    --transition-water: 200ms
+    --flow-step: 28ms
     --ease-out: cubic-bezier(0.16, 1, 0.3, 1)
+
+  // reduced-motion.css collapses only the shared durations
+  @media (prefers-reduced-motion: reduce)
+    :root
+      --transition-water: 0ms
+      --flow-step: 0ms
 
   @include night-book
     --tint-1: 9%

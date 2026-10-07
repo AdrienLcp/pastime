@@ -31,6 +31,7 @@ const PAIRS: ContrastPair[] = [
     { background, foreground: '--water', minimum: WCAG_AA.nonText }
   ]),
   { background: '--ink', foreground: '--paper', minimum: WCAG_AA.text },
+  { background: '--ink-soft', foreground: '--paper', minimum: WCAG_AA.text },
   ...CHAPTER_INKS.map((background) => ({
     background,
     foreground: '--cover-ink',

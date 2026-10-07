@@ -295,8 +295,10 @@ follow it. `src/presentation/theme/`.
   label.
 - **Line** (secondary): 1.5 px ink border, ink text, 50 px tall.
 - **Text** (notices): the label underlined 2 px.
-- Pressed: `--paper-sunk` ground; a cover darkens with `filter:
-  brightness(.95)`.
+- Pressed: a line button, a row or a tool takes the `--paper-sunk` ground;
+  the ink button lightens to `--ink-soft` under its `--paper` label; a cover
+  or a band's button darkens with 10–12 % of `--cover-ink` mixed into its
+  chapter ink; a board cell darkens with 14 % of `--ink`.
 
 ### Game header band (step 03)
 
@@ -361,10 +363,12 @@ on every render.
   bordering regions differ in both. Built: `src/features/stars/presentation/`.
 - **Pipes** (`--chapter-pipes`): 40-unit tiles, cell lines 1 unit in
   `--rule`. A pipe is a 13-unit ink stroke with a 6-unit channel inside it:
-  `--paper` when dry, `--water` when connected (a 200 ms colour change). A dead
+  `--paper` when dry, `--water` when connected (a 200 ms colour change,
+  `--transition-water`). A dead
   end ends in a bulb; the source is a square ink block with a water core. A tap
   turns the tile a quarter in `--transition-fast` (170 ms); a joining branch
-  fills outward from the join, 28 ms per tile. A locked tile is tinted
+  fills outward from the join, 28 ms per tile
+  (`--flow-step`). A locked tile is tinted
   (`--tint-2` of the chapter ink) and boxed in pencil, drawn in. Built:
   `src/features/pipes/presentation/`.
 - **Solitaire** (`--chapter-solitaire`): seven columns sized from the
@@ -417,8 +421,11 @@ the PNGs. SVG files carry hex: librsvg does not read `oklch()`.
 - **Do** give every game screen its chapter ink, and only that one.
 - **Do** keep 44 px targets on everything outside a board; a board cell is
   as large as the 360 px column allows.
-- **Do** write durations with their fallback, `var(--transition-base, 0)`:
-  `reduced-motion.css` collapses them to 0.
+- **Do** write durations with their fallback, `var(--transition-base, 0s)`:
+  `reduced-motion.css` collapses them to 0 and ends every keyframe animation
+  at once, so no stylesheet writes its own reduced-motion rule. The two
+  durations it does not know, `--transition-water` and `--flow-step`, collapse
+  beside their definition in `_tokens.sass`.
 - **Do** read `--tint-n` for a region's strength: it is redefined for the
   night book.
 

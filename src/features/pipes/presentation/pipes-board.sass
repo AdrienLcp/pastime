@@ -3,7 +3,6 @@
 
 @layer components
   .pipes-board
-    --flow-step: 28ms
     display: grid
     gap: var(--space-2xs)
 
@@ -40,7 +39,6 @@
       background: transparent
       border: 0
       cursor: pointer
-      -webkit-tap-highlight-color: transparent
 
       @include focus.ring-inset
 
@@ -51,6 +49,9 @@
       @media (hover: hover)
         &:hover
           background: color-mix(in oklab, var(--ink) 6%, transparent)
+
+      &:active
+        background: color-mix(in oklab, var(--ink) 14%, transparent)
 
     .tile-lines
       fill: none
@@ -65,7 +66,7 @@
     .spin
       transform-box: fill-box
       transform-origin: center
-      transition: transform var(--transition-fast, 0ms) var(--ease-out)
+      transition: transform var(--transition-fast, 0s) var(--ease-out)
 
     .spin-box
       fill: transparent
@@ -83,11 +84,11 @@
       fill: none
       stroke: var(--paper)
       stroke-width: 6
-      transition: stroke 200ms
+      transition: stroke var(--transition-water, 0s)
 
     .channel-joint
       fill: var(--paper)
-      transition: fill 200ms
+      transition: fill var(--transition-water, 0s)
 
     .source-water
       fill: var(--water)
@@ -113,7 +114,7 @@
       stroke-linejoin: round
       stroke-dasharray: 1
       stroke-dashoffset: 1
-      animation: pipes-pencil-draw var(--transition-base, 0ms) var(--ease-out) forwards
+      animation: pipes-pencil-draw var(--transition-base, 0s) var(--ease-out) forwards
 
     .hint-box
       fill: none
@@ -157,14 +158,3 @@
   @keyframes pipes-pencil-draw
     to
       stroke-dashoffset: 0
-
-  @media (prefers-reduced-motion: reduce)
-    .pipes-board
-      .spin,
-      .channel,
-      .channel-joint
-        transition: none
-
-      .lock-box
-        animation: none
-        stroke-dashoffset: 0
