@@ -1,4 +1,5 @@
 @use '../../presentation/styles/typography'
+@use '../../presentation/styles/focus'
 
 @layer components
   .chapter-covers
@@ -8,6 +9,7 @@
       border-top: var(--stroke-bold) solid var(--paper)
 
     .chapter-cover
+      --focus: var(--cover-ink)
       position: relative
       display: grid
       align-content: center
@@ -22,9 +24,7 @@
       &[data-pressed]
         background: color-mix(in oklab, var(--cover-ink) 10%, var(--chapter))
 
-      &[data-focus-visible]
-        outline: var(--outline-thick) solid var(--cover-ink)
-        outline-offset: calc(-2 * var(--outline-thick))
+      @include focus.ring-inset
 
     .cover-title
       @include typography.cover-title

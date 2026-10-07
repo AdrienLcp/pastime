@@ -1,4 +1,5 @@
 @use '../../presentation/styles/typography'
+@use '../../presentation/styles/focus'
 
 $dog-ear: 30px
 
@@ -32,9 +33,7 @@ $dog-ear: 30px
     &[data-pressed]
       background: var(--paper-sunk)
 
-    &[data-focus-visible]
-      outline: var(--ring)
-      outline-offset: var(--ring-offset)
+    @include focus.ring
 
     .resume-tab
       display: grid

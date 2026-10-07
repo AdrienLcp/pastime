@@ -1,4 +1,5 @@
 @use '../../../presentation/styles/typography'
+@use '../../../presentation/styles/focus'
 
 @layer components
   .game-clock
@@ -13,8 +14,8 @@
     .clock-toggle
       display: grid
       place-items: center
-      width: var(--control-height)
-      height: var(--control-height)
+      width: var(--control-touch)
+      height: var(--control-touch)
 
       svg
         width: var(--icon-l)
@@ -23,6 +24,4 @@
       &[data-pressed]
         background: color-mix(in oklab, var(--cover-ink) 12%, var(--chapter))
 
-      &[data-focus-visible]
-        outline: var(--outline-thick) solid var(--cover-ink)
-        outline-offset: calc(-1 * var(--outline-thick))
+      @include focus.ring-inset

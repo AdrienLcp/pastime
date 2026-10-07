@@ -160,7 +160,8 @@ otherwise it shares one and tells itself apart by its glyph.
 - **Sheet** (`--sheet`): a loose sheet on the page — the resume card, a notice.
 - **Desk** (`--desk`): beyond the booklet's width on a wide screen.
 - **Ink** (`--ink`): all print — text, grid lines, frames, the inverted button.
-  Also the focus ring (`--focus`).
+  Also the focus ring (`--focus`), drawn through `_focus.sass`; on a chapter
+  ink — a cover, a game's band — the region sets `--focus: var(--cover-ink)`.
 - **Ink soft** (`--ink-soft`): dates, counts, captions, empty slots.
 - **Rule** (`--rule`): thin lines between rows and Pipes cells.
 - **Pencil** (`--pencil`): the player's marks and handwriting.

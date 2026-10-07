@@ -1,5 +1,6 @@
 @use '../../presentation/styles/print'
 @use '../../presentation/styles/typography'
+@use '../../presentation/styles/focus'
 
 @layer components
   .settings-page
@@ -17,8 +18,8 @@
     .settings-back
       display: grid
       place-items: center
-      width: var(--control-height)
-      height: var(--control-height)
+      width: var(--control-touch)
+      height: var(--control-touch)
 
       svg
         width: var(--icon-l)
@@ -27,9 +28,7 @@
       &[data-pressed]
         background: var(--paper-sunk)
 
-      &[data-focus-visible]
-        outline: var(--ring)
-        outline-offset: calc(-1 * var(--outline-thick))
+      @include focus.ring-inset
 
     .settings-title
       @include typography.number

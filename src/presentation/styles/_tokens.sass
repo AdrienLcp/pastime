@@ -150,7 +150,8 @@
     --outline-thick: 2.5px
     --outline-offset: 2px
 
-    --control-height: 48px
+    // the house's controls stand a little taller than the smallest target, and grow with the text
+    --control-touch: max(var(--target), 3rem)
     // the booklet's page: a phone's width, centred on the desk beyond it
     --sheet-width: 26.875rem
 

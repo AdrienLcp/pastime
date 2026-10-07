@@ -1,4 +1,5 @@
 @use '../../../presentation/styles/typography'
+@use '../../../presentation/styles/focus'
 
 @layer components
   .stars-board
@@ -43,11 +44,11 @@
       cursor: pointer
       -webkit-tap-highlight-color: transparent
 
+      @include focus.ring-inset
+
       &:focus-visible
         position: relative
         z-index: 1
-        outline: var(--ring)
-        outline-offset: calc(-1 * var(--outline-thick))
 
       @media (hover: hover)
         &:hover
