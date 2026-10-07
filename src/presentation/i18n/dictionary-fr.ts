@@ -51,6 +51,9 @@ export const FR_DICTIONARY = defineDictionary({
         plural: { count: { one: '{?} jour', other: '{?} jours' } }
       }),
       home: 'Accueil',
+      moves: defineTranslation('{count:plural}', {
+        plural: { count: { one: '{?} coup', other: '{?} coups' } }
+      }),
       newBest: 'nouveau record !',
       next: defineTranslation('Puzzle suivant · N° {number:number}', {
         number: { number: { useGrouping: false } }

@@ -52,6 +52,7 @@ export const WinSheet: React.FC<WinSheetProps> = ({
   summary
 }) => {
   const { locale, translate } = useI18n()
+  const moves = game.countsMoves ? summary.moves : null
   const reloadRouteData = useReloadRouteData()
   const [nextVariantId, setNextVariantId] = useState(puzzle.variantId)
   const nextNumber = variantRecordOf({
@@ -82,6 +83,11 @@ export const WinSheet: React.FC<WinSheetProps> = ({
           <dt>{translate('frame.win.time')}</dt>
           <dd>
             <ClockTime elapsedMs={summary.elapsedMs} />
+            {moves !== null && (
+              <span className='moves'>
+                {translate('frame.win.moves', { count: moves.count })}
+              </span>
+            )}
           </dd>
         </div>
         <div>
@@ -98,7 +104,18 @@ export const WinSheet: React.FC<WinSheetProps> = ({
                 {summary.isNewBest && <PencilLoop />}
               </span>
             )}
-            {summary.isNewBest && (
+            {moves !== null && (
+              <span className='moves'>
+                {moves.beatenFewest !== null && (
+                  <s className='beaten'>{moves.beatenFewest}</s>
+                )}
+                <span className={moves.isNewFewest ? 'best circled' : 'best'}>
+                  {translate('frame.win.moves', { count: moves.fewest })}
+                  {moves.isNewFewest && <PencilLoop />}
+                </span>
+              </span>
+            )}
+            {(summary.isNewBest || moves?.isNewFewest) && (
               <span className='scribble'>{translate('frame.win.newBest')}</span>
             )}
           </dd>

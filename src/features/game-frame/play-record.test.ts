@@ -5,6 +5,7 @@ import {
   dailyTimeOf,
   EMPTY_PLAY_RECORD,
   type PlayRecord,
+  playRecordSchema,
   recordWin,
   solvedCountOf,
   variantRecordOf
@@ -13,9 +14,15 @@ import { dailyPuzzle, freePuzzle } from './puzzle'
 
 const day = (iso: string) => Temporal.PlainDate.from(iso)
 
-const winFree = (record: PlayRecord, number: number, elapsedMs: number) =>
+const winFree = (
+  record: PlayRecord,
+  number: number,
+  elapsedMs: number,
+  moveCount = 30
+) =>
   recordWin({
     elapsedMs,
+    moveCount,
     puzzle: freePuzzle({ gameId: 'stars', number, variantId: '8' }),
     record
   })
@@ -23,6 +30,7 @@ const winFree = (record: PlayRecord, number: number, elapsedMs: number) =>
 const winDaily = (record: PlayRecord, iso: string, gameId = 'stars') =>
   recordWin({
     elapsedMs: 60_000,
+    moveCount: 30,
     puzzle: dailyPuzzle({ day: day(iso), gameId, variantId: '8' }),
     record
   }).record
@@ -36,6 +44,7 @@ describe('play record', () => {
       variantRecordOf({ gameId: 'stars', record: won.record, variantId: '8' })
     ).toEqual({
       bestMs: 42_000,
+      fewestMoves: 30,
       nextNumber: 2,
       solved: 1
     })
@@ -54,6 +63,34 @@ describe('play record', () => {
       }).bestMs
     ).toBe(42_000)
     expect(solvedCountOf(slower.record, 'stars')).toBe(2)
+  })
+
+  it('[play-record] keeps the fewest moves apart from the best time', () => {
+    const first = winFree(EMPTY_PLAY_RECORD, 1, 42_000, 90)
+    const slowerButShorter = winFree(first.record, 2, 50_000, 72)
+    expect(slowerButShorter.isNewBest).toBe(false)
+    expect(slowerButShorter.isNewFewestMoves).toBe(true)
+    expect(slowerButShorter.previousFewestMoves).toBe(90)
+    expect(
+      variantRecordOf({
+        gameId: 'stars',
+        record: slowerButShorter.record,
+        variantId: '8'
+      }).fewestMoves
+    ).toBe(72)
+  })
+
+  it('[play-record] reads a record written before moves were counted', () => {
+    const before = playRecordSchema.parse({
+      stars: {
+        dailies: {},
+        preferredVariant: null,
+        variants: { '8': { bestMs: 42_000, nextNumber: 2, solved: 1 } }
+      }
+    })
+    const won = winFree(before, 2, 50_000, 80)
+    expect(won.previousFewestMoves).toBeNull()
+    expect(won.isNewFewestMoves).toBe(true)
   })
 
   it('[play-record] marks a daily done without turning the free play page', () => {

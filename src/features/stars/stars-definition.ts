@@ -4,6 +4,7 @@ import { StarsGlyph } from './presentation/stars-glyph'
 
 export const starsDefinition = {
   chapterInk: '--chapter-stars',
+  countsMoves: false,
   dailyVariant: '8',
   Glyph: StarsGlyph,
   id: 'stars',

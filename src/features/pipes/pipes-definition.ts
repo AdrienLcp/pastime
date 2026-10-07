@@ -4,6 +4,7 @@ import { PipesGlyph } from './presentation/pipes-glyph'
 
 export const pipesDefinition = {
   chapterInk: '--chapter-pipes',
+  countsMoves: false,
   dailyVariant: '9',
   Glyph: PipesGlyph,
   id: 'pipes',

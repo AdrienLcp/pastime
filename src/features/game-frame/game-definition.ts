@@ -25,6 +25,8 @@ export type GameDefinition = {
   readonly variants: readonly [GameVariant, ...GameVariant[]]
   /** The variant of the daily puzzle, the same for everyone. */
   readonly dailyVariant: string
+  /** Whether the win screen prints the moves: a card game's, not a grid's. */
+  readonly countsMoves: boolean
   /** The chapter's mark: on its cover, its tab in today's list. */
   readonly Glyph: React.FC
   readonly load: () => Promise<SealedGameModule>

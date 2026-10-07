@@ -4,6 +4,7 @@ import { SolitaireGlyph } from './presentation/solitaire-glyph'
 
 export const solitaireDefinition = {
   chapterInk: '--chapter-solitaire',
+  countsMoves: true,
   dailyVariant: 'winnable',
   Glyph: SolitaireGlyph,
   id: 'solitaire',

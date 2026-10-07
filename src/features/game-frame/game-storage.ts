@@ -36,6 +36,7 @@ export const readPlayRecordOrEmpty = (): PlayRecord => {
 export const saveWin = (win: {
   puzzle: PuzzleRef
   elapsedMs: number
+  moveCount: number
 }): RecordedWin => {
   const recorded = recordWin({ ...win, record: readPlayRecordOrEmpty() })
   warnOnFailure(

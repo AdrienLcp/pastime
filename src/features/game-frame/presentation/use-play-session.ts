@@ -103,7 +103,14 @@ export const usePlaySession = <Level, State, Move, Hint>(
     setShownHint(null)
     setStatus('won')
     dropSavedGame(puzzle)
-    setWin(winSummaryOf({ elapsedMs, ...saveWin({ elapsedMs, puzzle }) }))
+    const moveCount = solved.moves.length
+    setWin(
+      winSummaryOf({
+        elapsedMs,
+        moveCount,
+        ...saveWin({ elapsedMs, moveCount, puzzle })
+      })
+    )
   }
 
   return {
