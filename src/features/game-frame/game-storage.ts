@@ -1,3 +1,6 @@
+import type { Result } from '@adrienlcp/result'
+import type { StorageReadError } from '@adrienlcp/safe-storage'
+
 import { warnOnFailure } from '@/infrastructure/diagnostics'
 import {
   readPlayRecord,
@@ -21,7 +24,7 @@ import type { SavedGame } from './saved-game'
 
 /*
  * The frame's reads and writes, with what the player gets when storage fails:
- * an empty record, no game waiting. A failed write never stops play — the
+ * an empty record, or a fresh puzzle. A failed write never stops play — the
  * board on screen is the truth until the tab closes.
  */
 
@@ -58,13 +61,14 @@ export const saveVariantPreference = (choice: {
   )
 }
 
-export const readSavedGameOrNone = (slot: {
+/** The game left mid-way in a slot, `null` when none; a failed read is also reported to the console. */
+export const readWaitingGame = (slot: {
   gameId: string
   mode: PuzzleMode
-}): SavedGame | null => {
+}): Result<SavedGame | null, StorageReadError> => {
   const read = readSavedGame(slot)
   warnOnFailure(read, 'The game in progress could not be read')
-  return read.status === 'success' ? read.data : null
+  return read
 }
 
 export const saveGame = (saved: SavedGame): void => {

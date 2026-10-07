@@ -11,7 +11,7 @@
           "level": "error",
           "options": {
             "deniedGlobals": {
-              "Date": "Read the time through infrastructure/clock.ts, parse or build a Date through infrastructure/dates.ts."
+              "Date": "Read the time through infrastructure/clock.ts; a calendar date is a Temporal value."
             }
           }
         }
@@ -20,7 +20,7 @@
   },
   "overrides": [
     {
-      "includes": ["**/infrastructure/clock.ts", "**/infrastructure/dates.ts"],
+      "includes": ["**/infrastructure/clock.ts"],
       "linter": {
         "rules": {
           "style": {

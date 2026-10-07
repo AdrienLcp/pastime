@@ -10,10 +10,5 @@ minimumReleaseAge: 1440
 minimumReleaseAgeExclude:
   - '@adrienlcp/*'
 
-# vite-plugin-pwa still passes Rolldown the deprecated `inlineDynamicImports`
-# when it bundles the service worker; the patch switches it to `codeSplitting`.
-patchedDependencies:
-  vite-plugin-pwa@2.0.0: patches/vite-plugin-pwa@2.0.0.patch
-
 publicHoistPattern:
   - '@biomejs/*'

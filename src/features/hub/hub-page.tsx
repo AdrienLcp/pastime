@@ -3,7 +3,7 @@ import type React from 'react'
 import { GAMES } from '@/features/game-frame/game-registry'
 import {
   readPlayRecordOrEmpty,
-  readSavedGameOrNone
+  readWaitingGame
 } from '@/features/game-frame/game-storage'
 import {
   dailyStreak,
@@ -43,12 +43,14 @@ export const HubPage: React.FC = () => {
   const day = today()
   const record = readPlayRecordOrEmpty()
   const savedDailies = GAMES.map((game) =>
-    readSavedGameOrNone({ gameId: game.id, mode: 'daily' })
+    readWaitingGame({ gameId: game.id, mode: 'daily' })
   )
   const savedFree = GAMES.map((game) =>
-    readSavedGameOrNone({ gameId: game.id, mode: 'free' })
+    readWaitingGame({ gameId: game.id, mode: 'free' })
   )
-  const saved = [...savedDailies, ...savedFree].filter((game) => game !== null)
+  const saved = [...savedDailies, ...savedFree].flatMap((waiting) =>
+    waiting.status === 'success' && waiting.data !== null ? [waiting.data] : []
+  )
   const resumable = resumableGame({ saved, today: day })
   const [firstGame] = GAMES
   const isFreshBook = Object.keys(record).length === 0

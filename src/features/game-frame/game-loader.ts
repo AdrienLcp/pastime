@@ -1,3 +1,4 @@
+import { Result } from '@adrienlcp/result'
 import { z } from 'zod/mini'
 
 import { nowMs, today } from '@/infrastructure/clock'
@@ -9,7 +10,7 @@ import { type GameSession, replaySession, startSession } from './game-session'
 import {
   dropSavedGame,
   readPlayRecordOrEmpty,
-  readSavedGameOrNone
+  readWaitingGame
 } from './game-storage'
 import { generateLevel } from './generator/generate-level'
 import {
@@ -95,17 +96,16 @@ const nextPuzzle = ({
 const resumeSaved = <Level, State, Move, Hint>(
   module: GameModule<Level, State, Move, Hint>,
   saved: SavedGame
-): GameSession<Level, State, Move> | null => {
+): Result<GameSession<Level, State, Move>, 'unreadable' | 'illegal'> => {
   const level = module.engine.levelSchema.safeParse(saved.level)
   const moves = z.array(module.engine.moveSchema).safeParse(saved.moves)
-  if (!level.success || !moves.success) return null
-  const session = replaySession({
+  if (!level.success || !moves.success) return Result.failure('unreadable')
+  return replaySession({
     engine: module.engine,
     hintsUsed: saved.hintsUsed,
     level: level.data,
     moves: moves.data
   })
-  return session.status === 'success' ? session.data : null
 }
 
 const sealPlay =
@@ -133,27 +133,28 @@ const preparePlay = async <Level, State, Move, Hint>({
 }): Promise<GameLoaderData> => {
   const day = today()
   const slot = { gameId: game.id, mode }
-  const saved = readSavedGameOrNone(slot)
-  const isStillCurrent =
-    saved !== null && (mode === 'free' || saved.puzzle.day === day.toString())
+  const waiting = readWaitingGame(slot)
 
-  if (saved !== null && isStillCurrent) {
-    const session = resumeSaved(module, saved)
-    if (session !== null) {
+  if (waiting.status === 'success' && waiting.data !== null) {
+    const saved = waiting.data
+    const isStillCurrent =
+      mode === 'free' || saved.puzzle.day === day.toString()
+    const session = isStillCurrent ? resumeSaved(module, saved) : null
+    if (session?.status === 'success') {
       return {
         play: sealPlay({
           elapsedMs: saved.elapsedMs,
           game,
           module,
           puzzle: saved.puzzle,
-          session
+          session: session.data
         }),
         playKey: playKeyOf(saved.puzzle),
         status: 'ready'
       }
     }
+    dropSavedGame(slot)
   }
-  if (saved !== null) dropSavedGame(slot)
 
   const puzzle = nextPuzzle({
     day,
