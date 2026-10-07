@@ -5,7 +5,7 @@
 Everything a game needs is computed on the device: levels are generated from a
 seed, saves and statistics sit in local storage. The app is static files on
 Cloudflare Pages (free: unlimited requests and bandwidth, 500 deploys a month),
-served at `recre.adrienlcp.com`, deployed from `main` by GitHub Actions — the
+served at `pastime.adrienlcp.com`, deployed from `main` by GitHub Actions — the
 same flow as the portfolio and Séance's public demo (skill `cloudflare-pages`).
 
 The **daily puzzle** needs no server either: its seed is the date, so every

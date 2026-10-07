@@ -11,7 +11,7 @@ choose.
 
 ## The brief to give impeccable
 
-> Récré is a collection of small solo puzzle and card games — Stars (one star
+> Pastime is a collection of small solo puzzle and card games — Stars (one star
 > per row, column and region, none touching), Pipes (rotate tiles so water
 > from the centre reaches every tile), Klondike solitaire, Color Dots (send
 > each coloured ball along its track to its zone, in the right order) — and

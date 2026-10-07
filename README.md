@@ -1,4 +1,4 @@
-# Récré
+# Pastime
 
 Small solo games in one app: Stars, Pipes, Solitaire, Color Dots and more to
 come. No ads, no account, works offline, installs on a phone's home screen.

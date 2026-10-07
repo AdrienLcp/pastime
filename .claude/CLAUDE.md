@@ -1,8 +1,8 @@
-# Récré
+# Pastime
 
 A collection of small solo puzzle and card games, installable as a PWA,
 offline, without ads or accounts. Built first for Adrien, who plays these games
-in ad-ridden apps. Personal project (`github.com/AdrienLcp/recre`).
+in ad-ridden apps. Personal project (`github.com/AdrienLcp/pastime`).
 
 ## Conventions
 

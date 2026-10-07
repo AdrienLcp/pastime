@@ -1,6 +1,6 @@
 # 08 — Launch
 
-Goal: Adrien uninstalls the ad-ridden apps, and the portfolio shows Récré.
+Goal: Adrien uninstalls the ad-ridden apps, and the portfolio shows Pastime.
 
 ## Do
 
@@ -10,7 +10,7 @@ Goal: Adrien uninstalls the ad-ridden apps, and the portfolio shows Récré.
    what it finds. Same gate shape as the portfolio's.
 3. README: what it is, screenshots, how levels are generated and checked,
    develop/deploy.
-4. Portfolio (`C:/git/portfolio`): a project page for Récré, following the
+4. Portfolio (`C:/git/portfolio`): a project page for Pastime, following the
    existing project pages and `.claude/plan/apps/README.md` there.
 
 ## Done when

@@ -22,7 +22,7 @@ his screenshots and a recording of level 50 (2026-10-07).
 The original also has lives, a "revive" by video ad, and boosters (undo,
 eraser, phantom): monetisation, none of it comes over.
 
-## In Récré
+## In Pastime
 
 - Lose on the first mistake — that is what makes it exciting. The fail
   screen offers **undo the last tap** or restart; a level won without any

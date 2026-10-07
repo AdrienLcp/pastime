@@ -1,7 +1,7 @@
 # 01 — Bootstrap
 
 Goal: an installable empty PWA, `pnpm validate` green, CI green, served from
-`https://recre.adrienlcp.com`. No game code.
+`https://pastime.adrienlcp.com`. No game code.
 
 ## Read first
 
@@ -13,16 +13,16 @@ public-demo one, Cloudflare Pages).
 
 ## Do
 
-1. Root app from `templates/web-app/` (name `recre`), port **5530**,
+1. Root app from `templates/web-app/` (name `pastime`), port **5530**,
    `strictPort`; `.nvmrc`, `.editorconfig`, `.githooks/`, `cspell.json`.
 2. `@adrienlcp/*` packages from the template, plus `browser` (wake lock,
    reduced motion) and `safe-storage`.
-3. PWA: manifest (name "Récré", standalone, portrait-friendly but not locked),
+3. PWA: manifest (name "Pastime", standalone, portrait-friendly but not locked),
    placeholder icons until step 02, service worker precaching the build,
    update prompt — copied from Séance's shape.
 4. CI: validate on every push; deploy job on `main` to a Pages project
-   `recre` (skill `cloudflare-pages` creates it and the secrets), custom domain
-   `recre.adrienlcp.com`.
+   `pastime` (skill `cloudflare-pages` creates it and the secrets), custom domain
+   `pastime.adrienlcp.com`.
 
 ## Done when
 

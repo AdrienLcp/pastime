@@ -9,7 +9,7 @@ Steps run in order: each one ends deployed and seen in a browser (sound at 0).
 
 | # | Step | In one line | State |
 |---|---|---|---|
-| 01 | Bootstrap | Root app from toolkit's web-app template, PWA from Séance, CI, Pages on `recre.adrienlcp.com` | to do |
+| 01 | Bootstrap | Root app from toolkit's web-app template, PWA from Séance, CI, Pages on `pastime.adrienlcp.com` | to do |
 | 02 | Design direction | `impeccable`: full example pages per direction (hub + one board per game), Adrien picks | to do |
 | 03 | Hub and game frame | Registry, hub, timer/undo/hint/win screen, saves, stats, settings, daily seed | to do |
 | 04 | Stars | Engine, logical solver, unique-solution generator, difficulty grading | to do |
