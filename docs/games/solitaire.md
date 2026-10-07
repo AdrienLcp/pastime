@@ -6,8 +6,9 @@ Klondike, the Windows classic.
 
 52 cards: seven tableau columns (1 to 7 cards, the last face up), the stock,
 the waste, four foundations from ace to king by suit. Build the tableau down
-in alternating colours; only a king fills an empty column. Draw 1 or draw 3
-from the stock; unlimited passes (option: limited, as in Vegas scoring).
+in alternating colours; only a king fills an empty column. Draw 1 from the
+stock, unlimited passes. Draw 3 is out of scope (Adrien never plays it); the
+engine keeps the draw count a parameter so it costs nothing to add later.
 
 ## Play
 
@@ -15,7 +16,7 @@ from the stock; unlimited passes (option: limited, as in Vegas scoring).
   destination (foundation first), a second tap cycles destinations.
 - Unlimited undo, auto-complete once every card is face up, a hint button.
 - Smooth card animations; reduced motion makes them instant.
-- Statistics: games won, best time, fewest moves, per draw mode.
+- Statistics: games won, best time, fewest moves.
 
 ## Deals
 

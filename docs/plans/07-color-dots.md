@@ -2,18 +2,13 @@
 
 Goal: Color Dots with generated levels that are always solvable.
 
-## Needs Adrien first
-
-Screenshots or a screen recording of the Play Store "Color Dots" game, to
-answer the open questions in `docs/games/color-dots.md`. Update that doc with
-the confirmed rules before writing code.
-
 ## Do
 
 1. `features/color-dots/engine`: board, tracks, balls, targets, tap → move or
-   blocked, win.
+   blocked (level lost), undo after a loss, win.
 2. `generator` (reverse play) + `solver` (search over tap orders) for
-   difficulty; levels in a numbered progression (seeded) plus a daily one.
+   difficulty; the numbered progression and rhythm decided in the game doc, plus
+   a daily boss level.
 3. Board in SVG: balls moving along their track, blocked bump, arrival.
 
 ## Tests

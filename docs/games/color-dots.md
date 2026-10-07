@@ -1,28 +1,60 @@
 # Color Dots
 
-After the "Color Dots" game Adrien plays on the Play Store.
+After the "Color Dots" game Adrien plays on the Play Store. Rules read from
+his screenshots and a recording of level 50 (2026-10-07).
 
-## Rules — understanding to confirm
+## Rules
 
-**Needs Adrien before this step starts:** two or three screenshots (or a
-short screen recording) of the original, to confirm what follows.
+- The board is a **tree** of nodes joined by lines. A node holds either a
+  coloured **ball** or an empty **ring** (a target) of some colour. Each
+  colour has as many balls as rings; rings of a colour often form a chain.
+- Tapping a ball sends it along the lines (the only path, since it is a tree)
+  to the **deepest free ring of its colour**: the far end of the chain from
+  where the route enters. Chains therefore fill from their far end back.
+- A ball passes freely through **empty rings**, of any colour.
+- A **ball** on the route, or a **filled ring** (a ball that arrived), blocks
+  it. Arrived balls never move again: blocking is permanent.
+- Once a ball leaves its node, the node and its branch line disappear.
+- **A blocked tap loses the level**: the ball travels until the node before
+  the blocker, stops against it, then the level ends. The puzzle is entirely
+  about the order of taps.
 
-As understood on 2026-10-07: coloured balls sit on a board of drawn tracks.
-Each ball has a target zone of its colour. Tapping a ball sends it along its
-track to its target; it fails (or stops) if another ball is on the way. The
-puzzle is the order: free each ball's path by moving the right balls first.
+The original also has lives, a "revive" by video ad, and boosters (undo,
+eraser, phantom): monetisation, none of it comes over.
 
-Open questions for the screenshots: are tracks fixed or chosen by the player?
-Does a blocked ball refuse to move, bounce back, or cost a life? Can a ball in
-its zone still block others? Is there a move limit or a timer?
+## In Récré
 
-## Generation (once the rules are confirmed)
+- Lose on the first mistake — that is what makes it exciting. The fail
+  screen offers **undo the last tap** or restart; a level won without any
+  undo counts as "perfect" in the stats.
+- A tap on a ball that has no free ring of its colour reachable does nothing
+  but a short shake, without losing (not observed in the original; it would
+  only punish a mis-tap).
+- Animation: the ball slides segment by segment at constant speed, faster
+  than the original (~3 s for a long route is too slow; aim for ≤ 1 s,
+  capped per segment), then the ring fills with a lighter shade and a short
+  scale pulse. Reduced motion: instant move, fill without pulse.
+- Colour is never the only cue: each colour also has a symbol drawn inside
+  its balls and rings.
 
-Generate backwards from the solved state: start with every ball in its
-target, then "un-move" balls one at a time onto their tracks so that each
-un-move blocks a path already used. The reverse of that sequence is a
-guaranteed solution; the solver checks the difficulty (number of balls
-whose order matters, longest dependency chain).
+## Difficulty — decided
 
-Rendering in SVG: tracks as paths, balls following them with
-`getPointAtLength`, blocked moves shown with a short bump.
+Adrien finds easy levels boring: **no difficulty selector**. A numbered
+progression that reaches real difficulty within the first ten levels, then
+keeps a rhythm of two hard levels and one "boss" level (marked as such,
+larger board, long dependency chains). The daily puzzle is a boss level.
+
+Difficulty, measured by the solver: number of balls, length of the longest
+"must go before" chain, and the number of tempting wrong taps (balls that can
+move now but would block a later one).
+
+## Generation
+
+Build backwards from the solved board: start from a tree whose rings are all
+filled, then "un-play" balls one at a time — take a filled ring at the end of
+its chain, put its ball back on a node reachable from it so that the route
+crosses rings already emptied, and re-add the node and branch. The reverse
+order is a guaranteed solution. The solver (search over tap orders with
+memoisation on the set of moved balls) then confirms solvability and grades
+the level; layouts are drawn on a grid with straight orthogonal lines, as in
+the original.

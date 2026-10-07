@@ -9,14 +9,14 @@ deals by default.
 
 ## Do
 
-1. `features/solitaire/engine`: deck from seed, deal, legal moves, draw 1 / 3,
+1. `features/solitaire/engine`: deck from seed, deal, legal moves, draw 1,
    undo, auto-complete detection, win. Kept generic enough for FreeCell and
    Spider later (cards and piles apart from Klondike's rules).
 2. `solver` (Worker): winnable check with a node budget; measure on a
    throttled mobile profile, and fall back to a build-time pool of winnable
    seeds if it is too slow — decision noted in the game doc.
 3. Cards in SVG, drag and drop with pointer events, tap-to-move, animations.
-4. Stats per draw mode.
+4. Stats.
 
 ## Tests
 
@@ -26,5 +26,5 @@ deals by default.
 
 ## Done when
 
-A draw-1 and a draw-3 game are won in a browser at phone width, with drag
+Two games are won in a browser at phone width, with drag
 and tap; auto-complete plays out; undo goes back to the deal.

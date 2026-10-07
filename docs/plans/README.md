@@ -14,7 +14,7 @@ Steps run in order: each one ends deployed and seen in a browser (sound at 0).
 | 03 | Hub and game frame | Registry, hub, timer/undo/hint/win screen, saves, stats, settings, daily seed | to do |
 | 04 | Stars | Engine, logical solver, unique-solution generator, difficulty grading | to do |
 | 05 | Pipes | Spanning-tree generator, unique solution, live water fill | to do |
-| 06 | Solitaire | Klondike engine, drag + tap-to-move, winnable deals only | to do |
-| 07 | Color Dots | Rules confirmed from Adrien's screenshots, reverse generator | to do |
+| 06 | Solitaire | Klondike draw 1, drag + tap-to-move, winnable deals only | to do |
+| 07 | Color Dots | Tree board, lose on a blocked tap, reverse generator, hard progression with boss levels | to do |
 | 08 | Launch | Offline/install polish, Lighthouse, README, portfolio project page | to do |
-| 09 | Rotate Rings | Rules to define with Adrien first | later |
+| 09 | Rotate Rings | Rules drafted from a screenshot; confirm with a recording first | later |
