@@ -1,0 +1,10 @@
+{
+  "compilerOptions": {
+    "paths": {
+      "@/*": ["./src/*"]
+    }
+  },
+  "exclude": ["src/service-worker"],
+  "extends": "@adrienlcp/tsconfig/web-app.json",
+  "include": ["scripts", "src", "vite.config.ts"]
+}

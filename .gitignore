@@ -1,8 +1,10 @@
 **/coverage
 **/dist
+**/dev-dist
 **/node_modules
 
 *.tsbuildinfo
+*.local
 
 .claude/settings.local.json
 

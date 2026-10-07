@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta content="width=device-width, initial-scale=1.0, viewport-fit=cover" name="viewport" />
+    <meta content="Small solo puzzle and card games in one app: no ads, no account, works offline." name="description" />
+    <!-- The page's ground in each palette, and the manifest's colours: if one moves, the others move with it. -->
+    <meta content="#ffffff" data-scheme="light" media="(prefers-color-scheme: light)" name="theme-color" />
+    <meta content="#121212" data-scheme="dark" media="(prefers-color-scheme: dark)" name="theme-color" />
+    <link href="https://pastime.adrienlcp.com/" rel="canonical" />
+    <link href="/favicon.svg" rel="icon" type="image/svg+xml" />
+    <link href="/icons/apple-touch-icon.png" rel="apple-touch-icon" />
+    <title>Pastime</title>
+    <!--
+      A layer's position is fixed where its name first appears, and Vite injects
+      stylesheets in module-graph order: declared here, the order cannot depend
+      on which component happened to be imported first.
+    -->
+    <style>
+      @layer reset, tokens, base, components;
+    </style>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script src="/src/main.tsx" type="module"></script>
+  </body>
+</html>

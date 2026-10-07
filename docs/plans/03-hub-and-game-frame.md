@@ -22,7 +22,7 @@ each game step only writes the game.
 5. Storage: game in progress saved on every move and resumed on return;
    stats per game, size and difficulty; settings (sound off by default,
    haptics off by default, theme, language); export/import of all data.
-6. Hub: games, daily puzzles of the day with done/not done, "reprendre".
+6. Hub: games, daily puzzles of the day with done/not done, "resume".
 7. Worker plumbing for generators (with timeout and retry), tested with the
    placeholder game.
 

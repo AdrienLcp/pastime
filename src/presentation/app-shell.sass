@@ -1,0 +1,13 @@
+@layer components
+  .app-shell
+    min-height: 100dvh
+    display: grid
+    grid-template-rows: auto 1fr
+    padding: max(1rem, env(safe-area-inset-top)) max(1rem, env(safe-area-inset-right)) max(1rem, env(safe-area-inset-bottom)) max(1rem, env(safe-area-inset-left))
+
+    .notices
+      display: grid
+      gap: 0.5rem
+
+      &:not(:empty)
+        margin-bottom: 1rem
