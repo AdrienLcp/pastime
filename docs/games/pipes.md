@@ -30,3 +30,9 @@ tile is connected to the source, with no open end and no loop.
 
 Rendering in SVG: the pipe shapes are a handful of paths rotated per tile;
 water fill is a stroke colour transition (respecting reduced motion).
+
+## Open point (step 05)
+
+A 9×9 board at 360 px wide gives tiles of about 39 px, under the 44 px touch
+target. Decide in step 05: accept it on that board, or cap Pipes at 8×8 on
+narrow phones (`DESIGN.md`, Open issues).

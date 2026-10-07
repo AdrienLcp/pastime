@@ -42,6 +42,25 @@ A game registers itself in one place (id, name, icon, sizes or difficulties,
 its engine's entry points); the hub and the frame read that registry and know
 nothing else about the game.
 
+## Design
+
+The visual world is « Cahier de jeux », a pocket puzzle book: `DESIGN.md` at
+the root is the system, `src/presentation/styles/_tokens.sass` its values.
+The example pages from step 02 stay in `.impeccable/directions/` as the
+reference for every game step: `cahier/` is the chosen one (hub, a board per
+game, win screen, icon); `plaque/` and `grille/` are the rejected
+alternatives, kept for the record. They are prototypes with their own inline
+code, outside Biome and cspell.
+
+- Colours are `light-dark()` tokens; `@adrienlcp/theme-preference` resolves
+  the scheme (the stored choice beats the system) and its Vite plugin stamps
+  `data-theme` and the `theme-color` metas before the first paint.
+- Fonts are self-hosted woff2 in `public/fonts/`, with fontaine's
+  metric-matched fallback faces.
+- `Temporal` is polyfilled at the entry where missing
+  (`infrastructure/install-temporal.ts`); the day comes from
+  `infrastructure/clock.ts`.
+
 ## Generation
 
 - Seeded PRNG (one helper), so a level is reproducible from `(game, size,

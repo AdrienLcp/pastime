@@ -9,4 +9,5 @@ Status: planned — see `docs/plans/README.md`.
 
 ## License
 
-AGPL-3.0
+AGPL-3.0. The Archivo and Gochi Hand fonts are under the SIL Open Font
+License 1.1 (`public/fonts/archivo-OFL.txt`, `public/fonts/gochi-hand-OFL.txt`).
