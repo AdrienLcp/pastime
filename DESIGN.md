@@ -359,7 +359,10 @@ on every render.
   `--rule`. A pipe is a 13-unit ink stroke with a 6-unit channel inside it:
   `--paper` when dry, `--water` when connected (a 200 ms colour change). A dead
   end ends in a bulb; the source is a square ink block with a water core. A tap
-  turns the tile a quarter in `--transition-fast` (170 ms).
+  turns the tile a quarter in `--transition-fast` (170 ms); a joining branch
+  fills outward from the join, 28 ms per tile. A locked tile is tinted
+  (`--tint-2` of the chapter ink) and boxed in pencil, drawn in. Built:
+  `src/features/pipes/presentation/`.
 - **Solitaire** (`--chapter-solitaire`): seven columns sized from the
   container (`(100cqw - 24px) / 7`), cards 5:7, `--radius-card`, 1.25 px
   `--card-ink` border on `--card`. Rank top-left (800, wdth 78 %), a suit pip
@@ -410,7 +413,5 @@ the PNGs. SVG files carry hex: librsvg does not read `oklch()`.
 
 ## Open issues
 
-- **Pipes 9×9 at 360 px.** The column gives ~39 px tiles, under the 44 px
-  target. To decide in step 05: accept it on that board (a tile is a tap, not
-  a precise control, and the board fits without scrolling), or cap Pipes at
-  8×8 on narrow phones. Also noted in `docs/games/pipes.md`.
+None.
+

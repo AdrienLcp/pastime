@@ -1,0 +1,175 @@
+@use '../../../presentation/styles/typography'
+
+@layer components
+  .pipes-board
+    --flow-step: 28ms
+    display: grid
+    gap: var(--space-2xs)
+
+    .sheet
+      position: relative
+      width: 100%
+      aspect-ratio: 1
+
+    .print
+      display: block
+      width: 100%
+      height: 100%
+      overflow: visible
+
+    // The buttons sit exactly over the printed tiles: the frame's margin is
+    // 3 units of a viewBox `size × 40 + 6` units wide.
+    .tiles
+      --frame-margin: calc(100% * 3 / (var(--size) * 40 + 6))
+      position: absolute
+      inset: var(--frame-margin)
+      display: grid
+      grid-template-columns: repeat(var(--size), 1fr)
+      grid-template-rows: repeat(var(--size), 1fr)
+      min-inline-size: 0
+      margin: 0
+      padding: 0
+      border: 0
+      touch-action: manipulation
+      user-select: none
+      -webkit-user-select: none
+      -webkit-touch-callout: none
+
+    .tile-button
+      min-width: 0
+      min-height: 0
+      padding: 0
+      background: transparent
+      border: 0
+      cursor: pointer
+      -webkit-tap-highlight-color: transparent
+
+      &:focus-visible
+        position: relative
+        z-index: 1
+        outline: var(--ring)
+        outline-offset: calc(-1 * var(--outline-thick))
+
+      @media (hover: hover)
+        &:hover
+          background: color-mix(in oklab, var(--ink) 6%, transparent)
+
+    .tile-lines
+      fill: none
+      stroke: var(--rule)
+      stroke-width: 1
+
+    .frame
+      fill: none
+      stroke: var(--ink)
+      stroke-width: 5
+
+    .spin
+      transform-box: fill-box
+      transform-origin: center
+      transition: transform var(--transition-fast, 0ms) var(--ease-out)
+
+    .spin-box
+      fill: transparent
+
+    .pipe
+      fill: none
+      stroke: var(--ink)
+      stroke-width: 13
+
+    .pipe-joint,
+    .source
+      fill: var(--ink)
+
+    .channel
+      fill: none
+      stroke: var(--paper)
+      stroke-width: 6
+      transition: stroke 200ms
+
+    .channel-joint
+      fill: var(--paper)
+      transition: fill 200ms
+
+    .source-water
+      fill: var(--water)
+
+    // The water runs on from the join it came through, one step per tile.
+    .tile[data-wet]
+      .channel
+        stroke: var(--water)
+        transition-delay: calc(var(--flow-delay) * var(--flow-step))
+
+      .channel-joint
+        fill: var(--water)
+        transition-delay: calc(var(--flow-delay) * var(--flow-step))
+
+    .lock-tint
+      fill: color-mix(in oklab, var(--chapter-pipes) var(--tint-2), var(--paper))
+
+    // Locking is the player's call: written in pencil, drawn in.
+    .lock-box
+      fill: none
+      stroke: var(--pencil)
+      stroke-width: 1.8
+      stroke-linejoin: round
+      stroke-dasharray: 1
+      stroke-dashoffset: 1
+      animation: pipes-pencil-draw var(--transition-base, 0ms) var(--ease-out) forwards
+
+    .hint-box
+      fill: none
+      stroke: var(--pencil)
+      stroke-width: 2
+      stroke-dasharray: 6 5
+      opacity: 0.85
+
+    .status-line
+      display: flex
+      align-items: center
+      justify-content: space-between
+      gap: var(--space-s)
+      margin: 0 var(--gutter)
+
+    .water-count
+      @include typography.meta
+      margin: 0
+      color: var(--ink-soft)
+      font-variant-numeric: tabular-nums
+
+    .direction
+      @include typography.meta
+      display: inline-flex
+      align-items: center
+      gap: var(--space-2xs)
+      min-height: 44px
+      padding: 0 var(--space-xs)
+      margin-inline-end: calc(-1 * var(--space-xs))
+      color: var(--ink)
+      cursor: pointer
+
+      svg
+        width: 20px
+        height: 20px
+
+      &[data-pressed]
+        background: var(--paper-sunk)
+
+      &[data-focus-visible]
+        outline: var(--ring)
+        outline-offset: calc(-1 * var(--outline-thick))
+
+  @keyframes pipes-pencil-draw
+    to
+      stroke-dashoffset: 0
+
+  @media (prefers-reduced-motion: reduce)
+    .pipes-board
+      .spin,
+      .channel,
+      .channel-joint
+        transition: none
+
+      .lock-box
+        animation: none
+        stroke-dashoffset: 0

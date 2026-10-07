@@ -61,6 +61,43 @@ export const EN_DICTIONARY = defineDictionary({
     }
   },
   games: {
+    pipes: {
+      board: 'Pipes grid, {size:number} by {size:number}',
+      direction: {
+        back: 'Anticlockwise',
+        clockwise: 'Clockwise'
+      },
+      dry: 'dry',
+      hints: {
+        forced:
+          'This tile can only sit one way now: turn it, then lock it with a long press.',
+        wrongLock:
+          'This tile is locked the wrong way round: unlock it with a long press.'
+      },
+      locked: 'locked',
+      name: 'Pipes',
+      opens: 'open to the {sides}',
+      rule: 'Turn the tiles until water reaches them all, with no loop and no leak.',
+      sides: {
+        east: 'east',
+        north: 'north',
+        south: 'south',
+        west: 'west'
+      },
+      source: 'source',
+      tile: 'Row {row:number}, column {column:number}',
+      variants: {
+        size5: '5×5',
+        size7: '7×7',
+        size9: '9×9',
+        size11: '11×11',
+        size13: '13×13'
+      },
+      waterCount: defineTranslation('{count:plural} of {total:number} wet', {
+        plural: { count: { one: '{?} tile', other: '{?} tiles' } }
+      }),
+      wet: 'wet'
+    },
     stars: {
       board: 'Stars grid, {size:number} by {size:number}',
       cell: 'Row {row:number}, column {column:number}, region {region:number}',

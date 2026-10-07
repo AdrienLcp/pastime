@@ -11,6 +11,8 @@ export {
   Pause as PauseIcon,
   Play as ResumeIcon,
   RotateCcw as RestartIcon,
+  RotateCcwSquare as TurnBackIcon,
+  RotateCwSquare as TurnClockwiseIcon,
   Settings2 as SettingsIcon,
   Undo2 as UndoIcon,
   Upload as ImportIcon

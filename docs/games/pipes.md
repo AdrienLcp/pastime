@@ -10,29 +10,38 @@ tile is connected to the source, with no open end and no loop.
 
 ## Play
 
-- Tap rotates clockwise, a second gesture (long-press or two-finger tap, plus
-  a toggle for one-handed play) anticlockwise.
-- Lock a tile you are sure of (it stops rotating, shown as locked).
-- Water fills from the source in real time: connected tiles show as filled,
-  so progress is visible at every move. Win animation: the water reaches the
-  last tile.
-- Sizes 5×5 to 13×13; "wrapping" variant later (edges connect around).
+- A tap turns a tile a quarter in the chosen direction; the direction toggle
+  under the board (Clockwise / Anticlockwise) flips it for one-handed play. A right
+  click turns the other way on desktop.
+- A long press locks a tile the player is sure of (tinted, boxed in pencil);
+  a locked tile refuses to turn, and a second long press frees it. Keyboard:
+  arrows move, Enter turns, `L` locks.
+- Water fills from the source in real time: a joined tile's channel turns
+  `--water`, and a branch that joins fills outward from the join, one step per
+  tile. The win is the water reaching the last tile.
+- Sizes 5, 7, 9, 11 and 13, odd so the source sits in the middle; the daily is
+  9×9. No size cap on narrow phones: a tile is a tap, not a precise control,
+  and the board fits without scrolling (≈ 38 px tiles at 9×9, ≈ 25 px at
+  13×13 on a 360 px screen). "Wrapping" variant later (edges connect around).
+- The hint names a tile locked the wrong way first, then the next tile logic
+  settles from the locked ones that does not face its way yet.
 
 ## Generation
 
-1. A random spanning tree of the grid from the centre (randomised Prim, with a
-   bias that controls the share of straights versus junctions).
-2. Each tile's shape is read from its edges in the tree; rotations shuffled.
-3. Uniqueness: Tatham ensures a unique solution by detecting ambiguous
-   sections and re-meshing them; do the same — the solver propagates
-   constraints (open edges must face open edges, borders are closed, no loop);
-   if it stalls, change the tree around the stalled area and retry.
+Built in `src/features/pipes/`.
 
-Rendering in SVG: the pipe shapes are a handful of paths rotated per tile;
-water fill is a stroke colour transition (respecting reduced motion).
+1. A random spanning tree of the grid from the centre (randomised Prim), no
+   tile opening four ways — dead ends, straights, corners and T's only.
+2. Uniqueness: the solver (`solver/pipes-solver.ts`) works on shapes alone and
+   settles tiles by logic — a pipe meets an open side, a wall meets a closed
+   one; two tiles already joined cannot be joined again (loop); a network
+   cannot close off while tiles remain outside it. When it stalls, the tree is
+   reshaped around the stall, as Simon Tatham's Net does: a pipe is laid from
+   a stalled tile and one pipe on the loop it closes is taken out
+   (`generator/tree-reshape.ts`). Solved by logic means one solution.
+3. Every tile is dealt facing some other way than in the solution.
 
-## Open point (step 05)
-
-A 9×9 board at 360 px wide gives tiles of about 39 px, under the 44 px touch
-target. Decide in step 05: accept it on that board, or cap Pipes at 8×8 on
-narrow phones (`DESIGN.md`, Open issues).
+The raw tree already solves by logic most of the time (a third of 9×9 trees
+stall; a handful of reshapes fix them), so generation takes milliseconds.
+The tests check 200 seeds per size, and count solutions by plain backtracking
+up to 9×9.

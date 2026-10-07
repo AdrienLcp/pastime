@@ -64,6 +64,46 @@ export const FR_DICTIONARY = defineDictionary({
     }
   },
   games: {
+    pipes: {
+      board: 'Grille Tuyaux {size:number} par {size:number}',
+      direction: {
+        back: 'Sens inverse',
+        clockwise: 'Sens horaire'
+      },
+      dry: 'à sec',
+      hints: {
+        forced:
+          'Cette pièce ne peut plus tenir que d’une façon : tournez-la, puis verrouillez-la d’un appui long.',
+        wrongLock:
+          'Cette pièce est verrouillée dans le mauvais sens : déverrouillez-la d’un appui long.'
+      },
+      locked: 'verrouillée',
+      name: 'Tuyaux',
+      opens: 'ouverte vers {sides}',
+      rule: 'Tournez les pièces : l’eau doit tout irriguer, sans boucle ni fuite.',
+      sides: {
+        east: 'l’est',
+        north: 'le nord',
+        south: 'le sud',
+        west: 'l’ouest'
+      },
+      source: 'source',
+      tile: 'Ligne {row:number}, colonne {column:number}',
+      variants: {
+        size5: '5×5',
+        size7: '7×7',
+        size9: '9×9',
+        size11: '11×11',
+        size13: '13×13'
+      },
+      waterCount: defineTranslation(
+        '{count:plural} sur {total:number} en eau',
+        {
+          plural: { count: { one: '{?} pièce', other: '{?} pièces' } }
+        }
+      ),
+      wet: 'en eau'
+    },
     stars: {
       board: 'Grille Étoiles {size:number} par {size:number}',
       cell: 'Ligne {row:number}, colonne {column:number}, région {region:number}',
