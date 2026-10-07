@@ -21,10 +21,12 @@ engine keeps the draw count a parameter so it costs nothing to add later.
 ## Deals
 
 - **Winnable deals only** (default): before showing a deal, a solver searches
-  for a win (depth-first with move ordering and a state cache, a node budget,
-  and a fallback to a new seed). Measure how long it takes on a mid-range
-  phone in a Worker; pre-compute a pool of winnable seeds at build time if it
-  is too slow.
+  for a win (depth-first with move ordering and a state cache) within a budget
+  of 500 positions; a deal it does not solve in time is replaced by the next
+  shuffle. Measured on 50 deals: 29 solved within 500 positions, the slowest
+  in 27 ms; 8000 positions solve only three more, twenty times slower. So no
+  pool of seeds is pre-computed: the Worker shuffles until one comes out. The
+  deals shown lean slightly towards those a short search wins.
 - A "random deal" option for the purists.
 - A deal is reproducible from its seed (shared or replayed).
 
