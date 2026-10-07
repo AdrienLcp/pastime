@@ -1,5 +1,3 @@
-import { createSeededRandom } from '@/helpers/seeded-random'
-
 import { columnOf, rowOf } from '../engine/stars-grid'
 import type { StarsPuzzle } from '../engine/stars-level'
 import { sideNeighboursOf } from '../generator/region-growth'
@@ -95,8 +93,6 @@ export const gridLinesOf = ({ regions, size }: StarsPuzzle) => {
   return { heavy, thin }
 }
 
-const round = (value: number) => Math.round(value * 10) / 10
-
 /** Every cell of a grid, in reading order. */
 export const cellsOf = (size: number): number[] =>
   Array.from({ length: size * size }, (_, cell) => cell)
@@ -105,86 +101,3 @@ export const cellCentre = ({ cell, size }: { cell: number; size: number }) => ({
   x: columnOf({ cell, size }) * CELL_UNITS + CELL_UNITS / 2,
   y: rowOf({ cell, size }) * CELL_UNITS + CELL_UNITS / 2
 })
-
-/** A five-point star drawn in one stroke, wobbling the same way every time for one seed. */
-export const pencilStarPath = ({
-  radius,
-  seed,
-  x,
-  y
-}: {
-  radius: number
-  seed: number
-  x: number
-  y: number
-}): string => {
-  const random = createSeededRandom(seed)
-  const wobble = () => random.next() - 0.5
-  const tips = Array.from({ length: 5 }, (_, tip) => {
-    const angle = ((-90 + tip * 72 + wobble() * 7) * Math.PI) / 180
-    const reach = radius * (0.9 + random.next() * 0.18)
-    return { x: x + reach * Math.cos(angle), y: y + reach * Math.sin(angle) }
-  })
-  const strokeOrder = [0, 2, 4, 1, 3, 0]
-  const points = strokeOrder.map((tip) => tips[tip] ?? { x, y })
-  const last = points.length - 1
-  return points
-    .map((point, index) => {
-      const overshoot =
-        index === last
-          ? { x: wobble() * 3, y: 1 + random.next() * 2 }
-          : { x: 0, y: 0 }
-      return `${index === 0 ? 'M' : 'L'}${round(point.x + overshoot.x)} ${round(point.y + overshoot.y)}`
-    })
-    .join('')
-}
-
-/** Two quick strokes, a little off each time. */
-export const pencilCrossPath = ({
-  reach,
-  seed,
-  x,
-  y
-}: {
-  reach: number
-  seed: number
-  x: number
-  y: number
-}): string => {
-  const random = createSeededRandom(seed)
-  const jitter = () => round((random.next() - 0.5) * 2.4)
-  const at = (dx: number, dy: number) =>
-    `${round(x + dx * reach + jitter())} ${round(y + dy * reach + jitter())}`
-  return `M${at(-1, -1)}L${at(1, 1)}M${at(1, -1)}L${at(-1, 1)}`
-}
-
-/** A loop drawn round a point, overshooting where it closes, as a pencil does. */
-export const pencilLoopPath = ({
-  radiusX,
-  radiusY,
-  seed,
-  tilt,
-  x,
-  y
-}: {
-  radiusX: number
-  radiusY: number
-  seed: number
-  tilt: number
-  x: number
-  y: number
-}): string => {
-  const random = createSeededRandom(seed)
-  const start = -2.2 + random.next() * 0.4
-  const steps = 54
-  const turns = 1.14
-  const cos = Math.cos(tilt)
-  const sin = Math.sin(tilt)
-  return Array.from({ length: steps + 1 }, (_, step) => {
-    const angle = start + (step / steps) * Math.PI * 2 * turns
-    const swell = 1 + (random.next() - 0.5) * 0.05 + (step / steps) * 0.06
-    const dx = radiusX * swell * Math.cos(angle)
-    const dy = radiusY * swell * Math.sin(angle)
-    return `${step === 0 ? 'M' : 'L'}${round(x + dx * cos - dy * sin)} ${round(y + dx * sin + dy * cos)}`
-  }).join('')
-}

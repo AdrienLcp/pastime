@@ -3,19 +3,16 @@ import type React from 'react'
 import type { StarsConflict } from '../engine/stars-conflicts'
 import { columnOf, rowOf } from '../engine/stars-grid'
 import type { StarsMark } from '../engine/stars-state'
+import { pencilCross, pencilLoop, pencilStar } from './pencil-strokes'
 import { pencilFilterOf } from './region-print'
-import {
-  CELL_UNITS,
-  cellCentre,
-  cellsOf,
-  pencilCrossPath,
-  pencilLoopPath,
-  pencilStarPath
-} from './stars-drawing'
+import { CELL_UNITS, cellCentre, cellsOf } from './stars-drawing'
 
 /** How far inside its cell the hint's dashed box is drawn. */
 const HINT_INSET = 4
 
+type Loop = { d: string; key: string; transform?: string }
+
+/** A loop round both stars when they touch, tilted along them; one round each otherwise. */
 const conflictLoops = ({
   conflict,
   index,
@@ -24,7 +21,7 @@ const conflictLoops = ({
   conflict: StarsConflict
   index: number
   size: number
-}): { d: string; key: string }[] => {
+}): Loop[] => {
   const [first, second] = conflict.cells
   if (
     conflict.kind === 'touching' &&
@@ -33,28 +30,27 @@ const conflictLoops = ({
   ) {
     const from = cellCentre({ cell: first, size })
     const to = cellCentre({ cell: second, size })
-    const reach = Math.hypot(to.x - from.x, to.y - from.y)
+    const centre = { x: (from.x + to.x) / 2, y: (from.y + to.y) / 2 }
+    const tilt = (Math.atan2(to.y - from.y, to.x - from.x) * 180) / Math.PI
     return [
       {
-        d: pencilLoopPath({
-          radiusX: reach / 2 + CELL_UNITS * 0.58,
-          radiusY: CELL_UNITS * 0.56,
-          seed: 11 + index,
-          tilt: Math.atan2(to.y - from.y, to.x - from.x),
-          x: (from.x + to.x) / 2,
-          y: (from.y + to.y) / 2
+        d: pencilLoop({
+          centre,
+          height: CELL_UNITS * 1.1,
+          seed: index,
+          width: Math.hypot(to.x - from.x, to.y - from.y) + CELL_UNITS * 1.15
         }),
-        key: `touching-${first}-${second}`
+        key: `touching-${first}-${second}`,
+        transform: `rotate(${tilt} ${centre.x} ${centre.y})`
       }
     ]
   }
   return conflict.cells.map((cell) => ({
-    d: pencilLoopPath({
-      radiusX: CELL_UNITS * 0.5,
-      radiusY: CELL_UNITS * 0.48,
-      seed: 20 + cell,
-      tilt: 0.3,
-      ...cellCentre({ cell, size })
+    d: pencilLoop({
+      centre: cellCentre({ cell, size }),
+      height: CELL_UNITS * 0.95,
+      seed: cell,
+      width: CELL_UNITS
     }),
     key: `${conflict.kind}-${cell}`
   }))
@@ -95,11 +91,7 @@ export const PencilMarks: React.FC<{
           return (
             <path
               className='mark star'
-              d={pencilStarPath({
-                radius: CELL_UNITS * 0.34,
-                seed: cell * 7 + 3,
-                ...centre
-              })}
+              d={pencilStar({ cell, centre, radius: CELL_UNITS * 0.34 })}
               key={`star-${cell}`}
               pathLength={1}
             />
@@ -109,11 +101,7 @@ export const PencilMarks: React.FC<{
         return (
           <path
             className='mark cross'
-            d={pencilCrossPath({
-              reach: CELL_UNITS * 0.17,
-              seed: cell * 13 + 1,
-              ...centre
-            })}
+            d={pencilCross({ cell, centre, reach: CELL_UNITS * 0.17 })}
             data-auto={mark === 'cross' ? undefined : true}
             key={`cross-${cell}`}
             pathLength={1}
@@ -124,8 +112,14 @@ export const PencilMarks: React.FC<{
     <g className='conflicts' filter={`url(#${pencilFilterOf(idPrefix)})`}>
       {conflicts
         .flatMap((conflict, index) => conflictLoops({ conflict, index, size }))
-        .map(({ d, key }) => (
-          <path className='mark loop' d={d} key={key} pathLength={1} />
+        .map(({ d, key, transform }) => (
+          <path
+            className='mark loop'
+            d={d}
+            key={key}
+            pathLength={1}
+            transform={transform}
+          />
         ))}
     </g>
   </>

@@ -335,8 +335,9 @@ by **the pencil filter**:
 A pencil mark is a stroked path (`--pencil`, round caps and joins,
 `pathLength="1"`) drawn in on creation: `stroke-dasharray: 1;
 stroke-dashoffset: 1` animated to 0 over `--transition-base` (260 ms) with
-`--ease-out`, static under reduced motion. Hand-drawn shapes are jittered
-from a seed so a mark looks the same on every render.
+`--ease-out`, static under reduced motion. Hand-drawn shapes come from
+rough.js (`roughjs`, one stroke, seeded by the cell) so a mark looks the same
+on every render.
 
 - **Stars** (`--chapter-stars`): 44-unit cells. Each region is a tint of the
   chapter ink — `color-mix(in oklab, var(--chapter-stars) var(--tint-n),
