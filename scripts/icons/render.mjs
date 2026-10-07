@@ -1,4 +1,6 @@
-// Renders the home-screen icons from their SVG sources into public/icons/:
+// Renders the home-screen icons from their SVG sources into public/icons/.
+// favicon.svg is the small-size cut (fewer lines, read at 16 px); icon.svg is
+// the full mark; maskable.svg keeps it inside the 80 % safe zone:
 //
 //   pnpm icons
 
@@ -10,9 +12,13 @@ import sharp from 'sharp'
 const root = fileURLToPath(new URL('../../', import.meta.url))
 
 const ICONS = [
-  { output: 'apple-touch-icon.png', size: 180, source: 'public/favicon.svg' },
-  { output: 'icon-192.png', size: 192, source: 'public/favicon.svg' },
-  { output: 'icon-512.png', size: 512, source: 'public/favicon.svg' },
+  {
+    output: 'apple-touch-icon.png',
+    size: 180,
+    source: 'scripts/icons/icon.svg'
+  },
+  { output: 'icon-192.png', size: 192, source: 'scripts/icons/icon.svg' },
+  { output: 'icon-512.png', size: 512, source: 'scripts/icons/icon.svg' },
   {
     output: 'icon-maskable-512.png',
     size: 512,

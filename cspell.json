@@ -1,17 +1,22 @@
 {
   "$schema": "https://raw.githubusercontent.com/streetsidesoftware/cspell/main/cspell.schema.json",
   "ignorePaths": [
-    "dist",
     "dev-dist",
+    "dist",
     "node_modules",
     "patches",
-    "pnpm-lock.yaml"
+    "pnpm-lock.yaml",
+    "public/fonts/*-OFL.txt"
   ],
   "import": ["@cspell/dict-fr-fr/cspell-ext.json"],
   "language": "en,en-GB",
   "overrides": [
     {
       "filename": "**/i18n/dictionary-fr.ts",
+      "language": "en,en-GB,fr"
+    },
+    {
+      "filename": "DESIGN.md",
       "language": "en,en-GB,fr"
     }
   ],
@@ -20,21 +25,34 @@
     "adrienlcp",
     "Akari",
     "appinstalled",
+    "Archivo",
+    "archivo",
     "beforeinstallprompt",
     "biomejs",
     "esbuild",
+    "Gochi",
     "Hashi",
     "IHDR",
     "Lacourpaille",
+    "librsvg",
+    "metas",
     "noindex",
     "Nonogram",
     "Numberlink",
+    "nums",
+    "oklab",
     "OKLCH",
+    "oklch",
     "picross",
     "precaching",
-    "vite",
     "PRNG",
+    "Récré",
+    "Résolu",
+    "Segoe",
     "Sokoban",
-    "WCAG"
+    "tnum",
+    "vite",
+    "WCAG",
+    "wdth"
   ]
 }

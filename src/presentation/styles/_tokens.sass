@@ -1,0 +1,153 @@
+// The puzzle book's inks. Every colour is `light-dark(<day>, <night>)`: the
+// day book is cool white paper and black ink, the night one the same booklet
+// under a lamp — ink-black paper, chalky lines. The process inks keep their
+// strength in both, a shade deeper at night, and what is printed on them stays
+// near-black. `@adrienlcp/theme-preference/color-scheme.css` picks the side:
+// the system's, unless the player chose one.
+//
+// Sass reads a custom property's value raw, `//` included: every note sits on
+// the line above its token, never after it.
+
+@use '@adrienlcp/styles/tokens'
+
+/// The night book, for the values `light-dark()` cannot carry: the explicit
+/// choice beats the system, as `color-scheme.css` does for colours.
+@mixin night-book
+  @media (prefers-color-scheme: dark)
+    :root:not([data-theme='light'])
+      @content
+
+  :root[data-theme='dark']
+    @content
+
+@layer tokens
+  :root
+    @include tokens.defaults
+
+    // the page
+    --paper: light-dark(oklch(98.5% 0.004 240), oklch(17% 0.008 260))
+    // a page pressed, a folded corner
+    --paper-sunk: light-dark(oklch(94.5% 0.006 240), oklch(22.5% 0.01 260))
+    // a loose sheet laid on the page
+    --sheet: light-dark(oklch(99.8% 0.002 240), oklch(21.5% 0.01 260))
+    // the table around the booklet, past the page's width
+    --desk: light-dark(oklch(93% 0.006 240), oklch(13% 0.006 260))
+
+    // printed ink
+    --ink: light-dark(oklch(20% 0.012 260), oklch(92% 0.014 95))
+    // secondary print: dates, counts, captions
+    --ink-soft: light-dark(oklch(43% 0.012 260), oklch(76% 0.012 95))
+    // thin printed lines between rows and cells
+    --rule: light-dark(oklch(80% 0.008 250), oklch(40% 0.01 260))
+    --rule-strong: var(--ink-soft)
+    // the player's marks: stars, crosses, notes, circled conflicts
+    --pencil: light-dark(oklch(36% 0.008 260), oklch(84% 0.006 260))
+
+    // the four process inks
+    --cyan: light-dark(oklch(73% 0.135 228), oklch(72% 0.12 228))
+    --magenta: light-dark(oklch(63% 0.225 0), oklch(63% 0.2 0))
+    --yellow: light-dark(oklch(88% 0.165 96), oklch(85% 0.145 95))
+    --green: light-dark(oklch(72% 0.15 150), oklch(70% 0.13 150))
+    // text and glyphs printed on a process ink, in both books
+    --cover-ink: oklch(17% 0.012 260)
+
+    // one process ink per chapter: its cover, its header band, its tints
+    --chapter-pipes: var(--cyan)
+    --chapter-solitaire: var(--magenta)
+    --chapter-stars: var(--yellow)
+    --chapter-color-dots: var(--green)
+
+    // water in a connected pipe
+    --water: light-dark(oklch(60% 0.14 232), oklch(74% 0.13 226))
+    // a playing card's face, its black and its red
+    --card: light-dark(oklch(99.5% 0.002 240), oklch(93% 0.01 95))
+    --card-ink: oklch(20% 0.012 260)
+    --card-red: light-dark(oklch(53% 0.21 15), oklch(49% 0.2 15))
+    // the « Résolu » stamp
+    --stamp: light-dark(oklch(53% 0.21 15), oklch(68% 0.19 18))
+    // a region's halftone or hatch, printed over its tint
+    --pattern: light-dark(oklch(20% 0.012 260 / 0.34), oklch(92% 0.014 95 / 0.24))
+    --shadow: light-dark(oklch(20% 0.02 260 / 0.16), oklch(0% 0 0 / 0.5))
+    --focus: var(--ink)
+
+    // a region's tint: color-mix(in oklab, <chapter ink> var(--tint-n), var(--paper))
+    --tint-1: 14%
+    --tint-2: 34%
+    --tint-3: 56%
+    --tint-4: 80%
+
+    --font-print: 'Archivo', 'Archivo fallback', system-ui, sans-serif
+    --font-hand: 'Gochi Hand', 'Gochi Hand fallback', 'Segoe Print', cursive
+
+    --text-masthead: clamp(3.375rem, 17.6vw, 5rem)
+    --text-number-large: 2.75rem
+    --text-cover: 2.5rem
+    --text-stamp: 2.375rem
+    --text-number: 2.125rem
+    --text-hand-large: 1.875rem
+    --text-hand: 1.25rem
+    --text-section: 1.1875rem
+    --text-title: 1.125rem
+    --text-timer: 1.0625rem
+    --text-body: 1rem
+    --text-control: 0.9375rem
+    --text-small: 0.875rem
+    --text-meta: 0.8125rem
+    --text-micro: 0.75rem
+    --text-caps: 0.6875rem
+
+    // Archivo's width axis: the masthead set wide, puzzle numbers and cover
+    // titles condensed, section heads a touch narrow.
+    --stretch-wide: 118%
+    --stretch-tight: 92%
+    --stretch-condensed: 72%
+    --stretch-cover: 70%
+
+    --leading-masthead: 0.86
+    --leading-display: 0.95
+    --leading-body: 1.4
+
+    --tracking-masthead: -0.035em
+    --tracking-number: -0.02em
+    --tracking-caps: 0.07em
+    --tracking-stamp: 0.04em
+
+    --space-4xs: 2px
+    --space-3xs: 4px
+    --space-2xs: 6px
+    --space-xs: 8px
+    --space-s: 12px
+    --space-m: 16px
+    --space-l: 22px
+    --space-xl: 30px
+    --space-2xl: 42px
+    // the page's side margin, at every width
+    --gutter: var(--space-m)
+
+    --radius-card: 5px
+    --radius-stamp: 6px
+
+    --stroke-frame: 2.5px
+    --stroke-heavy: 5px
+    // the line every printed box is drawn with
+    --print-line: var(--stroke-thin) solid var(--ink)
+    --outline-thick: 2.5px
+    --outline-offset: 2px
+
+    --control-height: 48px
+    // the booklet's page: a phone's width, centred on the desk beyond it
+    --sheet-width: 26.875rem
+
+    // a tile turning a quarter
+    --transition-fast: 170ms
+    // a pencil stroke drawn in
+    --transition-base: 260ms
+    // the stamp pressed onto the page
+    --transition-slow: 520ms
+    --ease-out: cubic-bezier(0.16, 1, 0.3, 1)
+
+  @include night-book
+    --tint-1: 9%
+    --tint-2: 18%
+    --tint-3: 28%
+    --tint-4: 38%

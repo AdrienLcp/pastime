@@ -10,6 +10,8 @@ import { useTranslate } from '@/presentation/i18n/i18n-provider'
 
 import { paths, useCurrentPath, useRouteFailure } from './navigation'
 
+import './route-error.sass'
+
 /**
  * The root route's error boundary. It replaces the whole root route, so it
  * draws its own shell; without the router's link provider, the way back is a
@@ -21,7 +23,7 @@ export const ErrorScreen: React.FC = () => {
 
   return (
     <AppShell>
-      <Main>
+      <Main className='route-error'>
         <DocumentTitle>{`${translate('crash.title')} — ${translate('app.name')}`}</DocumentTitle>
         <h1>{translate('crash.title')}</h1>
         <p>{translate('crash.prose')}</p>
@@ -40,7 +42,7 @@ export const NotFoundPage: React.FC = () => {
   const path = useCurrentPath()
 
   return (
-    <Main>
+    <Main className='route-error'>
       <DocumentTitle>{`${translate('notFound.title')} — ${translate('app.name')}`}</DocumentTitle>
       <h1>{translate('notFound.title')}</h1>
       <p>{translate('notFound.prose', { path })}</p>

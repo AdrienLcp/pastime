@@ -1,6 +1,12 @@
 @layer components
   .hub-page
     display: grid
-    place-content: center
-    gap: 0.5rem
-    text-align: center
+    align-content: start
+
+    .tagline
+      max-width: 34ch
+      margin: var(--space-xl) var(--gutter) 0
+      font-size: var(--text-title)
+      font-stretch: var(--stretch-tight)
+      font-weight: 700
+      text-wrap: pretty

@@ -1,0 +1,47 @@
+@use '../../presentation/styles/typography'
+
+@layer components
+  .masthead
+    padding: var(--space-s) var(--gutter) 0
+
+    .ink-bar
+      display: flex
+      gap: var(--space-3xs)
+
+    .ink
+      width: var(--space-s)
+      height: var(--space-xs)
+
+      &.pipes
+        background: var(--chapter-pipes)
+
+      &.solitaire
+        background: var(--chapter-solitaire)
+
+      &.stars
+        background: var(--chapter-stars)
+
+      &.color-dots
+        background: var(--chapter-color-dots)
+
+      &.key
+        background: var(--ink)
+
+    .masthead-title
+      @include typography.masthead
+      margin-top: var(--space-xs)
+
+    // The cover's double rule: a heavy line over a thin one.
+    .masthead-rule
+      margin-top: var(--space-s)
+      padding-top: var(--space-3xs)
+      border-top: var(--stroke-heavy) solid var(--ink)
+      border-bottom: var(--print-line)
+
+    .issue-line
+      @include typography.meta
+      padding-top: var(--space-xs)
+      color: var(--ink-soft)
+
+      &::first-letter
+        text-transform: uppercase

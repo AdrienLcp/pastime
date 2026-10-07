@@ -4,12 +4,13 @@
     <meta charset="UTF-8" />
     <meta content="width=device-width, initial-scale=1.0, viewport-fit=cover" name="viewport" />
     <meta content="Small solo puzzle and card games in one app: no ads, no account, works offline." name="description" />
-    <!-- The page's ground in each palette, and the manifest's colours: if one moves, the others move with it. -->
-    <meta content="#ffffff" data-scheme="light" media="(prefers-color-scheme: light)" name="theme-color" />
-    <meta content="#121212" data-scheme="dark" media="(prefers-color-scheme: dark)" name="theme-color" />
+    <!-- The paper in each book (--paper in _tokens.sass); the manifest holds the night one, and its test checks they agree. -->
+    <meta content="#f8fafd" data-scheme="light" media="(prefers-color-scheme: light)" name="theme-color" />
+    <meta content="#0d1013" data-scheme="dark" media="(prefers-color-scheme: dark)" name="theme-color" />
     <link href="https://pastime.adrienlcp.com/" rel="canonical" />
     <link href="/favicon.svg" rel="icon" type="image/svg+xml" />
     <link href="/icons/apple-touch-icon.png" rel="apple-touch-icon" />
+    <link as="font" crossorigin href="/fonts/archivo-latin.woff2" rel="preload" type="font/woff2" />
     <title>Pastime</title>
     <!--
       A layer's position is fixed where its name first appears, and Vite injects

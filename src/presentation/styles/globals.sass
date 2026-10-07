@@ -1,13 +1,6 @@
 @use '@adrienlcp/styles/reset.css'
 @use '@adrienlcp/styles/reduced-motion.css'
-
-// The ground and the ink stay the system's own until the design direction
-// gives the app its palette.
-@layer base
-  :root
-    color-scheme: light dark
-
-  body
-    background: Canvas
-    color: CanvasText
-    font-family: system-ui, sans-serif
+@use '@adrienlcp/theme-preference/color-scheme.css'
+@use 'fonts'
+@use 'tokens'
+@use 'base'

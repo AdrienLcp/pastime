@@ -1,13 +1,24 @@
 @layer components
   .app-shell
-    min-height: 100dvh
     display: grid
-    grid-template-rows: auto 1fr
-    padding: max(1rem, env(safe-area-inset-top)) max(1rem, env(safe-area-inset-right)) max(1rem, env(safe-area-inset-bottom)) max(1rem, env(safe-area-inset-left))
+    grid-template-rows: auto 1fr auto
+    width: 100%
+    max-width: var(--sheet-width)
+    min-height: 100dvh
+    margin-inline: auto
+    padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left)
+    background: var(--paper)
+    box-shadow: 0 0 0 var(--stroke-hair) var(--rule)
 
     .notices
       display: grid
-      gap: 0.5rem
+      gap: var(--space-xs)
+      padding-inline: var(--gutter)
 
       &:not(:empty)
-        margin-bottom: 1rem
+        padding-block: var(--space-s)
+
+    .colophon
+      margin-top: var(--space-xl)
+      padding: var(--space-m) var(--gutter) var(--space-l)
+      border-top: var(--hairline)

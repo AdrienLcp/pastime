@@ -2,7 +2,7 @@
   "$schema": "https://biomejs.dev/schemas/2.5.14/schema.json",
   "extends": ["@adrienlcp/biome-config", "@adrienlcp/biome-config/react"],
   "files": {
-    "includes": ["!.claude/skills", "!**/dev-dist"]
+    "includes": ["!.claude/skills", "!**/dev-dist", "!.impeccable"]
   },
   "linter": {
     "rules": {

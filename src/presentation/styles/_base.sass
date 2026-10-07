@@ -1,0 +1,28 @@
+@layer base
+  html
+    background: var(--desk)
+
+  body
+    -webkit-font-smoothing: antialiased
+    color: var(--ink)
+    // 'Archivo fallback' is the local face fontaine scales to Archivo's metrics
+    font-family: var(--font-print)
+    font-size: var(--text-body)
+    font-synthesis: none
+    font-variant-numeric: tabular-nums
+    line-height: var(--leading-body)
+
+  :root
+    caret-color: var(--ink)
+    scrollbar-color: var(--ink-soft) var(--paper)
+
+  ::selection
+    background: var(--yellow)
+    color: var(--cover-ink)
+
+  :focus-visible
+    outline: var(--ring)
+    outline-offset: var(--ring-offset)
+
+  a
+    text-underline-offset: var(--underline-offset)

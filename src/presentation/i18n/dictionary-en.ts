@@ -1,4 +1,4 @@
-import { defineDictionary } from '@adrienlcp/i18n'
+import { defineDictionary, defineTranslation } from '@adrienlcp/i18n'
 
 /** Held to the French reference by the registry. */
 export const EN_DICTIONARY = defineDictionary({
@@ -13,6 +13,9 @@ export const EN_DICTIONARY = defineDictionary({
     title: 'Something went wrong'
   },
   hub: {
+    issue: defineTranslation('{day:date}', {
+      date: { day: { day: 'numeric', month: 'long', weekday: 'long' } }
+    }),
     tagline: 'Small solo games. No ads, no account, even offline.'
   },
   notFound: {
@@ -30,5 +33,11 @@ export const EN_DICTIONARY = defineDictionary({
       action: 'Reload',
       text: 'A new version is ready.'
     }
+  },
+  theme: {
+    dark: 'Dark',
+    label: 'Theme',
+    light: 'Light',
+    system: 'Auto'
   }
 })

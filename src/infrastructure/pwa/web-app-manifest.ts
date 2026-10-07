@@ -1,12 +1,12 @@
 import type { ManifestOptions } from 'vite-plugin-pwa'
 
 /**
- * What the browser installs. The colours are the dark ground `index.html`
+ * What the browser installs. The colours are the night paper `index.html`
  * announces: the splash screen and the title bar a phone paints before the
  * first frame. No `@/` import, so `vite.config.ts` can load it.
  */
 export const webAppManifest: Partial<ManifestOptions> = {
-  background_color: '#121212',
+  background_color: '#0d1013',
   categories: ['games', 'entertainment'],
   description:
     'Small solo puzzle and card games in one app: no ads, no account, works offline.',
@@ -38,5 +38,5 @@ export const webAppManifest: Partial<ManifestOptions> = {
   scope: '/',
   short_name: 'Pastime',
   start_url: '/',
-  theme_color: '#121212'
+  theme_color: '#0d1013'
 }
