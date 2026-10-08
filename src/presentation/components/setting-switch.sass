@@ -1,0 +1,53 @@
+@use '../styles/typography'
+
+@layer components
+  .setting-switch
+    display: flex
+    align-items: center
+    justify-content: space-between
+    gap: var(--space-m)
+    min-height: var(--target)
+    cursor: pointer
+
+    &[data-focus-visible] .switch-track
+      outline: var(--ring)
+      outline-offset: var(--ring-offset)
+
+    &[data-pressed] .switch-track
+      background: var(--paper-sunk)
+
+    &[data-selected] .switch-track
+      background: var(--ink)
+
+    &[data-selected][data-pressed] .switch-track
+      background: var(--ink-soft)
+
+    &[data-selected] .switch-knob
+      translate: 100% 0
+      background: var(--paper)
+
+  .switch-text
+    display: grid
+
+  .switch-label
+    @include typography.control
+
+  .switch-prose
+    font-size: var(--text-small)
+    color: var(--ink-soft)
+
+  // A printed box the knob slides across: on, the box is inked full.
+  .switch-track
+    flex: none
+    display: flex
+    width: calc(2 * var(--space-xl))
+    height: var(--space-xl)
+    padding: var(--space-3xs)
+    border: var(--print-line)
+    transition: background-color var(--transition-fast, 0s)
+
+  .switch-knob
+    width: 50%
+    height: 100%
+    background: var(--ink)
+    transition: translate var(--transition-fast, 0s) var(--ease-out), background-color var(--transition-fast, 0s)

@@ -98,7 +98,7 @@ installed app may still hold, redirects to the game.
 
 
 A puzzle is `(game, variant, seed)`: a new level's seed is 32 random bits,
-kept in the save so a resumed game and a replay print the same board.
+kept in the save so a resumed game prints the same board.
 
 ## Generation
 

@@ -38,7 +38,7 @@ export const PlaySession = <Level, State, Move, Hint>({
   const translate = useTranslate()
   const session = usePlaySession(play)
   usePrintAhead(play)
-  const { Board, hintKey } = play.module
+  const { Board, hintKey, Options } = play.module
   const { game, puzzle } = play
   /** The variant picked in the open choice; `null` while the tools show. */
   const [pickedVariantId, setPickedVariantId] = useState<string | null>(null)
@@ -103,11 +103,7 @@ export const PlaySession = <Level, State, Move, Hint>({
             </div>
           </div>
           <div className='play-panel'>
-            <WinSheet
-              game={game}
-              onReplay={session.replay}
-              summary={session.win}
-            />
+            <WinSheet game={game} summary={session.win} />
           </div>
         </>
       ) : (
@@ -139,6 +135,7 @@ export const PlaySession = <Level, State, Move, Hint>({
                 game={game}
                 hasProgress={session.canUndo}
                 newLevelLabel={newLevelLabel}
+                Options={Options}
                 onClose={() => setPickedVariantId(null)}
                 onPick={setPickedVariantId}
                 onPlay={playPicked}
@@ -148,6 +145,7 @@ export const PlaySession = <Level, State, Move, Hint>({
               <GameTools
                 canHint={session.status !== 'lost'}
                 canUndo={session.canUndo}
+                hasOptions={Options !== undefined}
                 isPaused={session.status === 'paused'}
                 newLevelLabel={newLevelLabel}
                 onChooseVariant={() => setPickedVariantId(puzzle.variantId)}

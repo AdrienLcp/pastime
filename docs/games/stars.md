@@ -55,7 +55,8 @@ marks keep 3:1 contrast on all of them. Regions are coloured as a graph
 and with no more regions than inks every region gets its own, the one that
 looks furthest from its coloured neighbours; past twelve regions (13×13,
 15×15) an ink comes back, never on two bordering regions.
-Auto-cross is a play setting (`autoCross`, on by default) and only draws:
+Auto-cross is a play setting (`autoCross`, on by default), switched from the
+game's own settings panel, and only draws:
 the crosses it adds are derived from the stars, lighter than the player's,
 and vanish with the star — they are never moves, so undo never sees them.
 

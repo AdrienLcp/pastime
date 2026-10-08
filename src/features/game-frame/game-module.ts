@@ -63,6 +63,11 @@ export type GameModule<Level, State, Move, Hint> = {
    * once the player has seen it happen. Told at once when left out.
    */
   readonly lossSeenInMs?: (state: State) => number
+  /**
+   * The game's own settings, under its variants: the tool that opens them is
+   * then named as settings. A game with none leaves it out.
+   */
+  readonly Options?: React.FC
 }
 
 /**

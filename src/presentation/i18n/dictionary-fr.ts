@@ -55,6 +55,7 @@ export const FR_DICTIONARY = defineDictionary({
       label: 'Outils',
       newLevel: 'Nouvelle partie',
       newLevelConfirm: 'Abandonner ?',
+      settings: 'Réglages',
       undo: 'Annuler'
     },
     win: {
@@ -66,7 +67,6 @@ export const FR_DICTIONARY = defineDictionary({
       newBest: 'nouveau record !',
       next: 'Nouvelle partie',
       points: '{points:number}',
-      replay: 'Rejouer',
       score: 'Points',
       stamp: 'Résolu',
       time: 'Temps',
@@ -202,6 +202,10 @@ export const FR_DICTIONARY = defineDictionary({
       }
     },
     stars: {
+      autoCross: {
+        label: 'Croix automatiques',
+        prose: 'Les cases qu’une étoile exclut se barrent toutes seules.'
+      },
       board: 'Grille Étoiles {size:number} par {size:number}',
       cell: 'Ligne {row:number}, colonne {column:number}, région {region:number}',
       conflicts: {
@@ -287,10 +291,6 @@ export const FR_DICTIONARY = defineDictionary({
     }
   },
   settings: {
-    autoCross: {
-      label: 'Croix automatiques',
-      prose: 'Les cases qu’une étoile exclut se barrent toutes seules.'
-    },
     backup: {
       cancel: 'Garder mes données',
       confirm: 'Tout remplacer',

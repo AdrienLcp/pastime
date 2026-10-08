@@ -52,6 +52,7 @@ export const EN_DICTIONARY = defineDictionary({
       label: 'Tools',
       newLevel: 'New game',
       newLevelConfirm: 'Give up?',
+      settings: 'Settings',
       undo: 'Undo'
     },
     win: {
@@ -63,7 +64,6 @@ export const EN_DICTIONARY = defineDictionary({
       newBest: 'new best!',
       next: 'New game',
       points: '{points:number}',
-      replay: 'Play again',
       score: 'Points',
       stamp: 'Solved',
       time: 'Time',
@@ -195,6 +195,10 @@ export const EN_DICTIONARY = defineDictionary({
       }
     },
     stars: {
+      autoCross: {
+        label: 'Automatic crosses',
+        prose: 'The cells a star rules out cross themselves.'
+      },
       board: 'Stars grid, {size:number} by {size:number}',
       cell: 'Row {row:number}, column {column:number}, region {region:number}',
       conflicts: {
@@ -278,10 +282,6 @@ export const EN_DICTIONARY = defineDictionary({
     }
   },
   settings: {
-    autoCross: {
-      label: 'Automatic crosses',
-      prose: 'The cells a star rules out cross themselves.'
-    },
     backup: {
       cancel: 'Keep my data',
       confirm: 'Replace everything',

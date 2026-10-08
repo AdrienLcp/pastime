@@ -4,7 +4,7 @@ import { seedFromText } from '@/helpers/seeded-random'
 
 /**
  * Which level is on the page. A new one gets a seed drawn at random; it is
- * kept in the save, so a resumed game and a replay print the same board.
+ * kept in the save, so a resumed game prints the same board.
  */
 export const puzzleRefSchema = z.object({
   gameId: z.string(),

@@ -16,7 +16,6 @@ import {
   currentBoard,
   type GameSession,
   playMove,
-  startSession,
   undoMove
 } from '../game-session'
 import { dropSavedGame, saveGame, saveWin } from '../game-storage'
@@ -49,7 +48,6 @@ export type PlaySessionControls<State, Move, Hint> = {
   readonly showHint: () => void
   readonly pause: () => void
   readonly resume: () => void
-  readonly replay: () => void
 }
 
 /**
@@ -187,12 +185,6 @@ export const usePlaySession = <Level, State, Move, Hint>(
       if (status !== 'playing') return
       setStatus('paused')
       save(session)
-    },
-    replay: () => {
-      const fresh = startSession(engine, session.level)
-      clock.restartAt(0)
-      setWin(null)
-      change(fresh)
     },
     resume: () => {
       if (status === 'paused') setStatus('playing')

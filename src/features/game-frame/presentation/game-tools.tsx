@@ -4,6 +4,7 @@ import { Button } from '@/presentation/components/button'
 import {
   HintIcon,
   NewLevelIcon,
+  SettingsIcon,
   UndoIcon,
   VariantIcon
 } from '@/presentation/components/icons'
@@ -28,6 +29,8 @@ type GameToolsProps = {
   onNewLevel: () => void
   /** What the variants differ by — « Taille », « Donne » — naming the tool that changes it. */
   variantLabel: PlainTranslationKey
+  /** The game has settings of its own: the tool opens them with the variants, and says so. */
+  hasOptions: boolean
   /** Opens the choice of another variant, in place of the tools. */
   onChooseVariant: () => void
 }
@@ -36,6 +39,7 @@ type GameToolsProps = {
 export const GameTools: React.FC<GameToolsProps> = ({
   canHint,
   canUndo,
+  hasOptions,
   isPaused,
   newLevelLabel,
   onChooseVariant,
@@ -77,8 +81,12 @@ export const GameTools: React.FC<GameToolsProps> = ({
         )}
       </Button>
       <Button className='tool' isDisabled={isPaused} onPress={onChooseVariant}>
-        <VariantIcon aria-hidden='true' />
-        {translate(variantLabel)}
+        {hasOptions ? (
+          <SettingsIcon aria-hidden='true' />
+        ) : (
+          <VariantIcon aria-hidden='true' />
+        )}
+        {translate(hasOptions ? 'frame.tools.settings' : variantLabel)}
       </Button>
     </nav>
   )

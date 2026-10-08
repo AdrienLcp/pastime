@@ -60,6 +60,13 @@
 
       @include focus.ring-inset
 
+    // Ruled off from the variants: a setting applies at once, not on « play ».
+    .game-options
+      display: grid
+      gap: var(--space-s)
+      padding-block: var(--space-2xs)
+      border-block: var(--hairline)
+
     .variant-note
       @include typography.choice-note
 
@@ -78,6 +85,13 @@
     @include layout.spread
       gap: var(--space-m)
       padding: var(--space-m) var(--space-xl) var(--space-xl)
+
+      // Five sizes on one row of the right page's narrow column.
+      .variant-options
+        grid-template-columns: repeat(auto-fit, minmax(3rem, 1fr))
+
+      .variant-options:not([data-wide]) .variant-option
+        padding-inline: var(--space-3xs)
 
       .variant-actions
         grid-template-columns: minmax(0, 1fr)

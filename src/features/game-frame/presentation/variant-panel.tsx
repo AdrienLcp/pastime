@@ -23,11 +23,13 @@ type VariantPanelProps = {
   /** Starts a level of the picked variant. */
   onPlay: () => void
   onClose: () => void
+  /** The game's own settings, under the variants. */
+  Options?: React.FC
 }
 
 /**
  * Another size, deal or difficulty, chosen in place of the tools while the
- * board stays on the page.
+ * board stays on the page; then the game's own settings, if it has any.
  */
 export const VariantPanel: React.FC<VariantPanelProps> = ({
   game,
@@ -36,15 +38,18 @@ export const VariantPanel: React.FC<VariantPanelProps> = ({
   onClose,
   onPick,
   onPlay,
+  Options,
   pickedId
 }) => {
   const translate = useTranslate()
   const play = useConfirmedNewLevel({ hasProgress, onNewLevel: onPlay })
   const hasNotes = game.variants.some((each) => each.note !== undefined)
+  const panelLabel =
+    Options === undefined ? game.variantChoice : 'frame.tools.settings'
 
   return (
     <section
-      aria-label={translate(game.variantChoice)}
+      aria-label={translate(panelLabel)}
       className='variant-panel'
       onKeyDown={(event) => {
         if (event.key === 'Escape') onClose()
@@ -68,6 +73,12 @@ export const VariantPanel: React.FC<VariantPanelProps> = ({
           ))}
         </div>
       </RadioGroup>
+
+      {Options !== undefined && (
+        <div className='game-options'>
+          <Options />
+        </div>
+      )}
 
       <div className='variant-actions'>
         <Button

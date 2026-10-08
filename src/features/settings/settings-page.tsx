@@ -15,7 +15,7 @@ import {
 import { Link } from '@/presentation/components/link'
 import { Main } from '@/presentation/components/main'
 import { SegmentedChoice } from '@/presentation/components/segmented-choice'
-import { Switch } from '@/presentation/components/switch'
+import { SettingSwitch } from '@/presentation/components/setting-switch'
 import { DocumentTitle } from '@/presentation/head/document-title'
 import { useI18n } from '@/presentation/i18n/i18n-provider'
 import { LOCALES, type Locale } from '@/presentation/i18n/locale'
@@ -25,30 +25,6 @@ import { useBackup } from './use-backup'
 import { changePlaySettings, usePlaySettings } from './use-play-settings'
 
 import './settings-page.sass'
-
-type SettingSwitchProps = {
-  label: string
-  prose: string
-  isOn: boolean
-  onChange: (isOn: boolean) => void
-}
-
-const SettingSwitch: React.FC<SettingSwitchProps> = ({
-  isOn,
-  label,
-  onChange,
-  prose
-}) => (
-  <Switch className='setting-switch' isSelected={isOn} onChange={onChange}>
-    <span className='switch-text'>
-      <span className='switch-label'>{label}</span>
-      <span className='switch-prose'>{prose}</span>
-    </span>
-    <span aria-hidden='true' className='switch-track'>
-      <span className='switch-knob' />
-    </span>
-  </Switch>
-)
 
 const pickedFile = (files: FileList | null): File | null =>
   files?.item(0) ?? null
@@ -87,12 +63,6 @@ export const SettingsPage: React.FC = () => {
           label={translate('settings.haptics.label')}
           onChange={(haptics) => changePlaySettings({ haptics })}
           prose={translate('settings.haptics.prose')}
-        />
-        <SettingSwitch
-          isOn={settings.autoCross}
-          label={translate('settings.autoCross.label')}
-          onChange={(autoCross) => changePlaySettings({ autoCross })}
-          prose={translate('settings.autoCross.prose')}
         />
       </div>
 
