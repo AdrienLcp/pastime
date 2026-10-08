@@ -1,15 +1,23 @@
+import { useState } from 'react'
+
 import { Main } from '@/presentation/components/main'
 import { DocumentTitle } from '@/presentation/head/document-title'
 import { useTranslate } from '@/presentation/i18n/i18n-provider'
 
 import type { PreparedPlay } from '../game-loader'
+import { variantOf } from '../game-registry'
+import { saveVariantPreference } from '../game-storage'
 import { GameBand } from './game-band'
 import { GameClock } from './game-clock'
+import { GameScore } from './game-score'
 import { GameTools } from './game-tools'
 import { HintNote, LostNote } from './hint-note'
 import { PauseCover } from './pause-cover'
 import { usePlaySession } from './use-play-session'
-import { WinSheet } from './win-sheet'
+import { usePrintAhead } from './use-print-ahead'
+import { VariantPanel } from './variant-panel'
+import { VariantPreview } from './variant-preview'
+import { WinPlate, WinSheet } from './win-sheet'
 
 import './play-session.sass'
 
@@ -19,14 +27,35 @@ type PlaySessionProps<Level, State, Move, Hint> = {
   play: PreparedPlay<Level, State, Move, Hint>
 }
 
-/** One puzzle on the page: its band, its board, its tools, then its stamp. */
+/**
+ * One puzzle on the page: its band, its board, its tools, then its stamp. A
+ * phone stacks them; a spread puts the board on the left page and the band
+ * over the tools, or the score, on the right.
+ */
 export const PlaySession = <Level, State, Move, Hint>({
   play
 }: PlaySessionProps<Level, State, Move, Hint>) => {
   const translate = useTranslate()
   const session = usePlaySession(play)
-  const { Board, hintKey } = play.module
+  usePrintAhead(play)
+  const { Board, hintKey, Options } = play.module
   const { game, puzzle } = play
+  /** The variant picked in the open choice; `null` while the tools show. */
+  const [pickedVariantId, setPickedVariantId] = useState<string | null>(null)
+  const pickedVariant =
+    pickedVariantId === null
+      ? null
+      : variantOf({ game, variantId: pickedVariantId })
+  const previewSize =
+    pickedVariant !== null && pickedVariant.id !== puzzle.variantId
+      ? (pickedVariant.gridSize ?? null)
+      : null
+  const newLevelLabel = game.newLevelLabel ?? 'frame.tools.newLevel'
+  const playPicked = () => {
+    if (pickedVariantId === null) return
+    saveVariantPreference({ gameId: game.id, variantId: pickedVariantId })
+    session.newLevel()
+  }
   const hint =
     session.shownHint?.kind === 'step' ? session.shownHint.hint : null
   const explanation =
@@ -42,9 +71,12 @@ export const PlaySession = <Level, State, Move, Hint>({
       style={{ '--chapter': `var(${game.chapterInk})` }}
     >
       <DocumentTitle>
-        {`${translate('common.puzzleNumber')} ${puzzle.number} · ${translate(game.name)} — ${translate('app.name')}`}
+        {`${translate(game.name)} — ${translate('app.name')}`}
       </DocumentTitle>
-      <GameBand game={game} puzzle={puzzle}>
+      <GameBand game={game}>
+        {session.status !== 'won' && session.score !== null && (
+          <GameScore points={session.score} />
+        )}
         {session.status !== 'won' && (
           <GameClock
             clock={session.clock}
@@ -57,47 +89,73 @@ export const PlaySession = <Level, State, Move, Hint>({
       </GameBand>
 
       {session.status === 'won' && session.win !== null ? (
-        <WinSheet
-          game={game}
-          onReplay={session.replay}
-          plate={
-            <Board
-              hint={null}
-              isLocked
-              onMove={ignoreMove}
-              state={session.board}
-            />
-          }
-          puzzle={puzzle}
-          summary={session.win}
-        />
+        <>
+          <div className='stage-wrap'>
+            <div className='board-area'>
+              <WinPlate>
+                <Board
+                  hint={null}
+                  isLocked
+                  onMove={ignoreMove}
+                  state={session.board}
+                />
+              </WinPlate>
+            </div>
+          </div>
+          <div className='play-panel'>
+            <WinSheet game={game} summary={session.win} />
+          </div>
+        </>
       ) : (
         <>
-          <div className='board-area'>
-            {session.status === 'paused' ? (
-              <PauseCover onResume={session.resume} />
+          <div className='stage-wrap'>
+            <div className='board-area'>
+              {session.status === 'paused' ? (
+                <PauseCover onResume={session.resume} />
+              ) : previewSize !== null ? (
+                <VariantPreview gridSize={previewSize} />
+              ) : (
+                <Board
+                  hint={hint}
+                  isLocked={session.status === 'lost'}
+                  onMove={session.move}
+                  state={session.board}
+                />
+              )}
+            </div>
+            {session.status === 'lost' && session.isLossTold ? (
+              <LostNote />
             ) : (
-              <Board
-                hint={hint}
-                isLocked={session.status === 'lost'}
-                onMove={session.move}
-                state={session.board}
+              <HintNote explanation={explanation} />
+            )}
+          </div>
+          <div className='play-panel'>
+            {pickedVariantId !== null && session.status !== 'paused' ? (
+              <VariantPanel
+                game={game}
+                hasProgress={session.canUndo}
+                newLevelLabel={newLevelLabel}
+                Options={Options}
+                onClose={() => setPickedVariantId(null)}
+                onPick={setPickedVariantId}
+                onPlay={playPicked}
+                pickedId={pickedVariantId}
+              />
+            ) : (
+              <GameTools
+                canHint={session.status !== 'lost'}
+                canUndo={session.canUndo}
+                hasOptions={Options !== undefined}
+                isPaused={session.status === 'paused'}
+                newLevelLabel={newLevelLabel}
+                onChooseVariant={() => setPickedVariantId(puzzle.variantId)}
+                onHint={session.showHint}
+                onNewLevel={session.newLevel}
+                onUndo={session.undo}
+                variantLabel={game.variantChoice}
               />
             )}
           </div>
-          {session.status === 'lost' ? (
-            <LostNote />
-          ) : (
-            <HintNote explanation={explanation} />
-          )}
-          <GameTools
-            canHint={session.status !== 'lost'}
-            canUndo={session.canUndo}
-            isPaused={session.status === 'paused'}
-            onHint={session.showHint}
-            onRestart={session.restart}
-            onUndo={session.undo}
-          />
         </>
       )}
     </Main>

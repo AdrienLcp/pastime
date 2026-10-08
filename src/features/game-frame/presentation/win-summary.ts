@@ -1,8 +1,3 @@
-import { today } from '@/infrastructure/clock'
-
-import { readPlayRecordOrEmpty } from '../game-storage'
-import { dailyStreak, variantRecordOf } from '../play-record'
-
 /** This game's moves against the fewest, printed for games that count them. */
 export type MovesSummary = {
   readonly count: number
@@ -12,32 +7,50 @@ export type MovesSummary = {
   readonly isNewFewest: boolean
 }
 
-/** What the win screen prints: this time against the best, and the streak. */
+/** This game's points, its time bonus within them, against the best score. */
+export type ScoreSummary = {
+  readonly total: number
+  readonly timeBonus: number
+  readonly best: number
+  /** The best score this one beat, struck through; `null` when it did not beat one. */
+  readonly beatenBest: number | null
+  readonly isNewBest: boolean
+}
+
+/** What the win screen prints: this time against the best. */
 export type WinSummary = {
   readonly elapsedMs: number
   readonly bestMs: number | null
   /** The best this time beat, struck through on the page; `null` when it did not beat one. */
   readonly beatenBestMs: number | null
   readonly isNewBest: boolean
-  /** `null` for a daily solved earlier today: its moves were not kept. */
-  readonly moves: MovesSummary | null
-  readonly streak: number
+  readonly moves: MovesSummary
+  /** `null` for a game without points. */
+  readonly score: ScoreSummary | null
 }
+
+export type WonScore = { readonly total: number; readonly timeBonus: number }
 
 export const winSummaryOf = ({
   elapsedMs,
   isNewBest,
+  isNewBestScore,
   isNewFewestMoves,
   moveCount,
   previousBestMs,
-  previousFewestMoves
+  previousBestScore,
+  previousFewestMoves,
+  score
 }: {
   elapsedMs: number
   moveCount: number
+  score: WonScore | null
   isNewBest: boolean
   previousBestMs: number | null
   isNewFewestMoves: boolean
   previousFewestMoves: number | null
+  isNewBestScore: boolean
+  previousBestScore: number | null
 }): WinSummary => ({
   beatenBestMs: isNewBest ? previousBestMs : null,
   bestMs: isNewBest ? elapsedMs : previousBestMs,
@@ -49,26 +62,16 @@ export const winSummaryOf = ({
     fewest: isNewFewestMoves ? moveCount : (previousFewestMoves ?? moveCount),
     isNewFewest: isNewFewestMoves
   },
-  streak: dailyStreak({ record: readPlayRecordOrEmpty(), today: today() })
+  score:
+    score === null
+      ? null
+      : {
+          beatenBest: isNewBestScore ? previousBestScore : null,
+          best: isNewBestScore
+            ? score.total
+            : (previousBestScore ?? score.total),
+          isNewBest: isNewBestScore,
+          timeBonus: score.timeBonus,
+          total: score.total
+        }
 })
-
-/** A daily solved earlier today, summed up again from the record. */
-export const pastWinSummary = ({
-  elapsedMs,
-  gameId,
-  variantId
-}: {
-  elapsedMs: number
-  gameId: string
-  variantId: string
-}): WinSummary => {
-  const record = readPlayRecordOrEmpty()
-  return {
-    beatenBestMs: null,
-    bestMs: variantRecordOf({ gameId, record, variantId }).bestMs,
-    elapsedMs,
-    isNewBest: false,
-    moves: null,
-    streak: dailyStreak({ record, today: today() })
-  }
-}

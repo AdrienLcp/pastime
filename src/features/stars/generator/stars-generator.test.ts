@@ -8,52 +8,52 @@ import { STARS_VARIANTS } from '../engine/stars-variants'
 import { solveStars } from '../solver/stars-solver'
 import { generateStars } from './stars-generator'
 
-const SEEDS_PER_VARIANT = 200
+/** Fewer seeds on the large grids, whose generation and brute-force check take longer. */
+const seedsFor = (size: number) => (size <= 10 ? 200 : 30)
 
 /**
  * Plain backtracking, row by row, written apart from the solver so it can
  * check it: how many solutions the puzzle has, counting no further than two.
  */
-const countSolutions = ({ regions, size, starsPerUnit }: StarsPuzzle) => {
-  const inColumn = Array<number>(size).fill(0)
-  const inRegion = Array<number>(size).fill(0)
+const countSolutions = ({ regions, size }: StarsPuzzle) => {
+  const isColumnTaken = Array<boolean>(size).fill(false)
+  const isRegionTaken = Array<boolean>(size).fill(false)
   const stars: number[] = []
   let found = 0
 
-  const placeInRow = (row: number, fromColumn: number, placed: number) => {
+  const placeInRow = (row: number) => {
     if (found > 1) return
-    if (placed === starsPerUnit) {
-      if (row === size - 1) found++
-      else placeInRow(row + 1, 0, 0)
+    if (row === size) {
+      found++
       return
     }
-    for (let column = fromColumn; column < size; column++) {
+    for (let column = 0; column < size; column++) {
       const cell = row * size + column
       const region = regions[cell] ?? 0
       const fits =
-        (inColumn[column] ?? 0) < starsPerUnit &&
-        (inRegion[region] ?? 0) < starsPerUnit &&
+        !isColumnTaken[column] &&
+        !isRegionTaken[region] &&
         stars.every((star) => !areTouching({ first: star, second: cell, size }))
       if (!fits) continue
-      inColumn[column] = (inColumn[column] ?? 0) + 1
-      inRegion[region] = (inRegion[region] ?? 0) + 1
+      isColumnTaken[column] = true
+      isRegionTaken[region] = true
       stars.push(cell)
-      placeInRow(row, column + 1, placed + 1)
+      placeInRow(row + 1)
       stars.pop()
-      inColumn[column] = (inColumn[column] ?? 0) - 1
-      inRegion[region] = (inRegion[region] ?? 0) - 1
+      isColumnTaken[column] = false
+      isRegionTaken[region] = false
     }
   }
 
-  placeInRow(0, 0, 0)
+  placeInRow(0)
   return found
 }
 
 describe('stars generator', () => {
-  it.each(Object.keys(STARS_VARIANTS))(
+  it.each(Object.entries(STARS_VARIANTS))(
     '[stars] prints only grids with one solution, found without guessing (%s)',
-    (variantId) => {
-      for (let seed = 0; seed < SEEDS_PER_VARIANT; seed++) {
+    (variantId, { size }) => {
+      for (let seed = 0; seed < seedsFor(size); seed++) {
         const generated = generateStars({
           random: createSeededRandom(seed),
           variantId
@@ -77,7 +77,7 @@ describe('stars generator', () => {
 
   it('[stars] gives up on a variant it does not print', () => {
     expect(
-      generateStars({ random: createSeededRandom(1), variantId: '13' }).status
+      generateStars({ random: createSeededRandom(1), variantId: '16' }).status
     ).toBe('failure')
   })
 })

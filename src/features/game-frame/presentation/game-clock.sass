@@ -1,10 +1,14 @@
 @use '../../../presentation/styles/typography'
 @use '../../../presentation/styles/focus'
+@use '../../../presentation/styles/layout'
 
 @layer components
   .game-clock
     display: flex
     align-items: center
+
+    .clock-label
+      display: none
 
     .clock-face
       min-width: 4ch
@@ -24,4 +28,39 @@
       &[data-pressed]
         background: color-mix(in oklab, var(--cover-ink) 12%, var(--chapter))
 
+      @media (hover: hover)
+        &[data-hovered]
+          background: color-mix(in oklab, var(--cover-ink) 10%, var(--chapter))
+
       @include focus.ring-inset
+
+    @include layout.spread
+      display: grid
+      grid-template-columns: minmax(0, 1fr) auto
+      align-items: end
+      margin-top: var(--space-l)
+      padding-top: var(--space-s)
+      border-top: var(--stroke-heavy) solid var(--cover-ink)
+
+      .clock-label
+        display: block
+        grid-column: 1 / -1
+        @include typography.caps
+
+      .clock-face
+        @include typography.spread-timer
+        text-align: left
+
+      .clock-toggle
+        border: var(--stroke-thin) solid var(--cover-ink)
+
+    @include layout.short-spread
+      margin-top: var(--space-2xs)
+      padding-top: var(--space-2xs)
+
+      .clock-face
+        font-size: 2rem
+
+      .clock-toggle
+        width: var(--target)
+        height: var(--target)

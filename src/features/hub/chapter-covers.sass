@@ -1,5 +1,6 @@
 @use '../../presentation/styles/typography'
 @use '../../presentation/styles/focus'
+@use '../../presentation/styles/layout'
 
 @layer components
   .chapter-covers
@@ -23,6 +24,10 @@
 
       &[data-pressed]
         background: color-mix(in oklab, var(--cover-ink) 10%, var(--chapter))
+
+      @media (hover: hover)
+        &[data-hovered]
+          background: color-mix(in oklab, var(--cover-ink) 8%, var(--chapter))
 
       @include focus.ring-inset
 
@@ -50,3 +55,62 @@
       svg
         width: 100%
         height: 100%
+
+    // Opened wider, the covers lie two by two, each a page of its own: the
+    // title and rule at its head, the mark run large off its corner.
+    @include layout.open-page
+      display: grid
+      grid-template-columns: repeat(2, minmax(0, 1fr))
+      grid-auto-rows: minmax(14rem, 1fr)
+      gap: var(--stroke-bold)
+
+      li + li
+        border-top: 0
+
+      .chapter-cover
+        align-content: start
+        gap: var(--space-xs)
+        height: 100%
+        padding: var(--space-xl) 42% var(--space-xl) var(--space-xl)
+
+      .cover-title
+        font-size: clamp(2.5rem, 4.4vw, 4rem)
+
+      .cover-rule
+        font-size: var(--text-m)
+
+      .cover-meta
+        position: absolute
+        bottom: var(--space-l)
+        left: var(--space-xl)
+
+      .cover-glyph
+        top: auto
+        right: -6%
+        bottom: -12%
+        width: auto
+        height: 82%
+        translate: none
+
+    // A phone held sideways: the covers stand side by side, as tall as the
+    // screen leaves under the masthead.
+    @include layout.short-spread
+      grid-template-columns: repeat(auto-fit, minmax(10.5rem, 1fr))
+      grid-auto-rows: minmax(0, 1fr)
+
+      .chapter-cover
+        gap: var(--space-2xs)
+        padding: var(--space-m)
+
+      .cover-title
+        font-size: 1.75rem
+
+      .cover-rule
+        font-size: var(--text-xs)
+
+      .cover-meta
+        bottom: var(--space-s)
+        left: var(--space-m)
+
+      .cover-glyph
+        height: 50%

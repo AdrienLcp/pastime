@@ -42,6 +42,8 @@
     --magenta: light-dark(oklch(63% 0.225 0), oklch(63% 0.2 0))
     --yellow: light-dark(oklch(88% 0.165 96), oklch(85% 0.145 95))
     --green: light-dark(oklch(72% 0.15 150), oklch(70% 0.13 150))
+    // Color Dots' fifth ball: no chapter of its own
+    --orange: light-dark(oklch(74% 0.16 55), oklch(72% 0.145 55))
     // text and glyphs printed on a process ink, in both books
     --cover-ink: oklch(17% 0.012 260)
 
@@ -59,12 +61,8 @@
     --card-red: light-dark(oklch(53% 0.21 15), oklch(49% 0.2 15))
     // the « Résolu » stamp
     --stamp: light-dark(oklch(53% 0.21 15), oklch(68% 0.19 18))
-    // a region's halftone or hatch, printed over its tint
-    --pattern: light-dark(oklch(20% 0.012 260 / 0.34), oklch(92% 0.014 95 / 0.24))
     --shadow-ink: light-dark(oklch(20% 0.02 260 / 0.16), oklch(0% 0 0 / 0.5))
-    // a loose sheet lifted off the page: a filter, so a clipped corner shadows too
-    --shadow-lift: drop-shadow(0 4px 8px var(--shadow-ink))
-    // a card held under the finger, a little higher than a loose sheet
+    // a card held under the finger
     --shadow-held: drop-shadow(0 6px 8px var(--shadow-ink))
     // the booklet's edge on the desk: a hairline, not a lift
     --shadow-sheet: 0 0 0 var(--stroke-hair) var(--rule)
@@ -72,17 +70,13 @@
     --selection: light-dark(oklch(88% 0.165 96), oklch(42% 0.085 95))
     --focus: var(--ink)
 
-    // a region's tint: color-mix(in oklab, <chapter ink> <one of these>, var(--paper))
-    --tint-1: 14%
-    --tint-2: 34%
-    --tint-3: 56%
-    --tint-4: 80%
+    // a chapter ink washed over the paper: color-mix(in oklab, <chapter ink> var(--tint), var(--paper))
+    --tint: 34%
 
     --font-print: 'Archivo', 'Archivo fallback', system-ui, sans-serif
     --font-hand: 'Gochi Hand', 'Gochi Hand fallback', 'Segoe Print', cursive
 
     --text-masthead: #{sizes.fluid(3.375rem, 5rem, $from: 19.175rem, $to: 28.4rem)}
-    --text-number-large: 2.75rem
     --text-cover: 2.5rem
     --text-stamp: 2.375rem
     --text-number: 2.125rem
@@ -104,7 +98,6 @@
     --stretch-tight: 92%
     --stretch-condensed: 72%
     --stretch-cover: 70%
-    --stretch-listing: 75%
     --stretch-stamp: 78%
     --stretch-timer: 90%
     --stretch-card: 78%
@@ -119,7 +112,6 @@
     --tracking-section: -0.01em
     --tracking-caps: 0.07em
     --tracking-stamp: 0.04em
-    --tracking-stamp-number: 0.06em
 
     // a sentence on a cover or a pause sheet; a paragraph of explanation
     --measure-short: 30ch
@@ -172,7 +164,4 @@
     --flow-step: calc(var(--transition-fast) / 6)
 
   @include scheme.dark
-    --tint-1: 9%
-    --tint-2: 18%
-    --tint-3: 28%
-    --tint-4: 38%
+    --tint: 18%

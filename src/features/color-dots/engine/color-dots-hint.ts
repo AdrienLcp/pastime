@@ -26,7 +26,7 @@ const solverOf = (level: ColorDotsLevel): ColorDotsSolver => {
 export const colorDotsHintOf = (
   state: ColorDotsState
 ): ColorDotsHint | null => {
-  if (state.lastTap?.kind === 'blocked') return null
+  if (state.rides.some((ride) => ride.end.kind === 'pops')) return null
   const solution = solverOf(state.level).solve(state.spots)
   switch (solution.kind) {
     case 'solved': {

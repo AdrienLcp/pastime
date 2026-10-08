@@ -1,5 +1,5 @@
-import type { StarsGrid, StarsUnit, StarsUnitKind } from '../engine/stars-grid'
-import { CELL_OPEN, CELL_STAR, canHoldStars } from './stars-knowledge'
+import type { StarsGrid, StarsUnitKind } from '../engine/stars-grid'
+import { CELL_OPEN, CELL_STAR } from './stars-knowledge'
 import type { StarsReason, StarsStep } from './stars-step'
 import type { StarsTechnique } from './stars-technique'
 
@@ -8,7 +8,7 @@ export type StarsView = {
   readonly grid: StarsGrid
   /** Per unit, its cells still open. */
   readonly open: readonly (readonly number[])[]
-  /** Per unit, the stars it still lacks. */
+  /** Per unit, the stars it still lacks: 1, or 0 once it holds its star. */
   readonly missing: readonly number[]
   readonly isStar: (cell: number) => boolean
   readonly isOpen: (cell: number) => boolean
@@ -28,23 +28,22 @@ const firstOnly =
     return step === null ? [] : [step]
   }
 
-const nextToStar: StarsTechniqueRule = ({ grid, isOpen, isStar }) =>
-  grid.units.slice(0, grid.size).flatMap((row) =>
-    row.cells.flatMap((cell): StarsStep[] => {
-      if (!isStar(cell)) return []
-      const touched = (grid.neighbours[cell] ?? []).filter(isOpen)
-      if (touched.length === 0) return []
-      return [
-        {
-          cells: touched,
-          focus: [cell],
-          reason: 'next-to-star',
-          technique: 'next-to-star',
-          verdict: 'no-star'
-        }
-      ]
+const nextToStar: StarsTechniqueRule = ({ grid, isOpen, isStar }) => {
+  const steps: StarsStep[] = []
+  for (let cell = 0; cell < grid.size * grid.size; cell++) {
+    if (!isStar(cell)) continue
+    const touched = (grid.neighbours[cell] ?? []).filter(isOpen)
+    if (touched.length === 0) continue
+    steps.push({
+      cells: touched,
+      focus: [cell],
+      reason: 'next-to-star',
+      technique: 'next-to-star',
+      verdict: 'no-star'
     })
-  )
+  }
+  return steps
+}
 
 const fullUnit: StarsTechniqueRule = ({ grid, isStar, missing, open }) =>
   grid.units.flatMap((unit, index): StarsStep[] => {
@@ -77,11 +76,8 @@ const single: StarsTechniqueRule = ({ grid, missing, open }) =>
     ]
   })
 
-/** Past this many cells, two of them surely do not touch. */
-const CELLS_IN_TWO_BY_TWO = 4
-
 /**
- * A star on this cell would leave some unit without room for the stars it
+ * A star on this cell would leave some unit without room for the star it
  * still lacks: the cell holds none. One placement deep, never further — that
  * would be guessing. Every such cell is returned at once: each holds on the
  * same grid, and testing them is the solver's dearest work.
@@ -117,21 +113,10 @@ const touching: StarsTechniqueRule = ({ grid, isOpen, missing, open }) => {
         for (const other of open[unit] ?? []) ruleOut(other)
 
     for (const unit of touchedUnits) {
-      const lacking =
-        (missing[unit] ?? 0) - (unitsOfCell.includes(unit) ? 1 : 0)
-      if (lacking <= 0) continue
+      const isLacking = missing[unit] === 1 && !unitsOfCell.includes(unit)
+      if (!isLacking) continue
       const unitOpen = open[unit] ?? []
-      const roomLeft = unitOpen.length - (ruledOutIn[unit] ?? 0)
-      const hasRoom =
-        roomLeft >= lacking &&
-        (lacking === 1 ||
-          roomLeft > CELLS_IN_TWO_BY_TWO ||
-          canHoldStars({
-            cells: unitOpen.filter((other) => ruledOutBy[other] !== cell),
-            count: lacking,
-            size: grid.size
-          }))
-      if (hasRoom) continue
+      if (unitOpen.length > (ruledOutIn[unit] ?? 0)) continue
       steps.push({
         cells: [cell],
         focus: unitOpen.filter((other) => other !== cell),
@@ -231,10 +216,8 @@ const confinementOf = (
       const unfinished: { unit: number; outerMask: number }[] = []
       for (let unit = innerFirst; unit < innerFirst + size; unit++) {
         if ((missing[unit] ?? 0) === 0) continue
-        const outerMask = (open[unit] ?? []).reduce(
-          (mask, cell) => mask | (1 << outerOf(cell)),
-          0
-        )
+        let outerMask = 0
+        for (const cell of open[unit] ?? []) outerMask |= 1 << outerOf(cell)
         if (bitCount(outerMask) <= count) unfinished.push({ outerMask, unit })
       }
       for (const inner of subsetsOf(unfinished, count)) {
@@ -292,9 +275,18 @@ export const viewOf = ({
 }): StarsView => {
   const isStar = (cell: number) => knowledge[cell] === CELL_STAR
   const isOpen = (cell: number) => knowledge[cell] === CELL_OPEN
-  const open = grid.units.map((unit: StarsUnit) => unit.cells.filter(isOpen))
-  const missing = grid.units.map(
-    (unit) => grid.starsPerUnit - unit.cells.filter(isStar).length
-  )
+  const open: number[][] = []
+  const missing: number[] = []
+  for (const unit of grid.units) {
+    const openCells: number[] = []
+    let stars = 0
+    for (const cell of unit.cells) {
+      const known = knowledge[cell]
+      if (known === CELL_OPEN) openCells.push(cell)
+      else if (known === CELL_STAR) stars++
+    }
+    open.push(openCells)
+    missing.push(stars === 0 ? 1 : 0)
+  }
   return { grid, isOpen, isStar, missing, open }
 }

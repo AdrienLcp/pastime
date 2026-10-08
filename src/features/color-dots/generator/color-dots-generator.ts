@@ -1,6 +1,6 @@
 import { Result } from '@adrienlcp/result'
 
-import type { NumberedLevelGenerator } from '@/features/game-frame/generator/serve-generator'
+import type { LevelGenerator } from '@/features/game-frame/generator/serve-generator'
 import type { SeededRandom } from '@/helpers/seeded-random'
 
 import type { ColorDotsLevel, ColorDotsPiece } from '../engine/color-dots-level'
@@ -8,7 +8,6 @@ import { type ColorDotsSpot, startColorDots } from '../engine/color-dots-state'
 import { tapBall } from '../engine/color-dots-tap'
 import { neighboursOf } from '../engine/color-dots-tree'
 import { countTraps, createColorDotsSolver } from '../solver/color-dots-solver'
-import { type ColorDotsRecipe, recipeOf } from './color-dots-progression'
 import {
   type ColorDotsSketch,
   DIRECTIONS,
@@ -18,6 +17,11 @@ import {
   withLeaf,
   withNodeOnLink
 } from './color-dots-sketch'
+import {
+  COLOR_DOTS_TIERS,
+  type ColorDotsRecipe,
+  isColorDotsTierId
+} from './color-dots-tiers'
 
 /** Boards built for one level; the one with the most traps ships. */
 const ATTEMPTS = 24
@@ -289,17 +293,10 @@ const pieceOf = (spot: ColorDotsSpot): ColorDotsPiece => {
 }
 
 /** The sketch as printed, moved against the grid's top-left corner. */
-const levelOf = ({
-  recipe,
-  sketch
-}: {
-  recipe: ColorDotsRecipe
-  sketch: ColorDotsSketch
-}): ColorDotsLevel => {
+const levelOf = (sketch: ColorDotsSketch): ColorDotsLevel => {
   const left = Math.min(...sketch.nodes.map(({ x }) => x))
   const top = Math.min(...sketch.nodes.map(({ y }) => y))
   return {
-    boss: recipe.boss,
     links: sketch.links.map(([from, to]) => [from, to]),
     nodes: sketch.nodes.map(({ x, y }, node) => ({
       piece: pieceOf(sketch.spots[node] ?? { kind: 'joint' }),
@@ -368,22 +365,21 @@ const buildLevel = ({
 
   const built = unPlayFrom(paintChains({ random, recipe, sketch: rings }))
   if (built === null) return null
-  const level = levelOf({ recipe, sketch: built.sketch })
+  const level = levelOf(built.sketch)
   const order = built.unPlayed.toReversed()
   return clearsTheBoard({ level, order }) ? { level, order } : null
 }
 
 /**
- * A Color Dots level for its number in the progression, or the daily boss.
- * Several boards are built; the first holding enough tempting wrong taps
- * ships, else the hardest of them.
+ * A Color Dots level at its variant's difficulty. Several boards are built;
+ * the first holding enough tempting wrong taps ships, else the hardest of them.
  */
-export const generateColorDots: NumberedLevelGenerator<ColorDotsLevel> = ({
-  number,
+export const generateColorDots: LevelGenerator<ColorDotsLevel> = ({
   random,
   variantId
 }) => {
-  const recipe = recipeOf({ number, variantId })
+  if (!isColorDotsTierId(variantId)) return Result.failure('gave_up')
+  const recipe = COLOR_DOTS_TIERS[variantId]
   let hardest: { level: ColorDotsLevel; traps: number } | null = null
   for (let attempt = 0; attempt < ATTEMPTS; attempt++) {
     const built = buildLevel({ random, recipe })

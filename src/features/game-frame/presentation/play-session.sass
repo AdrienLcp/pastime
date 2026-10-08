@@ -1,10 +1,28 @@
+@use '../../../presentation/styles/layout'
+
 @layer components
-  // A puzzle owns the whole page height: the tools sit under the thumb.
+  // A puzzle owns the whole page height: the tools sit under the thumb. On a
+  // spread the board takes the left page, and the right one is the chapter's
+  // cover — its band, then its tools or its score, printed on the chapter ink.
   .play-session
-    display: flex
-    flex-direction: column
-    gap: var(--space-s)
+    --panel-ink: var(--ink)
+    --panel-ground: var(--paper)
+    display: grid
+    grid-template-areas: 'rail' 'stage' 'panel'
+    grid-template-columns: minmax(0, 1fr)
+    grid-template-rows: auto 1fr auto
+    row-gap: var(--space-s)
     min-height: 100dvh
+
+    .game-band
+      grid-area: rail
+
+    .stage-wrap
+      grid-area: stage
+      display: flex
+      flex-direction: column
+      gap: var(--space-s)
+      min-height: 0
 
     .board-area
       padding: var(--space-m) max(var(--space-3xs), var(--safe-area-right)) 0 max(var(--space-3xs), var(--safe-area-left))
@@ -16,5 +34,85 @@
         flex: 1
         flex-direction: column
 
-    .game-tools
-      margin-top: auto
+    .play-panel
+      --ink: var(--panel-ink)
+      --paper: var(--panel-ground)
+      grid-area: panel
+      color: var(--ink)
+      background: var(--paper)
+
+    @include layout.spread
+      --panel-ink: var(--cover-ink)
+      --panel-ground: var(--chapter)
+      grid-template-areas: 'stage rail' 'stage panel'
+      grid-template-columns: minmax(0, 1fr) clamp(19rem, 25vw, 24rem)
+      grid-template-rows: 1fr auto
+      row-gap: 0
+      height: 100dvh
+      min-height: 32rem
+
+      .stage-wrap
+        padding: var(--space-xl) var(--space-2xl) var(--space-m)
+        border-right: var(--stroke-hair) solid var(--rule)
+
+      .board-area,
+      .board-area:has(> [data-fills-height])
+        display: flex
+        flex: 1
+        flex-direction: column
+        justify-content: center
+        min-height: 0
+        padding: 0
+        container-type: size
+
+      .hint-note-slot
+        margin-inline: 0
+
+      .play-panel
+        --ink-soft: color-mix(in oklab, var(--cover-ink) 72%, var(--chapter))
+        --paper-sunk: color-mix(in oklab, var(--cover-ink) 10%, var(--chapter))
+        --pencil: var(--cover-ink)
+        --rule: color-mix(in oklab, var(--cover-ink) 35%, transparent)
+        --print-line: var(--stroke-thin) solid var(--cover-ink)
+        --hairline: var(--stroke-hair) solid var(--rule)
+        --focus: var(--cover-ink)
+        display: flex
+        flex-direction: column
+        justify-content: end
+
+    // A phone held sideways: the cover page narrows to leave the board the
+    // width, and the page is the screen's height, however short.
+    // The cover page keeps its band at the head and its panel at the foot;
+    // a panel taller than the room left scrolls inside it, never under the band.
+    @include layout.short-spread
+      grid-template-columns: minmax(0, 1fr) 16rem
+      grid-template-rows: auto minmax(0, 1fr)
+      min-height: 0
+
+      .stage-wrap
+        padding: var(--space-s) var(--space-l) var(--space-2xs)
+
+      .play-panel
+        justify-content: safe end
+        overflow-y: auto
+
+      // Once solved, the band takes one line, the game's name beside the back
+      // link, to leave the height to the score.
+      &:has(.win-sheet)
+        .game-band
+          grid-template-columns: auto minmax(0, 1fr)
+          align-items: center
+          column-gap: var(--space-s)
+
+        .band-title
+          font-size: 1.75rem
+
+        .band-rule
+          grid-column: 1 / -1
+
+      // Solved, the page widens for the score; the sheet carries its own way home.
+      &:has(.win-sheet)
+        grid-template-columns: minmax(0, 1fr) 24rem
+
+        .band-rule
+          display: none

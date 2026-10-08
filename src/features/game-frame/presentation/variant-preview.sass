@@ -1,0 +1,32 @@
+@use '../../../presentation/styles/layout'
+
+@layer components
+  // The variant's empty grid, as large as the page allows.
+  .variant-preview
+    display: grid
+    flex: 1
+    place-items: center
+    min-height: 14rem
+    container-type: size
+
+    .blank-grid
+      width: min(100cqw, 100cqh)
+      height: auto
+
+    .blank-grid-lines
+      fill: none
+      stroke: var(--rule)
+      stroke-width: 1
+
+    .blank-grid-frame
+      fill: none
+      stroke: var(--ink)
+      stroke-width: 5
+
+  @include layout.spread
+    .variant-preview
+      min-height: 0
+
+  @include layout.short-spread
+    .variant-preview
+      min-height: 0

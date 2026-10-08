@@ -22,9 +22,7 @@ export const conflictsOf = (state: StarsState): StarsConflict[] => {
   )
   const crowded = grid.units.flatMap((unit) => {
     const inUnit = unit.cells.filter((cell) => state.marks[cell] === 'star')
-    return inUnit.length > grid.starsPerUnit
-      ? [{ cells: inUnit, kind: unit.kind }]
-      : []
+    return inUnit.length > 1 ? [{ cells: inUnit, kind: unit.kind }] : []
   })
   return [...touching, ...crowded]
 }
@@ -39,8 +37,7 @@ export const ruledOutCellsOf = (state: StarsState): Set<number> => {
   for (const star of starCellsOf(state))
     for (const neighbour of grid.neighbours[star] ?? []) ruledOut.add(neighbour)
   for (const unit of grid.units) {
-    const stars = unit.cells.filter((cell) => state.marks[cell] === 'star')
-    if (stars.length >= grid.starsPerUnit)
+    if (unit.cells.some((cell) => state.marks[cell] === 'star'))
       for (const cell of unit.cells) ruledOut.add(cell)
   }
   for (const cell of ruledOut)
@@ -48,13 +45,12 @@ export const ruledOutCellsOf = (state: StarsState): Set<number> => {
   return ruledOut
 }
 
-/** Solved: every unit holds its stars, and no two touch. */
+/** Solved: every unit holds its star, and no two touch. */
 export const isStarsSolved = (state: StarsState): boolean => {
   const grid = gridOf(state.level)
   const isFull = grid.units.every(
     (unit) =>
-      unit.cells.filter((cell) => state.marks[cell] === 'star').length ===
-      grid.starsPerUnit
+      unit.cells.filter((cell) => state.marks[cell] === 'star').length === 1
   )
   return isFull && conflictsOf(state).length === 0
 }

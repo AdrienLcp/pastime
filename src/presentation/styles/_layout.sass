@@ -1,3 +1,21 @@
 /// Pure: container queries for a component, breakpoints for the page shell.
 @forward '@adrienlcp/styles/containers'
 @forward '@adrienlcp/styles/breakpoints'
+
+/// Past a phone's width: the page opens to a small tablet's.
+@mixin open-page
+  @media (width >= 40rem)
+    @content
+
+/// A landscape screen wide enough to lay the page out as a spread: the board
+/// on the left, its game's cover page on the right. A phone held sideways is
+/// one too: too short for the column, wide enough for the board beside its page.
+@mixin spread
+  @media (orientation: landscape) and (width >= 60rem), (orientation: landscape) and (height < 30rem) and (width >= 40rem)
+    @content
+
+/// A spread on a phone held sideways: the cover page narrows and its print
+/// shrinks, so the board and every tool fit the short height without a scroll.
+@mixin short-spread
+  @media (orientation: landscape) and (height < 30rem) and (width >= 40rem)
+    @content

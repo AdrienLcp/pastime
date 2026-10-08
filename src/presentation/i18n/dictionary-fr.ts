@@ -9,8 +9,8 @@ export const FR_DICTIONARY = defineDictionary({
     name: 'Pastime'
   },
   common: {
-    backToBook: 'Retour au cahier',
-    puzzleNumber: 'N°'
+    backToGames: 'Retour aux jeux',
+    games: 'Jeux'
   },
   crash: {
     prose:
@@ -20,8 +20,10 @@ export const FR_DICTIONARY = defineDictionary({
     title: 'Quelque chose s’est mal passé'
   },
   frame: {
+    choose: {
+      close: 'Fermer'
+    },
     clock: 'Temps',
-    daily: 'du jour',
     failed: {
       prose:
         'Le générateur n’a pas trouvé de grille à vous proposer. Un nouvel essai part d’une autre graine.',
@@ -43,31 +45,31 @@ export const FR_DICTIONARY = defineDictionary({
       resume: 'Reprendre',
       title: 'En pause'
     },
+    score: {
+      label: 'Points',
+      points: '{points:number}',
+      unit: 'pts'
+    },
     tools: {
       hint: 'Indice',
       label: 'Outils',
-      restart: 'Recommencer',
+      newLevel: 'Nouvelle partie',
+      newLevelConfirm: 'Abandonner ?',
+      settings: 'Réglages',
       undo: 'Annuler'
     },
     win: {
       best: 'Record',
-      days: defineTranslation('{count:plural}', {
-        plural: { count: { one: '{?} jour', other: '{?} jours' } }
-      }),
-      home: 'Accueil',
       moves: defineTranslation('{count:plural}', {
         plural: { count: { one: '{?} coup', other: '{?} coups' } }
       }),
       newBest: 'nouveau record !',
-      next: defineTranslation('Puzzle suivant · N° {number:number}', {
-        number: { number: { useGrouping: false } }
-      }),
-      nextVariant: 'Le suivant',
-      replay: 'Rejouer',
+      next: 'Nouvelle partie',
+      points: '{points:number}',
+      score: 'Points',
       stamp: 'Résolu',
-      streak: 'Série',
       time: 'Temps',
-      toFreePlay: 'Partie libre'
+      timeBonus: 'dont {bonus:number} de bonus temps'
     }
   },
   games: {
@@ -77,7 +79,6 @@ export const FR_DICTIONARY = defineDictionary({
         plural: { count: { one: '{?} bille', other: '{?} billes' } }
       }),
       board: 'Plateau Color Dots',
-      boss: 'Boss',
       hints: {
         deadEnd:
           'Plus aucun ordre ne vide le plateau d’ici : un coup précédent l’a scellé. Annulez-le.',
@@ -85,17 +86,19 @@ export const FR_DICTIONARY = defineDictionary({
           'Cette bille peut partir maintenant sans rien bloquer : envoyez-la.'
       },
       inks: {
-        black: 'noire au losange',
         cyan: 'cyan au rond',
         green: 'verte à la croix',
         magenta: 'magenta au triangle',
+        orange: 'orange au losange',
         yellow: 'jaune au carré'
       },
       name: 'Color Dots',
       rule: 'Chaque bille rejoint son anneau. L’ordre est tout.',
+      variantChoice: 'Difficulté',
       variants: {
-        boss: 'Boss',
-        numbered: 'Niveaux'
+        easy: 'Facile',
+        expert: 'Expert',
+        hard: 'Difficile'
       }
     },
     pipes: {
@@ -123,6 +126,7 @@ export const FR_DICTIONARY = defineDictionary({
       },
       source: 'source',
       tile: 'Ligne {row:number}, colonne {column:number}',
+      variantChoice: 'Taille',
       variants: {
         size5: '5×5',
         size7: '7×7',
@@ -158,12 +162,8 @@ export const FR_DICTIONARY = defineDictionary({
         toColumn: 'Ces cartes peuvent descendre sur la pile marquée.',
         toFoundation: 'Cette carte peut monter sur sa fondation.'
       },
-      homeCount: defineTranslation('{count:plural} sur {total:number}', {
-        plural: {
-          count: { one: '{?} carte rangée', other: '{?} cartes rangées' }
-        }
-      }),
       name: 'Solitaire',
+      newDeal: 'Nouvelle donne',
       piles: {
         column: 'Colonne {column:number}',
         foundation: 'Fondation {suit}',
@@ -190,12 +190,21 @@ export const FR_DICTIONARY = defineDictionary({
         hearts: 'cœur',
         spades: 'pique'
       },
+      variantChoice: 'Donne',
+      variantNotes: {
+        random: 'Mélangée sans vérification : parfois perdue d’avance.',
+        winnable: 'Le solveur a vérifié qu’elle se gagne.'
+      },
       variants: {
         random: 'Au hasard',
         winnable: 'Gagnable'
       }
     },
     stars: {
+      autoCross: {
+        label: 'Croix automatiques',
+        prose: 'Les cases qu’une étoile exclut se barrent toutes seules.'
+      },
       board: 'Grille Étoiles {size:number} par {size:number}',
       cell: 'Ligne {row:number}, colonne {column:number}, région {region:number}',
       conflicts: {
@@ -252,51 +261,21 @@ export const FR_DICTIONARY = defineDictionary({
           count: { one: '{?} étoile posée', other: '{?} étoiles posées' }
         }
       }),
+      variantChoice: 'Taille',
       variants: {
-        size5: '5×5',
-        size6: '6×6',
         size7: '7×7',
-        size8: '8×8',
         size9: '9×9',
-        size10: '10×10',
-        size10Double: '10×10 2★'
+        size11: '11×11',
+        size13: '13×13',
+        size15: '15×15'
       }
     }
   },
   hub: {
-    chapters: 'Chapitres',
-    colophon: 'Hors ligne · sans compte · sans publicité',
     coverMeta: defineTranslation('{count:plural} · record {best}', {
       plural: { count: { one: '{?} résolu', other: '{?} résolus' } }
     }),
-    coverNew: 'Pas encore ouvert',
-    empty: {
-      prose:
-        'Le puzzle du jour est le même pour tout le monde. Une partie interrompue vous attendra ici.',
-      title: 'Cahier neuf, rien en cours.'
-    },
-    idle: 'Rien en cours.',
-    issue: defineTranslation('Cahier n° {number:number} · {day:date}', {
-      date: { day: { day: 'numeric', month: 'long', weekday: 'long' } },
-      number: { number: { useGrouping: false } }
-    }),
-    resume: {
-      action: 'Reprendre',
-      moves: defineTranslation('{count:plural}', {
-        plural: { count: { one: '{?} coup', other: '{?} coups' } }
-      }),
-      title: 'Reprendre'
-    },
-    settings: 'Réglages',
-    start: 'Pour commencer',
-    streak: 'Série',
-    streakDays: '{count:number} j.',
-    today: {
-      done: 'fait',
-      inProgress: 'en cours',
-      title: 'Aujourd’hui',
-      todo: 'à faire'
-    }
+    settings: 'Réglages'
   },
   notFound: {
     prose: 'Aucune page ne porte l’adresse {path}.',
@@ -308,17 +287,9 @@ export const FR_DICTIONARY = defineDictionary({
       action: 'Installer',
       decline: 'Pas maintenant',
       text: 'Installer Pastime : l’app s’ouvre en plein écran et marche sans réseau.'
-    },
-    update: {
-      action: 'Recharger',
-      text: 'Une nouvelle version est prête.'
     }
   },
   settings: {
-    autoCross: {
-      label: 'Croix automatiques',
-      prose: 'Les cases qu’une étoile exclut se barrent toutes seules.'
-    },
     backup: {
       cancel: 'Garder mes données',
       confirm: 'Tout remplacer',

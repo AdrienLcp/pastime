@@ -1,11 +1,14 @@
 import type React from 'react'
+import { useRef } from 'react'
 
 import type { BoardProps } from '@/features/game-frame/game-module'
+import { elapsedClockMs } from '@/infrastructure/clock'
 import { useTranslate } from '@/presentation/i18n/i18n-provider'
 
 import type { ColorDotsHint } from '../engine/color-dots-hint'
+import { type ColorDotsRide, RIDE_MS_PER_STEP } from '../engine/color-dots-ride'
 import type { ColorDotsMove, ColorDotsState } from '../engine/color-dots-state'
-import { neighboursOf } from '../engine/color-dots-tree'
+import { neighboursOf, routeLength } from '../engine/color-dots-tree'
 import {
   FRAME_MARGIN,
   GRID_UNITS,
@@ -13,9 +16,14 @@ import {
   printAreaOf
 } from './color-dots-drawing'
 import { inkOf } from './color-dots-inks'
-import { BallPrint, RingPrint } from './dot-prints'
-import { rideMsOf, useBallTravel } from './use-ball-travel'
-import { useFreshTap } from './use-fresh-tap'
+import { BallPrint, InkSplash, RingPrint } from './dot-prints'
+import { useFreshRides } from './use-fresh-rides'
+import {
+  isMotionReduced,
+  msLeftOf,
+  stopPointOf,
+  useRideMotion
+} from './use-ride-motion'
 
 import './color-dots-board.sass'
 
@@ -33,16 +41,36 @@ const JOINT_SIDE = 7
 /**
  * A Color Dots board printed in ink: lines, rings and balls, each colour with
  * its symbol. Every waiting ball is a button laid over the print; a tap sends
- * it riding to its ring.
+ * it riding to its ring while the balls sent before still roll, and tells the
+ * engine how long after the previous tap it came.
  */
 export const ColorDotsBoard: React.FC<
   BoardProps<ColorDotsState, ColorDotsMove, ColorDotsHint>
 > = ({ hint, isLocked, onMove, state }) => {
   const translate = useTranslate()
-  const { lastTap, level, spots } = state
-  const freshTap = useFreshTap({ isLocked, lastTap })
-  const rideMs = rideMsOf({ level, tap: freshTap })
-  const travellerRef = useBallTravel({ level, rideMs, tap: freshTap })
+  const { clockMs, level, rides, spots } = state
+  const freshRides = useFreshRides({ isLocked, rides })
+  const ridesRef = useRideMotion({ clockMs, level, rides: freshRides })
+  const lastTapAtRef = useRef<number | null>(null)
+  const isStill = freshRides === null || isMotionReduced()
+  const msLeft = (ride: ColorDotsRide) =>
+    isStill ? 0 : msLeftOf({ clockMs, level, ride })
+  const newestRide = freshRides?.at(-1)
+  const rideMs =
+    newestRide === undefined || isStill
+      ? 0
+      : routeLength({ route: newestRide.route, tree: level }) * RIDE_MS_PER_STEP
+
+  const tap = (ball: number) => {
+    const now = elapsedClockMs()
+    const since = lastTapAtRef.current
+    lastTapAtRef.current = now
+    const isFollowingOn =
+      since !== null && freshRides === rides && !isMotionReduced()
+    onMove(
+      isFollowingOn ? { afterMs: Math.round(now - since), ball } : { ball }
+    )
+  }
 
   const area = printAreaOf(level)
   const box = {
@@ -55,16 +83,21 @@ export const ColorDotsBoard: React.FC<
     const spot = spots[node]
     return spot !== undefined && spot.kind !== 'gone'
   }
-  const strandedTap = lastTap?.kind === 'blocked' ? lastTap : null
-  const arrivedRing =
-    freshTap?.kind === 'arrived' ? freshTap.route.at(-1) : undefined
+  const popped = rides.find((ride) => ride.end.kind === 'pops') ?? null
+  const poppedAt = popped === null ? null : stopPointOf({ level, ride: popped })
+  const landingIn = new Map(
+    (freshRides ?? []).flatMap((ride) => {
+      const ring = ride.route.at(-1)
+      return ride.end.kind === 'lands' && ring !== undefined
+        ? [[ring, msLeft(ride)] as const]
+        : []
+    })
+  )
   const hintedBall = hint?.kind === 'next-ball' ? hint.ball : null
 
   const waitingBalls = spots
     .flatMap((spot, node) =>
-      spot.kind === 'ball' && node !== strandedTap?.ball
-        ? [{ colour: spot.colour, node }]
-        : []
+      spot.kind === 'ball' ? [{ colour: spot.colour, node }] : []
     )
     .toSorted((first, second) => {
       const a = level.nodes[first.node]
@@ -88,17 +121,6 @@ export const ColorDotsBoard: React.FC<
     height: `${(GRID_UNITS / box.height) * 100}%`,
     width: `${(GRID_UNITS / box.width) * 100}%`
   }
-
-  const strandedAt = (() => {
-    const stop = strandedTap?.route.at(-1)
-    const node = stop === undefined ? undefined : level.nodes[stop]
-    return node === undefined ? null : pointOf(node)
-  })()
-  const blockerAt = (() => {
-    const node =
-      strandedTap === null ? undefined : level.nodes[strandedTap.blocker]
-    return node === undefined ? null : pointOf(node)
-  })()
 
   return (
     <div
@@ -163,19 +185,25 @@ export const ColorDotsBoard: React.FC<
                     />
                   )
                 }
-                case 'ring':
+                case 'ring': {
+                  const arrivesInMs = landingIn.get(node) ?? null
                   return (
                     <RingPrint
+                      arrivesInMs={arrivesInMs}
                       colour={spot.colour}
-                      isArriving={node === arrivedRing}
                       isFilled={spot.isFilled}
-                      key={node}
+                      key={
+                        arrivesInMs === null
+                          ? node
+                          : `${node}@${clockMs}/${rides.length}`
+                      }
                       x={x}
                       y={y}
                     />
                   )
+                }
                 case 'ball':
-                  return node === strandedTap?.ball ? null : (
+                  return (
                     <g key={node} transform={`translate(${x} ${y})`}>
                       <BallPrint colour={spot.colour} />
                       {node === hintedBall && (
@@ -190,32 +218,33 @@ export const ColorDotsBoard: React.FC<
               }
             })}
 
-            {freshTap?.kind === 'arrived' && (
-              <g className='traveller' ref={travellerRef}>
-                <BallPrint colour={freshTap.colour} />
-              </g>
-            )}
+            <g className='rides' ref={ridesRef}>
+              {freshRides?.map((ride) => (
+                <g className='traveller' data-ride={ride.ball} key={ride.ball}>
+                  <BallPrint colour={ride.colour} />
+                </g>
+              ))}
+            </g>
 
-            {strandedTap !== null && strandedAt !== null && (
+            {popped !== null && poppedAt !== null && (
               <g
-                className='stranded'
-                ref={travellerRef}
-                style={{
-                  transform: `translate(${strandedAt.x}px, ${strandedAt.y}px)`
-                }}
+                className='pop'
+                data-still={freshRides === null ? '' : undefined}
+                style={{ '--pop-in': `${msLeft(popped)}ms` }}
               >
-                <BallPrint colour={strandedTap.colour} />
+                <InkSplash
+                  colour={popped.colour}
+                  x={poppedAt.x}
+                  y={poppedAt.y}
+                />
+                <path
+                  className='pop-loop'
+                  d={PENCIL_LOOP}
+                  pathLength='1'
+                  transform={`translate(${poppedAt.x - LOOP_SIZE / 2} ${poppedAt.y - LOOP_SIZE / 2}) scale(${LOOP_SIZE / 100})`}
+                  vectorEffect='non-scaling-stroke'
+                />
               </g>
-            )}
-
-            {blockerAt !== null && (
-              <path
-                className='blocker-loop'
-                d={PENCIL_LOOP}
-                pathLength='1'
-                transform={`translate(${blockerAt.x - LOOP_SIZE / 2} ${blockerAt.y - LOOP_SIZE / 2}) scale(${LOOP_SIZE / 100})`}
-                vectorEffect='non-scaling-stroke'
-              />
             )}
 
             <rect className='frame' height={area.height} width={area.width} />
@@ -235,7 +264,7 @@ export const ColorDotsBoard: React.FC<
                     aria-label={ballLabel(ball)}
                     className='ball-button'
                     key={ball.node}
-                    onClick={() => onMove({ ball: ball.node })}
+                    onClick={() => tap(ball.node)}
                     style={{
                       ...buttonSize,
                       left: placeOf(x, box.width),
@@ -256,9 +285,6 @@ export const ColorDotsBoard: React.FC<
               count: waitingBalls.length
             })}
           </p>
-          {level.boss && (
-            <p className='boss-mark'>{translate('games.colorDots.boss')}</p>
-          )}
         </div>
       )}
     </div>

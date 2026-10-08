@@ -1,10 +1,28 @@
 @use '../../../presentation/styles/typography'
 @use '../../../presentation/styles/focus'
+@use '../../../presentation/styles/layout'
 
 @layer components
   .pipes-board
     display: grid
     gap: var(--space-2xs)
+
+    // On a spread the sheet takes the left page whole, square, as large as
+    // it fits; the solved board on the win plate keeps the plate's width.
+    @include layout.spread
+      &:not([data-locked])
+        flex: 1
+        grid-template-rows: minmax(0, 1fr) auto
+        min-height: 0
+
+        .stage
+          display: grid
+          place-items: center
+          min-height: 0
+          container-type: size
+
+        .sheet
+          width: min(100cqw, 100cqh)
 
     .sheet
       position: relative
@@ -104,7 +122,7 @@
         transition-delay: calc(var(--flow-delay) * var(--flow-step))
 
     .lock-tint
-      fill: color-mix(in oklab, var(--chapter-pipes) var(--tint-2), var(--paper))
+      fill: color-mix(in oklab, var(--chapter-pipes) var(--tint), var(--paper))
 
     // Locking is the player's call: written in pencil, drawn in.
     .lock-box

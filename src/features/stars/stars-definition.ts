@@ -5,19 +5,18 @@ import { StarsGlyph } from './presentation/stars-glyph'
 export const starsDefinition = {
   chapterInk: '--chapter-stars',
   countsMoves: false,
-  dailyVariant: '8',
+  defaultVariantId: '11',
   Glyph: StarsGlyph,
   id: 'stars',
   load: async () => (await import('./stars-module')).starsModule,
   name: 'games.stars.name',
   rule: 'games.stars.rule',
+  variantChoice: 'games.stars.variantChoice',
   variants: [
-    { id: '5', label: 'games.stars.variants.size5' },
-    { id: '6', label: 'games.stars.variants.size6' },
-    { id: '7', label: 'games.stars.variants.size7' },
-    { id: '8', label: 'games.stars.variants.size8' },
-    { id: '9', label: 'games.stars.variants.size9' },
-    { id: '10', label: 'games.stars.variants.size10' },
-    { id: '10-2', label: 'games.stars.variants.size10Double' }
+    { gridSize: 7, id: '7', label: 'games.stars.variants.size7' },
+    { gridSize: 9, id: '9', label: 'games.stars.variants.size9' },
+    { gridSize: 11, id: '11', label: 'games.stars.variants.size11' },
+    { gridSize: 13, id: '13', label: 'games.stars.variants.size13' },
+    { gridSize: 15, id: '15', label: 'games.stars.variants.size15' }
   ]
 } as const satisfies GameDefinition

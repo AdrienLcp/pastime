@@ -1,0 +1,109 @@
+@use '../../../presentation/styles/typography'
+@use '../../../presentation/styles/focus'
+@use '../../../presentation/styles/layout'
+
+@layer components
+  .variant-panel
+    display: grid
+    gap: var(--space-s)
+    padding: var(--space-s) var(--gutter) var(--space-m)
+    border-top: var(--stroke-bold) solid var(--ink)
+
+    .variant-group
+      display: grid
+      gap: var(--space-s)
+
+    // The heading ruled out to the panel's edge.
+    .choice-head
+      display: flex
+      align-items: center
+      gap: var(--space-s)
+      @include typography.caps
+
+      &::after
+        content: ''
+        flex: 1
+        border-top: var(--stroke-thin) solid var(--ink)
+
+    .variant-options
+      display: grid
+      grid-template-columns: repeat(auto-fit, minmax(3.5rem, 1fr))
+      border: var(--stroke-thin) solid var(--ink)
+
+      &[data-wide]
+        grid-template-columns: minmax(0, 1fr)
+
+    // Relative, so react-aria's hidden input stays inside the scrolling panel
+    // instead of stretching the page.
+    .variant-option
+      position: relative
+      display: grid
+      align-content: center
+      gap: var(--space-4xs)
+      min-height: var(--control-height)
+      padding: var(--space-xs)
+      box-shadow: inset 0 0 0 0.75px color-mix(in oklab, var(--ink) 45%, transparent)
+      @include typography.control
+      cursor: pointer
+      transition: background-color var(--transition-fast, 0s), color var(--transition-fast, 0s)
+
+      &[data-pressed]:not([data-selected])
+        background: var(--paper-sunk)
+
+      @media (hover: hover)
+        &[data-hovered]:not([data-selected])
+          background: color-mix(in oklab, var(--ink) 8%, var(--paper))
+
+      &[data-selected]
+        background: var(--ink)
+        color: var(--paper)
+
+      @include focus.ring-inset
+
+    // Ruled off from the variants: a setting applies at once, not on « play ».
+    .game-options
+      display: grid
+      gap: var(--space-s)
+      padding-block: var(--space-2xs)
+      border-block: var(--hairline)
+
+    .variant-note
+      @include typography.choice-note
+
+    // The action takes the width, closing keeps its own.
+    .variant-actions
+      display: grid
+      grid-template-columns: minmax(0, 1fr) auto
+      gap: var(--space-xs)
+
+    .choice-action
+      min-height: var(--control-height)
+
+      &[data-armed]
+        background: var(--ink-soft)
+
+    @include layout.spread
+      gap: var(--space-m)
+      padding: var(--space-m) var(--space-xl) var(--space-xl)
+
+      // Five sizes on one row of the right page's narrow column.
+      .variant-options
+        grid-template-columns: repeat(auto-fit, minmax(3rem, 1fr))
+
+      .variant-options:not([data-wide]) .variant-option
+        padding-inline: var(--space-3xs)
+
+      .variant-actions
+        grid-template-columns: minmax(0, 1fr)
+
+    // A phone held sideways: tighter, to fit the short height.
+    @include layout.short-spread
+      gap: var(--space-xs)
+      padding: var(--space-xs) var(--space-m) var(--space-s)
+
+      .variant-option
+        min-height: var(--target)
+        padding: var(--space-3xs) var(--space-s)
+
+      .variant-actions
+        grid-template-columns: minmax(0, 1fr) auto

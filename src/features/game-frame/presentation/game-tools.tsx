@@ -3,10 +3,15 @@ import type React from 'react'
 import { Button } from '@/presentation/components/button'
 import {
   HintIcon,
-  RestartIcon,
-  UndoIcon
+  NewLevelIcon,
+  SettingsIcon,
+  UndoIcon,
+  VariantIcon
 } from '@/presentation/components/icons'
 import { useTranslate } from '@/presentation/i18n/i18n-provider'
+import type { PlainTranslationKey } from '@/presentation/i18n/translation'
+
+import { useConfirmedNewLevel } from './use-confirmed-new-level'
 
 import './game-tools.sass'
 
@@ -18,19 +23,33 @@ type GameToolsProps = {
   isPaused: boolean
   onUndo: () => void
   onHint: () => void
-  onRestart: () => void
+  /** The tool's name: « new game », or the game's own word for it. */
+  newLevelLabel: PlainTranslationKey
+  /** Drops this level for the next one of the same variant. */
+  onNewLevel: () => void
+  /** What the variants differ by — « Taille », « Donne » — naming the tool that changes it. */
+  variantLabel: PlainTranslationKey
+  /** The game has settings of its own: the tool opens them with the variants, and says so. */
+  hasOptions: boolean
+  /** Opens the choice of another variant, in place of the tools. */
+  onChooseVariant: () => void
 }
 
-/** The three tools under the thumb, at the foot of every puzzle. */
+/** The tools under the thumb, at the foot of every puzzle. */
 export const GameTools: React.FC<GameToolsProps> = ({
   canHint,
   canUndo,
+  hasOptions,
   isPaused,
+  newLevelLabel,
+  onChooseVariant,
   onHint,
-  onRestart,
-  onUndo
+  onNewLevel,
+  onUndo,
+  variantLabel
 }) => {
   const translate = useTranslate()
+  const newLevel = useConfirmedNewLevel({ hasProgress: canUndo, onNewLevel })
 
   return (
     <nav aria-label={translate('frame.tools.label')} className='game-tools'>
@@ -52,11 +71,22 @@ export const GameTools: React.FC<GameToolsProps> = ({
       </Button>
       <Button
         className='tool'
-        isDisabled={isPaused || !canUndo}
-        onPress={onRestart}
+        data-armed={newLevel.isArmed || undefined}
+        isDisabled={isPaused}
+        onPress={newLevel.press}
       >
-        <RestartIcon aria-hidden='true' />
-        {translate('frame.tools.restart')}
+        <NewLevelIcon aria-hidden='true' />
+        {translate(
+          newLevel.isArmed ? 'frame.tools.newLevelConfirm' : newLevelLabel
+        )}
+      </Button>
+      <Button className='tool' isDisabled={isPaused} onPress={onChooseVariant}>
+        {hasOptions ? (
+          <SettingsIcon aria-hidden='true' />
+        ) : (
+          <VariantIcon aria-hidden='true' />
+        )}
+        {translate(hasOptions ? 'frame.tools.settings' : variantLabel)}
       </Button>
     </nav>
   )

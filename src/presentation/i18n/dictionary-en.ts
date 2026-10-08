@@ -6,8 +6,8 @@ export const EN_DICTIONARY = defineDictionary({
     name: 'Pastime'
   },
   common: {
-    backToBook: 'Back to the book',
-    puzzleNumber: 'No.'
+    backToGames: 'Back to the games',
+    games: 'Games'
   },
   crash: {
     prose:
@@ -17,8 +17,10 @@ export const EN_DICTIONARY = defineDictionary({
     title: 'Something went wrong'
   },
   frame: {
+    choose: {
+      close: 'Close'
+    },
     clock: 'Time',
-    daily: 'daily',
     failed: {
       prose:
         'The generator found no grid to give you. Another try starts from another seed.',
@@ -40,31 +42,31 @@ export const EN_DICTIONARY = defineDictionary({
       resume: 'Resume',
       title: 'Paused'
     },
+    score: {
+      label: 'Points',
+      points: '{points:number}',
+      unit: 'pts'
+    },
     tools: {
       hint: 'Hint',
       label: 'Tools',
-      restart: 'Restart',
+      newLevel: 'New game',
+      newLevelConfirm: 'Give up?',
+      settings: 'Settings',
       undo: 'Undo'
     },
     win: {
       best: 'Best',
-      days: defineTranslation('{count:plural}', {
-        plural: { count: { one: '{?} day', other: '{?} days' } }
-      }),
-      home: 'Home',
       moves: defineTranslation('{count:plural}', {
         plural: { count: { one: '{?} move', other: '{?} moves' } }
       }),
       newBest: 'new best!',
-      next: defineTranslation('Next puzzle · No. {number:number}', {
-        number: { number: { useGrouping: false } }
-      }),
-      nextVariant: 'Next one',
-      replay: 'Play again',
+      next: 'New game',
+      points: '{points:number}',
+      score: 'Points',
       stamp: 'Solved',
-      streak: 'Streak',
       time: 'Time',
-      toFreePlay: 'Free play'
+      timeBonus: 'incl. {bonus:number} time bonus'
     }
   },
   games: {
@@ -74,24 +76,25 @@ export const EN_DICTIONARY = defineDictionary({
         plural: { count: { one: '{?} ball', other: '{?} balls' } }
       }),
       board: 'Color Dots board',
-      boss: 'Boss',
       hints: {
         deadEnd:
           'No order clears the board from here: an earlier tap sealed it. Undo it.',
         nextBall: 'This ball can go now without blocking anything: send it.'
       },
       inks: {
-        black: 'Black diamond',
         cyan: 'Cyan dot',
         green: 'Green cross',
         magenta: 'Magenta triangle',
+        orange: 'Orange diamond',
         yellow: 'Yellow square'
       },
       name: 'Color Dots',
       rule: 'Every ball finds its ring. The order is everything.',
+      variantChoice: 'Difficulty',
       variants: {
-        boss: 'Boss',
-        numbered: 'Levels'
+        easy: 'Easy',
+        expert: 'Expert',
+        hard: 'Hard'
       }
     },
     pipes: {
@@ -119,6 +122,7 @@ export const EN_DICTIONARY = defineDictionary({
       },
       source: 'source',
       tile: 'Row {row:number}, column {column:number}',
+      variantChoice: 'Size',
       variants: {
         size5: '5×5',
         size7: '7×7',
@@ -151,10 +155,8 @@ export const EN_DICTIONARY = defineDictionary({
         toColumn: 'These cards can go down onto the marked pile.',
         toFoundation: 'This card can go up to its foundation.'
       },
-      homeCount: defineTranslation('{count:plural} of {total:number}', {
-        plural: { count: { one: '{?} card home', other: '{?} cards home' } }
-      }),
       name: 'Solitaire',
+      newDeal: 'New deal',
       piles: {
         column: 'Column {column:number}',
         foundation: '{suit} foundation',
@@ -181,12 +183,21 @@ export const EN_DICTIONARY = defineDictionary({
         hearts: 'hearts',
         spades: 'spades'
       },
+      variantChoice: 'Deal',
+      variantNotes: {
+        random: 'Shuffled unchecked: sometimes lost from the start.',
+        winnable: 'The solver checked it can be won.'
+      },
       variants: {
         random: 'Random',
         winnable: 'Winnable'
       }
     },
     stars: {
+      autoCross: {
+        label: 'Automatic crosses',
+        prose: 'The cells a star rules out cross themselves.'
+      },
       board: 'Stars grid, {size:number} by {size:number}',
       cell: 'Row {row:number}, column {column:number}, region {region:number}',
       conflicts: {
@@ -241,51 +252,21 @@ export const EN_DICTIONARY = defineDictionary({
       starCount: defineTranslation('{count:plural} of {total:number}', {
         plural: { count: { one: '{?} star placed', other: '{?} stars placed' } }
       }),
+      variantChoice: 'Size',
       variants: {
-        size5: '5×5',
-        size6: '6×6',
         size7: '7×7',
-        size8: '8×8',
         size9: '9×9',
-        size10: '10×10',
-        size10Double: '10×10 2★'
+        size11: '11×11',
+        size13: '13×13',
+        size15: '15×15'
       }
     }
   },
   hub: {
-    chapters: 'Chapters',
-    colophon: 'Offline · no account · no ads',
     coverMeta: defineTranslation('{count:plural} · best {best}', {
       plural: { count: { one: '{?} solved', other: '{?} solved' } }
     }),
-    coverNew: 'Not opened yet',
-    empty: {
-      prose:
-        'The daily puzzle is the same for everyone. A game you leave will wait for you here.',
-      title: 'A fresh book, nothing under way.'
-    },
-    idle: 'Nothing under way.',
-    issue: defineTranslation('Issue {number:number} · {day:date}', {
-      date: { day: { day: 'numeric', month: 'long', weekday: 'long' } },
-      number: { number: { useGrouping: false } }
-    }),
-    resume: {
-      action: 'Resume',
-      moves: defineTranslation('{count:plural}', {
-        plural: { count: { one: '{?} move', other: '{?} moves' } }
-      }),
-      title: 'Resume'
-    },
-    settings: 'Settings',
-    start: 'To begin',
-    streak: 'Streak',
-    streakDays: '{count:number} d.',
-    today: {
-      done: 'done',
-      inProgress: 'under way',
-      title: 'Today',
-      todo: 'to do'
-    }
+    settings: 'Settings'
   },
   notFound: {
     prose: 'No page lives at {path}.',
@@ -297,17 +278,9 @@ export const EN_DICTIONARY = defineDictionary({
       action: 'Install',
       decline: 'Not now',
       text: 'Install Pastime: it opens full screen and works with no network.'
-    },
-    update: {
-      action: 'Reload',
-      text: 'A new version is ready.'
     }
   },
   settings: {
-    autoCross: {
-      label: 'Automatic crosses',
-      prose: 'The cells a star rules out cross themselves.'
-    },
     backup: {
       cancel: 'Keep my data',
       confirm: 'Replace everything',

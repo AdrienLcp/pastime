@@ -42,6 +42,9 @@ export const GameClock: React.FC<GameClockProps> = ({
 
   return (
     <div className='game-clock'>
+      <span aria-hidden='true' className='clock-label'>
+        {translate('frame.clock')}
+      </span>
       <span
         aria-label={translate('frame.clock')}
         className='clock-face'

@@ -19,10 +19,10 @@ tile is connected to the source, with no open end and no loop.
 - Water fills from the source in real time: a joined tile's channel turns
   `--water`, and a branch that joins fills outward from the join, one step per
   tile. The win is the water reaching the last tile.
-- Sizes 5, 7, 9, 11 and 13, odd so the source sits in the middle; the daily is
-  9×9. No size cap on narrow phones: a tile is a tap, not a precise control,
-  and the board fits without scrolling (≈ 38 px tiles at 9×9, ≈ 25 px at
-  13×13 on a 360 px screen). "Wrapping" variant later (edges connect around).
+- Sizes 5, 7, 9, 11 and 13, odd so the source sits in the middle. No size
+  cap on narrow phones: a tile is a tap, not a precise control, and the board
+  fits without scrolling (≈ 38 px tiles at 9×9, ≈ 25 px at 13×13 on a 360 px
+  screen). "Wrapping" variant later (edges connect around).
 - The hint names a tile locked the wrong way first, then the next tile logic
   settles from the locked ones that does not face its way yet.
 

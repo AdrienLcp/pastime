@@ -1,3 +1,5 @@
+@use 'styles/layout'
+
 @layer components
   .app-shell
     display: grid
@@ -8,3 +10,9 @@
     margin-inline: auto
     background: var(--paper)
     box-shadow: var(--shadow-sheet)
+
+    @include layout.open-page
+      max-width: 44rem
+
+    @include layout.spread
+      max-width: 92rem

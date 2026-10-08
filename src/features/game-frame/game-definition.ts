@@ -8,11 +8,15 @@ import type { SealedGameModule } from './game-module'
 export type GameVariant = {
   readonly id: string
   readonly label: PlainTranslationKey
+  /** What sets it apart, in a sentence, when its label alone does not say. */
+  readonly note?: PlainTranslationKey
+  /** A grid's side, for its empty grid to be shown while it is chosen. */
+  readonly gridSize?: number
 }
 
 /**
  * What the hub and the frame know about a game before its chunk loads: enough
- * to print its cover, its line in today's list and its header band.
+ * to print its cover and its header band.
  */
 export type GameDefinition = {
   readonly id: string
@@ -21,18 +25,20 @@ export type GameDefinition = {
   readonly rule: PlainTranslationKey
   /** The chapter's process ink, a token from `_tokens.sass`. */
   readonly chapterInk: `--chapter-${string}`
-  /** The first one is where free play starts. */
+  /** What the variants differ by, heading their choice: a size, a deal. */
+  readonly variantChoice: PlainTranslationKey
+  /** In the order they are offered: smallest or easiest first. */
   readonly variants: readonly [GameVariant, ...GameVariant[]]
-  /** The variant of the daily puzzle, the same for everyone. */
-  readonly dailyVariant: string
   /**
-   * A variant only the daily puzzle prints, never offered in free play — a
-   * boss level, say. `dailyVariant` then names it.
+   * Where a player who has never played the game starts: one of `variants`,
+   * neither the easiest nor the hardest.
    */
-  readonly dailyOnlyVariant?: GameVariant
+  readonly defaultVariantId: string
+  /** The tool that drops the level for a new one, when « new game » does not name it: a deal. */
+  readonly newLevelLabel?: PlainTranslationKey
   /** Whether the win screen prints the moves: a card game's, not a grid's. */
   readonly countsMoves: boolean
-  /** The chapter's mark: on its cover, its tab in today's list. */
+  /** The chapter's mark, on its cover. */
   readonly Glyph: React.FC
   readonly load: () => Promise<SealedGameModule>
 }

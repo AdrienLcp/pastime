@@ -5,7 +5,6 @@ import { elapsedClockMs } from '@/infrastructure/clock'
 export type GameClock = {
   /** The puzzle's time so far, read at the moment of the call. */
   readonly readElapsedMs: () => number
-  readonly restartAt: (elapsedMs: number) => void
 }
 
 /**
@@ -39,10 +38,6 @@ export const useGameClock = ({
       stoppedMs.current +
       (runningSince.current === null
         ? 0
-        : elapsedClockMs() - runningSince.current),
-    restartAt: (elapsedMs) => {
-      stoppedMs.current = elapsedMs
-      if (runningSince.current !== null) runningSince.current = elapsedClockMs()
-    }
+        : elapsedClockMs() - runningSince.current)
   }
 }

@@ -1,10 +1,11 @@
 import type { SeededRandom } from '@/helpers/seeded-random'
 
 import type { StarsPuzzle } from '../engine/stars-level'
-import { isDecided } from '../solver/stars-knowledge'
+import { CELL_OPEN } from '../solver/stars-knowledge'
 import { solveStars } from '../solver/stars-solver'
 import { type StarsTechnique, techniqueRank } from '../solver/stars-technique'
 import { sideNeighboursOf } from './region-growth'
+import { findRivalSolution } from './rival-solution'
 
 /**
  * How good a grid is to the generator: the cells logic decides first, then,
@@ -12,8 +13,9 @@ import { sideNeighboursOf } from './region-growth'
  */
 const scoreOf = (puzzle: StarsPuzzle) => {
   const solution = solveStars(puzzle)
-  const decided = solution.knowledge.filter((cell) => cell !== 0).length
-  const isSolved = isDecided(solution.knowledge)
+  let decided = 0
+  for (const cell of solution.knowledge) if (cell !== CELL_OPEN) decided++
+  const isSolved = decided === solution.knowledge.length
   const rank = solution.hardest === null ? 0 : techniqueRank(solution.hardest)
   return {
     hardest: solution.hardest,
@@ -28,6 +30,20 @@ const scoreOf = (puzzle: StarsPuzzle) => {
  * still ambiguous is where a change helps most.
  */
 const OPEN_CELL_BIAS = 0.7
+
+/**
+ * How often a reshape moves a star of a rival solution instead: handed to a
+ * bordering region, that cell leaves the rival with two stars in one region,
+ * so the rival is gone. Large grids end up nearly solved with a few rivals
+ * left, which random reshapes take long to find.
+ */
+const RIVAL_BIAS = 0.3
+
+/**
+ * How many decided cells a rival-breaking reshape may cost and still be kept:
+ * logic loses a little ground for a while, but the rival is gone for good.
+ */
+const RIVAL_TOLERANCE = 20
 
 const staysConnected = ({
   cell,
@@ -78,6 +94,23 @@ const nudge = ({
     firstOpen !== undefined && random.next() < OPEN_CELL_BIAS
       ? random.pick([firstOpen, ...otherOpen])
       : random.below(regions.length)
+  return moveCell({ cell, random, regions, size, stars })
+}
+
+/** `cell` handed to a bordering region, or `null` when it cannot move. */
+const moveCell = ({
+  cell,
+  random,
+  regions,
+  size,
+  stars
+}: {
+  cell: number
+  random: SeededRandom
+  regions: readonly number[]
+  size: number
+  stars: ReadonlySet<number>
+}): number[] | null => {
   if (stars.has(cell)) return null
   const region = regions[cell]
   const bordering = [
@@ -98,8 +131,9 @@ const nudge = ({
 
 /**
  * Reshapes the regions a cell at a time, keeping each change that lets logic
- * decide at least as much, until logic alone solves the grid at the wanted
- * difficulty or the budget runs out. Stars never move, so the solution stays.
+ * decide at least as much — or that breaks a rival solution at a small cost —
+ * until logic alone solves the grid at the wanted difficulty or the budget
+ * runs out. Stars never move, so the solution stays.
  *
  * @returns The regions and the hardest technique they ask for; `null` when the
  * budget ran out first.
@@ -124,18 +158,43 @@ export const reshapeRegions = ({
     candidate.hardest !== null &&
     techniqueRank(candidate.hardest) >= techniqueRank(hardestAtLeast)
 
+  let open: number[] | null = null
+  let rivalStars: number[] | null = null
+
   for (let attempt = 0; attempt < budget; attempt++) {
     if (isWanted(score) && score.hardest !== null)
       return { hardest: score.hardest, regions }
-    const open = [...score.knowledge.keys()].filter(
-      (cell) => score.knowledge[cell] === 0
+    const { knowledge } = score
+    open ??= [...knowledge.keys()].filter(
+      (cell) => knowledge[cell] === CELL_OPEN
     )
-    const nudged = nudge({ open, random, regions, size: puzzle.size, stars })
+    rivalStars ??= (
+      findRivalSolution({
+        knowledge,
+        puzzle: { ...puzzle, regions },
+        random,
+        stars
+      }) ?? []
+    ).filter((cell) => !stars.has(cell))
+    const [firstRival, ...otherRivals] = rivalStars
+    const breaksRival = firstRival !== undefined && random.next() < RIVAL_BIAS
+    const nudged = breaksRival
+      ? moveCell({
+          cell: random.pick([firstRival, ...otherRivals]),
+          random,
+          regions,
+          size: puzzle.size,
+          stars
+        })
+      : nudge({ open, random, regions, size: puzzle.size, stars })
     if (nudged === null) continue
     const nudgedScore = scoreOf({ ...puzzle, regions: nudged })
-    if (nudgedScore.value < score.value) continue
+    const tolerance = breaksRival ? RIVAL_TOLERANCE : 0
+    if (nudgedScore.value < score.value - tolerance) continue
     regions = nudged
     score = nudgedScore
+    open = null
+    rivalStars = null
   }
   return isWanted(score) && score.hardest !== null
     ? { hardest: score.hardest, regions }

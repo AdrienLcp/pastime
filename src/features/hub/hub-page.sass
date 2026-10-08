@@ -1,5 +1,4 @@
-@use '../../presentation/styles/print'
-@use '../../presentation/styles/typography'
+@use '../../presentation/styles/layout'
 
 @layer components
   .hub-page
@@ -7,36 +6,9 @@
     align-content: start
     padding-bottom: max(var(--space-xl), var(--safe-area-bottom))
 
-    .section-head
-      @include print.section-head
-
-    .fresh-book
-      display: grid
-      justify-items: start
-      gap: var(--space-2xs)
-      margin-right: var(--gutter-right)
-      margin-left: var(--gutter-left)
-      padding: var(--space-m)
-      background: var(--sheet)
-      border: var(--print-line)
-      filter: var(--shadow-lift)
-
-      .pressable
-        margin-top: var(--space-s)
-
-    .fresh-title
-      @include typography.title
-
-    .fresh-prose
-      max-width: var(--measure-prose)
-      font-size: var(--text-xs)
-      color: var(--ink-soft)
-      text-wrap: pretty
-
-    .hub-colophon
-      @include typography.meta
-      margin-top: var(--space-l)
-      padding-right: var(--gutter-right)
-      padding-left: var(--gutter-left)
-      color: var(--ink-soft)
-      text-align: center
+    // Opened wider, the covers fill the page down to its foot.
+    @include layout.open-page
+      grid-template-rows: auto 1fr auto
+      align-content: stretch
+      min-height: 100dvh
+      padding-bottom: 0

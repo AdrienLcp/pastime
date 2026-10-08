@@ -14,11 +14,12 @@ export type StarsState = {
 const cellSchema = z.number().check(z.int(), z.gte(0))
 
 /**
- * A tap cycles blank → cross → star → blank; a long press sets a star or
- * rubs it out; a drag crosses (or clears) every cell it runs over, stars left
- * alone.
+ * A tap crosses a cell or rubs its mark out; a double tap or a long press sets
+ * a star or rubs it out; a key press cycles blank → cross → star → blank; a
+ * drag crosses (or clears) every cell it runs over, stars left alone.
  */
 export const starsMoveSchema = z.discriminatedUnion('kind', [
+  z.object({ cell: cellSchema, kind: z.literal('cross') }),
   z.object({ cell: cellSchema, kind: z.literal('cycle') }),
   z.object({ cell: cellSchema, kind: z.literal('star') }),
   z.object({

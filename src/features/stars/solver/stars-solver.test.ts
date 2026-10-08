@@ -7,7 +7,6 @@ import type { StarsTechnique } from './stars-technique'
 type Case = {
   technique: StarsTechnique
   grid: DrawnGrid
-  starsPerUnit?: 1 | 2
   decides: number[]
 }
 
@@ -93,51 +92,14 @@ const ONLY_WAY_FORWARD: Case[] = [
       'EEEFFF xxx.x.'
     ],
     technique: 'triple'
-  },
-  {
-    decides: [0],
-    grid: [
-      'AAAAADBBBB ..........',
-      'CCADDDDBBF ..........',
-      'HCADDDBBBF ..........',
-      'HCAAGDDFBF ..........',
-      'HEEEGFFFFF ..........',
-      'HEIEGGFFFF ..........',
-      'HHIEIGGFFF ..........',
-      'HIIIIIGJFF ..........',
-      'HIIGGGGJJF ..........',
-      'IIIIGGGJJF ..........'
-    ],
-    starsPerUnit: 2,
-    technique: 'touching'
-  },
-  {
-    decides: [9, 19],
-    grid: [
-      'AAABBBBBDD .x*xx.x.x.',
-      'AEEBBBBBDD .xxxx.x.x.',
-      'EEEBCCCCDD ..xxx.....',
-      'EFFFFCCGDD .xx*x.x...',
-      'EEFFFCGGGD ..xxx.....',
-      'EEHFFGGGDD ..x*x.....',
-      'EHHFIGGGGJ ..xxxx....',
-      'HHFFIJJJGJ ..xx*x..x.',
-      'HHFHIJJJJJ .xxxxx....',
-      'HHHHIJJJJJ xx*x*xxxxx'
-    ],
-    starsPerUnit: 2,
-    technique: 'pair'
   }
 ]
 
 describe('stars solver', () => {
   it.each(ONLY_WAY_FORWARD)(
     '[stars] $technique is the only way forward on its grid',
-    ({ decides, grid, starsPerUnit, technique }) => {
-      const [first] = solveStars(
-        levelOf(grid, starsPerUnit),
-        knowledgeOf(grid)
-      ).steps
+    ({ decides, grid, technique }) => {
+      const [first] = solveStars(levelOf(grid), knowledgeOf(grid)).steps
       expect(first?.technique).toBe(technique)
       expect(first?.cells).toEqual(decides)
     }

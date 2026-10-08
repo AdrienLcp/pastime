@@ -1,20 +1,15 @@
 @use '../../../presentation/styles/typography'
+@use '../../../presentation/styles/layout'
 
 @layer components
-  .win-sheet
-    display: grid
-    gap: var(--space-l)
-    padding: var(--space-l) var(--gutter-right) max(var(--space-xl), var(--safe-area-bottom)) var(--gutter-left)
+  .win-plate
+    position: relative
+    width: min(74%, 17rem)
+    margin: var(--space-2xs) auto 0
 
-    .win-plate
-      position: relative
-      width: min(74%, 17rem)
-      margin: var(--space-2xs) auto 0
-
-      &.bare
-        display: grid
-        place-items: center
-        min-height: 9rem
+    // The board's own layers stay inside it, so the stamp lies over them all.
+    .win-board
+      isolation: isolate
 
     // The stamp is pressed once, hard, then the ink spreads a little.
     .stamp
@@ -30,29 +25,46 @@
       border-radius: var(--radius-stamp)
       outline: var(--stroke-thin) solid currentColor
       outline-offset: 3px
+      z-index: 1
       rotate: -9deg
+      pointer-events: none
       animation: stamp-press var(--transition-slow, 0s) var(--ease-out) both
-
-    .win-plate.bare .stamp
-      position: static
 
     .stamp-word
       @include typography.stamp
 
-    .stamp-number
-      @include typography.stamp-number
+    // Room is kept around the board for the stamp, pressed over its corner.
+    @include layout.spread
+      width: min(92cqw, 86cqh)
+      margin: auto
+
+      .stamp
+        right: -3%
+        bottom: -4%
+        scale: 1.25
+
+  .win-sheet
+    display: grid
+    gap: var(--space-l)
+    padding: calc(var(--space-l) - var(--space-s)) var(--gutter) var(--space-xl)
+
+    @include layout.spread
+      padding: var(--space-m) var(--space-xl) var(--space-xl)
 
     .score
       display: grid
-      grid-template-columns: repeat(3, minmax(0, 1fr))
+      grid-template-columns: repeat(2, minmax(0, 1fr))
       border: var(--stroke-frame) solid var(--ink)
 
       > div
         min-height: 5.75rem
         padding: var(--space-xs) var(--space-s) var(--space-s)
 
-        & + div
+        &:nth-child(even)
           border-left: var(--print-line)
+
+        &:nth-child(n + 3)
+          border-top: var(--print-line)
 
       dt
         @include typography.caps
@@ -76,8 +88,20 @@
       font-size: var(--text-hand)
       text-decoration-thickness: var(--stroke-bold)
 
+    // The pencil rings the figure from behind and around it, never across it.
     .circled
       position: relative
+      isolation: isolate
+      padding-inline: 0.3em
+
+      .pencil-loop
+        z-index: -1
+        inset: -0.32em -0.15em -0.22em
+        width: calc(100% + 0.3em)
+        height: calc(100% + 0.54em)
+
+        path
+          stroke: color-mix(in oklab, var(--pencil) 55%, transparent)
 
     .scribble
       margin-top: var(--space-2xs)
@@ -87,18 +111,40 @@
       display: grid
       gap: var(--space-xs)
 
-      .segmented-choice
-        margin-bottom: var(--space-xs)
-
       .next
         width: 100%
         min-height: calc(var(--control-height) + var(--space-2xs))
         font-size: var(--text-m)
 
-    .win-actions-pair
-      display: grid
-      grid-template-columns: repeat(auto-fit, minmax(8rem, 1fr))
-      gap: var(--space-xs)
+    @include layout.short-spread
+      gap: var(--space-s)
+      padding: 0 var(--space-m) var(--space-s)
+
+      .score
+        > div
+          min-height: 0
+          padding: var(--space-2xs) var(--space-s) var(--space-xs)
+
+        // The figure and its note share a line where they fit.
+        dd
+          display: flex
+          flex-wrap: wrap
+          align-items: baseline
+          gap: 0 var(--space-xs)
+          margin-top: var(--space-4xs)
+          font-size: var(--text-hand)
+
+      .moves,
+      .beaten,
+      .scribble
+        margin-top: 0
+        font-size: var(--text-m)
+
+      .win-actions
+        gap: var(--space-2xs)
+
+        .next
+          min-height: var(--control-height)
 
   @keyframes stamp-press
     0%

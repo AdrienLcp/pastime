@@ -10,7 +10,7 @@ export const zonedNow = (): Temporal.ZonedDateTime =>
     Temporal.Now.timeZoneId()
   )
 
-/** The device's calendar day: the daily puzzle's day. */
+/** The device's calendar day: the one a backup file is named by. */
 export const today = (): Temporal.PlainDate => zonedNow().toPlainDate()
 
 /**

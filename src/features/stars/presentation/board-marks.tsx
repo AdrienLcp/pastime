@@ -3,25 +3,38 @@ import type React from 'react'
 import type { StarsConflict } from '../engine/stars-conflicts'
 import { columnOf, rowOf } from '../engine/stars-grid'
 import type { StarsMark } from '../engine/stars-state'
-import { pencilCross, pencilLoop, pencilStar } from './pencil-strokes'
-import { pencilFilterOf } from './region-print'
-import { CELL_UNITS, cellCentre, cellsOf } from './stars-drawing'
+import {
+  CELL_UNITS,
+  cellCentre,
+  cellsOf,
+  crossPathOf,
+  starPointsOf
+} from './stars-drawing'
 
 /** How far inside its cell the hint's dashed box is drawn. */
 const HINT_INSET = 4
 
-type Loop = { d: string; key: string; transform?: string }
+/** How far a conflict ring stands off its star, on each side. */
+const RING_INSET = 3
 
-/** A loop round both stars when they touch, tilted along them; one round each otherwise. */
-const conflictLoops = ({
+type Ring = {
+  key: string
+  x: number
+  y: number
+  width: number
+  height: number
+  transform?: string
+}
+
+/** A capsule round both stars when they touch, tilted along them; a ring round each otherwise. */
+const conflictRings = ({
   conflict,
-  index,
   size
 }: {
   conflict: StarsConflict
-  index: number
   size: number
-}): Loop[] => {
+}): Ring[] => {
+  const side = CELL_UNITS - 2 * RING_INSET
   const [first, second] = conflict.cells
   if (
     conflict.kind === 'touching' &&
@@ -32,44 +45,42 @@ const conflictLoops = ({
     const to = cellCentre({ cell: second, size })
     const centre = { x: (from.x + to.x) / 2, y: (from.y + to.y) / 2 }
     const tilt = (Math.atan2(to.y - from.y, to.x - from.x) * 180) / Math.PI
+    const width = Math.hypot(to.x - from.x, to.y - from.y) + side
     return [
       {
-        d: pencilLoop({
-          centre,
-          height: CELL_UNITS * 1.1,
-          seed: index,
-          width: Math.hypot(to.x - from.x, to.y - from.y) + CELL_UNITS * 1.15
-        }),
+        height: side,
         key: `touching-${first}-${second}`,
-        transform: `rotate(${tilt} ${centre.x} ${centre.y})`
+        transform: `rotate(${tilt} ${centre.x} ${centre.y})`,
+        width,
+        x: centre.x - width / 2,
+        y: centre.y - side / 2
       }
     ]
   }
-  return conflict.cells.map((cell) => ({
-    d: pencilLoop({
-      centre: cellCentre({ cell, size }),
-      height: CELL_UNITS * 0.95,
-      seed: cell,
-      width: CELL_UNITS
-    }),
-    key: `${conflict.kind}-${cell}`
-  }))
+  return conflict.cells.map((cell) => {
+    const { x, y } = cellCentre({ cell, size })
+    return {
+      height: side,
+      key: `${conflict.kind}-${cell}`,
+      width: side,
+      x: x - side / 2,
+      y: y - side / 2
+    }
+  })
 }
 
 /**
- * Everything written in pencil: the player's stars and crosses, the crosses
- * auto-cross adds (lighter), the loops round broken rules, and the hint's
- * dashed boxes. A mark keyed by its cell and kind draws itself in when it
- * appears.
+ * Everything over the print: the player's stars and crosses, the crosses
+ * auto-cross adds (lighter), the rings round broken rules, and the hint's
+ * dashed boxes. A mark keyed by its cell and kind pops in when it appears.
  */
-export const PencilMarks: React.FC<{
-  idPrefix: string
+export const BoardMarks: React.FC<{
   marks: readonly StarsMark[]
   ruledOut: ReadonlySet<number>
   conflicts: readonly StarsConflict[]
   hinted: readonly number[]
   size: number
-}> = ({ conflicts, hinted, idPrefix, marks, ruledOut, size }) => (
+}> = ({ conflicts, hinted, marks, ruledOut, size }) => (
   <>
     <g className='hint-boxes'>
       {hinted.map((cell) => (
@@ -83,17 +94,16 @@ export const PencilMarks: React.FC<{
         />
       ))}
     </g>
-    <g className='marks' filter={`url(#${pencilFilterOf(idPrefix)})`}>
+    <g className='marks'>
       {cellsOf(size).map((cell) => {
         const mark = marks[cell]
         const centre = cellCentre({ cell, size })
         if (mark === 'star')
           return (
-            <path
+            <polygon
               className='mark star'
-              d={pencilStar({ cell, centre, radius: CELL_UNITS * 0.34 })}
               key={`star-${cell}`}
-              pathLength={1}
+              points={starPointsOf({ centre, radius: CELL_UNITS * 0.36 })}
             />
           )
         const isCrossed = mark === 'cross' || ruledOut.has(cell)
@@ -101,25 +111,18 @@ export const PencilMarks: React.FC<{
         return (
           <path
             className='mark cross'
-            d={pencilCross({ cell, centre, reach: CELL_UNITS * 0.17 })}
+            d={crossPathOf({ centre, reach: CELL_UNITS * 0.15 })}
             data-auto={mark === 'cross' ? undefined : true}
             key={`cross-${cell}`}
-            pathLength={1}
           />
         )
       })}
     </g>
-    <g className='conflicts' filter={`url(#${pencilFilterOf(idPrefix)})`}>
+    <g className='conflicts'>
       {conflicts
-        .flatMap((conflict, index) => conflictLoops({ conflict, index, size }))
-        .map(({ d, key, transform }) => (
-          <path
-            className='mark loop'
-            d={d}
-            key={key}
-            pathLength={1}
-            transform={transform}
-          />
+        .flatMap((conflict) => conflictRings({ conflict, size }))
+        .map(({ key, ...ring }) => (
+          <rect className='ring' key={key} rx={ring.height / 2} {...ring} />
         ))}
     </g>
   </>

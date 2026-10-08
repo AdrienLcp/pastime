@@ -14,11 +14,16 @@ import { isLocale, type Locale } from '@/presentation/i18n/locale'
 
 /** Every address the app answers. The language leads every one of them. */
 export const paths = {
-  daily: '/:locale/:game/daily',
   game: '/:locale/:game',
   hub: '/:locale',
   settings: '/:locale/settings'
 } as const
+
+/**
+ * Where a game was played while its own address opened a choice first; an
+ * installed app may still hold it, so it leads to the game.
+ */
+export const retiredPlayPath = '/:locale/:game/play'
 
 const pathFor = <Path extends string>(
   path: Path,
@@ -38,14 +43,6 @@ export const gamePathFor = ({
   gameId: string
   locale: Locale
 }): string => pathFor(paths.game, { game: gameId, locale })
-
-export const dailyPathFor = ({
-  gameId,
-  locale
-}: {
-  gameId: string
-  locale: Locale
-}): string => pathFor(paths.daily, { game: gameId, locale })
 
 /** The language the address is in; `null` for a segment that is not one. */
 export const localeParam = (raw: string | undefined): Locale | null =>
@@ -74,7 +71,7 @@ export const useCurrentPathIn = (): ((locale: Locale) => string) => {
  */
 export { useLoaderData as useRouteData }
 
-/** Moves to another address after an action, not on a link: a language switched. */
+/** Swaps the address after an action, not on a link: a language switched. */
 export const useReplacePage = (): ((path: string) => void) => {
   const navigate = useNavigate()
   return (path) => {
@@ -87,20 +84,6 @@ export const useReloadRouteData = (): (() => void) => {
   const revalidator = useRevalidator()
   return () => {
     void revalidator.revalidate()
-  }
-}
-
-/**
- * An on-screen Back that does what the device's Back does: one step back when
- * the app opened the page, the parent page when the address was opened as is.
- */
-export const useGoBack = (fallback: string): (() => void) => {
-  const navigate = useNavigate()
-  return () => {
-    const index: unknown = window.history.state?.idx
-    void (typeof index === 'number' && index > 0
-      ? navigate(-1)
-      : navigate(fallback, { replace: true }))
   }
 }
 

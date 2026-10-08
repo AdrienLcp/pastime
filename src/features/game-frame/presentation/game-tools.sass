@@ -1,10 +1,12 @@
 @use '../../../presentation/styles/typography'
 @use '../../../presentation/styles/focus'
+@use '../../../presentation/styles/layout'
 
 @layer components
   .game-tools
     display: grid
-    grid-template-columns: repeat(3, 1fr)
+    grid-auto-columns: minmax(0, 1fr)
+    grid-auto-flow: column
     padding: 0 var(--safe-area-right) var(--safe-area-bottom) var(--safe-area-left)
     border-top: var(--stroke-bold) solid var(--ink)
 
@@ -12,10 +14,17 @@
       display: flex
       flex-direction: column
       align-items: center
-      justify-content: center
+      // Icons hang from the same line, so a label broken in two grows downward
+      // instead of lifting its icon above the others.
+      justify-content: start
       gap: var(--space-3xs)
       min-height: calc(var(--control-height) + var(--space-s))
+      padding: var(--space-xs) 0 var(--space-3xs)
       @include typography.tool-label
+      text-align: center
+      // Four to a phone's width: a long word breaks where the language allows.
+      hyphens: auto
+      overflow-wrap: break-word
       cursor: pointer
       transition: background-color var(--transition-fast, 0s)
 
@@ -26,8 +35,13 @@
         width: var(--icon-tool)
         height: var(--icon-tool)
 
-      &[data-pressed]:not([data-disabled])
+      &[data-pressed]:not([data-disabled]),
+      &[data-armed]
         background: var(--paper-sunk)
+
+      @media (hover: hover)
+        &[data-hovered]:not([data-disabled])
+          background: color-mix(in oklab, var(--ink) 8%, var(--paper))
 
       &[data-disabled]
         cursor: default
@@ -37,3 +51,40 @@
           opacity: 0.5
 
       @include focus.ring-inset
+
+    @include layout.spread
+      grid-auto-flow: row
+
+      .tool
+        flex-direction: row
+        justify-content: start
+        gap: var(--space-s)
+        min-height: 3.5rem
+        padding: 0 var(--space-xl)
+        @include typography.control
+
+        & + .tool
+          border-top: var(--hairline)
+          border-left: 0
+
+    // Too short for a column of rows: the tools lie two by two, each
+    // label under its icon as on the phone's bar.
+    @include layout.short-spread
+      grid-template-columns: repeat(2, minmax(0, 1fr))
+
+      .tool
+        flex-direction: column
+        justify-content: center
+        gap: var(--space-4xs)
+        min-height: var(--control-height)
+        padding: 0 var(--space-3xs)
+        @include typography.tool-label
+
+        & + .tool
+          border-top: 0
+
+        &:nth-child(n + 3)
+          border-top: var(--hairline)
+
+        &:nth-child(3)
+          border-left: 0

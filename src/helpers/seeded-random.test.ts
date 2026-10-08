@@ -45,11 +45,9 @@ describe('seeded random', () => {
   })
 
   it('[seeded-random] hashes a text to the same seed every time', () => {
-    expect(seedFromText('stars/daily/2026-10-07')).toBe(
-      seedFromText('stars/daily/2026-10-07')
-    )
-    expect(seedFromText('stars/daily/2026-10-07')).not.toBe(
-      seedFromText('stars/daily/2026-10-08')
+    expect(seedFromText('stars/8/first')).toBe(seedFromText('stars/8/first'))
+    expect(seedFromText('stars/8/first')).not.toBe(
+      seedFromText('stars/8/second')
     )
   })
 })

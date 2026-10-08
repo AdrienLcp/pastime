@@ -1,9 +1,10 @@
 @use '../../presentation/styles/typography'
 @use '../../presentation/styles/focus'
+@use '../../presentation/styles/layout'
 
 @layer components
   .masthead
-    padding: max(var(--space-2xs), var(--safe-area-top)) var(--gutter-right) 0 var(--gutter-left)
+    padding: max(var(--space-2xs), var(--safe-area-top)) var(--gutter-right) var(--space-l) var(--gutter-left)
 
     .masthead-top
       display: flex
@@ -47,6 +48,10 @@
       &[data-pressed]
         background: var(--paper-sunk)
 
+      @media (hover: hover)
+        &[data-hovered]
+          background: var(--paper-sunk)
+
       @include focus.ring-inset
 
     .masthead-title
@@ -59,28 +64,17 @@
       border-top: var(--stroke-heavy) solid var(--ink)
       border-bottom: var(--print-line)
 
-    .issue-line
-      @include typography.meta
-      display: flex
-      flex-wrap: wrap
-      align-items: center
-      justify-content: space-between
-      gap: var(--space-xs) var(--space-s)
-      padding-top: var(--space-xs)
-      color: var(--ink-soft)
+    @include layout.open-page
+      padding: var(--space-l) var(--space-xl) var(--space-xl)
 
-      time::first-letter
-        text-transform: uppercase
+      .masthead-title
+        font-size: clamp(5rem, 9vw, 8.5rem)
 
-    .streak
-      display: inline-flex
-      align-items: baseline
-      gap: var(--space-2xs)
-      padding: var(--space-4xs) var(--space-xs)
-      border: var(--print-line)
-      color: var(--ink)
-      white-space: nowrap
+    @include layout.short-spread
+      padding: var(--space-3xs) var(--space-xl) var(--space-s)
 
-      b
-        @include typography.hand-figure
-        color: var(--pencil)
+      .masthead-title
+        font-size: 3.25rem
+
+      .masthead-rule
+        margin-top: var(--space-2xs)

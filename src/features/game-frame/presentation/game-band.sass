@@ -1,5 +1,6 @@
 @use '../../../presentation/styles/typography'
 @use '../../../presentation/styles/focus'
+@use '../../../presentation/styles/layout'
 
 @layer components
   .game-band
@@ -19,6 +20,8 @@
       place-items: center
       width: var(--control-height)
       height: var(--control-height)
+      color: inherit
+      text-decoration: none
 
       svg
         width: var(--icon-l)
@@ -27,28 +30,80 @@
       &[data-pressed]
         background: color-mix(in oklab, var(--cover-ink) 12%, var(--chapter))
 
+      @media (hover: hover)
+        &[data-hovered]
+          background: color-mix(in oklab, var(--cover-ink) 10%, var(--chapter))
+
       @include focus.ring-inset
 
+    .band-back-label,
+    .band-rule
+      display: none
+
     .band-title
-      display: flex
-      flex-wrap: wrap
-      align-items: baseline
-      gap: 0 var(--space-s)
       min-width: 0
-
-    .band-number
-      @include typography.number
-      white-space: nowrap
-
-      small
-        @include typography.number-sign(var(--text-hand))
-
-    .band-caption
-      @include typography.meta-strong
       overflow: hidden
       text-overflow: ellipsis
       white-space: nowrap
+      @include typography.meta-strong
 
     .band-end
       display: flex
       align-items: center
+
+    @include layout.spread
+      grid-template-columns: minmax(0, 1fr)
+      align-content: start
+      align-items: start
+      gap: var(--space-m)
+      padding: var(--space-m) var(--space-xl) var(--space-l)
+
+      .band-back
+        display: inline-flex
+        align-items: center
+        justify-self: start
+        gap: var(--space-2xs)
+        width: auto
+        height: var(--target)
+        margin-left: calc(-1 * var(--space-s))
+        padding: 0 var(--space-s) 0 var(--space-2xs)
+        @include typography.control
+
+      .band-back-label
+        display: inline
+
+      .band-title
+        margin-top: var(--space-l)
+        overflow: visible
+        white-space: normal
+        @include typography.spread-title
+        overflow-wrap: anywhere
+
+      .band-rule
+        display: block
+        max-width: 28ch
+        @include typography.spread-rule
+        text-wrap: pretty
+
+      .band-end
+        display: grid
+
+    @include layout.short-spread
+      gap: var(--space-2xs)
+      padding: var(--space-3xs) var(--space-m) var(--space-s)
+
+      .band-back
+        margin-left: calc(-1 * var(--space-xs))
+
+      .band-title
+        margin-top: 0
+        font-size: 2rem
+
+      .band-rule
+        font-size: var(--text-2xs)
+
+      // The clock and the score share one line.
+      .band-end
+        grid-auto-columns: minmax(0, 1fr)
+        grid-auto-flow: column
+        column-gap: var(--space-m)

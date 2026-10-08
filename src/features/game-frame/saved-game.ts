@@ -12,7 +12,7 @@ export const savedGameSchema = z.object({
   level: z.unknown(),
   moves: z.array(z.unknown()),
   puzzle: puzzleRefSchema,
-  /** When it was last played, as epoch milliseconds: the hub resumes the latest. */
+  /** When it was last played, as epoch milliseconds. */
   savedAtMs: z.number()
 })
 

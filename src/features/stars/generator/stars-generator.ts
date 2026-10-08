@@ -6,12 +6,12 @@ import type { SeededRandom } from '@/helpers/seeded-random'
 import type { StarsLevel } from '../engine/stars-level'
 import { isStarsVariantId, STARS_VARIANTS } from '../engine/stars-variants'
 import type { StarsTechnique } from '../solver/stars-technique'
-import { growRegions, pairRegions } from './region-growth'
+import { growRegions } from './region-growth'
 import { reshapeRegions } from './region-reshape'
 import { placeStars } from './star-placement'
 
 /** Cells handed from region to region before the regions are grown afresh. */
-const RESHAPE_BUDGET = 600
+const RESHAPE_BUDGET = 3000
 
 /** Fresh grids drawn from one seed before the seed is given up on. */
 const GRIDS_PER_SEED = 4
@@ -19,24 +19,19 @@ const GRIDS_PER_SEED = 4
 const drawGrid = ({
   hardestAtLeast,
   random,
-  size,
-  starsPerUnit
+  size
 }: {
   hardestAtLeast: StarsTechnique
   random: SeededRandom
   size: number
-  starsPerUnit: 1 | 2
 }): StarsLevel | null => {
-  const stars = placeStars({ random, size, starsPerUnit })
+  const stars = placeStars({ random, size })
   if (stars === null) return null
-  const grown = growRegions({ random, seeds: stars, size })
-  const regions =
-    starsPerUnit === 1 ? grown : pairRegions({ random, regions: grown, size })
-  if (regions === null) return null
+  const regions = growRegions({ random, seeds: stars, size })
   const reshaped = reshapeRegions({
     budget: RESHAPE_BUDGET,
     hardestAtLeast,
-    puzzle: { regions, size, starsPerUnit },
+    puzzle: { regions, size },
     random,
     stars: new Set(stars)
   })
@@ -44,8 +39,7 @@ const drawGrid = ({
   return {
     difficulty: reshaped.hardest,
     regions: reshaped.regions,
-    size,
-    starsPerUnit
+    size
   }
 }
 

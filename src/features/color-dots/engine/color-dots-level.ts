@@ -76,13 +76,9 @@ const hasOneRingPerBall = ({ nodes }: LevelShape): boolean => {
   )
 }
 
-/**
- * A printed board: a tree of nodes on a grid, drawn with straight lines.
- * `boss` marks the larger levels of the progression and the daily puzzle.
- */
+/** A printed board: a tree of nodes on a grid, drawn with straight lines. */
 export const colorDotsLevelSchema = z
   .object({
-    boss: z.boolean(),
     links: z.array(
       z.tuple([
         z.number().check(z.int(), z.gte(0)),

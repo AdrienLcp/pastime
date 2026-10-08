@@ -15,7 +15,7 @@ export type ChapterEntry = {
   readonly bestMs: number | null
 }
 
-/** One process-ink cover per game, its rule printed on it: free play opens from here. */
+/** One process-ink cover per game, its rule printed on it: play opens from here. */
 export const ChapterCovers: React.FC<{ chapters: readonly ChapterEntry[] }> = ({
   chapters
 }) => {
@@ -32,14 +32,14 @@ export const ChapterCovers: React.FC<{ chapters: readonly ChapterEntry[] }> = ({
           >
             <span className='cover-title'>{translate(game.name)}</span>
             <span className='cover-rule'>{translate(game.rule)}</span>
-            <span className='cover-meta'>
-              {bestMs === null
-                ? translate('hub.coverNew')
-                : translate('hub.coverMeta', {
-                    best: formatClockTime(bestMs),
-                    count: solved
-                  })}
-            </span>
+            {bestMs !== null && (
+              <span className='cover-meta'>
+                {translate('hub.coverMeta', {
+                  best: formatClockTime(bestMs),
+                  count: solved
+                })}
+              </span>
+            )}
             <span aria-hidden='true' className='cover-glyph'>
               <game.Glyph />
             </span>
