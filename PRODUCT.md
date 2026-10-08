@@ -15,16 +15,17 @@ he plays them in. Then anyone with the same habit who finds the app.
 ## Product Purpose
 
 Pastime gathers small solo puzzle and card games — Stars, Pipes, Klondike
-solitaire, Color Dots, more later — in one installable web app: no ads, no
-account, works offline. Success is Adrien deleting the ad apps and opening
-Pastime instead, every evening, without friction.
+solitaire, Color Dots, more later — in one installable web app that works
+offline, with random levels on demand, as many as wanted. Success is Adrien
+deleting the ad apps and opening Pastime instead, every evening, without
+friction.
 
 ## Positioning
 
 Every level is generated on the device and checked by the game's solver
-before it is shown: no puzzle ever needs a guess, every dealt solitaire is
-winnable. The daily puzzle is the same for everyone without a server, its seed
-being the date. Nothing to pay, nothing to sign in to, nothing between the
+before it is shown: no puzzle ever needs a guess, every « winnable » deal is
+winnable. The next level is printed ahead while one is played, so a new game
+never waits. Nothing to pay, nothing to sign in to, nothing between the
 player and the board.
 
 ## Operating Context
@@ -43,7 +44,8 @@ player and the board.
 - One engine per game, pure and tested, apart from its screen. Adding a game
   never touches another game's folder; the hub reads a registry.
 - Shared game frame: timer, undo, restart, hint (named in words), pause, win
-  screen, save/resume, best times, daily streaks.
+  screen, save/resume, best times; the size, deal or difficulty is chosen
+  before playing.
 - French is the reference language, English must fit.
 - WCAG AA in light and dark; colour never alone tells regions, balls or states
   apart; touch targets ≥ 44 px; boards fit a 360 px phone without scrolling;
@@ -72,5 +74,6 @@ written in `docs/games/<game>.md`.
 
 ## Accessibility & Inclusion
 
-WCAG AA in both themes, shape or pattern alongside every colour distinction
+WCAG AA in both themes, a border, symbol or word alongside every colour
+distinction, and Stars' region inks kept apart for every colour vision
 (colour-blind players), 44 px targets, reduced motion honoured.

@@ -91,14 +91,13 @@ Generation time, 20 seeds per size, Chrome with the CPU throttled ×4
 | 5×5 | 4 ms | 33 ms | 89 ms |
 | 6×6 | 8 ms | 45 ms | 77 ms |
 | 7×7 | 37 ms | 112 ms | 190 ms |
-| 8×8 (daily) | 76 ms | 311 ms | 487 ms |
+| 8×8 | 76 ms | 311 ms | 487 ms |
 | 9×9 | 171 ms | 796 ms | 971 ms |
 | 10×10 | 332 ms | 1.3 s | 1.5 s |
 | 10×10 2★ | 340 ms | 1.9 s | 2.0 s |
 
-The worker's 6 s timeout sits well above the worst case: a slow phone that
-timed out would move to the next derived seed and print a different daily
-than everyone else, so that margin is what keeps the daily shared.
+The worker's 6 s timeout sits well above the worst case, and the next level
+is printed ahead while one is played, so even a 10×10 2★ opens at once.
 
 **Not yet: 11×11 and 12×12 2★.** With these techniques the reshaping never
 reached a logic-only 12×12 2★ grid within budget. Those sizes need the 2★

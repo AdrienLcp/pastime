@@ -73,19 +73,22 @@ one; without them (the solver, reduced motion) every earlier ball has landed.
 
 ## Difficulty — decided
 
-Adrien finds easy levels boring: **no difficulty selector**. A numbered
-progression that reaches real difficulty within the first ten levels, then
-keeps a rhythm of two hard levels and one "boss" level (marked as such,
-larger board, long dependency chains). The daily puzzle is a boss level.
+Three tiers, chosen before playing like the other games' sizes: **Facile**,
+**Difficile** and **Expert** (variants `easy`, `hard`, `expert`). Adrien
+finds easy levels boring, so even Facile starts above the old first levels.
 
 Difficulty, measured by the solver: the number of balls, and the number of
 tempting wrong taps — along the solution, every tap that moves a ball without
 being blocked yet leaves a board no order can clear (`countTraps`). Each
-level's recipe (`color-dots-progression.ts`) sets its rings, inks, grid and a
+tier's recipe (`color-dots-tiers.ts`) sets its rings, inks, grid and a
 minimum of traps, calibrated on measured levels: the generator builds up to
-24 boards and ships the first that reaches it, else the hardest. Levels 1–9
-ramp from 4 to 11 balls, level 10 is the first boss (14 balls, 7×10 grid),
-then two hard levels (11 balls) and a boss, again and again.
+24 boards and ships the first that reaches it, else the hardest.
+
+| Tier | Balls | Inks | Grid | Traps at least |
+| --- | --- | --- | --- | --- |
+| Facile | 8 | 4 | 7×9 | 6 |
+| Difficile | 11 | 5 | 7×9 | 16 |
+| Expert | 14 | 5 | 7×10 | 24 |
 
 ## Generation
 
@@ -96,7 +99,7 @@ new leaf, on a point of a line (it then blocks that line), or on a branch from
 a point of a line, wherever tapping it would ride straight back into the ring
 just emptied — checked with the engine's own tap. A ring walled in by the
 balls already put back sends the build back a step (bounded backtracking);
-about half the boss boards still dead-end and are rebuilt. Played forwards,
+about half the Expert boards still dead-end and are rebuilt. Played forwards,
 the reverse order is a guaranteed solution, replayed once more before the
 level ships. The solver (depth-first over tap orders, boards already settled
 kept, a ball cut off by a filled ring proving a board hopeless at once) grades

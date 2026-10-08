@@ -1,8 +1,9 @@
 # Pastime
 
-A collection of small solo puzzle and card games, installable as a PWA,
-offline, without ads or accounts. Built first for Adrien, who plays these games
-in ad-ridden apps. Personal project (`github.com/AdrienLcp/pastime`).
+A collection of small solo puzzle and card games: an installable PWA that
+works offline, with no server, every level generated on the device. Built
+first for Adrien, who plays these games in ad-ridden apps. Personal project
+(`github.com/AdrienLcp/pastime`).
 
 ## Conventions
 

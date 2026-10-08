@@ -1,14 +1,14 @@
 # Pastime
 
-Small solo games in one app: Stars, Pipes, Solitaire and Color Dots. No ads,
-no account, works offline, installs on a phone's home screen. Every puzzle is
-generated on the device and checked before it is shown; the daily puzzle is
-the same for everyone, with no server involved.
+Small solo games in one app: Stars, Pipes, Solitaire and Color Dots, as many
+levels as wanted. It works offline and installs on a phone's home screen;
+there is no server. Every level is generated on the device and checked before
+it is shown, and the next one is printed ahead, so a new game never waits.
 
 **Play:** [pastime.adrienlcp.com](https://pastime.adrienlcp.com)
 
 <p>
-  <img alt="The contents page: today's four puzzles and the chapters" src="docs/screenshots/hub.webp" width="180" />
+  <img alt="The list of games, one cover per game" src="docs/screenshots/hub.webp" width="180" />
   <img alt="Stars: one star per row, column and region" src="docs/screenshots/stars.webp" width="180" />
   <img alt="Pipes: turn the tiles until water reaches every one" src="docs/screenshots/pipes.webp" width="180" />
   <img alt="Klondike solitaire, draw one" src="docs/screenshots/solitaire.webp" width="180" />
@@ -17,12 +17,12 @@ the same for everyone, with no server involved.
 
 ## How levels are generated and checked
 
-A puzzle is named by `(game, variant, number)`. Its seed is a hash of that
-name, or of the game and the date for the daily, fed to one seeded PRNG: the
-same puzzle comes out on every device, with nothing to download. Generators
-run in a Web Worker; one that times out or gives up is retried with a seed
-derived from the first, never a random one, so a retried daily is still
-everyone's daily.
+A new level starts from 32 random bits, fed to one seeded PRNG: the seed is
+kept with the game in progress, so a resumed or replayed game prints the same
+board. Generators run in a Web Worker; one that times out or gives up is
+retried with a seed derived from the first. Once a level is on screen, the
+next one of the same size, deal or difficulty is printed in the worker while
+the page is idle and kept on the device, so a new game opens at once.
 
 - **Stars.** A random star solution is placed first, then regions are grown
   around it and reshaped cell by cell until the logical solver fills the whole
@@ -35,16 +35,17 @@ everyone's daily.
   logic alone solves it: one solution, no guess.
 - **Solitaire.** Klondike, draw one. A seeded shuffle is kept only if a
   depth-first solver wins it within its search budget; otherwise the next
-  shuffle is tried. Every dealt game is winnable.
+  shuffle is tried. Every winnable deal is proven so; the random deal takes
+  any shuffle, for the purists.
 - **Color Dots.** Levels are built backwards from the solved board: balls are
   taken out of their rings one by one, each placement kept only if the game's
   own move rides the ball straight back. Played forwards, that order is a
   guaranteed win, replayed once more before the level ships. Difficulty counts
-  traps, moves that are legal yet leave the board unwinnable. Level 10 is the
-  first boss, then every third level.
+  traps, moves that are legal yet leave the board unwinnable: Easy, Hard and
+  Expert each ask for more balls and more traps.
 
-Saves, best times and streaks live in `localStorage`, behind versioned keys
-read through schemas: a value the app does not recognise reads as absent.
+Saves and best times live in `localStorage`, behind versioned keys read
+through schemas: a value the app does not recognise reads as absent.
 
 ## Develop
 

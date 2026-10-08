@@ -29,7 +29,7 @@ engine keeps the draw count a parameter so it costs nothing to add later.
   over up to 4 seeds, and reports a failure past that. The deals shown lean
   slightly towards those a short search wins.
 - A "random deal" option for the purists.
-- A deal is reproducible from its seed (shared or replayed).
+- A deal is reproducible from its seed, so a replay deals it again.
 
 Cards drawn in SVG to the design system, one face per suit and rank — no
 external card image set with an unclear licence.
