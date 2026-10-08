@@ -156,3 +156,11 @@
   font-weight: 800
   letter-spacing: var(--tracking-caps)
   text-transform: uppercase
+
+/// A card's rank in its corner, sized on the card it sits on.
+@mixin card-index($size)
+  font-size: $size
+  font-stretch: var(--stretch-card)
+  font-weight: 800
+  letter-spacing: var(--tracking-number)
+  line-height: 1

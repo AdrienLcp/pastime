@@ -100,11 +100,7 @@
       position: absolute
       top: calc(var(--card-width) * 0.04)
       left: calc(var(--card-width) * 0.07)
-      font-size: calc(var(--card-width) * 0.32)
-      font-stretch: 78%
-      font-weight: 800
-      letter-spacing: -0.02em
-      line-height: 1
+      @include typography.card-index(calc(var(--card-width) * 0.32))
 
     .card-pip
       position: absolute
