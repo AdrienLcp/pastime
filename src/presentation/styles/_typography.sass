@@ -81,24 +81,13 @@
   font-weight: 500
   line-height: var(--leading-snug)
 
-/// A puzzle's number, the book's display face: condensed and black.
+/// The book's display face for a short title: condensed and black.
 @mixin number($size: var(--text-number))
   font-size: $size
   font-stretch: var(--stretch-condensed)
   font-weight: 900
   letter-spacing: var(--tracking-number)
   line-height: 1
-
-/// « N° » before a number, at about half its size.
-@mixin number-sign($size)
-  font-size: $size
-  font-weight: 800
-
-/// A puzzle's number on a contents row, condensed to line up with the others.
-@mixin number-small
-  font-size: var(--text-control)
-  font-stretch: var(--stretch-listing)
-  font-weight: 800
 
 /// The running clock in a game's band.
 @mixin timer
@@ -131,12 +120,6 @@
   line-height: var(--leading-display)
   text-transform: uppercase
 
-/// The puzzle and the date under « Résolu ».
-@mixin stamp-number
-  font-size: var(--text-meta)
-  font-weight: 800
-  letter-spacing: var(--tracking-stamp-number)
-
 /// The player's own writing: times, ticks, notes in the margin.
 @mixin hand
   font-family: var(--font-hand)
@@ -144,7 +127,7 @@
   font-weight: 400
   line-height: 1.2
 
-/// A figure the player wrote — a time, a streak — set solid on its line.
+/// A figure the player wrote — a time, a count — set solid on its line.
 @mixin hand-figure($size: var(--text-hand))
   @include hand
   font-size: $size
