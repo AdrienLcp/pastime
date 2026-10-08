@@ -31,6 +31,7 @@
     "@types/react": "19.3.0",
     "@types/react-dom": "19.3.0",
     "@vitejs/plugin-react": "^6.1.2",
+    "@vitest/coverage-v8": "5.0.2",
     "cspell": "^10.3.6",
     "fontaine": "^1.0.0",
     "oxc-transform-react": "^0.152.0",
@@ -63,6 +64,7 @@
     "preview": "vite preview --port 5531 --strictPort",
     "spell": "cspell --no-progress --gitignore \"**\"",
     "test": "vitest run",
+    "test:coverage": "vitest run --coverage",
     "test:watch": "vitest",
     "typecheck": "tsc --noEmit && tsc --noEmit -p src/service-worker",
     "validate": "pnpm lint:ci && pnpm spell && pnpm build && pnpm test"
