@@ -5,6 +5,7 @@ import { Outlet, ScrollRestoration, useLocation } from 'react-router'
 
 import { AppShell } from '@/presentation/app-shell'
 import { focusMain } from '@/presentation/components/main'
+import { DocumentCanonical } from '@/presentation/head/document-canonical'
 
 /**
  * A client-side navigation leaves focus on the link that started it: the new
@@ -31,6 +32,7 @@ export const RootRoute: React.FC = () => {
 
   return (
     <AriaRouterProvider>
+      <DocumentCanonical />
       <AppShell>
         <ViewTransition default='none' enter='auto' exit='auto' key={pathname}>
           <Outlet />
