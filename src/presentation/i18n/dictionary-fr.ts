@@ -9,7 +9,8 @@ export const FR_DICTIONARY = defineDictionary({
     name: 'Pastime'
   },
   common: {
-    backToGames: 'Retour aux jeux'
+    backToGames: 'Retour aux jeux',
+    games: 'Jeux'
   },
   crash: {
     prose:

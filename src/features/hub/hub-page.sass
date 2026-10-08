@@ -1,5 +1,14 @@
+@use '../../presentation/styles/layout'
+
 @layer components
   .hub-page
     display: grid
     align-content: start
     padding-bottom: var(--space-xl)
+
+    // Opened wider, the covers fill the page down to its foot.
+    @include layout.open-page
+      grid-template-rows: auto 1fr auto
+      align-content: stretch
+      min-height: 100dvh
+      padding-bottom: 0

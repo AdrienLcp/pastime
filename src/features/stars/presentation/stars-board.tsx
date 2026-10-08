@@ -110,47 +110,53 @@ export const StarsBoard: React.FC<
   }
 
   return (
-    <div className='stars-board' style={{ '--size': size }}>
-      <div className='sheet'>
-        <svg
-          aria-hidden={!isLocked}
-          aria-label={
-            isLocked ? translate('games.stars.board', { size }) : undefined
-          }
-          className='print'
-          role={isLocked ? 'img' : undefined}
-          viewBox={`${-FRAME_MARGIN} ${-FRAME_MARGIN} ${span + 2 * FRAME_MARGIN} ${span + 2 * FRAME_MARGIN}`}
-        >
-          <RegionPrint puzzle={level} />
-          <BoardMarks
-            conflicts={conflicts}
-            hinted={hintedCellsOf(hint)}
-            marks={shownMarks}
-            ruledOut={ruledOut}
-            size={size}
-          />
-        </svg>
-        {!isLocked && (
-          <fieldset
-            aria-label={translate('games.stars.board', { size })}
-            className='cells'
-            {...gestures.surface}
+    <div
+      className='stars-board'
+      data-locked={isLocked || undefined}
+      style={{ '--size': size }}
+    >
+      <div className='stage'>
+        <div className='sheet'>
+          <svg
+            aria-hidden={!isLocked}
+            aria-label={
+              isLocked ? translate('games.stars.board', { size }) : undefined
+            }
+            className='print'
+            role={isLocked ? 'img' : undefined}
+            viewBox={`${-FRAME_MARGIN} ${-FRAME_MARGIN} ${span + 2 * FRAME_MARGIN} ${span + 2 * FRAME_MARGIN}`}
           >
-            {cellsOf(size).map((cell) => (
-              <button
-                aria-label={cellLabel(cell)}
-                className='cell'
-                {...{ [gestures.cellAttribute]: cell }}
-                key={cell}
-                onClick={(event) => gestures.onCellClick(cell, event)}
-                onFocus={() => setFocusedCell(cell)}
-                onKeyDown={(event) => moveFocus(event, cell)}
-                tabIndex={cell === focusedCell ? 0 : -1}
-                type='button'
-              />
-            ))}
-          </fieldset>
-        )}
+            <RegionPrint puzzle={level} />
+            <BoardMarks
+              conflicts={conflicts}
+              hinted={hintedCellsOf(hint)}
+              marks={shownMarks}
+              ruledOut={ruledOut}
+              size={size}
+            />
+          </svg>
+          {!isLocked && (
+            <fieldset
+              aria-label={translate('games.stars.board', { size })}
+              className='cells'
+              {...gestures.surface}
+            >
+              {cellsOf(size).map((cell) => (
+                <button
+                  aria-label={cellLabel(cell)}
+                  className='cell'
+                  {...{ [gestures.cellAttribute]: cell }}
+                  key={cell}
+                  onClick={(event) => gestures.onCellClick(cell, event)}
+                  onFocus={() => setFocusedCell(cell)}
+                  onKeyDown={(event) => moveFocus(event, cell)}
+                  tabIndex={cell === focusedCell ? 0 : -1}
+                  type='button'
+                />
+              ))}
+            </fieldset>
+          )}
+        </div>
       </div>
       {!isLocked && (
         <>

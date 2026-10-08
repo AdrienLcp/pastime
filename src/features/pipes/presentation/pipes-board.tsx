@@ -113,61 +113,67 @@ export const PipesBoard: React.FC<
   const TurnIcon = direction === 'clockwise' ? TurnClockwiseIcon : TurnBackIcon
 
   return (
-    <div className='pipes-board' style={{ '--size': size }}>
-      <div className='sheet'>
-        <svg
-          aria-hidden={!isLocked}
-          aria-label={
-            isLocked ? translate('games.pipes.board', { size }) : undefined
-          }
-          className='print'
-          role={isLocked ? 'img' : undefined}
-          viewBox={`${-FRAME_MARGIN} ${-FRAME_MARGIN} ${box} ${box}`}
-        >
-          <path className='tile-lines' d={tileLinesOf(size)} />
-          {cellsOf(size).map((cell) => (
-            <PipeTile
-              cell={cell}
-              degrees={spins[cell] ?? 0}
-              flowDelay={flowDelays.get(cell) ?? 0}
-              isHinted={hint?.cell === cell}
-              isLocked={state.locked[cell] ?? false}
-              isSource={cell === source}
-              isWet={depths.has(cell)}
-              key={cell}
-              size={size}
-              tile={level.tiles[cell] ?? 0}
-            />
-          ))}
-          <rect className='frame' height={span} width={span} />
-        </svg>
-        {!isLocked && (
-          <fieldset
-            aria-label={translate('games.pipes.board', { size })}
-            className='tiles'
-            onContextMenu={(event) => event.preventDefault()}
+    <div
+      className='pipes-board'
+      data-locked={isLocked || undefined}
+      style={{ '--size': size }}
+    >
+      <div className='stage'>
+        <div className='sheet'>
+          <svg
+            aria-hidden={!isLocked}
+            aria-label={
+              isLocked ? translate('games.pipes.board', { size }) : undefined
+            }
+            className='print'
+            role={isLocked ? 'img' : undefined}
+            viewBox={`${-FRAME_MARGIN} ${-FRAME_MARGIN} ${box} ${box}`}
           >
-            {cellsOf(size).map((cell) => {
-              const gestures = tileProps(cell)
-              return (
-                <button
-                  aria-label={tileLabel(cell)}
-                  className='tile-button'
-                  {...{ [TILE_ATTRIBUTE]: cell }}
-                  key={cell}
-                  {...gestures}
-                  onFocus={() => setFocusedTile(cell)}
-                  onKeyDown={(event) => {
-                    moveFocus(event, cell)
-                    gestures.onKeyDown(event)
-                  }}
-                  tabIndex={cell === focusedTile ? 0 : -1}
-                  type='button'
-                />
-              )
-            })}
-          </fieldset>
-        )}
+            <path className='tile-lines' d={tileLinesOf(size)} />
+            {cellsOf(size).map((cell) => (
+              <PipeTile
+                cell={cell}
+                degrees={spins[cell] ?? 0}
+                flowDelay={flowDelays.get(cell) ?? 0}
+                isHinted={hint?.cell === cell}
+                isLocked={state.locked[cell] ?? false}
+                isSource={cell === source}
+                isWet={depths.has(cell)}
+                key={cell}
+                size={size}
+                tile={level.tiles[cell] ?? 0}
+              />
+            ))}
+            <rect className='frame' height={span} width={span} />
+          </svg>
+          {!isLocked && (
+            <fieldset
+              aria-label={translate('games.pipes.board', { size })}
+              className='tiles'
+              onContextMenu={(event) => event.preventDefault()}
+            >
+              {cellsOf(size).map((cell) => {
+                const gestures = tileProps(cell)
+                return (
+                  <button
+                    aria-label={tileLabel(cell)}
+                    className='tile-button'
+                    {...{ [TILE_ATTRIBUTE]: cell }}
+                    key={cell}
+                    {...gestures}
+                    onFocus={() => setFocusedTile(cell)}
+                    onKeyDown={(event) => {
+                      moveFocus(event, cell)
+                      gestures.onKeyDown(event)
+                    }}
+                    tabIndex={cell === focusedTile ? 0 : -1}
+                    type='button'
+                  />
+                )
+              })}
+            </fieldset>
+          )}
+        </div>
       </div>
       {!isLocked && (
         <div className='status-line'>

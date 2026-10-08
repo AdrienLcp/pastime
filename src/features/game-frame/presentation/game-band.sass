@@ -1,5 +1,6 @@
 @use '../../../presentation/styles/typography'
 @use '../../../presentation/styles/focus'
+@use '../../../presentation/styles/layout'
 
 @layer components
   .game-band
@@ -18,6 +19,8 @@
       place-items: center
       width: var(--control-touch)
       height: var(--control-touch)
+      color: inherit
+      text-decoration: none
 
       svg
         width: var(--icon-l)
@@ -26,21 +29,60 @@
       &[data-pressed]
         background: color-mix(in oklab, var(--cover-ink) 12%, var(--chapter))
 
+      @media (hover: hover)
+        &[data-hovered]
+          background: color-mix(in oklab, var(--cover-ink) 10%, var(--chapter))
+
       @include focus.ring-inset
 
-    .band-title
-      display: flex
-      flex-wrap: wrap
-      align-items: baseline
-      gap: 0 var(--space-s)
-      min-width: 0
+    .band-back-label,
+    .band-rule
+      display: none
 
-    .band-caption
-      @include typography.meta-strong
+    .band-title
+      min-width: 0
       overflow: hidden
       text-overflow: ellipsis
       white-space: nowrap
+      @include typography.meta-strong
 
     .band-end
       display: flex
       align-items: center
+
+    @include layout.spread
+      grid-template-columns: minmax(0, 1fr)
+      align-content: start
+      align-items: start
+      gap: var(--space-m)
+      padding: var(--space-m) var(--space-xl) var(--space-l)
+
+      .band-back
+        display: inline-flex
+        align-items: center
+        justify-self: start
+        gap: var(--space-2xs)
+        width: auto
+        height: var(--target)
+        margin-left: calc(-1 * var(--space-s))
+        padding: 0 var(--space-s) 0 var(--space-2xs)
+        @include typography.control
+
+      .band-back-label
+        display: inline
+
+      .band-title
+        margin-top: var(--space-l)
+        overflow: visible
+        white-space: normal
+        @include typography.spread-title
+        overflow-wrap: anywhere
+
+      .band-rule
+        display: block
+        max-width: 28ch
+        @include typography.spread-rule
+        text-wrap: pretty
+
+      .band-end
+        display: block

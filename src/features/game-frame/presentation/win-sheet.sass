@@ -1,15 +1,11 @@
 @use '../../../presentation/styles/typography'
+@use '../../../presentation/styles/layout'
 
 @layer components
-  .win-sheet
-    display: grid
-    gap: var(--space-l)
-    padding: var(--space-l) var(--gutter) var(--space-xl)
-
-    .win-plate
-      position: relative
-      width: min(74%, 17rem)
-      margin: var(--space-2xs) auto 0
+  .win-plate
+    position: relative
+    width: min(74%, 17rem)
+    margin: var(--space-2xs) auto 0
 
     // The board's own layers stay inside it, so the stamp lies over them all.
     .win-board
@@ -36,6 +32,24 @@
 
     .stamp-word
       @include typography.stamp
+
+    // Room is kept around the board for the stamp, pressed over its corner.
+    @include layout.spread
+      width: min(92cqw, 86cqh)
+      margin: auto
+
+      .stamp
+        right: -3%
+        bottom: -4%
+        scale: 1.25
+
+  .win-sheet
+    display: grid
+    gap: var(--space-l)
+    padding: calc(var(--space-l) - var(--space-s)) var(--gutter) var(--space-xl)
+
+    @include layout.spread
+      padding: var(--space-m) var(--space-xl) var(--space-xl)
 
     .score
       display: grid

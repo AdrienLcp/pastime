@@ -1,5 +1,6 @@
 @use '../../presentation/styles/typography'
 @use '../../presentation/styles/focus'
+@use '../../presentation/styles/layout'
 
 @layer components
   .masthead
@@ -47,6 +48,10 @@
       &[data-pressed]
         background: var(--paper-sunk)
 
+      @media (hover: hover)
+        &[data-hovered]
+          background: var(--paper-sunk)
+
       @include focus.ring-inset
 
     .masthead-title
@@ -58,3 +63,9 @@
       padding-top: var(--space-3xs)
       border-top: var(--stroke-heavy) solid var(--ink)
       border-bottom: var(--print-line)
+
+    @include layout.open-page
+      padding: var(--space-l) var(--space-xl) var(--space-xl)
+
+      .masthead-title
+        font-size: clamp(5rem, 9vw, 8.5rem)

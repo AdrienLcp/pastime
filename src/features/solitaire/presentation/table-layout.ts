@@ -23,6 +23,11 @@ const TIGHT_SHOWN_STEP = 0.34
 /** Drawing three, how far apart the waste's top cards fan out. */
 const WASTE_FAN = 0.24
 const FIRST_FOUNDATION_SLOT = 3
+/**
+ * The height a table needs, in card widths, for a long column to stay inside
+ * it: on a wide screen the cards are sized on the height as much as the width.
+ */
+const TABLE_DEPTH = 6.5
 
 export type Rect = {
   readonly x: number
@@ -52,6 +57,8 @@ export type TablePile = Pile | { readonly kind: 'stock' }
 export type PileArea = { readonly pile: TablePile; readonly area: Rect }
 
 export type TableLayout = {
+  /** Where the first column starts: the table is centred in a room wider than it needs. */
+  readonly left: number
   readonly cardWidth: number
   readonly cardHeight: number
   readonly height: number
@@ -88,6 +95,7 @@ const liftOf = ({
   fromTop <= movableCountOf(state, from) ? { count: fromTop, from } : null
 
 type Measures = {
+  readonly left: number
   readonly cardWidth: number
   readonly cardHeight: number
   readonly slotX: (slot: number) => number
@@ -96,18 +104,30 @@ type Measures = {
   readonly shownStep: number
 }
 
-const measuresOf = (width: number): Measures => {
+const measuresOf = ({
+  availableHeight,
+  width
+}: {
+  width: number
+  availableHeight: number | null
+}): Measures => {
+  const gaps = (TABLEAU_COLUMNS - 1) * COLUMN_GAP_PX
+  const widthFitting = (width - gaps) / TABLEAU_COLUMNS
   const cardWidth = Math.max(
     0,
-    (width - (TABLEAU_COLUMNS - 1) * COLUMN_GAP_PX) / TABLEAU_COLUMNS
+    availableHeight === null
+      ? widthFitting
+      : Math.min(widthFitting, availableHeight / TABLE_DEPTH)
   )
   const cardHeight = cardWidth * CARD_RATIO
+  const left = Math.max(0, (width - TABLEAU_COLUMNS * cardWidth - gaps) / 2)
   return {
     cardHeight,
     cardWidth,
     hiddenStep: Math.max(MIN_HIDDEN_STEP_PX, cardWidth * HIDDEN_STEP),
+    left,
     shownStep: Math.max(MIN_SHOWN_STEP_PX, cardWidth * SHOWN_STEP),
-    slotX: (slot) => slot * (cardWidth + COLUMN_GAP_PX),
+    slotX: (slot) => left + slot * (cardWidth + COLUMN_GAP_PX),
     tableauTop: cardHeight + cardWidth * ROW_GAP
   }
 }
@@ -284,7 +304,7 @@ export const tableLayoutOf = ({
   width: number
   availableHeight: number | null
 }): TableLayout => {
-  const measures = measuresOf(width)
+  const measures = measuresOf({ availableHeight, width })
   const spots = new Map([
     ...topRowSpots(state, measures),
     ...COLUMNS.flatMap((column) =>
@@ -299,6 +319,7 @@ export const tableLayoutOf = ({
     cardHeight: measures.cardHeight,
     cardWidth: measures.cardWidth,
     height: availableHeight ?? lowest + measures.cardHeight,
+    left: measures.left,
     piles: pileAreasOf({ measures, spots, state }),
     spots,
     tableauTop: measures.tableauTop
@@ -322,7 +343,7 @@ export const dropTargetAt = ({
   const pitch = layout.cardWidth + COLUMN_GAP_PX
   const slot = Math.min(
     TABLEAU_COLUMNS - 1,
-    Math.max(0, Math.floor((point.x + COLUMN_GAP_PX / 2) / pitch))
+    Math.max(0, Math.floor((point.x - layout.left + COLUMN_GAP_PX / 2) / pitch))
   )
   const isOverTopRow =
     point.y < layout.tableauTop - (layout.cardWidth * ROW_GAP) / 2

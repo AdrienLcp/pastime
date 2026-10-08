@@ -6,7 +6,8 @@ export const EN_DICTIONARY = defineDictionary({
     name: 'Pastime'
   },
   common: {
-    backToGames: 'Back to the games'
+    backToGames: 'Back to the games',
+    games: 'Games'
   },
   crash: {
     prose:

@@ -147,3 +147,28 @@
   font-weight: 800
   letter-spacing: var(--tracking-number)
   line-height: 1
+
+/// A game's name heading the cover page of a spread: the cover title, larger.
+@mixin spread-title
+  @include cover-title
+  font-size: clamp(3rem, 4.4vw, 4.25rem)
+  line-height: 0.92
+
+/// The rule under a spread's title: a note, set close.
+@mixin spread-rule
+  @include note
+  line-height: var(--leading-snug)
+
+/// The clock on a spread's cover page: large, condensed and black.
+@mixin spread-timer
+  font-size: clamp(3rem, 4vw, 3.75rem)
+  font-stretch: var(--stretch-condensed)
+  font-variant-numeric: tabular-nums
+  font-weight: 900
+  line-height: 1
+
+/// A sentence under a choice's label, saying what sets it apart.
+@mixin choice-note
+  font-size: var(--text-meta)
+  font-weight: 500
+  line-height: var(--leading-snug)

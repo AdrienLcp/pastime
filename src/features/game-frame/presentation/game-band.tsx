@@ -17,7 +17,8 @@ type GameBandProps = {
 
 /**
  * The chapter's header band across the top of a puzzle: the way back, which
- * game, and the clock.
+ * game, and the clock. On a spread it becomes the cover page's head, beside
+ * the board, its rule printed under its name.
  */
 export const GameBand: React.FC<GameBandProps> = ({ children, game }) => {
   const { locale, translate } = useI18n()
@@ -30,10 +31,12 @@ export const GameBand: React.FC<GameBandProps> = ({ children, game }) => {
         href={hubPathFor(locale)}
       >
         <BackIcon aria-hidden='true' />
+        <span aria-hidden='true' className='band-back-label'>
+          {translate('common.games')}
+        </span>
       </Link>
-      <h1 className='band-title'>
-        <span className='band-caption'>{translate(game.name)}</span>
-      </h1>
+      <h1 className='band-title'>{translate(game.name)}</h1>
+      <p className='band-rule'>{translate(game.rule)}</p>
       <div className='band-end'>{children}</div>
     </header>
   )

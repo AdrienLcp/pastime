@@ -1,3 +1,14 @@
 /// Pure: container queries for a component, breakpoints for the page shell.
 @forward '@adrienlcp/styles/containers'
 @forward '@adrienlcp/styles/breakpoints'
+
+/// Past a phone's width: the page opens to a small tablet's.
+@mixin open-page
+  @media (width >= 40rem)
+    @content
+
+/// A landscape screen wide enough to lay the page out as a spread: the board
+/// on the left, its game's cover page on the right.
+@mixin spread
+  @media (width >= 60rem) and (orientation: landscape)
+    @content

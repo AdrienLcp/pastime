@@ -1,5 +1,6 @@
 @use '../../../presentation/styles/typography'
 @use '../../../presentation/styles/focus'
+@use '../../../presentation/styles/layout'
 
 @layer components
   .game-tools
@@ -28,6 +29,10 @@
       &[data-pressed]:not([data-disabled])
         background: var(--paper-sunk)
 
+      @media (hover: hover)
+        &[data-hovered]:not([data-disabled])
+          background: color-mix(in oklab, var(--ink) 8%, var(--paper))
+
       &[data-disabled]
         cursor: default
         color: var(--ink-soft)
@@ -36,3 +41,18 @@
           opacity: 0.5
 
       @include focus.ring-inset
+
+    @include layout.spread
+      grid-template-columns: minmax(0, 1fr)
+
+      .tool
+        flex-direction: row
+        justify-content: start
+        gap: var(--space-s)
+        min-height: 3.5rem
+        padding-inline: var(--space-xl)
+        @include typography.control
+
+        & + .tool
+          border-top: var(--hairline)
+          border-left: 0

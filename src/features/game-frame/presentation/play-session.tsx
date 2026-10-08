@@ -9,7 +9,7 @@ import { GameTools } from './game-tools'
 import { HintNote, LostNote } from './hint-note'
 import { PauseCover } from './pause-cover'
 import { usePlaySession } from './use-play-session'
-import { WinSheet } from './win-sheet'
+import { WinPlate, WinSheet } from './win-sheet'
 
 import './play-session.sass'
 
@@ -19,7 +19,11 @@ type PlaySessionProps<Level, State, Move, Hint> = {
   play: PreparedPlay<Level, State, Move, Hint>
 }
 
-/** One puzzle on the page: its band, its board, its tools, then its stamp. */
+/**
+ * One puzzle on the page: its band, its board, its tools, then its stamp. A
+ * phone stacks them; a spread puts the board on the left page and the band
+ * over the tools, or the score, on the right.
+ */
 export const PlaySession = <Level, State, Move, Hint>({
   play
 }: PlaySessionProps<Level, State, Move, Hint>) => {
@@ -57,46 +61,58 @@ export const PlaySession = <Level, State, Move, Hint>({
       </GameBand>
 
       {session.status === 'won' && session.win !== null ? (
-        <WinSheet
-          game={game}
-          onReplay={session.replay}
-          plate={
-            <Board
-              hint={null}
-              isLocked
-              onMove={ignoreMove}
-              state={session.board}
+        <>
+          <div className='stage-wrap'>
+            <div className='board-area'>
+              <WinPlate>
+                <Board
+                  hint={null}
+                  isLocked
+                  onMove={ignoreMove}
+                  state={session.board}
+                />
+              </WinPlate>
+            </div>
+          </div>
+          <div className='play-panel'>
+            <WinSheet
+              game={game}
+              onReplay={session.replay}
+              summary={session.win}
             />
-          }
-          summary={session.win}
-        />
+          </div>
+        </>
       ) : (
         <>
-          <div className='board-area'>
-            {session.status === 'paused' ? (
-              <PauseCover onResume={session.resume} />
+          <div className='stage-wrap'>
+            <div className='board-area'>
+              {session.status === 'paused' ? (
+                <PauseCover onResume={session.resume} />
+              ) : (
+                <Board
+                  hint={hint}
+                  isLocked={session.status === 'lost'}
+                  onMove={session.move}
+                  state={session.board}
+                />
+              )}
+            </div>
+            {session.status === 'lost' && session.isLossTold ? (
+              <LostNote />
             ) : (
-              <Board
-                hint={hint}
-                isLocked={session.status === 'lost'}
-                onMove={session.move}
-                state={session.board}
-              />
+              <HintNote explanation={explanation} />
             )}
           </div>
-          {session.status === 'lost' && session.isLossTold ? (
-            <LostNote />
-          ) : (
-            <HintNote explanation={explanation} />
-          )}
-          <GameTools
-            canHint={session.status !== 'lost'}
-            canUndo={session.canUndo}
-            isPaused={session.status === 'paused'}
-            onHint={session.showHint}
-            onRestart={session.restart}
-            onUndo={session.undo}
-          />
+          <div className='play-panel'>
+            <GameTools
+              canHint={session.status !== 'lost'}
+              canUndo={session.canUndo}
+              isPaused={session.status === 'paused'}
+              onHint={session.showHint}
+              onRestart={session.restart}
+              onUndo={session.undo}
+            />
+          </div>
         </>
       )}
     </Main>

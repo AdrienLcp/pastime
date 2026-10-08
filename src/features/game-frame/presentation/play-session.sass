@@ -1,10 +1,28 @@
+@use '../../../presentation/styles/layout'
+
 @layer components
-  // A puzzle owns the whole page height: the tools sit under the thumb.
+  // A puzzle owns the whole page height: the tools sit under the thumb. On a
+  // spread the board takes the left page, and the right one is the chapter's
+  // cover — its band, then its tools or its score, printed on the chapter ink.
   .play-session
-    display: flex
-    flex-direction: column
-    gap: var(--space-s)
+    --panel-ink: var(--ink)
+    --panel-ground: var(--paper)
+    display: grid
+    grid-template-areas: 'rail' 'stage' 'panel'
+    grid-template-columns: minmax(0, 1fr)
+    grid-template-rows: auto 1fr auto
+    row-gap: var(--space-s)
     min-height: 100dvh
+
+    .game-band
+      grid-area: rail
+
+    .stage-wrap
+      grid-area: stage
+      display: flex
+      flex-direction: column
+      gap: var(--space-s)
+      min-height: 0
 
     .board-area
       padding: var(--space-m) var(--space-3xs) 0
@@ -16,5 +34,48 @@
         flex: 1
         flex-direction: column
 
-    .game-tools
-      margin-top: auto
+    .play-panel
+      --ink: var(--panel-ink)
+      --paper: var(--panel-ground)
+      grid-area: panel
+      color: var(--ink)
+      background: var(--paper)
+
+    @include layout.spread
+      --panel-ink: var(--cover-ink)
+      --panel-ground: var(--chapter)
+      grid-template-areas: 'stage rail' 'stage panel'
+      grid-template-columns: minmax(0, 1fr) clamp(19rem, 25vw, 24rem)
+      grid-template-rows: 1fr auto
+      row-gap: 0
+      height: 100dvh
+      min-height: 32rem
+
+      .stage-wrap
+        padding: var(--space-xl) var(--space-2xl) var(--space-m)
+        border-right: var(--stroke-hair) solid var(--rule)
+
+      .board-area,
+      .board-area:has(> [data-fills-height])
+        display: flex
+        flex: 1
+        flex-direction: column
+        justify-content: center
+        min-height: 0
+        padding: 0
+        container-type: size
+
+      .hint-note-slot
+        margin-inline: 0
+
+      .play-panel
+        --ink-soft: color-mix(in oklab, var(--cover-ink) 72%, var(--chapter))
+        --paper-sunk: color-mix(in oklab, var(--cover-ink) 10%, var(--chapter))
+        --pencil: var(--cover-ink)
+        --rule: color-mix(in oklab, var(--cover-ink) 35%, transparent)
+        --print-line: var(--stroke-thin) solid var(--cover-ink)
+        --hairline: var(--stroke-hair) solid var(--rule)
+        --focus: var(--cover-ink)
+        display: flex
+        flex-direction: column
+        justify-content: end
