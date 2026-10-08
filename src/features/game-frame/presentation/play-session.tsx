@@ -114,7 +114,9 @@ export const PlaySession = <Level, State, Move, Hint>({
               canHint={session.status !== 'lost'}
               canUndo={session.canUndo}
               isPaused={session.status === 'paused'}
+              newLevelLabel={game.newLevelLabel ?? 'frame.tools.newLevel'}
               onHint={session.showHint}
+              onNewLevel={session.newLevel}
               onRestart={session.restart}
               onUndo={session.undo}
             />

@@ -9,6 +9,7 @@ export const solitaireDefinition = {
   id: 'solitaire',
   load: async () => (await import('./solitaire-module')).solitaireModule,
   name: 'games.solitaire.name',
+  newLevelLabel: 'games.solitaire.newDeal',
   rule: 'games.solitaire.rule',
   variantChoice: 'games.solitaire.variantChoice',
   variants: [

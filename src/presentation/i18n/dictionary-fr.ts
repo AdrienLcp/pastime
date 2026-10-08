@@ -56,6 +56,8 @@ export const FR_DICTIONARY = defineDictionary({
     tools: {
       hint: 'Indice',
       label: 'Outils',
+      newLevel: 'Nouvelle partie',
+      newLevelConfirm: 'Abandonner ?',
       restart: 'Recommencer',
       undo: 'Annuler'
     },
@@ -166,6 +168,7 @@ export const FR_DICTIONARY = defineDictionary({
         toFoundation: 'Cette carte peut monter sur sa fondation.'
       },
       name: 'Solitaire',
+      newDeal: 'Nouvelle donne',
       piles: {
         column: 'Colonne {column:number}',
         foundation: 'Fondation {suit}',

@@ -29,6 +29,8 @@ export type GameDefinition = {
   readonly variantChoice: PlainTranslationKey
   /** The first one is where play starts. */
   readonly variants: readonly [GameVariant, ...GameVariant[]]
+  /** The tool that drops the level for a new one, when « new game » does not name it: a deal. */
+  readonly newLevelLabel?: PlainTranslationKey
   /** Whether the win screen prints the moves: a card game's, not a grid's. */
   readonly countsMoves: boolean
   /** The chapter's mark, on its cover. */

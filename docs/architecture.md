@@ -21,8 +21,8 @@ src/
   features/
     hub/              → the list of games
     game-frame/       → what every game shares: the choice of variant, timer,
-                        undo, restart, hint, pause, win screen, save/resume,
-                        the level printed ahead
+                        undo, restart, new game, hint, pause, win screen,
+                        save/resume, the level printed ahead
     stars/            → one folder per game:
       engine/           pure rules: state, moves, win check (no React)
       solver/           logical solver, used to grade and to check uniqueness

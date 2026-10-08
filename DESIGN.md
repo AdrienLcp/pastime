@@ -325,9 +325,12 @@ a large cover title, the rule beneath, and the clock large under a caps
 
 ### Tool bar
 
-Three equal columns, 60 px tall, 2 px ink rule on top, 1 px `--rule`
+Four equal columns, 60 px tall, 2 px ink rule on top, 1 px `--rule`
 between them; a 22 px stroke icon over a micro label (Annuler, Indice,
-Recommencer). A toggled tool is `--paper-sunk`. Icons: 24-unit viewBox,
+Recommencer, Nouvelle partie — « Nouvelle donne » in Solitaire). A toggled
+tool is `--paper-sunk`. « Nouvelle partie » on a level with moves asks once,
+in place: its label turns to « Abandonner ? » on `--paper-sunk` for 4 s, and
+a second press opens the next level; untouched, it opens it at once. Icons: 24-unit viewBox,
 2-unit round strokes, drawn in the reference page's `<symbol>`s.
 
 ### The chapter covers

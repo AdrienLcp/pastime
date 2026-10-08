@@ -7,6 +7,7 @@ import {
   useScreenAwake
 } from '@/infrastructure/browser'
 import { nowMs } from '@/infrastructure/clock'
+import { useReloadRouteData } from '@/infrastructure/router/navigation'
 
 import type { PreparedPlay } from '../game-loader'
 import {
@@ -45,6 +46,8 @@ export type PlaySessionControls<State, Move, Hint> = {
   readonly move: (move: Move) => void
   readonly undo: () => void
   readonly restart: () => void
+  /** Drops this level, unrecorded, and opens the next one of its variant. */
+  readonly newLevel: () => void
   readonly showHint: () => void
   readonly pause: () => void
   readonly resume: () => void
@@ -71,6 +74,7 @@ export const usePlaySession = <Level, State, Move, Hint>(
   const [shownHint, setShownHint] = useState<ShownHint<Hint> | null>(null)
   const [win, setWin] = useState<WinSummary | null>(null)
   const settings = usePlaySettings()
+  const reloadRouteData = useReloadRouteData()
   const isPageVisible = usePageVisible()
   const isClockRunning = status === 'playing' && isPageVisible
   const clock = useGameClock({
@@ -176,6 +180,10 @@ export const usePlaySession = <Level, State, Move, Hint>(
       if (settings.haptics) tapHaptic()
       if (engine.isWon(currentBoard(played.data))) return finish(played.data)
       change(played.data)
+    },
+    newLevel: () => {
+      dropSavedGame(puzzle.gameId)
+      reloadRouteData()
     },
     pause: () => {
       if (status !== 'playing') return

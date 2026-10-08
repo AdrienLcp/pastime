@@ -10,6 +10,7 @@ export {
   Lightbulb as HintIcon,
   Pause as PauseIcon,
   Play as ResumeIcon,
+  Plus as NewLevelIcon,
   RotateCcw as RestartIcon,
   RotateCcwSquare as TurnBackIcon,
   RotateCwSquare as TurnClockwiseIcon,

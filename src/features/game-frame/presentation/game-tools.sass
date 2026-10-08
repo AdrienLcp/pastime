@@ -5,7 +5,8 @@
 @layer components
   .game-tools
     display: grid
-    grid-template-columns: repeat(3, 1fr)
+    grid-auto-columns: minmax(0, 1fr)
+    grid-auto-flow: column
     border-top: var(--stroke-bold) solid var(--ink)
 
     .tool
@@ -15,7 +16,9 @@
       justify-content: center
       gap: var(--space-3xs)
       min-height: calc(var(--control-touch) + var(--space-s))
+      padding-inline: var(--space-3xs)
       @include typography.tool-label
+      text-align: center
       cursor: pointer
       transition: background-color var(--transition-fast, 0s)
 
@@ -26,7 +29,8 @@
         width: var(--icon-tool)
         height: var(--icon-tool)
 
-      &[data-pressed]:not([data-disabled])
+      &[data-pressed]:not([data-disabled]),
+      &[data-armed]
         background: var(--paper-sunk)
 
       @media (hover: hover)
@@ -43,7 +47,7 @@
       @include focus.ring-inset
 
     @include layout.spread
-      grid-template-columns: minmax(0, 1fr)
+      grid-auto-flow: row
 
       .tool
         flex-direction: row
