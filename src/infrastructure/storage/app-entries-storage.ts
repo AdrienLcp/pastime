@@ -1,5 +1,8 @@
 import { Result } from '@adrienlcp/result'
-import type { StorageWriteError } from '@adrienlcp/safe-storage'
+import type {
+  StorageUnavailable,
+  StorageWriteError
+} from '@adrienlcp/safe-storage'
 
 /** Every key the app writes starts with it; a backup carries exactly those. */
 export const APP_KEY_PREFIX = 'pastime.'
@@ -10,6 +13,15 @@ const appKeys = (storage: Storage): string[] =>
   Array.from({ length: storage.length }, (_, index) =>
     storage.key(index)
   ).filter((key): key is string => key !== null && isAppKey(key))
+
+/** Every key the app stored on this device. */
+export const listAppKeys = (): Result<string[], StorageUnavailable> => {
+  try {
+    return Result.success(appKeys(localStorage))
+  } catch {
+    return Result.failure('unavailable')
+  }
+}
 
 /** Everything the app stored on this device, raw, by key. */
 export const readAppEntries = (): Result<

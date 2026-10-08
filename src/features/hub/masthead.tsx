@@ -1,6 +1,5 @@
 import type React from 'react'
 
-import { issueNumber } from '@/features/game-frame/puzzle'
 import { settingsPathFor } from '@/infrastructure/router/navigation'
 import { SettingsIcon } from '@/presentation/components/icons'
 import { Link } from '@/presentation/components/link'
@@ -8,14 +7,8 @@ import { useI18n } from '@/presentation/i18n/i18n-provider'
 
 import './masthead.sass'
 
-type MastheadProps = {
-  issueDay: Temporal.PlainDate
-  /** Days in a row with a daily solved; `0` prints a dash. */
-  streak: number
-}
-
-/** The booklet's cover band: the four chapter inks, its name, today's issue. */
-export const Masthead: React.FC<MastheadProps> = ({ issueDay, streak }) => {
+/** The booklet's cover band: the four chapter inks and its name. */
+export const Masthead: React.FC = () => {
   const { locale, translate } = useI18n()
 
   return (
@@ -38,22 +31,6 @@ export const Masthead: React.FC<MastheadProps> = ({ issueDay, streak }) => {
       </div>
       <h1 className='masthead-title'>{translate('app.name')}</h1>
       <div className='masthead-rule' />
-      <div className='issue-line'>
-        <time dateTime={issueDay.toString()}>
-          {translate('hub.issue', {
-            day: issueDay,
-            number: issueNumber(issueDay)
-          })}
-        </time>
-        <p className='streak'>
-          {translate('hub.streak')}{' '}
-          <b>
-            {streak === 0
-              ? '—'
-              : translate('hub.streakDays', { count: streak })}
-          </b>
-        </p>
-      </div>
     </header>
   )
 }

@@ -9,8 +9,7 @@ export const FR_DICTIONARY = defineDictionary({
     name: 'Pastime'
   },
   common: {
-    backToBook: 'Retour au cahier',
-    puzzleNumber: 'N°'
+    backToBook: 'Retour au cahier'
   },
   crash: {
     prose:
@@ -21,7 +20,6 @@ export const FR_DICTIONARY = defineDictionary({
   },
   frame: {
     clock: 'Temps',
-    daily: 'du jour',
     failed: {
       prose:
         'Le générateur n’a pas trouvé de grille à vous proposer. Un nouvel essai part d’une autre graine.',
@@ -51,23 +49,16 @@ export const FR_DICTIONARY = defineDictionary({
     },
     win: {
       best: 'Record',
-      days: defineTranslation('{count:plural}', {
-        plural: { count: { one: '{?} jour', other: '{?} jours' } }
-      }),
       home: 'Accueil',
       moves: defineTranslation('{count:plural}', {
         plural: { count: { one: '{?} coup', other: '{?} coups' } }
       }),
       newBest: 'nouveau record !',
-      next: defineTranslation('Puzzle suivant · N° {number:number}', {
-        number: { number: { useGrouping: false } }
-      }),
+      next: 'Nouvelle partie',
       nextVariant: 'Le suivant',
       replay: 'Rejouer',
       stamp: 'Résolu',
-      streak: 'Série',
-      time: 'Temps',
-      toFreePlay: 'Partie libre'
+      time: 'Temps'
     }
   },
   games: {
@@ -270,16 +261,6 @@ export const FR_DICTIONARY = defineDictionary({
       plural: { count: { one: '{?} résolu', other: '{?} résolus' } }
     }),
     coverNew: 'Pas encore ouvert',
-    empty: {
-      prose:
-        'Le puzzle du jour est le même pour tout le monde. Une partie interrompue vous attendra ici.',
-      title: 'Cahier neuf, rien en cours.'
-    },
-    idle: 'Rien en cours.',
-    issue: defineTranslation('Cahier n° {number:number} · {day:date}', {
-      date: { day: { day: 'numeric', month: 'long', weekday: 'long' } },
-      number: { number: { useGrouping: false } }
-    }),
     resume: {
       action: 'Reprendre',
       moves: defineTranslation('{count:plural}', {
@@ -287,16 +268,7 @@ export const FR_DICTIONARY = defineDictionary({
       }),
       title: 'Reprendre'
     },
-    settings: 'Réglages',
-    start: 'Pour commencer',
-    streak: 'Série',
-    streakDays: '{count:number} j.',
-    today: {
-      done: 'fait',
-      inProgress: 'en cours',
-      title: 'Aujourd’hui',
-      todo: 'à faire'
-    }
+    settings: 'Réglages'
   },
   notFound: {
     prose: 'Aucune page ne porte l’adresse {path}.',

@@ -19,8 +19,8 @@ type GameBandProps = {
 }
 
 /**
- * The chapter's header band across the top of a puzzle: the way back, the
- * puzzle's number set large, which game and size, and the clock.
+ * The chapter's header band across the top of a puzzle: the way back, which
+ * game and size, and the clock.
  */
 export const GameBand: React.FC<GameBandProps> = ({
   children,
@@ -40,14 +40,8 @@ export const GameBand: React.FC<GameBandProps> = ({
         <BackIcon aria-hidden='true' />
       </Link>
       <h1 className='band-title'>
-        <span className='band-number'>
-          <small>{translate('common.puzzleNumber')}</small> {puzzle.number}
-        </span>
         <span className='band-caption'>
-          {translate(game.name)} ·{' '}
-          {puzzle.mode === 'daily'
-            ? translate('frame.daily')
-            : translate(variant.label)}
+          {translate(game.name)} · {translate(variant.label)}
         </span>
       </h1>
       <div className='band-end'>{children}</div>

@@ -14,7 +14,6 @@ import { isLocale, type Locale } from '@/presentation/i18n/locale'
 
 /** Every address the app answers. The language leads every one of them. */
 export const paths = {
-  daily: '/:locale/:game/daily',
   game: '/:locale/:game',
   hub: '/:locale',
   settings: '/:locale/settings'
@@ -38,14 +37,6 @@ export const gamePathFor = ({
   gameId: string
   locale: Locale
 }): string => pathFor(paths.game, { game: gameId, locale })
-
-export const dailyPathFor = ({
-  gameId,
-  locale
-}: {
-  gameId: string
-  locale: Locale
-}): string => pathFor(paths.daily, { game: gameId, locale })
 
 /** The language the address is in; `null` for a segment that is not one. */
 export const localeParam = (raw: string | undefined): Locale | null =>

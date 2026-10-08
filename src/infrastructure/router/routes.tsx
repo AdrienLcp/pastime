@@ -16,10 +16,6 @@ type RoutedPath = (typeof paths)[keyof typeof paths]
  * compile. Every page is lazy: a route downloads only its own feature.
  */
 const pageFor = {
-  [paths.daily]: async () => ({
-    Component: (await import('@/features/game-frame/presentation/game-page'))
-      .GamePage
-  }),
   [paths.game]: async () => ({
     Component: (await import('@/features/game-frame/presentation/game-page'))
       .GamePage
@@ -34,18 +30,8 @@ const pageFor = {
 
 /** Only this file reads URL params: a loader is handed plain values. */
 const loaderFor: Partial<Record<RoutedPath, LoaderFunction>> = {
-  [paths.daily]: ({ params, request }) =>
-    gameLoader({
-      gameId: params.game ?? '',
-      mode: 'daily',
-      signal: request.signal
-    }),
   [paths.game]: ({ params, request }) =>
-    gameLoader({
-      gameId: params.game ?? '',
-      mode: 'free',
-      signal: request.signal
-    })
+    gameLoader({ gameId: params.game ?? '', signal: request.signal })
 }
 
 const localizedPaths = Object.values(paths).filter((path) => path !== paths.hub)

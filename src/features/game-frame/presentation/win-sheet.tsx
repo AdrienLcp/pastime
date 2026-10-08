@@ -2,7 +2,6 @@ import type React from 'react'
 import { useState } from 'react'
 
 import {
-  gamePathFor,
   hubPathFor,
   useReloadRouteData
 } from '@/infrastructure/router/navigation'
@@ -18,8 +17,7 @@ import { formatClockTime, isoDuration } from '@/presentation/format/clock-time'
 import { useI18n } from '@/presentation/i18n/i18n-provider'
 
 import type { GameDefinition } from '../game-definition'
-import { readPlayRecordOrEmpty, saveVariantPreference } from '../game-storage'
-import { variantRecordOf } from '../play-record'
+import { saveVariantPreference } from '../game-storage'
 import type { PuzzleRef } from '../puzzle'
 import { PencilLoop } from './pencil-loop'
 import type { WinSummary } from './win-summary'
@@ -30,10 +28,10 @@ type WinSheetProps = {
   game: GameDefinition
   puzzle: PuzzleRef
   summary: WinSummary
-  /** The solved board, under the stamp; `null` when it is not at hand. */
+  /** The solved board, under the stamp. */
   plate: React.ReactNode
-  /** Plays the same puzzle again; `null` when the board is not at hand. */
-  onReplay: (() => void) | null
+  /** Plays the same puzzle again. */
+  onReplay: () => void
 }
 
 const ClockTime: React.FC<{ elapsedMs: number }> = ({ elapsedMs }) => (
@@ -42,7 +40,7 @@ const ClockTime: React.FC<{ elapsedMs: number }> = ({ elapsedMs }) => (
 
 /**
  * The page once a puzzle is solved: the red stamp pressed on the board, the
- * time written in pencil beside the best and the streak, and where to go next.
+ * time written in pencil beside the best, and where to go next.
  */
 export const WinSheet: React.FC<WinSheetProps> = ({
   game,
@@ -55,11 +53,6 @@ export const WinSheet: React.FC<WinSheetProps> = ({
   const moves = game.countsMoves ? summary.moves : null
   const reloadRouteData = useReloadRouteData()
   const [nextVariantId, setNextVariantId] = useState(puzzle.variantId)
-  const nextNumber = variantRecordOf({
-    gameId: game.id,
-    record: readPlayRecordOrEmpty(),
-    variantId: nextVariantId
-  }).nextNumber
 
   const playNext = () => {
     saveVariantPreference({ gameId: game.id, variantId: nextVariantId })
@@ -68,13 +61,10 @@ export const WinSheet: React.FC<WinSheetProps> = ({
 
   return (
     <div className='win-sheet'>
-      <div className={plate === null ? 'win-plate bare' : 'win-plate'}>
+      <div className='win-plate'>
         {plate}
         <p className='stamp'>
           <span className='stamp-word'>{translate('frame.win.stamp')}</span>
-          <span className='stamp-number'>
-            {translate('common.puzzleNumber')} {puzzle.number}
-          </span>
         </p>
       </div>
 
@@ -120,49 +110,29 @@ export const WinSheet: React.FC<WinSheetProps> = ({
             )}
           </dd>
         </div>
-        <div>
-          <dt>{translate('frame.win.streak')}</dt>
-          <dd>{translate('frame.win.days', { count: summary.streak })}</dd>
-        </div>
       </dl>
 
       <div className='win-actions'>
-        {puzzle.mode === 'free' ? (
-          <>
-            {game.variants.length > 1 && (
-              <SegmentedChoice
-                label={translate('frame.win.nextVariant')}
-                onChange={setNextVariantId}
-                options={game.variants.map((variant) => ({
-                  label: translate(variant.label),
-                  value: variant.id
-                }))}
-                value={nextVariantId}
-              />
-            )}
-            <Button autoFocus className='next' onPress={playNext} variant='ink'>
-              {translate('frame.win.next', { number: nextNumber })}
-              <NextIcon aria-hidden='true' />
-            </Button>
-          </>
-        ) : (
-          <Link
-            autoFocus
-            className='next'
-            href={gamePathFor({ gameId: game.id, locale })}
-            variant='ink'
-          >
-            {translate('frame.win.toFreePlay')}
-            <NextIcon aria-hidden='true' />
-          </Link>
+        {game.variants.length > 1 && (
+          <SegmentedChoice
+            label={translate('frame.win.nextVariant')}
+            onChange={setNextVariantId}
+            options={game.variants.map((variant) => ({
+              label: translate(variant.label),
+              value: variant.id
+            }))}
+            value={nextVariantId}
+          />
         )}
+        <Button autoFocus className='next' onPress={playNext} variant='ink'>
+          {translate('frame.win.next')}
+          <NextIcon aria-hidden='true' />
+        </Button>
         <div className='win-actions-pair'>
-          {onReplay !== null && (
-            <Button onPress={onReplay} variant='line'>
-              <RestartIcon aria-hidden='true' />
-              {translate('frame.win.replay')}
-            </Button>
-          )}
+          <Button onPress={onReplay} variant='line'>
+            <RestartIcon aria-hidden='true' />
+            {translate('frame.win.replay')}
+          </Button>
           <Link href={hubPathFor(locale)} variant='line'>
             <HomeIcon aria-hidden='true' />
             {translate('frame.win.home')}

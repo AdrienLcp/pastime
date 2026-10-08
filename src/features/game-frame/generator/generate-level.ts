@@ -64,8 +64,7 @@ const attemptGeneration = ({
 /**
  * One level from a game's generator, run off the main thread. A worker that
  * gives up, crashes, answers garbage or overruns its time is dropped, and the
- * next attempt draws from a seed derived from the first — the same derivation
- * on every device, so a daily puzzle stays shared even when it needed a retry.
+ * next attempt draws from a seed derived from the first.
  */
 export const generateLevel = async <Level>({
   attempts = ATTEMPTS,

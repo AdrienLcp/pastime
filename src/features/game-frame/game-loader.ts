@@ -1,7 +1,8 @@
 import { Result } from '@adrienlcp/result'
 import { z } from 'zod/mini'
 
-import { nowMs, today } from '@/infrastructure/clock'
+import { nowMs } from '@/infrastructure/clock'
+import { randomSeed } from '@/infrastructure/random-seed'
 
 import type { GameDefinition } from './game-definition'
 import type { GameModule } from './game-module'
@@ -13,19 +14,8 @@ import {
   readWaitingGame
 } from './game-storage'
 import { generateLevel } from './generator/generate-level'
-import {
-  dailyTimeOf,
-  gameRecordOf,
-  type PlayRecord,
-  variantRecordOf
-} from './play-record'
-import {
-  dailyPuzzle,
-  freePuzzle,
-  type PuzzleMode,
-  type PuzzleRef,
-  puzzleSeed
-} from './puzzle'
+import { gameRecordOf, type PlayRecord } from './play-record'
+import type { PuzzleRef } from './puzzle'
 import type { SavedGame } from './saved-game'
 
 /** A puzzle ready to play: its game opened, its board set as it was left. */
@@ -48,12 +38,6 @@ export type GameLoaderData =
   | { readonly status: 'unknown_game' }
   | { readonly status: 'failed'; readonly game: GameDefinition }
   | {
-      readonly status: 'daily_done'
-      readonly game: GameDefinition
-      readonly puzzle: PuzzleRef
-      readonly elapsedMs: number
-    }
-  | {
       readonly status: 'ready'
       readonly play: SealedPlay
       /** Changes with each new puzzle, so the page starts afresh on it. */
@@ -71,27 +55,11 @@ const preferredVariantId = (
     : game.variants[0].id
 }
 
-const nextPuzzle = ({
-  day,
-  game,
-  mode,
-  record
-}: {
-  game: GameDefinition
-  mode: PuzzleMode
-  record: PlayRecord
-  day: Temporal.PlainDate
-}): PuzzleRef => {
-  if (mode === 'daily') {
-    return dailyPuzzle({ day, gameId: game.id, variantId: game.dailyVariant })
-  }
-  const variantId = preferredVariantId(game, record)
-  return freePuzzle({
-    gameId: game.id,
-    number: variantRecordOf({ gameId: game.id, record, variantId }).nextNumber,
-    variantId
-  })
-}
+const newPuzzle = (game: GameDefinition, record: PlayRecord): PuzzleRef => ({
+  gameId: game.id,
+  seed: randomSeed(),
+  variantId: preferredVariantId(game, record)
+})
 
 const resumeSaved = <Level, State, Move, Hint>(
   module: GameModule<Level, State, Move, Hint>,
@@ -116,31 +84,23 @@ const sealPlay =
     open(play)
 
 const playKeyOf = (puzzle: PuzzleRef): string =>
-  [puzzle.gameId, puzzle.mode, puzzle.variantId, puzzle.number, nowMs()].join(
-    '/'
-  )
+  [puzzle.gameId, puzzle.variantId, puzzle.seed, nowMs()].join('/')
 
 const preparePlay = async <Level, State, Move, Hint>({
   game,
-  mode,
   module,
   signal
 }: {
   game: GameDefinition
   module: GameModule<Level, State, Move, Hint>
-  mode: PuzzleMode
   signal: AbortSignal
 }): Promise<GameLoaderData> => {
-  const day = today()
-  const slot = { gameId: game.id, mode }
-  const waiting = readWaitingGame(slot)
+  const waiting = readWaitingGame(game.id)
 
   if (waiting.status === 'success' && waiting.data !== null) {
     const saved = waiting.data
-    const isStillCurrent =
-      mode === 'free' || saved.puzzle.day === day.toString()
-    const session = isStillCurrent ? resumeSaved(module, saved) : null
-    if (session?.status === 'success') {
+    const session = resumeSaved(module, saved)
+    if (session.status === 'success') {
       return {
         play: sealPlay({
           elapsedMs: saved.elapsedMs,
@@ -153,19 +113,14 @@ const preparePlay = async <Level, State, Move, Hint>({
         status: 'ready'
       }
     }
-    dropSavedGame(slot)
+    dropSavedGame(game.id)
   }
 
-  const puzzle = nextPuzzle({
-    day,
-    game,
-    mode,
-    record: readPlayRecordOrEmpty()
-  })
+  const puzzle = newPuzzle(game, readPlayRecordOrEmpty())
   const level = await generateLevel({
     createWorker: module.createGeneratorWorker,
     levelSchema: module.engine.levelSchema,
-    seed: puzzleSeed(puzzle),
+    seed: puzzle.seed,
     signal,
     variantId: puzzle.variantId
   })
@@ -185,39 +140,18 @@ const preparePlay = async <Level, State, Move, Hint>({
 }
 
 /**
- * The puzzle a game's page opens on: the one left mid-way, today's daily, or
- * the next free puzzle, printed by the game's generator in its worker. A daily
- * already solved today opens on its stamp, without loading the game at all.
+ * The puzzle a game's page opens on: the one left mid-way, or a new one from a
+ * random seed, printed by the game's generator in its worker.
  */
 export const gameLoader = async ({
   gameId,
-  mode,
   signal
 }: {
   gameId: string
-  mode: PuzzleMode
   signal: AbortSignal
 }): Promise<GameLoaderData> => {
   const game = findGame(gameId)
   if (game === null) return { status: 'unknown_game' }
-
-  if (mode === 'daily') {
-    const day = today()
-    const elapsedMs = dailyTimeOf({
-      day,
-      gameId,
-      record: readPlayRecordOrEmpty()
-    })
-    if (elapsedMs !== null) {
-      return {
-        elapsedMs,
-        game,
-        puzzle: dailyPuzzle({ day, gameId, variantId: game.dailyVariant }),
-        status: 'daily_done'
-      }
-    }
-  }
-
   const sealedModule = await game.load()
-  return sealedModule((module) => preparePlay({ game, mode, module, signal }))
+  return sealedModule((module) => preparePlay({ game, module, signal }))
 }

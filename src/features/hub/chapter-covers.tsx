@@ -15,7 +15,7 @@ export type ChapterEntry = {
   readonly bestMs: number | null
 }
 
-/** One process-ink cover per game, its rule printed on it: free play opens from here. */
+/** One process-ink cover per game, its rule printed on it: play opens from here. */
 export const ChapterCovers: React.FC<{ chapters: readonly ChapterEntry[] }> = ({
   chapters
 }) => {

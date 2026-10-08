@@ -58,29 +58,3 @@
       padding-top: var(--space-3xs)
       border-top: var(--stroke-heavy) solid var(--ink)
       border-bottom: var(--print-line)
-
-    .issue-line
-      @include typography.meta
-      display: flex
-      flex-wrap: wrap
-      align-items: center
-      justify-content: space-between
-      gap: var(--space-xs) var(--space-s)
-      padding-top: var(--space-xs)
-      color: var(--ink-soft)
-
-      time::first-letter
-        text-transform: uppercase
-
-    .streak
-      display: inline-flex
-      align-items: baseline
-      gap: var(--space-2xs)
-      padding: var(--space-4xs) var(--space-xs)
-      border: var(--print-line)
-      color: var(--ink)
-      white-space: nowrap
-
-      b
-        @include typography.hand-figure
-        color: var(--pencil)

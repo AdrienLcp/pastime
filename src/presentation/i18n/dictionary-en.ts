@@ -6,8 +6,7 @@ export const EN_DICTIONARY = defineDictionary({
     name: 'Pastime'
   },
   common: {
-    backToBook: 'Back to the book',
-    puzzleNumber: 'No.'
+    backToBook: 'Back to the book'
   },
   crash: {
     prose:
@@ -18,7 +17,6 @@ export const EN_DICTIONARY = defineDictionary({
   },
   frame: {
     clock: 'Time',
-    daily: 'daily',
     failed: {
       prose:
         'The generator found no grid to give you. Another try starts from another seed.',
@@ -48,23 +46,16 @@ export const EN_DICTIONARY = defineDictionary({
     },
     win: {
       best: 'Best',
-      days: defineTranslation('{count:plural}', {
-        plural: { count: { one: '{?} day', other: '{?} days' } }
-      }),
       home: 'Home',
       moves: defineTranslation('{count:plural}', {
         plural: { count: { one: '{?} move', other: '{?} moves' } }
       }),
       newBest: 'new best!',
-      next: defineTranslation('Next puzzle · No. {number:number}', {
-        number: { number: { useGrouping: false } }
-      }),
+      next: 'New game',
       nextVariant: 'Next one',
       replay: 'Play again',
       stamp: 'Solved',
-      streak: 'Streak',
-      time: 'Time',
-      toFreePlay: 'Free play'
+      time: 'Time'
     }
   },
   games: {
@@ -259,16 +250,6 @@ export const EN_DICTIONARY = defineDictionary({
       plural: { count: { one: '{?} solved', other: '{?} solved' } }
     }),
     coverNew: 'Not opened yet',
-    empty: {
-      prose:
-        'The daily puzzle is the same for everyone. A game you leave will wait for you here.',
-      title: 'A fresh book, nothing under way.'
-    },
-    idle: 'Nothing under way.',
-    issue: defineTranslation('Issue {number:number} · {day:date}', {
-      date: { day: { day: 'numeric', month: 'long', weekday: 'long' } },
-      number: { number: { useGrouping: false } }
-    }),
     resume: {
       action: 'Resume',
       moves: defineTranslation('{count:plural}', {
@@ -276,16 +257,7 @@ export const EN_DICTIONARY = defineDictionary({
       }),
       title: 'Resume'
     },
-    settings: 'Settings',
-    start: 'To begin',
-    streak: 'Streak',
-    streakDays: '{count:number} d.',
-    today: {
-      done: 'done',
-      inProgress: 'under way',
-      title: 'Today',
-      todo: 'to do'
-    }
+    settings: 'Settings'
   },
   notFound: {
     prose: 'No page lives at {path}.',

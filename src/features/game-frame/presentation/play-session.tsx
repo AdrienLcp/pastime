@@ -42,7 +42,7 @@ export const PlaySession = <Level, State, Move, Hint>({
       style={{ '--chapter': `var(${game.chapterInk})` }}
     >
       <DocumentTitle>
-        {`${translate('common.puzzleNumber')} ${puzzle.number} · ${translate(game.name)} — ${translate('app.name')}`}
+        {`${translate(game.name)} — ${translate('app.name')}`}
       </DocumentTitle>
       <GameBand game={game} puzzle={puzzle}>
         {session.status !== 'won' && (

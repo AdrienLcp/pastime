@@ -1,7 +1,7 @@
 /**
  * The app's only source of randomness for puzzles: the same seed draws the
  * same sequence on every device, which is what makes a level reproducible from
- * its share code and the daily puzzle the same for everyone.
+ * the seed its save keeps.
  *
  * sfc32, seeded through a 32-bit string hash: a few lines, fast, and good
  * enough for shuffling and level generation. Nothing here is for secrets.

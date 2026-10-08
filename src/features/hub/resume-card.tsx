@@ -2,7 +2,7 @@ import type React from 'react'
 
 import { findGame, variantOf } from '@/features/game-frame/game-registry'
 import type { SavedGame } from '@/features/game-frame/saved-game'
-import { dailyPathFor, gamePathFor } from '@/infrastructure/router/navigation'
+import { gamePathFor } from '@/infrastructure/router/navigation'
 import { NextIcon } from '@/presentation/components/icons'
 import { Link } from '@/presentation/components/link'
 import { formatClockTime } from '@/presentation/format/clock-time'
@@ -16,29 +16,20 @@ export const ResumeCard: React.FC<{ saved: SavedGame }> = ({ saved }) => {
   const game = findGame(saved.puzzle.gameId)
   if (game === null) return null
   const { puzzle } = saved
-  const href =
-    puzzle.mode === 'daily'
-      ? dailyPathFor({ gameId: game.id, locale })
-      : gamePathFor({ gameId: game.id, locale })
 
   return (
     <Link
       className='resume-card'
-      href={href}
+      href={gamePathFor({ gameId: game.id, locale })}
       style={{ '--chapter': `var(${game.chapterInk})` }}
     >
       <span aria-hidden='true' className='resume-tab'>
         <game.Glyph />
       </span>
       <span className='resume-body'>
-        <span className='resume-number'>
-          <small>{translate('common.puzzleNumber')}</small> {puzzle.number}
-        </span>
         <span className='resume-game'>
           {translate(game.name)} ·{' '}
-          {puzzle.mode === 'daily'
-            ? translate('frame.daily')
-            : translate(variantOf({ game, variantId: puzzle.variantId }).label)}
+          {translate(variantOf({ game, variantId: puzzle.variantId }).label)}
         </span>
         <span className='resume-meta'>
           {formatClockTime(saved.elapsedMs)} ·{' '}

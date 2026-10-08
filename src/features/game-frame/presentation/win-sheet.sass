@@ -11,11 +11,6 @@
       width: min(74%, 17rem)
       margin: var(--space-2xs) auto 0
 
-      &.bare
-        display: grid
-        place-items: center
-        min-height: 9rem
-
     // The stamp is pressed once, hard, then the ink spreads a little.
     .stamp
       position: absolute
@@ -33,18 +28,12 @@
       rotate: -9deg
       animation: stamp-press var(--transition-slow, 0s) var(--ease-out) both
 
-    .win-plate.bare .stamp
-      position: static
-
     .stamp-word
       @include typography.stamp
 
-    .stamp-number
-      @include typography.stamp-number
-
     .score
       display: grid
-      grid-template-columns: repeat(3, minmax(0, 1fr))
+      grid-template-columns: repeat(2, minmax(0, 1fr))
       border: var(--stroke-frame) solid var(--ink)
 
       > div

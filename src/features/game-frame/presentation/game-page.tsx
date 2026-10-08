@@ -12,11 +12,7 @@ import { useTranslate } from '@/presentation/i18n/i18n-provider'
 
 import type { GameDefinition } from '../game-definition'
 import type { GameLoaderData } from '../game-loader'
-import type { PuzzleRef } from '../puzzle'
-import { GameBand } from './game-band'
 import { PlaySession } from './play-session'
-import { WinSheet } from './win-sheet'
-import { pastWinSummary } from './win-summary'
 
 import './game-page.sass'
 
@@ -41,38 +37,7 @@ const PrintFailed: React.FC<{ game: GameDefinition }> = ({ game }) => {
   )
 }
 
-const DailyDone: React.FC<{
-  game: GameDefinition
-  puzzle: PuzzleRef
-  elapsedMs: number
-}> = ({ elapsedMs, game, puzzle }) => {
-  const translate = useTranslate()
-
-  return (
-    <Main
-      className='daily-done'
-      style={{ '--chapter': `var(${game.chapterInk})` }}
-    >
-      <DocumentTitle>
-        {`${translate('common.puzzleNumber')} ${puzzle.number} · ${translate(game.name)} — ${translate('app.name')}`}
-      </DocumentTitle>
-      <GameBand game={game} puzzle={puzzle} />
-      <WinSheet
-        game={game}
-        onReplay={null}
-        plate={null}
-        puzzle={puzzle}
-        summary={pastWinSummary({
-          elapsedMs,
-          gameId: game.id,
-          variantId: puzzle.variantId
-        })}
-      />
-    </Main>
-  )
-}
-
-/** A game's page, free play or today's daily: whatever its loader prepared. */
+/** A game's page: whatever its loader prepared. */
 export const GamePage: React.FC = () => {
   const data = useGameData()
 
@@ -81,14 +46,6 @@ export const GamePage: React.FC = () => {
       return <NotFoundPage />
     case 'failed':
       return <PrintFailed game={data.game} />
-    case 'daily_done':
-      return (
-        <DailyDone
-          elapsedMs={data.elapsedMs}
-          game={data.game}
-          puzzle={data.puzzle}
-        />
-      )
     case 'ready':
       return data.play((play) => <PlaySession key={data.playKey} play={play} />)
     default:

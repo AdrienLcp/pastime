@@ -3,6 +3,7 @@ import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import { createBrowserRouter, RouterProvider } from 'react-router'
 
+import { dropVersionOneSavedGames } from '@/features/game-frame/game-storage'
 import { startServiceWorker } from '@/infrastructure/pwa/app-update'
 import { listenForInstallPrompt } from '@/infrastructure/pwa/install-prompt'
 import { routes } from '@/infrastructure/router/routes'
@@ -17,6 +18,7 @@ if (container === null) {
   throw new Error('Missing #root in index.html')
 }
 
+dropVersionOneSavedGames()
 listenForInstallPrompt()
 startServiceWorker()
 const locale = applyInitialLocale()

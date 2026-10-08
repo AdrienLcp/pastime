@@ -9,6 +9,7 @@ import {
 import {
   readSavedGame,
   removeSavedGame,
+  removeVersionOneSavedGames,
   writeSavedGame
 } from '@/infrastructure/storage/saved-game-storage'
 
@@ -19,7 +20,7 @@ import {
   type RecordedWin,
   recordWin
 } from './play-record'
-import type { PuzzleMode, PuzzleRef } from './puzzle'
+import type { PuzzleRef } from './puzzle'
 import type { SavedGame } from './saved-game'
 
 /*
@@ -61,12 +62,11 @@ export const saveVariantPreference = (choice: {
   )
 }
 
-/** The game left mid-way in a slot, `null` when none; a failed read is also reported to the console. */
-export const readWaitingGame = (slot: {
+/** The game left mid-way, `null` when none; a failed read is also reported to the console. */
+export const readWaitingGame = (
   gameId: string
-  mode: PuzzleMode
-}): Result<SavedGame | null, StorageReadError> => {
-  const read = readSavedGame(slot)
+): Result<SavedGame | null, StorageReadError> => {
+  const read = readSavedGame(gameId)
   warnOnFailure(read, 'The game in progress could not be read')
   return read
 }
@@ -78,9 +78,16 @@ export const saveGame = (saved: SavedGame): void => {
   )
 }
 
-export const dropSavedGame = (slot: {
-  gameId: string
-  mode: PuzzleMode
-}): void => {
-  warnOnFailure(removeSavedGame(slot), 'The finished game could not be cleared')
+export const dropSavedGame = (gameId: string): void => {
+  warnOnFailure(
+    removeSavedGame(gameId),
+    'The finished game could not be cleared'
+  )
+}
+
+export const dropVersionOneSavedGames = (): void => {
+  warnOnFailure(
+    removeVersionOneSavedGames(),
+    'The games saved by an older version could not be cleared'
+  )
 }
