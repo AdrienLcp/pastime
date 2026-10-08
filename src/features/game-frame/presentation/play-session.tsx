@@ -26,7 +26,7 @@ export const PlaySession = <Level, State, Move, Hint>({
   const translate = useTranslate()
   const session = usePlaySession(play)
   const { Board, hintKey } = play.module
-  const { game, puzzle } = play
+  const { game } = play
   const hint =
     session.shownHint?.kind === 'step' ? session.shownHint.hint : null
   const explanation =
@@ -44,7 +44,7 @@ export const PlaySession = <Level, State, Move, Hint>({
       <DocumentTitle>
         {`${translate(game.name)} — ${translate('app.name')}`}
       </DocumentTitle>
-      <GameBand game={game} puzzle={puzzle}>
+      <GameBand game={game}>
         {session.status !== 'won' && (
           <GameClock
             clock={session.clock}
@@ -68,7 +68,6 @@ export const PlaySession = <Level, State, Move, Hint>({
               state={session.board}
             />
           }
-          puzzle={puzzle}
           summary={session.win}
         />
       ) : (

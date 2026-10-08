@@ -9,7 +9,7 @@ export const FR_DICTIONARY = defineDictionary({
     name: 'Pastime'
   },
   common: {
-    backToBook: 'Retour au cahier'
+    backToGames: 'Retour aux jeux'
   },
   crash: {
     prose:
@@ -55,7 +55,6 @@ export const FR_DICTIONARY = defineDictionary({
       }),
       newBest: 'nouveau record !',
       next: 'Nouvelle partie',
-      nextVariant: 'Le suivant',
       replay: 'Rejouer',
       stamp: 'Résolu',
       time: 'Temps'
@@ -149,11 +148,6 @@ export const FR_DICTIONARY = defineDictionary({
         toColumn: 'Ces cartes peuvent descendre sur la pile marquée.',
         toFoundation: 'Cette carte peut monter sur sa fondation.'
       },
-      homeCount: defineTranslation('{count:plural} sur {total:number}', {
-        plural: {
-          count: { one: '{?} carte rangée', other: '{?} cartes rangées' }
-        }
-      }),
       name: 'Solitaire',
       piles: {
         column: 'Colonne {column:number}',
@@ -255,19 +249,9 @@ export const FR_DICTIONARY = defineDictionary({
     }
   },
   hub: {
-    chapters: 'Chapitres',
-    colophon: 'Hors ligne · sans compte · sans publicité',
     coverMeta: defineTranslation('{count:plural} · record {best}', {
       plural: { count: { one: '{?} résolu', other: '{?} résolus' } }
     }),
-    coverNew: 'Pas encore ouvert',
-    resume: {
-      action: 'Reprendre',
-      moves: defineTranslation('{count:plural}', {
-        plural: { count: { one: '{?} coup', other: '{?} coups' } }
-      }),
-      title: 'Reprendre'
-    },
     settings: 'Réglages'
   },
   notFound: {

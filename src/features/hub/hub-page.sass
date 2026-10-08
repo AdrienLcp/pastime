@@ -1,18 +1,5 @@
-@use '../../presentation/styles/print'
-@use '../../presentation/styles/typography'
-
 @layer components
   .hub-page
     display: grid
     align-content: start
     padding-bottom: var(--space-xl)
-
-    .section-head
-      @include print.section-head
-
-    .hub-colophon
-      @include typography.meta
-      margin-top: var(--space-l)
-      padding-inline: var(--gutter)
-      color: var(--ink-soft)
-      text-align: center

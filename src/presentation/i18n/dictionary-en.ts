@@ -6,7 +6,7 @@ export const EN_DICTIONARY = defineDictionary({
     name: 'Pastime'
   },
   common: {
-    backToBook: 'Back to the book'
+    backToGames: 'Back to the games'
   },
   crash: {
     prose:
@@ -52,7 +52,6 @@ export const EN_DICTIONARY = defineDictionary({
       }),
       newBest: 'new best!',
       next: 'New game',
-      nextVariant: 'Next one',
       replay: 'Play again',
       stamp: 'Solved',
       time: 'Time'
@@ -142,9 +141,6 @@ export const EN_DICTIONARY = defineDictionary({
         toColumn: 'These cards can go down onto the marked pile.',
         toFoundation: 'This card can go up to its foundation.'
       },
-      homeCount: defineTranslation('{count:plural} of {total:number}', {
-        plural: { count: { one: '{?} card home', other: '{?} cards home' } }
-      }),
       name: 'Solitaire',
       piles: {
         column: 'Column {column:number}',
@@ -244,19 +240,9 @@ export const EN_DICTIONARY = defineDictionary({
     }
   },
   hub: {
-    chapters: 'Chapters',
-    colophon: 'Offline · no account · no ads',
     coverMeta: defineTranslation('{count:plural} · best {best}', {
       plural: { count: { one: '{?} solved', other: '{?} solved' } }
     }),
-    coverNew: 'Not opened yet',
-    resume: {
-      action: 'Resume',
-      moves: defineTranslation('{count:plural}', {
-        plural: { count: { one: '{?} move', other: '{?} moves' } }
-      }),
-      title: 'Resume'
-    },
     settings: 'Settings'
   },
   notFound: {

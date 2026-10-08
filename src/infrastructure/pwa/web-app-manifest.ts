@@ -8,8 +8,7 @@ import type { ManifestOptions } from 'vite-plugin-pwa'
 export const webAppManifest: Partial<ManifestOptions> = {
   background_color: '#0d1013',
   categories: ['games', 'entertainment'],
-  description:
-    'Small solo puzzle and card games in one app: no ads, no account, works offline.',
+  description: 'A collection of small solo puzzle and card games.',
   display: 'standalone',
   icons: [
     {

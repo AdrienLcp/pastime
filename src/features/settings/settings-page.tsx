@@ -66,7 +66,7 @@ export const SettingsPage: React.FC = () => {
       <DocumentTitle>{`${translate('settings.title')} — ${translate('app.name')}`}</DocumentTitle>
       <header className='settings-head'>
         <Link
-          aria-label={translate('common.backToBook')}
+          aria-label={translate('common.backToGames')}
           className='settings-back'
           href={hubPathFor(locale)}
         >

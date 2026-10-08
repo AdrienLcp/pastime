@@ -20,7 +20,7 @@
     "workbox-window": "^7.4.1",
     "zod": "^4.6.5"
   },
-  "description": "Pastime: small solo puzzle and card games in one offline PWA — no ads, no account, every level checked solvable on the device.",
+  "description": "A collection of small solo puzzle and card games.",
   "devDependencies": {
     "@adrienlcp/biome-config": "^0.2.1",
     "@adrienlcp/tsconfig": "^0.1.1",

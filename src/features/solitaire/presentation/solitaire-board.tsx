@@ -133,11 +133,6 @@ export const SolitaireBoard: React.FC<
     else playTap(lift)
   }
 
-  const homeCount = state.foundations.reduce(
-    (count, foundation) => count + foundation.length,
-    0
-  )
-
   return (
     <div
       className='solitaire-board'
@@ -239,12 +234,6 @@ export const SolitaireBoard: React.FC<
 
       {!isLocked && (
         <div className='status-line'>
-          <p className='home-count'>
-            {translate('games.solitaire.homeCount', {
-              count: homeCount,
-              total: DECK_SIZE
-            })}
-          </p>
           {canFinish && (
             <Button className='finish' onPress={finish}>
               {translate('games.solitaire.finish')}

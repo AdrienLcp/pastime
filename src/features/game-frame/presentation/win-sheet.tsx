@@ -1,5 +1,4 @@
 import type React from 'react'
-import { useState } from 'react'
 
 import {
   hubPathFor,
@@ -12,13 +11,10 @@ import {
   RestartIcon
 } from '@/presentation/components/icons'
 import { Link } from '@/presentation/components/link'
-import { SegmentedChoice } from '@/presentation/components/segmented-choice'
 import { formatClockTime, isoDuration } from '@/presentation/format/clock-time'
 import { useI18n } from '@/presentation/i18n/i18n-provider'
 
 import type { GameDefinition } from '../game-definition'
-import { saveVariantPreference } from '../game-storage'
-import type { PuzzleRef } from '../puzzle'
 import { PencilLoop } from './pencil-loop'
 import type { WinSummary } from './win-summary'
 
@@ -26,7 +22,6 @@ import './win-sheet.sass'
 
 type WinSheetProps = {
   game: GameDefinition
-  puzzle: PuzzleRef
   summary: WinSummary
   /** The solved board, under the stamp. */
   plate: React.ReactNode
@@ -46,23 +41,16 @@ export const WinSheet: React.FC<WinSheetProps> = ({
   game,
   onReplay,
   plate,
-  puzzle,
   summary
 }) => {
   const { locale, translate } = useI18n()
   const moves = game.countsMoves ? summary.moves : null
   const reloadRouteData = useReloadRouteData()
-  const [nextVariantId, setNextVariantId] = useState(puzzle.variantId)
-
-  const playNext = () => {
-    saveVariantPreference({ gameId: game.id, variantId: nextVariantId })
-    reloadRouteData()
-  }
 
   return (
     <div className='win-sheet'>
       <div className='win-plate'>
-        {plate}
+        <div className='win-board'>{plate}</div>
         <p className='stamp'>
           <span className='stamp-word'>{translate('frame.win.stamp')}</span>
         </p>
@@ -113,18 +101,12 @@ export const WinSheet: React.FC<WinSheetProps> = ({
       </dl>
 
       <div className='win-actions'>
-        {game.variants.length > 1 && (
-          <SegmentedChoice
-            label={translate('frame.win.nextVariant')}
-            onChange={setNextVariantId}
-            options={game.variants.map((variant) => ({
-              label: translate(variant.label),
-              value: variant.id
-            }))}
-            value={nextVariantId}
-          />
-        )}
-        <Button autoFocus className='next' onPress={playNext} variant='ink'>
+        <Button
+          autoFocus
+          className='next'
+          onPress={reloadRouteData}
+          variant='ink'
+        >
           {translate('frame.win.next')}
           <NextIcon aria-hidden='true' />
         </Button>

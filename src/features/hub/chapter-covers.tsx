@@ -32,14 +32,14 @@ export const ChapterCovers: React.FC<{ chapters: readonly ChapterEntry[] }> = ({
           >
             <span className='cover-title'>{translate(game.name)}</span>
             <span className='cover-rule'>{translate(game.rule)}</span>
-            <span className='cover-meta'>
-              {bestMs === null
-                ? translate('hub.coverNew')
-                : translate('hub.coverMeta', {
-                    best: formatClockTime(bestMs),
-                    count: solved
-                  })}
-            </span>
+            {bestMs !== null && (
+              <span className='cover-meta'>
+                {translate('hub.coverMeta', {
+                  best: formatClockTime(bestMs),
+                  count: solved
+                })}
+              </span>
+            )}
             <span aria-hidden='true' className='cover-glyph'>
               <game.Glyph />
             </span>

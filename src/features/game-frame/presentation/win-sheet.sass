@@ -11,6 +11,10 @@
       width: min(74%, 17rem)
       margin: var(--space-2xs) auto 0
 
+    // The board's own layers stay inside it, so the stamp lies over them all.
+    .win-board
+      isolation: isolate
+
     // The stamp is pressed once, hard, then the ink spreads a little.
     .stamp
       position: absolute
@@ -25,7 +29,9 @@
       border-radius: var(--radius-stamp)
       outline: var(--stroke-thin) solid currentColor
       outline-offset: 3px
+      z-index: 1
       rotate: -9deg
+      pointer-events: none
       animation: stamp-press var(--transition-slow, 0s) var(--ease-out) both
 
     .stamp-word
@@ -65,8 +71,20 @@
       font-size: var(--text-hand)
       text-decoration-thickness: var(--stroke-bold)
 
+    // The pencil rings the figure from behind and around it, never across it.
     .circled
       position: relative
+      isolation: isolate
+      padding-inline: 0.3em
+
+      .pencil-loop
+        z-index: -1
+        inset: -0.32em -0.15em -0.22em
+        width: calc(100% + 0.3em)
+        height: calc(100% + 0.54em)
+
+        path
+          stroke: color-mix(in oklab, var(--pencil) 55%, transparent)
 
     .scribble
       margin-top: var(--space-2xs)
@@ -75,9 +93,6 @@
     .win-actions
       display: grid
       gap: var(--space-xs)
-
-      .segmented-choice
-        margin-bottom: var(--space-xs)
 
       .next
         width: 100%
