@@ -19,9 +19,18 @@ his screenshots and a recording of level 50 (2026-10-07).
 - A **ball** on the route, or a **filled ring** (a ball that arrived), blocks
   it. Arrived balls never move again: blocking is permanent.
 - Once a ball leaves its node, the node and its branch line disappear.
-- **A blocked tap loses the level**: the ball travels until the node before
-  the blocker, stops against it, then the level ends. The puzzle is entirely
-  about the order of taps.
+- **Balls travel in real time**, all at one speed, and the player need not
+  wait for one to land before tapping the next: several can be on their way
+  at once. A ball's ring counts as taken the moment the ball leaves, so a
+  second ball of its colour heads for the next ring.
+- **A moving ball that meets another ball pops — only the moving one — and
+  the level is lost.** Meeting means touching: the ball rides on until it
+  runs into a waiting ball or a filled ring on its route, or into a ball
+  still on its way (from behind, head-on, or across a joint). When both are
+  moving, the one launched last pops. A ball that lands in its ring is still
+  — a ball that later runs into it pops. A ball may cross an empty ring
+  another ball is heading for, as long as it is gone before that ball lands.
+  The puzzle is entirely about the order of taps.
 
 The original also has lives, a "revive" by video ad, and boosters (undo,
 eraser, phantom): monetisation, none of it comes over.
@@ -34,10 +43,31 @@ eraser, phantom): monetisation, none of it comes over.
 - A tap on a ball that has no free ring of its colour does nothing (the
   engine refuses it). With one ring per ball it never happens, so there is no
   shake to draw.
-- Animation: the ball slides segment by segment at constant speed, faster
-  than the original (~3 s for a long route is too slow; aim for ≤ 1 s,
-  capped per segment), then the ring fills with a lighter shade and a short
-  scale pulse. Reduced motion: instant move, fill without pulse.
+- Animation: the ball slides segment by segment at the rules' one speed
+  (60 ms a grid step: faster than the original, whose ~3 s for a long route
+  is too slow; no cap, a cap would let a long ride overtake a short one),
+  then the ring fills with a short scale pulse. A pop: the ball swells and
+  bursts into pencil strokes where it touched, circled in pencil. Reduced
+  motion: every ride is instant, so balls are never on their way together and
+  only a blocked route can pop one; fill without pulse, burst without motion.
+
+## Simultaneous launches never help — why the solver stays turn-based
+
+The solver, the trap count and the backwards construction all play one ball
+at a time, each landing before the next leaves. That loses nothing: waiting
+for every ball to land is always allowed, so a level solvable one at a time is
+solvable, and a launch while a ball is on its way only adds ways to lose — a
+meeting — except for one thing serial play forbids, crossing a ring before its
+ball lands. That never opens a solution. Every ball has the same speed and the
+board is a tree, so the only route between two nodes is shared: a ball X that
+crosses ring R before ball Y lands on it would, in the other order (X first),
+have to go before Y anyway — and the swap fails only if Y's route held X's
+ring or X's waiting ball, which puts both balls on the same stretch of line in
+opposite directions at overlapping times, where they meet head-on. So the
+engine decides each tap at once: the route against the board as one-at-a-time
+play leaves it, then the ride against the balls still on their way, over time
+(`color-dots-meeting.ts`). A tap carries the milliseconds since the previous
+one; without them (the solver, reduced motion) every earlier ball has landed.
 - Colour is never the only cue: each colour also has a symbol drawn inside
   its balls and rings.
 
