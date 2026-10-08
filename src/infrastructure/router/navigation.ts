@@ -102,20 +102,6 @@ export const useReloadRouteData = (): (() => void) => {
   }
 }
 
-/**
- * An on-screen Back that does what the device's Back does: one step back when
- * the app opened the page, the parent page when the address was opened as is.
- */
-export const useGoBack = (fallback: string): (() => void) => {
-  const navigate = useNavigate()
-  return () => {
-    const index: unknown = window.history.state?.idx
-    void (typeof index === 'number' && index > 0
-      ? navigate(-1)
-      : navigate(fallback, { replace: true }))
-  }
-}
-
 /** What broke, in one line: shown to the player so it can be reported. */
 export const useRouteFailure = (): string => {
   const error = useRouteError()

@@ -4,8 +4,6 @@ import './main.sass'
 
 const MAIN_ID = 'main'
 
-export const MAIN_HREF = `#${MAIN_ID}`
-
 const keepBackgroundClicksInert = (
   event: React.MouseEvent<HTMLElement>
 ): void => {
