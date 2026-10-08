@@ -5,6 +5,7 @@ import { useTranslate } from '@/presentation/i18n/i18n-provider'
 import type { PreparedPlay } from '../game-loader'
 import { GameBand } from './game-band'
 import { GameClock } from './game-clock'
+import { GameScore } from './game-score'
 import { GameTools } from './game-tools'
 import { HintNote, LostNote } from './hint-note'
 import { PauseCover } from './pause-cover'
@@ -51,6 +52,9 @@ export const PlaySession = <Level, State, Move, Hint>({
         {`${translate(game.name)} — ${translate('app.name')}`}
       </DocumentTitle>
       <GameBand game={game}>
+        {session.status !== 'won' && session.score !== null && (
+          <GameScore points={session.score} />
+        )}
         {session.status !== 'won' && (
           <GameClock
             clock={session.clock}

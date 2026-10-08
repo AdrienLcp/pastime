@@ -14,8 +14,21 @@ const win = (record: PlayRecord, elapsedMs: number, moveCount = 30) =>
     elapsedMs,
     moveCount,
     puzzle: { gameId: 'stars', seed: 1, variantId: '8' },
-    record
+    record,
+    score: null
   })
+
+const scoredWin = (record: PlayRecord, score: number) =>
+  recordWin({
+    elapsedMs: 200_000,
+    moveCount: 120,
+    puzzle: { gameId: 'solitaire', seed: 1, variantId: 'winnable' },
+    record,
+    score
+  })
+
+const solitaireRecordOf = (record: PlayRecord) =>
+  variantRecordOf({ gameId: 'solitaire', record, variantId: 'winnable' })
 
 describe('play record', () => {
   it('[play-record] counts a first win as the best time', () => {
@@ -84,6 +97,49 @@ describe('play record', () => {
         preferredVariant: '10',
         variants: { '8': { bestMs: 42_000, fewestMoves: 30, solved: 3 } }
       }
+    })
+  })
+
+  it('[play-record] keeps the best score apart from the best time', () => {
+    const first = scoredWin(EMPTY_PLAY_RECORD, 4200)
+    expect(first.isNewBestScore).toBe(true)
+    expect(first.previousBestScore).toBeNull()
+    const lower = scoredWin(first.record, 3900)
+    expect(lower.isNewBestScore).toBe(false)
+    expect(lower.previousBestScore).toBe(4200)
+    const higher = scoredWin(lower.record, 5100)
+    expect(higher.isNewBestScore).toBe(true)
+    expect(solitaireRecordOf(higher.record).bestScore).toBe(5100)
+  })
+
+  it('[play-record] writes no best score for a game without points', () => {
+    expect(
+      variantRecordOf({
+        gameId: 'stars',
+        record: win(EMPTY_PLAY_RECORD, 42_000).record,
+        variantId: '8'
+      })
+    ).not.toHaveProperty('bestScore')
+  })
+
+  it('[play-record] reads a record written before scores were kept', () => {
+    const before = playRecordSchema.parse({
+      solitaire: {
+        preferredVariant: 'winnable',
+        variants: {
+          winnable: { bestMs: 300_000, fewestMoves: 140, solved: 2 }
+        }
+      }
+    })
+    expect(solitaireRecordOf(before).bestScore).toBeUndefined()
+    const won = scoredWin(before, 3800)
+    expect(won.previousBestScore).toBeNull()
+    expect(won.isNewBestScore).toBe(true)
+    expect(solitaireRecordOf(won.record)).toEqual({
+      bestMs: 200_000,
+      bestScore: 3800,
+      fewestMoves: 120,
+      solved: 3
     })
   })
 })

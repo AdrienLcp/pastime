@@ -27,6 +27,18 @@ export type GameEngine<Level, State, Move, Hint> = {
   /** Checks a level read back from storage or from the generator's worker. */
   readonly levelSchema: z.ZodMiniType<Level>
   readonly moveSchema: z.ZodMiniType<Move>
+  /** For a game that keeps points; a game without them leaves it out. */
+  readonly scoring?: GameScoring<State, Move>
+}
+
+/** Points read off the play so far, so an undo takes them back exactly. */
+export type GameScoring<State, Move> = {
+  readonly scoreOf: (play: {
+    readonly boards: readonly State[]
+    readonly moves: readonly Move[]
+  }) => number
+  /** Added once the game is won, for the time it took. */
+  readonly timeBonusOf: (elapsedMs: number) => number
 }
 
 export type BoardProps<State, Move, Hint> = {

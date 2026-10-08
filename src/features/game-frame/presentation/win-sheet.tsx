@@ -16,7 +16,7 @@ import { useI18n, useTranslate } from '@/presentation/i18n/i18n-provider'
 
 import type { GameDefinition } from '../game-definition'
 import { PencilLoop } from './pencil-loop'
-import type { WinSummary } from './win-summary'
+import type { ScoreSummary, WinSummary } from './win-summary'
 
 import './win-sheet.sass'
 
@@ -30,6 +30,46 @@ type WinSheetProps = {
 const ClockTime: React.FC<{ elapsedMs: number }> = ({ elapsedMs }) => (
   <time dateTime={isoDuration(elapsedMs)}>{formatClockTime(elapsedMs)}</time>
 )
+
+/** The points won, their time bonus beneath, against the best score. */
+const ScoreRow: React.FC<{
+  score: ScoreSummary
+  /** A new record already told above: the score's is not told twice. */
+  isNewBestTold: boolean
+}> = ({ isNewBestTold, score }) => {
+  const translate = useTranslate()
+
+  return (
+    <>
+      <div>
+        <dt>{translate('frame.win.score')}</dt>
+        <dd>
+          <span>{translate('frame.win.points', { points: score.total })}</span>
+          <span className='moves'>
+            {translate('frame.win.timeBonus', { bonus: score.timeBonus })}
+          </span>
+        </dd>
+      </div>
+      <div>
+        <dt>{translate('frame.win.best')}</dt>
+        <dd>
+          {score.beatenBest !== null && (
+            <s className='beaten'>
+              {translate('frame.win.points', { points: score.beatenBest })}
+            </s>
+          )}
+          <span className={score.isNewBest ? 'best circled' : 'best'}>
+            {translate('frame.win.points', { points: score.best })}
+            {score.isNewBest && <PencilLoop />}
+          </span>
+          {score.isNewBest && !isNewBestTold && (
+            <span className='scribble'>{translate('frame.win.newBest')}</span>
+          )}
+        </dd>
+      </div>
+    </>
+  )
+}
 
 /** The solved board with the red stamp pressed on it, over all its layers. */
 export const WinPlate: React.FC<{ children: React.ReactNode }> = ({
@@ -59,6 +99,7 @@ export const WinSheet: React.FC<WinSheetProps> = ({
   const { locale, translate } = useI18n()
   const moves = game.countsMoves ? summary.moves : null
   const reloadRouteData = useReloadRouteData()
+  const isNewBestTold = summary.isNewBest || moves?.isNewFewest === true
 
   return (
     <div className='win-sheet'>
@@ -99,11 +140,14 @@ export const WinSheet: React.FC<WinSheetProps> = ({
                 </span>
               </span>
             )}
-            {(summary.isNewBest || moves?.isNewFewest) && (
+            {isNewBestTold && (
               <span className='scribble'>{translate('frame.win.newBest')}</span>
             )}
           </dd>
         </div>
+        {summary.score !== null && (
+          <ScoreRow isNewBestTold={isNewBestTold} score={summary.score} />
+        )}
       </dl>
 
       <div className='win-actions'>

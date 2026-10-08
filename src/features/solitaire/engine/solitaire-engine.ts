@@ -4,6 +4,7 @@ import { dealKlondike } from './solitaire-deal'
 import { type SolitaireHint, solitaireHintOf } from './solitaire-hint'
 import { type SolitaireLevel, solitaireLevelSchema } from './solitaire-level'
 import { applySolitaireMove, isSolitaireWon } from './solitaire-rules'
+import { solitaireScoreOf, solitaireTimeBonusOf } from './solitaire-score'
 import {
   type SolitaireMove,
   type SolitaireState,
@@ -22,5 +23,6 @@ export const solitaireEngine: GameEngine<
   isWon: isSolitaireWon,
   levelSchema: solitaireLevelSchema,
   moveSchema: solitaireMoveSchema,
+  scoring: { scoreOf: solitaireScoreOf, timeBonusOf: solitaireTimeBonusOf },
   start: dealKlondike
 }

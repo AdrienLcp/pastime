@@ -48,6 +48,11 @@ export const FR_DICTIONARY = defineDictionary({
       resume: 'Reprendre',
       title: 'En pause'
     },
+    score: {
+      label: 'Points',
+      points: '{points:number}',
+      unit: 'pts'
+    },
     tools: {
       hint: 'Indice',
       label: 'Outils',
@@ -62,9 +67,12 @@ export const FR_DICTIONARY = defineDictionary({
       }),
       newBest: 'nouveau record !',
       next: 'Nouvelle partie',
+      points: '{points:number}',
       replay: 'Rejouer',
+      score: 'Points',
       stamp: 'Résolu',
-      time: 'Temps'
+      time: 'Temps',
+      timeBonus: 'dont {bonus:number} de bonus temps'
     }
   },
   games: {

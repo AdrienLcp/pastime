@@ -60,8 +60,11 @@
         min-height: 5.75rem
         padding: var(--space-xs) var(--space-s) var(--space-s)
 
-        & + div
+        &:nth-child(even)
           border-left: var(--print-line)
+
+        &:nth-child(n + 3)
+          border-top: var(--print-line)
 
       dt
         @include typography.caps

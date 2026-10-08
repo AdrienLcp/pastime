@@ -45,6 +45,11 @@ export const EN_DICTIONARY = defineDictionary({
       resume: 'Resume',
       title: 'Paused'
     },
+    score: {
+      label: 'Points',
+      points: '{points:number}',
+      unit: 'pts'
+    },
     tools: {
       hint: 'Hint',
       label: 'Tools',
@@ -59,9 +64,12 @@ export const EN_DICTIONARY = defineDictionary({
       }),
       newBest: 'new best!',
       next: 'New game',
+      points: '{points:number}',
       replay: 'Play again',
+      score: 'Points',
       stamp: 'Solved',
-      time: 'Time'
+      time: 'Time',
+      timeBonus: 'incl. {bonus:number} time bonus'
     }
   },
   games: {

@@ -21,7 +21,7 @@ import {
 } from '../game-session'
 import { dropSavedGame, saveGame, saveWin } from '../game-storage'
 import { type GameClock, useGameClock } from './use-game-clock'
-import { type WinSummary, winSummaryOf } from './win-summary'
+import { type WinSummary, type WonScore, winSummaryOf } from './win-summary'
 
 export type PlayStatus = 'lost' | 'paused' | 'playing' | 'won'
 
@@ -37,6 +37,8 @@ export type PlaySessionControls<State, Move, Hint> = {
   readonly isLossTold: boolean
   readonly shownHint: ShownHint<Hint> | null
   readonly win: WinSummary | null
+  /** The points so far, `null` for a game without points. */
+  readonly score: number | null
   readonly clock: GameClock
   readonly isClockRunning: boolean
   readonly canUndo: boolean
@@ -129,6 +131,15 @@ export const usePlaySession = <Level, State, Move, Hint>(
     if (!isPageVisible) pauseOnHide()
   }, [isPageVisible])
 
+  const wonScoreOf = (
+    solved: GameSession<Level, State, Move>,
+    elapsedMs: number
+  ): WonScore | null => {
+    if (engine.scoring === undefined) return null
+    const timeBonus = engine.scoring.timeBonusOf(elapsedMs)
+    return { timeBonus, total: engine.scoring.scoreOf(solved) + timeBonus }
+  }
+
   const finish = (solved: GameSession<Level, State, Move>) => {
     const elapsedMs = clock.readElapsedMs()
     setSession(solved)
@@ -136,11 +147,18 @@ export const usePlaySession = <Level, State, Move, Hint>(
     setStatus('won')
     dropSavedGame(puzzle.gameId)
     const moveCount = solved.moves.length
+    const score = wonScoreOf(solved, elapsedMs)
     setWin(
       winSummaryOf({
         elapsedMs,
         moveCount,
-        ...saveWin({ elapsedMs, moveCount, puzzle })
+        score,
+        ...saveWin({
+          elapsedMs,
+          moveCount,
+          puzzle,
+          score: score?.total ?? null
+        })
       })
     )
   }
@@ -174,6 +192,7 @@ export const usePlaySession = <Level, State, Move, Hint>(
     resume: () => {
       if (status === 'paused') setStatus('playing')
     },
+    score: engine.scoring?.scoreOf(session) ?? null,
     showHint: () => {
       const hint = engine.hint(currentBoard(session))
       if (hint === null) return setShownHint({ kind: 'none' })

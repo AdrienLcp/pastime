@@ -316,10 +316,12 @@ follow it. `src/presentation/theme/`.
 
 On a phone, a row in the game's chapter ink, text `--cover-ink`: a 48 px back
 link to the list of games, the game's name, then the timer (800, wdth 90 %,
-`--text-timer`) and a 48 px pause button. No number, no variant, no count. On
+`--text-timer`) and a 48 px pause button. No number, no variant, no count —
+but a game that keeps points (Solitaire) prints them before the clock, the
+figure in the timer face with a small « pts », a thin rule between the two. On
 a spread it heads the right page: « Jeux » after the back arrow, the name in
 a large cover title, the rule beneath, and the clock large under a caps
-« Temps ».
+« Temps », then the points as large under a caps « Points ».
 
 ### Tool bar
 
@@ -426,7 +428,9 @@ over the solved board's corner and above every layer of it, cards included.
 It presses once: scale 1.5 → 0.96 → 1 over `--transition-slow` (520 ms) with
 `--ease-out`, then the ink spreads a hair; static under reduced motion. No
 number, no date. Under the board — on the right page of a spread — a score
-box (2.5 px frame, two columns: Temps, Record; Solitaire adds its moves)
+box (2.5 px frame, two columns: Temps, Record; Solitaire adds its moves, and
+a second row, Points — the time bonus within them in small pencil — and
+Record)
 whose figures are written in pencil; a new record strikes the old one through
 and loops the new one, the loop behind and around the figure, never across
 it. Then « Nouvelle partie », which opens the next level at once, over

@@ -5,6 +5,8 @@ import type { PuzzleRef } from './puzzle'
 
 const variantRecordSchema = z.object({
   bestMs: z.nullable(z.number()),
+  /** For games that keep points; absent from records written before them. */
+  bestScore: z.optional(z.nullable(z.number())),
   /** Absent from records written before moves were counted. */
   fewestMoves: z.optional(z.nullable(z.number())),
   solved: z.number()
@@ -61,22 +63,34 @@ export type RecordedWin = {
   /** The fewest moves before this win, `null` on a first counted win. */
   readonly previousFewestMoves: number | null
   readonly isNewFewestMoves: boolean
+  /** The best score before this win, `null` on a first scored win. */
+  readonly previousBestScore: number | null
+  readonly isNewBestScore: boolean
+}
+
+const bestScoreOf = (variant: VariantRecord, score: number | null) => {
+  const previousBestScore = variant.bestScore ?? null
+  const isNewBestScore =
+    score !== null && (previousBestScore === null || score > previousBestScore)
+  return { isNewBestScore, previousBestScore }
 }
 
 /**
  * A solved puzzle written into the record: one more solved, maybe a new best
- * time or fewest moves.
+ * time, fewest moves or best score. `score` is `null` for a game without points.
  */
 export const recordWin = ({
   elapsedMs,
   moveCount,
   puzzle,
-  record
+  record,
+  score
 }: {
   record: PlayRecord
   puzzle: PuzzleRef
   elapsedMs: number
   moveCount: number
+  score: number | null
 }): RecordedWin => {
   const game = gameRecordOf(record, puzzle.gameId)
   const variant = variantRecordOf({ ...puzzle, record })
@@ -84,11 +98,15 @@ export const recordWin = ({
   const previousFewestMoves = variant.fewestMoves ?? null
   const isNewFewestMoves =
     previousFewestMoves === null || moveCount < previousFewestMoves
+  const { isNewBestScore, previousBestScore } = bestScoreOf(variant, score)
+  const bestScore = isNewBestScore ? score : previousBestScore
 
   return {
     isNewBest,
+    isNewBestScore,
     isNewFewestMoves,
     previousBestMs: variant.bestMs,
+    previousBestScore,
     previousFewestMoves,
     record: {
       ...record,
@@ -98,6 +116,7 @@ export const recordWin = ({
           ...game.variants,
           [puzzle.variantId]: {
             bestMs: isNewBest ? elapsedMs : variant.bestMs,
+            ...(bestScore === null ? {} : { bestScore }),
             fewestMoves: isNewFewestMoves ? moveCount : previousFewestMoves,
             solved: variant.solved + 1
           }
