@@ -4,7 +4,7 @@ import { Label, Radio, RadioGroup } from 'react-aria-components'
 
 import {
   playPathFor,
-  useReplacePage,
+  useOpenPage,
   useRouteData
 } from '@/infrastructure/router/navigation'
 import { NotFoundPage } from '@/infrastructure/router/route-error'
@@ -42,7 +42,7 @@ const VariantChoice: React.FC<VariantChoiceProps> = ({
   waiting
 }) => {
   const { locale, translate } = useI18n()
-  const replacePage = useReplacePage()
+  const openPage = useOpenPage()
   const [variantId, setVariantId] = useState(preferredId)
   const variant = variantOf({ game, variantId })
   const hasNotes = game.variants.some((each) => each.note !== undefined)
@@ -51,7 +51,7 @@ const VariantChoice: React.FC<VariantChoiceProps> = ({
   const playNew = () => {
     saveVariantPreference({ gameId: game.id, variantId })
     if (waiting !== null) dropSavedGame(game.id)
-    replacePage(playPath)
+    openPage(playPath)
   }
 
   return (
@@ -90,7 +90,7 @@ const VariantChoice: React.FC<VariantChoiceProps> = ({
             <div className='waiting-game'>
               <Button
                 className='choice-action'
-                onPress={() => replacePage(playPath)}
+                onPress={() => openPage(playPath)}
                 variant='ink'
               >
                 {translate('frame.choose.resume')}

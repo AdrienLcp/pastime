@@ -75,7 +75,18 @@ export const useCurrentPathIn = (): ((locale: Locale) => string) => {
  */
 export { useLoaderData as useRouteData }
 
-/** Moves to another address after an action, not on a link: a language switched. */
+/**
+ * Opens another address after an action, not on a link — a game started from
+ * its choice — so the device's Back returns to the page it was opened from.
+ */
+export const useOpenPage = (): ((path: string) => void) => {
+  const navigate = useNavigate()
+  return (path) => {
+    void navigate(path)
+  }
+}
+
+/** Swaps the address after an action, not on a link: a language switched. */
 export const useReplacePage = (): ((path: string) => void) => {
   const navigate = useNavigate()
   return (path) => {
