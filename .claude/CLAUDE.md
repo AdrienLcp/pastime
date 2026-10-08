@@ -9,13 +9,13 @@ in ad-ridden apps. Personal project (`github.com/AdrienLcp/pastime`).
 This repo has no `.claude/rules/`: the conventions are `C:/git/toolkit`
 (load the `adrien-stack` skill before writing code). Shared code comes from the
 `@adrienlcp/*` packages (`C:/git/packages`) before anything is written by hand.
-Séance (`C:/git/sport`) is the working reference for the PWA setup.
+Séance (`C:/git/sport`) is the working reference for the PWA setup. English in
+everything committed; the UI dictionaries are French (reference) and English.
 
 `vite build` warns that `inlineDynamicImports` is deprecated: vite-plugin-pwa
 2.0.0, the latest, still passes it to Rolldown when it bundles the service
 worker — upstream issue vite-pwa/vite-plugin-pwa#912. Upgrade once a release
-fixes it; `node_modules` is not patched. English in
-everything committed; the UI dictionaries are French (reference) and English.
+fixes it; `node_modules` is not patched.
 
 ## Where things are
 
