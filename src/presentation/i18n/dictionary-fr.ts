@@ -20,6 +20,12 @@ export const FR_DICTIONARY = defineDictionary({
     title: 'Quelque chose s’est mal passé'
   },
   frame: {
+    choose: {
+      new: 'Nouvelle partie',
+      play: 'Jouer',
+      resume: 'Reprendre la partie',
+      waiting: '{variant} · {time}'
+    },
     clock: 'Temps',
     failed: {
       prose:
@@ -83,6 +89,7 @@ export const FR_DICTIONARY = defineDictionary({
       },
       name: 'Color Dots',
       rule: 'Chaque bille rejoint son anneau. L’ordre est tout.',
+      variantChoice: 'Difficulté',
       variants: {
         easy: 'Facile',
         expert: 'Expert',
@@ -114,6 +121,7 @@ export const FR_DICTIONARY = defineDictionary({
       },
       source: 'source',
       tile: 'Ligne {row:number}, colonne {column:number}',
+      variantChoice: 'Taille',
       variants: {
         size5: '5×5',
         size7: '7×7',
@@ -175,6 +183,11 @@ export const FR_DICTIONARY = defineDictionary({
         diamonds: 'carreau',
         hearts: 'cœur',
         spades: 'pique'
+      },
+      variantChoice: 'Donne',
+      variantNotes: {
+        random: 'Mélangée sans vérification : parfois perdue d’avance.',
+        winnable: 'Le solveur a vérifié qu’elle se gagne.'
       },
       variants: {
         random: 'Au hasard',
@@ -238,6 +251,7 @@ export const FR_DICTIONARY = defineDictionary({
           count: { one: '{?} étoile posée', other: '{?} étoiles posées' }
         }
       }),
+      variantChoice: 'Taille',
       variants: {
         size5: '5×5',
         size6: '6×6',

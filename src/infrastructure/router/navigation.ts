@@ -16,6 +16,7 @@ import { isLocale, type Locale } from '@/presentation/i18n/locale'
 export const paths = {
   game: '/:locale/:game',
   hub: '/:locale',
+  play: '/:locale/:game/play',
   settings: '/:locale/settings'
 } as const
 
@@ -37,6 +38,15 @@ export const gamePathFor = ({
   gameId: string
   locale: Locale
 }): string => pathFor(paths.game, { game: gameId, locale })
+
+/** A game being played; its own address only opens the choice before playing. */
+export const playPathFor = ({
+  gameId,
+  locale
+}: {
+  gameId: string
+  locale: Locale
+}): string => pathFor(paths.play, { game: gameId, locale })
 
 /** The language the address is in; `null` for a segment that is not one. */
 export const localeParam = (raw: string | undefined): Locale | null =>

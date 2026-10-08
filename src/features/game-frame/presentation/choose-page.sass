@@ -1,0 +1,125 @@
+@use '../../../presentation/styles/typography'
+@use '../../../presentation/styles/focus'
+@use '../../../presentation/styles/layout'
+
+@layer components
+  .choose-session
+    // The variant's empty grid, or the chapter's mark, as large as the page allows.
+    .variant-preview
+      display: grid
+      flex: 1
+      place-items: center
+      min-height: 14rem
+      container-type: size
+
+    .blank-grid
+      width: min(100cqw, 100cqh)
+      height: auto
+
+    .blank-grid-lines
+      fill: none
+      stroke: var(--rule)
+      stroke-width: 1
+
+    .blank-grid-frame
+      fill: none
+      stroke: var(--ink)
+      stroke-width: 5
+
+    .preview-glyph
+      display: block
+      width: min(60cqw, 60cqh)
+      aspect-ratio: 1
+      color: color-mix(in oklab, var(--chapter) 70%, var(--paper))
+
+      svg
+        width: 100%
+        height: 100%
+
+    .variant-choice
+      display: grid
+      gap: var(--space-s)
+      padding: var(--space-m) var(--gutter) var(--space-l)
+
+    .waiting-game
+      display: grid
+      gap: var(--space-2xs)
+      margin-bottom: var(--space-xs)
+
+    .waiting-meta
+      @include typography.meta
+      color: var(--ink-soft)
+      text-align: center
+
+    .variant-group
+      display: grid
+      gap: var(--space-s)
+
+    // The heading ruled out to the panel's edge.
+    .choice-head
+      display: flex
+      align-items: center
+      gap: var(--space-s)
+      @include typography.caps
+
+      &::after
+        content: ''
+        flex: 1
+        border-top: var(--stroke-thin) solid var(--ink)
+
+    .variant-options
+      display: grid
+      grid-template-columns: repeat(auto-fit, minmax(4.75rem, 1fr))
+      border: var(--stroke-thin) solid var(--ink)
+
+      &[data-wide]
+        grid-template-columns: minmax(0, 1fr)
+
+    .variant-option
+      display: grid
+      align-content: center
+      gap: var(--space-4xs)
+      min-height: var(--control-touch)
+      padding: var(--space-xs) var(--space-s)
+      box-shadow: inset 0 0 0 0.75px color-mix(in oklab, var(--ink) 45%, transparent)
+      @include typography.control
+      cursor: pointer
+      transition: background-color var(--transition-fast, 0s), color var(--transition-fast, 0s)
+
+      &[data-pressed]:not([data-selected])
+        background: var(--paper-sunk)
+
+      @media (hover: hover)
+        &[data-hovered]:not([data-selected])
+          background: color-mix(in oklab, var(--ink) 8%, var(--paper))
+
+      &[data-selected]
+        background: var(--ink)
+        color: var(--paper)
+
+      @include focus.ring-inset
+
+    .variant-note
+      @include typography.choice-note
+
+    .choice-action
+      width: 100%
+      min-height: calc(var(--control-touch) + var(--space-2xs))
+      font-size: var(--text-body)
+
+    @include layout.spread
+      .band-rule
+        font-size: var(--text-body)
+
+      .variant-preview
+        min-height: 0
+
+      .variant-choice
+        padding: var(--space-m) var(--space-xl) var(--space-xl)
+
+  @media (prefers-color-scheme: dark)
+    :root:not([data-theme='light']) .choose-session .preview-glyph
+      color: color-mix(in oklab, var(--chapter) 45%, var(--paper))
+
+  :root[data-theme='dark'] .choose-session .preview-glyph
+    color: color-mix(in oklab, var(--chapter) 45%, var(--paper))

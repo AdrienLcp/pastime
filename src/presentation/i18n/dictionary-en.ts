@@ -17,6 +17,12 @@ export const EN_DICTIONARY = defineDictionary({
     title: 'Something went wrong'
   },
   frame: {
+    choose: {
+      new: 'New game',
+      play: 'Play',
+      resume: 'Resume the game',
+      waiting: '{variant} · {time}'
+    },
     clock: 'Time',
     failed: {
       prose:
@@ -79,6 +85,7 @@ export const EN_DICTIONARY = defineDictionary({
       },
       name: 'Color Dots',
       rule: 'Every ball finds its ring. The order is everything.',
+      variantChoice: 'Difficulty',
       variants: {
         easy: 'Easy',
         expert: 'Expert',
@@ -110,6 +117,7 @@ export const EN_DICTIONARY = defineDictionary({
       },
       source: 'source',
       tile: 'Row {row:number}, column {column:number}',
+      variantChoice: 'Size',
       variants: {
         size5: '5×5',
         size7: '7×7',
@@ -168,6 +176,11 @@ export const EN_DICTIONARY = defineDictionary({
         diamonds: 'diamonds',
         hearts: 'hearts',
         spades: 'spades'
+      },
+      variantChoice: 'Deal',
+      variantNotes: {
+        random: 'Shuffled unchecked: sometimes lost from the start.',
+        winnable: 'The solver checked it can be won.'
       },
       variants: {
         random: 'Random',
@@ -229,6 +242,7 @@ export const EN_DICTIONARY = defineDictionary({
       starCount: defineTranslation('{count:plural} of {total:number}', {
         plural: { count: { one: '{?} star placed', other: '{?} stars placed' } }
       }),
+      variantChoice: 'Size',
       variants: {
         size5: '5×5',
         size6: '6×6',

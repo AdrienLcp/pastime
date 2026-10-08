@@ -14,7 +14,7 @@ import {
   readWaitingGame
 } from './game-storage'
 import { generateLevel } from './generator/generate-level'
-import { gameRecordOf, type PlayRecord } from './play-record'
+import { type PlayRecord, preferredVariantId } from './play-record'
 import type { PuzzleRef } from './puzzle'
 import type { SavedGame } from './saved-game'
 
@@ -44,21 +44,10 @@ export type GameLoaderData =
       readonly playKey: string
     }
 
-const preferredVariantId = (
-  game: GameDefinition,
-  record: PlayRecord
-): string => {
-  const preferred = gameRecordOf(record, game.id).preferredVariant
-  return game.variants.some((variant) => variant.id === preferred) &&
-    preferred !== null
-    ? preferred
-    : game.variants[0].id
-}
-
 const newPuzzle = (game: GameDefinition, record: PlayRecord): PuzzleRef => ({
   gameId: game.id,
   seed: randomSeed(),
-  variantId: preferredVariantId(game, record)
+  variantId: preferredVariantId({ game, record })
 })
 
 const resumeSaved = <Level, State, Move, Hint>(

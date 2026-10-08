@@ -8,6 +8,10 @@ import type { SealedGameModule } from './game-module'
 export type GameVariant = {
   readonly id: string
   readonly label: PlainTranslationKey
+  /** What sets it apart, in a sentence, when its label alone does not say. */
+  readonly note?: PlainTranslationKey
+  /** A grid's side, for its empty grid to be shown while it is chosen. */
+  readonly gridSize?: number
 }
 
 /**
@@ -21,6 +25,8 @@ export type GameDefinition = {
   readonly rule: PlainTranslationKey
   /** The chapter's process ink, a token from `_tokens.sass`. */
   readonly chapterInk: `--chapter-${string}`
+  /** What the variants differ by, heading their choice: a size, a deal. */
+  readonly variantChoice: PlainTranslationKey
   /** The first one is where play starts. */
   readonly variants: readonly [GameVariant, ...GameVariant[]]
   /** Whether the win screen prints the moves: a card game's, not a grid's. */

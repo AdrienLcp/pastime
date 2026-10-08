@@ -10,6 +10,7 @@ export const colorDotsDefinition = {
   load: async () => (await import('./color-dots-module')).colorDotsModule,
   name: 'games.colorDots.name',
   rule: 'games.colorDots.rule',
+  variantChoice: 'games.colorDots.variantChoice',
   variants: [
     { id: 'easy', label: 'games.colorDots.variants.easy' },
     { id: 'hard', label: 'games.colorDots.variants.hard' },

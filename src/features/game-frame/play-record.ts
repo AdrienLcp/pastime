@@ -1,5 +1,6 @@
 import { z } from 'zod/mini'
 
+import type { GameDefinition } from './game-definition'
 import type { PuzzleRef } from './puzzle'
 
 const variantRecordSchema = z.object({
@@ -118,6 +119,21 @@ export const preferVariant = ({
   ...record,
   [gameId]: { ...gameRecordOf(record, gameId), preferredVariant: variantId }
 })
+
+/** The variant played last, or the game's first while it has none or names one gone. */
+export const preferredVariantId = ({
+  game,
+  record
+}: {
+  game: Pick<GameDefinition, 'id' | 'variants'>
+  record: PlayRecord
+}): string => {
+  const preferred = gameRecordOf(record, game.id).preferredVariant
+  return game.variants.some((variant) => variant.id === preferred) &&
+    preferred !== null
+    ? preferred
+    : game.variants[0].id
+}
 
 export const solvedCountOf = (record: PlayRecord, gameId: string): number =>
   Object.values(gameRecordOf(record, gameId).variants).reduce(

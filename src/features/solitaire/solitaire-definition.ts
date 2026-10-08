@@ -10,8 +10,17 @@ export const solitaireDefinition = {
   load: async () => (await import('./solitaire-module')).solitaireModule,
   name: 'games.solitaire.name',
   rule: 'games.solitaire.rule',
+  variantChoice: 'games.solitaire.variantChoice',
   variants: [
-    { id: 'winnable', label: 'games.solitaire.variants.winnable' },
-    { id: 'random', label: 'games.solitaire.variants.random' }
+    {
+      id: 'winnable',
+      label: 'games.solitaire.variants.winnable',
+      note: 'games.solitaire.variantNotes.winnable'
+    },
+    {
+      id: 'random',
+      label: 'games.solitaire.variants.random',
+      note: 'games.solitaire.variantNotes.random'
+    }
   ]
 } as const satisfies GameDefinition
