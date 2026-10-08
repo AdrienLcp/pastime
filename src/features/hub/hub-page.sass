@@ -5,7 +5,7 @@
   .hub-page
     display: grid
     align-content: start
-    padding-bottom: var(--space-xl)
+    padding-bottom: max(var(--space-xl), var(--safe-area-bottom))
 
     .section-head
       @include print.section-head
@@ -14,7 +14,8 @@
       display: grid
       justify-items: start
       gap: var(--space-2xs)
-      margin-inline: var(--gutter)
+      margin-right: var(--gutter-right)
+      margin-left: var(--gutter-left)
       padding: var(--space-m)
       background: var(--sheet)
       border: var(--print-line)
@@ -35,6 +36,7 @@
     .hub-colophon
       @include typography.meta
       margin-top: var(--space-l)
-      padding-inline: var(--gutter)
+      padding-right: var(--gutter-right)
+      padding-left: var(--gutter-left)
       color: var(--ink-soft)
       text-align: center

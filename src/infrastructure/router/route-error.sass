@@ -5,7 +5,7 @@
     display: grid
     align-content: start
     gap: var(--space-s)
-    padding: var(--space-xl) var(--gutter) 0
+    padding: max(var(--space-xl), var(--safe-area-top)) var(--gutter-right) 0 var(--gutter-left)
 
     h1
       @include typography.number

@@ -139,6 +139,9 @@
     --space-2xl: 2.625rem
     // the page's side margin, at every width
     --gutter: var(--space-m)
+    // the margin at each side, widened to the notch or the rounded corner where one is
+    --gutter-left: max(var(--gutter), var(--safe-area-left))
+    --gutter-right: max(var(--gutter), var(--safe-area-right))
 
     --radius-card: 5px
     --radius-stamp: 6px

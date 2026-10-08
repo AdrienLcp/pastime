@@ -7,7 +7,7 @@
     min-height: 100dvh
 
     .board-area
-      padding: var(--space-m) var(--space-3xs) 0
+      padding: var(--space-m) max(var(--space-3xs), var(--safe-area-right)) 0 max(var(--space-3xs), var(--safe-area-left))
 
       // A board that sizes itself to the room left takes the page's spare
       // height, the note and the tools pushed down under it.

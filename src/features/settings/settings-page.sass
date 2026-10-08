@@ -6,13 +6,13 @@
   .settings-page
     display: grid
     align-content: start
-    padding-bottom: var(--space-2xl)
+    padding-bottom: max(var(--space-2xl), var(--safe-area-bottom))
 
     .settings-head
       display: flex
       align-items: center
       gap: var(--space-2xs)
-      padding: var(--space-xs) var(--gutter) var(--space-s) var(--space-3xs)
+      padding: max(var(--space-xs), var(--safe-area-top)) var(--gutter-right) var(--space-s) max(var(--space-3xs), var(--safe-area-left))
       border-bottom: var(--stroke-heavy) solid var(--ink)
 
     .settings-back
@@ -36,7 +36,7 @@
     .settings-group
       display: grid
       gap: var(--space-m)
-      padding: var(--space-l) var(--gutter)
+      padding: var(--space-l) var(--gutter-right) var(--space-l) var(--gutter-left)
 
       & + .settings-group
         border-top: var(--hairline)
@@ -50,7 +50,6 @@
       cursor: pointer
 
       @include focus.ring('.switch-track')
-      @include focus.hidden-input-unringed
 
       &[data-pressed] .switch-track
         background: var(--paper-sunk)
@@ -96,7 +95,8 @@
 
     .backup-prose
       max-width: var(--measure-prose)
-      margin-inline: var(--gutter)
+      margin-right: var(--gutter-right)
+      margin-left: var(--gutter-left)
       font-size: var(--text-xs)
       color: var(--ink-soft)
       text-wrap: pretty
@@ -108,10 +108,10 @@
       gap: var(--space-xs)
 
     .backup-actions
-      margin: var(--space-m) var(--gutter) 0
+      margin: var(--space-m) var(--gutter-right) 0 var(--gutter-left)
 
     .backup-outcome
-      margin: var(--space-m) var(--gutter) 0
+      margin: var(--space-m) var(--gutter-right) 0 var(--gutter-left)
 
     .restore-confirm
       display: grid

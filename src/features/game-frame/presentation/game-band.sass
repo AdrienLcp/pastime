@@ -8,8 +8,9 @@
     grid-template-columns: var(--control-height) minmax(0, 1fr) auto
     align-items: center
     gap: var(--space-2xs)
-    min-height: calc(var(--control-height) + 2 * var(--space-s))
-    padding: var(--space-2xs) var(--space-xs) var(--space-2xs) var(--space-3xs)
+    // the band's printed height stays whole below the notch it runs under
+    min-height: calc(var(--control-height) + 2 * var(--space-s) + var(--safe-area-top))
+    padding: max(var(--space-2xs), var(--safe-area-top)) max(var(--space-xs), var(--safe-area-right)) var(--space-2xs) max(var(--space-3xs), var(--safe-area-left))
     background: var(--chapter)
     color: var(--cover-ink)
 

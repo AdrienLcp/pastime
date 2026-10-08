@@ -2,9 +2,3 @@
 /// inside it. On a chapter ink, the region sets `--focus: var(--cover-ink)`.
 @forward '@adrienlcp/react-aria/focus' with ($ring-color: var(--focus), $ring-width: var(--outline-thick), $ring-offset: var(--ring-offset))
 
-/// For a control react-aria builds over a visually hidden input — a `Switch`,
-/// a `Radio`: the input holds the focus and `ring-focusables` reaches it, so
-/// it is unringed here and the control's visible part draws the one ring.
-@mixin hidden-input-unringed
-  input
-    outline: none
