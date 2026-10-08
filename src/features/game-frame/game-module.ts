@@ -46,6 +46,11 @@ export type GameModule<Level, State, Move, Hint> = {
   readonly hintKey: (hint: Hint) => PlainTranslationKey
   /** A fresh worker running the game's generator, through `serveGenerator`. */
   readonly createGeneratorWorker: () => Worker
+  /**
+   * How long the board takes to show the move that lost: the loss is told
+   * once the player has seen it happen. Told at once when left out.
+   */
+  readonly lossSeenInMs?: (state: State) => number
 }
 
 /**

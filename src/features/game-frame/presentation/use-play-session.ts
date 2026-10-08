@@ -1,4 +1,4 @@
-import { useEffect, useEffectEvent, useState } from 'react'
+import { useEffect, useEffectEvent, useRef, useState } from 'react'
 
 import { usePlaySettings } from '@/features/settings/use-play-settings'
 import {
@@ -33,6 +33,8 @@ export type ShownHint<Hint> =
 export type PlaySessionControls<State, Move, Hint> = {
   readonly board: State
   readonly status: PlayStatus
+  /** Lost, and the board has finished showing how: the loss can be told. */
+  readonly isLossTold: boolean
   readonly shownHint: ShownHint<Hint> | null
   readonly win: WinSummary | null
   readonly clock: GameClock
@@ -62,6 +64,8 @@ export const usePlaySession = <Level, State, Move, Hint>(
   const [status, setStatus] = useState<PlayStatus>(() =>
     isLost(currentBoard(play.session)) ? 'lost' : 'playing'
   )
+  const [isLossTold, setIsLossTold] = useState(true)
+  const lossTimerRef = useRef<number | null>(null)
   const [shownHint, setShownHint] = useState<ShownHint<Hint> | null>(null)
   const [win, setWin] = useState<WinSummary | null>(null)
   const settings = usePlaySettings()
@@ -84,10 +88,34 @@ export const usePlaySession = <Level, State, Move, Hint>(
     })
   }
 
+  const tellLossOnceSeen = (board: State) => {
+    if (lossTimerRef.current !== null) window.clearTimeout(lossTimerRef.current)
+    lossTimerRef.current = null
+    const seenInMs = isLost(board)
+      ? (play.module.lossSeenInMs?.(board) ?? 0)
+      : 0
+    setIsLossTold(seenInMs <= 0)
+    if (seenInMs > 0)
+      lossTimerRef.current = window.setTimeout(
+        () => setIsLossTold(true),
+        seenInMs
+      )
+  }
+
+  useEffect(
+    () => () => {
+      if (lossTimerRef.current !== null)
+        window.clearTimeout(lossTimerRef.current)
+    },
+    []
+  )
+
   const change = (next: GameSession<Level, State, Move>) => {
+    const board = currentBoard(next)
     setSession(next)
     setShownHint(null)
-    setStatus(isLost(currentBoard(next)) ? 'lost' : 'playing')
+    setStatus(isLost(board) ? 'lost' : 'playing')
+    tellLossOnceSeen(board)
     save(next)
   }
 
@@ -122,6 +150,7 @@ export const usePlaySession = <Level, State, Move, Hint>(
     canUndo: canUndo(session),
     clock,
     isClockRunning,
+    isLossTold,
     move: (move) => {
       if (status !== 'playing') return
       const played = playMove(engine, session, move)

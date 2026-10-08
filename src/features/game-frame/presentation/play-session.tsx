@@ -84,7 +84,7 @@ export const PlaySession = <Level, State, Move, Hint>({
               />
             )}
           </div>
-          {session.status === 'lost' ? (
+          {session.status === 'lost' && session.isLossTold ? (
             <LostNote />
           ) : (
             <HintNote explanation={explanation} />
