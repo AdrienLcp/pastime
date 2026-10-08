@@ -71,6 +71,7 @@ export const generateLevel = async <Level>({
   attempts = ATTEMPTS,
   createWorker,
   levelSchema,
+  number,
   seed,
   signal,
   timeoutMs = GENERATION_TIMEOUT_MS,
@@ -78,6 +79,7 @@ export const generateLevel = async <Level>({
 }: {
   createWorker: () => GeneratorWorker
   levelSchema: z.ZodMiniType<Level>
+  number: number
   seed: number
   variantId: string
   signal?: AbortSignal
@@ -88,7 +90,7 @@ export const generateLevel = async <Level>({
     if (signal?.aborted) return Result.failure('aborted')
     const outcome = await attemptGeneration({
       createWorker,
-      request: { seed: retrySeed({ attempt, seed }), variantId },
+      request: { number, seed: retrySeed({ attempt, seed }), variantId },
       signal,
       timeoutMs
     })

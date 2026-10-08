@@ -164,6 +164,7 @@ const preparePlay = async <Level, State, Move, Hint>({
   const level = await generateLevel({
     createWorker: module.createGeneratorWorker,
     levelSchema: module.engine.levelSchema,
+    number: puzzle.number,
     seed: puzzleSeed(puzzle),
     signal,
     variantId: puzzle.variantId

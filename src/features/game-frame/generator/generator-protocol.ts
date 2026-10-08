@@ -1,7 +1,11 @@
 import { z } from 'zod/mini'
 
-/** What the page asks a generator's worker for: one level, from one seed. */
+/**
+ * What the page asks a generator's worker for: one level, from one seed. The
+ * puzzle's number lets a numbered progression set the level's difficulty.
+ */
 export const generatorRequestSchema = z.object({
+  number: z.number(),
   seed: z.number(),
   variantId: z.string()
 })
