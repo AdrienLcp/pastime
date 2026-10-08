@@ -1,7 +1,15 @@
 @use 'styles/typography'
 
 @layer components
-  .shell-notice
+  .app-notices
+    display: grid
+    gap: var(--space-xs)
+    padding-inline: var(--gutter)
+
+    &:not(:empty)
+      margin-top: var(--space-l)
+
+  .app-notice
     display: flex
     flex-wrap: wrap
     align-items: center

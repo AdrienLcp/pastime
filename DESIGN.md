@@ -241,8 +241,9 @@ Spacing steps from `--space-4xs` (0.125rem, 2 px) to `--space-2xl` (2.625rem,
 42 px), in rem so they grow with the reader's font size; px figures in this file
 are at the default 16 px. Section
 heads sit `--space-xl` below what precedes them and `--space-s` above what
-follows. The shell is a grid of notices / page / colophon; the colophon holds
-the theme switch.
+follows. The hub ends on the app's notices (install, update), then the
+colophon: a notice arrives after the first paint, so it is printed below the
+contents and pushes nothing in view. Game screens carry no notice.
 
 A game screen is a column: header band, board, note line (30 px tall even
 empty, so the board never jumps), status line, then the tool bar pinned to

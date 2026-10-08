@@ -14,6 +14,7 @@ import {
 import { issueNumber } from '@/features/game-frame/puzzle'
 import { today } from '@/infrastructure/clock'
 import { dailyPathFor, gamePathFor } from '@/infrastructure/router/navigation'
+import { AppNotices } from '@/presentation/app-notices'
 import { NextIcon } from '@/presentation/components/icons'
 import { Link } from '@/presentation/components/link'
 import { Main } from '@/presentation/components/main'
@@ -131,6 +132,8 @@ export const HubPage: React.FC = () => {
         </h2>
         <ChapterCovers chapters={chapters} />
       </section>
+
+      <AppNotices />
 
       <p className='hub-colophon'>{translate('hub.colophon')}</p>
     </Main>

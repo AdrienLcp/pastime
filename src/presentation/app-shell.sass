@@ -1,7 +1,7 @@
 @layer components
   .app-shell
     display: grid
-    grid-template-rows: auto 1fr
+    grid-template-rows: 1fr
     width: 100%
     max-width: var(--sheet-width)
     min-height: 100dvh
@@ -9,11 +9,3 @@
     padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left)
     background: var(--paper)
     box-shadow: 0 0 0 var(--stroke-hair) var(--rule)
-
-    .notices
-      display: grid
-      gap: var(--space-xs)
-      padding-inline: var(--gutter)
-
-      &:not(:empty)
-        padding-block: var(--space-s)

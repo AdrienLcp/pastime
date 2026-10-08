@@ -14,7 +14,7 @@ import {
 import { Button } from '@/presentation/components/button'
 import { useTranslate } from '@/presentation/i18n/i18n-provider'
 
-import './shell-notices.sass'
+import './app-notices.sass'
 
 type NoticeProps = {
   children: React.ReactNode
@@ -23,7 +23,7 @@ type NoticeProps = {
 }
 
 const Notice: React.FC<NoticeProps> = ({ actions, children }) => (
-  <div className='shell-notice' role='status'>
+  <div className='app-notice' role='status'>
     <p className='notice-text'>{children}</p>
     <div className='notice-actions'>{actions}</div>
   </div>
@@ -34,10 +34,12 @@ const offerInstall = () => {
 }
 
 /**
- * The notices above the page: that a new version is ready, that the app can be
+ * The app's notices: that a new version is ready, that the app can be
  * installed. Each holds until it is answered; none of them covers the page.
+ * They are printed at the end of the contents, never above them: a notice that
+ * arrives after the first paint must push nothing the player is looking at.
  */
-export const ShellNotices: React.FC = () => {
+export const AppNotices: React.FC = () => {
   const translate = useTranslate()
   const { isUpdateWaiting } = useAppUpdate()
   const install = useInstallState()
@@ -52,7 +54,7 @@ export const ShellNotices: React.FC = () => {
   }
 
   return (
-    <>
+    <div className='app-notices'>
       {isUpdateWaiting && (
         <Notice
           actions={
@@ -81,6 +83,6 @@ export const ShellNotices: React.FC = () => {
           {translate('pwa.install.text')}
         </Notice>
       )}
-    </>
+    </div>
   )
 }
