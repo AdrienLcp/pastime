@@ -16,5 +16,5 @@ Steps run in order: each one ends deployed and seen in a browser (sound at 0).
 | 05 | Pipes | Spanning-tree generator, unique solution, live water fill | done 2026-10-07 |
 | 06 | Solitaire | Klondike draw 1, drag + tap-to-move, winnable deals only | done 2026-10-07 |
 | 07 | Color Dots | Tree board, lose on a blocked tap, reverse generator, hard progression with boss levels | done 2026-10-08 |
-| 08 | Launch | Offline/install polish, Lighthouse, README, portfolio project page | to do |
+| 08 | Launch | Offline/install polish, Lighthouse, README, portfolio project page | done 2026-10-08 |
 | 09 | Rotate Rings | Rules drafted from a screenshot; confirm with a recording first | later |
