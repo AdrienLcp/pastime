@@ -57,12 +57,11 @@ describe('generate level', () => {
     const level = await generateLevel({
       ...workers,
       levelSchema,
-      number: 12,
       seed: 7,
       variantId: '3'
     })
     expect(level).toEqual(Result.success({ level: { size: 3 } }))
-    expect(workers.requests).toEqual([{ number: 12, seed: 7, variantId: '3' }])
+    expect(workers.requests).toEqual([{ seed: 7, variantId: '3' }])
     expect(workers.terminated()).toBe(1)
   })
 
@@ -76,7 +75,6 @@ describe('generate level', () => {
     const level = await generateLevel({
       ...workers,
       levelSchema,
-      number: 12,
       seed: 7,
       variantId: '4'
     })
@@ -95,7 +93,6 @@ describe('generate level', () => {
     const level = await generateLevel({
       ...workers,
       levelSchema,
-      number: 12,
       seed: 1,
       variantId: '5'
     })
@@ -107,7 +104,6 @@ describe('generate level', () => {
     const pending = generateLevel({
       ...workers,
       levelSchema,
-      number: 12,
       seed: 1,
       timeoutMs: 100,
       variantId: '3'
@@ -123,7 +119,6 @@ describe('generate level', () => {
       ...workers,
       attempts: 2,
       levelSchema,
-      number: 12,
       seed: 1,
       variantId: '3'
     })
@@ -136,7 +131,6 @@ describe('generate level', () => {
     const pending = generateLevel({
       ...workers,
       levelSchema,
-      number: 12,
       seed: 1,
       signal: controller.signal,
       variantId: '3'

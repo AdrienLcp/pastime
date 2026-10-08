@@ -28,6 +28,4 @@ export const variantOf = ({
   game: GameDefinition
   variantId: string
 }): GameVariant =>
-  [...game.variants, game.dailyOnlyVariant].find(
-    (variant) => variant?.id === variantId
-  ) ?? game.variants[0]
+  game.variants.find((variant) => variant.id === variantId) ?? game.variants[0]

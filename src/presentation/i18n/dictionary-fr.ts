@@ -77,7 +77,6 @@ export const FR_DICTIONARY = defineDictionary({
         plural: { count: { one: '{?} bille', other: '{?} billes' } }
       }),
       board: 'Plateau Color Dots',
-      boss: 'Boss',
       hints: {
         deadEnd:
           'Plus aucun ordre ne vide le plateau d’ici : un coup précédent l’a scellé. Annulez-le.',
@@ -94,8 +93,9 @@ export const FR_DICTIONARY = defineDictionary({
       name: 'Color Dots',
       rule: 'Chaque bille rejoint son anneau. L’ordre est tout.',
       variants: {
-        boss: 'Boss',
-        numbered: 'Niveaux'
+        easy: 'Facile',
+        expert: 'Expert',
+        hard: 'Difficile'
       }
     },
     pipes: {

@@ -12,7 +12,6 @@ const levelOf = (
   nodes: readonly [ColorDotsPiece, number, number][],
   links: readonly [number, number][]
 ): ColorDotsLevel => ({
-  boss: false,
   links: links.map(([from, to]) => [from, to]),
   nodes: nodes.map(([piece, x, y]) => ({ piece, x, y }))
 })

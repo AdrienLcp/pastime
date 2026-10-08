@@ -74,7 +74,6 @@ export const EN_DICTIONARY = defineDictionary({
         plural: { count: { one: '{?} ball', other: '{?} balls' } }
       }),
       board: 'Color Dots board',
-      boss: 'Boss',
       hints: {
         deadEnd:
           'No order clears the board from here: an earlier tap sealed it. Undo it.',
@@ -90,8 +89,9 @@ export const EN_DICTIONARY = defineDictionary({
       name: 'Color Dots',
       rule: 'Every ball finds its ring. The order is everything.',
       variants: {
-        boss: 'Boss',
-        numbered: 'Levels'
+        easy: 'Easy',
+        expert: 'Expert',
+        hard: 'Hard'
       }
     },
     pipes: {

@@ -256,9 +256,6 @@ export const ColorDotsBoard: React.FC<
               count: waitingBalls.length
             })}
           </p>
-          {level.boss && (
-            <p className='boss-mark'>{translate('games.colorDots.boss')}</p>
-          )}
         </div>
       )}
     </div>
