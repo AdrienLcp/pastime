@@ -117,6 +117,26 @@
       .variant-choice
         padding: var(--space-m) var(--space-xl) var(--space-xl)
 
+    // A phone held sideways: the choice tightens to fit the short height and,
+    // on the shortest, leaves the rule to the hub's cover and the game's page.
+    @include layout.short-spread
+      .band-rule
+        font-size: var(--text-meta)
+
+        @media (height < 24rem)
+          display: none
+
+      .variant-option
+        min-height: var(--target)
+        padding: var(--space-3xs) var(--space-s)
+
+      .choice-action
+        min-height: var(--control-touch)
+
+      .variant-choice
+        gap: var(--space-xs)
+        padding: var(--space-xs) var(--space-m) var(--space-s)
+
   @media (prefers-color-scheme: dark)
     :root:not([data-theme='light']) .choose-session .preview-glyph
       color: color-mix(in oklab, var(--chapter) 45%, var(--paper))

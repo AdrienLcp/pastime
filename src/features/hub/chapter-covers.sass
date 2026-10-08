@@ -91,3 +91,26 @@
         width: auto
         height: 82%
         translate: none
+
+    // A phone held sideways: the covers stand side by side, as tall as the
+    // screen leaves under the masthead.
+    @include layout.short-spread
+      grid-template-columns: repeat(auto-fit, minmax(10.5rem, 1fr))
+      grid-auto-rows: minmax(0, 1fr)
+
+      .chapter-cover
+        gap: var(--space-2xs)
+        padding: var(--space-m)
+
+      .cover-title
+        font-size: 1.75rem
+
+      .cover-rule
+        font-size: var(--text-small)
+
+      .cover-meta
+        bottom: var(--space-s)
+        left: var(--space-m)
+
+      .cover-glyph
+        height: 50%

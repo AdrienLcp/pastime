@@ -79,3 +79,41 @@
         display: flex
         flex-direction: column
         justify-content: end
+
+    // A phone held sideways: the cover page narrows to leave the board the
+    // width, and the page is the screen's height, however short.
+    // The cover page keeps its band at the head and its panel at the foot;
+    // a panel taller than the room left scrolls inside it, never under the band.
+    @include layout.short-spread
+      grid-template-columns: minmax(0, 1fr) 16rem
+      grid-template-rows: auto minmax(0, 1fr)
+      min-height: 0
+
+      .stage-wrap
+        padding: var(--space-s) var(--space-l) var(--space-2xs)
+
+      .play-panel
+        justify-content: safe end
+        overflow-y: auto
+
+      // Before playing and once solved, the band takes one line, the game's
+      // name beside the back link, to leave the height to the choice or the score.
+      &.choose-session,
+      &:has(.win-sheet)
+        .game-band
+          grid-template-columns: auto minmax(0, 1fr)
+          align-items: center
+          column-gap: var(--space-s)
+
+        .band-title
+          font-size: 1.75rem
+
+        .band-rule
+          grid-column: 1 / -1
+
+      // Solved, the page widens for the score; the sheet carries its own way home.
+      &:has(.win-sheet)
+        grid-template-columns: minmax(0, 1fr) 24rem
+
+        .band-rule
+          display: none

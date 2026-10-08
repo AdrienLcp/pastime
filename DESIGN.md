@@ -252,6 +252,20 @@ takes `--cover-ink`, its rules and pressed states mixed from it. The choice
 before playing uses the same spread: the empty grid on the left, the choice
 on the right.
 
+A phone held sideways — landscape, under 30rem tall and 40rem wide or more
+(`layout.short-spread`) — is a spread too: the column would push the board
+and its tools below the fold. Its cover page narrows to 16rem and everything
+fits the screen's height without a scroll: no 32rem floor, tight margins
+around the board, the title and the clock set at 2rem, the clock and the
+score on one line, and the tools two by two, each label under its icon as on
+the phone's bar. Before playing and once solved, the band takes one line,
+the game's name beside the back link; the choice drops the rule when the
+screen is under 24rem tall, and the solved page widens to 24rem with each
+figure and its note sharing a line. A panel that still cannot fit scrolls
+inside its page, never under the band. The hub lays its covers side by side,
+as tall as the masthead leaves them. Solitaire's cards are sized on the
+table's height as much as its width, so they grow with the left page.
+
 Spacing steps from `--space-4xs` (0.125rem, 2 px) to `--space-2xl` (2.625rem,
 42 px), in rem so they grow with the reader's font size; px figures in this file
 are at the default 16 px. Section

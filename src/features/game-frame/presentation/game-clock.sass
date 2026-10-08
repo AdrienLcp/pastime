@@ -53,3 +53,14 @@
 
       .clock-toggle
         border: var(--stroke-thin) solid var(--cover-ink)
+
+    @include layout.short-spread
+      margin-top: var(--space-2xs)
+      padding-top: var(--space-2xs)
+
+      .clock-face
+        font-size: 2rem
+
+      .clock-toggle
+        width: var(--target)
+        height: var(--target)

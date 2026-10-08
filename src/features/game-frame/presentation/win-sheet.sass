@@ -121,6 +121,36 @@
       grid-template-columns: repeat(auto-fit, minmax(8rem, 1fr))
       gap: var(--space-xs)
 
+    @include layout.short-spread
+      gap: var(--space-s)
+      padding: 0 var(--space-m) var(--space-s)
+
+      .score
+        > div
+          min-height: 0
+          padding: var(--space-2xs) var(--space-s) var(--space-xs)
+
+        // The figure and its note share a line where they fit.
+        dd
+          display: flex
+          flex-wrap: wrap
+          align-items: baseline
+          gap: 0 var(--space-xs)
+          margin-top: var(--space-4xs)
+          font-size: var(--text-hand)
+
+      .moves,
+      .beaten,
+      .scribble
+        margin-top: 0
+        font-size: var(--text-body)
+
+      .win-actions
+        gap: var(--space-2xs)
+
+        .next
+          min-height: var(--control-touch)
+
   @keyframes stamp-press
     0%
       opacity: 0
