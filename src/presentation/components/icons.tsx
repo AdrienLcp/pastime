@@ -6,7 +6,6 @@ export {
   ArrowRight as NextIcon,
   ChevronLeft as BackIcon,
   Download as ExportIcon,
-  House as HomeIcon,
   Lightbulb as HintIcon,
   Pause as PauseIcon,
   Play as ResumeIcon,

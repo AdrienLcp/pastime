@@ -60,7 +60,6 @@ export const FR_DICTIONARY = defineDictionary({
     },
     win: {
       best: 'Record',
-      home: 'Accueil',
       moves: defineTranslation('{count:plural}', {
         plural: { count: { one: '{?} coup', other: '{?} coups' } }
       }),

@@ -57,7 +57,6 @@ export const EN_DICTIONARY = defineDictionary({
     },
     win: {
       best: 'Best',
-      home: 'Home',
       moves: defineTranslation('{count:plural}', {
         plural: { count: { one: '{?} move', other: '{?} moves' } }
       }),

@@ -1,14 +1,10 @@
 import type React from 'react'
 
-import {
-  hubPathFor,
-  useReloadRouteData
-} from '@/infrastructure/router/navigation'
+import { useReloadRouteData } from '@/infrastructure/router/navigation'
 import { Button } from '@/presentation/components/button'
-import { HomeIcon, NextIcon } from '@/presentation/components/icons'
-import { Link } from '@/presentation/components/link'
+import { NextIcon } from '@/presentation/components/icons'
 import { formatClockTime, isoDuration } from '@/presentation/format/clock-time'
-import { useI18n, useTranslate } from '@/presentation/i18n/i18n-provider'
+import { useTranslate } from '@/presentation/i18n/i18n-provider'
 
 import type { GameDefinition } from '../game-definition'
 import { PencilLoop } from './pencil-loop'
@@ -83,10 +79,10 @@ export const WinPlate: React.FC<{ children: React.ReactNode }> = ({
 
 /**
  * The score once a puzzle is solved: the time written in pencil beside the
- * best, and where to go next.
+ * best, and the next puzzle.
  */
 export const WinSheet: React.FC<WinSheetProps> = ({ game, summary }) => {
-  const { locale, translate } = useI18n()
+  const translate = useTranslate()
   const moves = game.countsMoves ? summary.moves : null
   const reloadRouteData = useReloadRouteData()
   const isNewBestTold = summary.isNewBest || moves?.isNewFewest === true
@@ -150,10 +146,6 @@ export const WinSheet: React.FC<WinSheetProps> = ({ game, summary }) => {
           {translate('frame.win.next')}
           <NextIcon aria-hidden='true' />
         </Button>
-        <Link href={hubPathFor(locale)} variant='line'>
-          <HomeIcon aria-hidden='true' />
-          {translate('frame.win.home')}
-        </Link>
       </div>
     </div>
   )
