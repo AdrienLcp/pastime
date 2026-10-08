@@ -1,11 +1,70 @@
 # Pastime
 
-Small solo games in one app: Stars, Pipes, Solitaire, Color Dots and more to
-come. No ads, no account, works offline, installs on a phone's home screen.
-Every puzzle is generated on the device and checked solvable before it is
-shown; a daily puzzle is the same for everyone, with no server involved.
+Small solo games in one app: Stars, Pipes, Solitaire and Color Dots. No ads,
+no account, works offline, installs on a phone's home screen. Every puzzle is
+generated on the device and checked before it is shown; the daily puzzle is
+the same for everyone, with no server involved.
 
-Status: planned — see `docs/plans/README.md`.
+**Play:** [pastime.adrienlcp.com](https://pastime.adrienlcp.com)
+
+<p>
+  <img alt="The contents page: today's four puzzles and the chapters" src="docs/screenshots/hub.webp" width="180" />
+  <img alt="Stars: one star per row, column and region" src="docs/screenshots/stars.webp" width="180" />
+  <img alt="Pipes: turn the tiles until water reaches every one" src="docs/screenshots/pipes.webp" width="180" />
+  <img alt="Klondike solitaire, draw one" src="docs/screenshots/solitaire.webp" width="180" />
+  <img alt="Color Dots: every ball rides back to its ring" src="docs/screenshots/color-dots.webp" width="180" />
+</p>
+
+## How levels are generated and checked
+
+A puzzle is named by `(game, variant, number)`. Its seed is a hash of that
+name, or of the game and the date for the daily, fed to one seeded PRNG: the
+same puzzle comes out on every device, with nothing to download. Generators
+run in a Web Worker; one that times out or gives up is retried with a seed
+derived from the first, never a random one, so a retried daily is still
+everyone's daily.
+
+- **Stars.** A random star solution is placed first, then regions are grown
+  around it and reshaped cell by cell until the logical solver fills the whole
+  grid without a guess, which proves the solution unique. The hardest
+  technique the solver needed is the level's difficulty; each size sets a
+  floor.
+- **Pipes.** A random spanning tree is grown from the centre and every tile is
+  turned away from its solved position. Where the logical solver stalls, the
+  tree is reshaped around the stuck tiles, as in Simon Tatham's Net, until
+  logic alone solves it: one solution, no guess.
+- **Solitaire.** Klondike, draw one. A seeded shuffle is kept only if a
+  depth-first solver wins it within its search budget; otherwise the next
+  shuffle is tried. Every dealt game is winnable.
+- **Color Dots.** Levels are built backwards from the solved board: balls are
+  taken out of their rings one by one, each placement kept only if the game's
+  own move rides the ball straight back. Played forwards, that order is a
+  guaranteed win, replayed once more before the level ships. Difficulty counts
+  traps, moves that are legal yet leave the board unwinnable. Level 10 is the
+  first boss, then every third level.
+
+Saves, best times and streaks live in `localStorage`, behind versioned keys
+read through schemas: a value the app does not recognise reads as absent.
+
+## Develop
+
+Node 26 and pnpm 12 (`corepack enable`).
+
+```sh
+pnpm install
+pnpm dev        # http://localhost:5530
+pnpm validate   # lint, spell, build, test: what CI runs
+```
+
+`pnpm preview` serves the production build, service worker included, on port
+5531. How the code is laid out, and why there is no server:
+[`docs/architecture.md`](docs/architecture.md); each game's rules and
+generator: [`docs/games/`](docs/games).
+
+## Deploy
+
+Every push to `main` that passes CI deploys `dist/` to Cloudflare Pages. There
+is nothing else to run: no server, no database, no running cost.
 
 ## License
 
