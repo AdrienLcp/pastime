@@ -2,7 +2,6 @@ import type React from 'react'
 import { useState } from 'react'
 
 import { warnOnFailure } from '@/infrastructure/diagnostics'
-import { applyUpdate, useAppUpdate } from '@/infrastructure/pwa/app-update'
 import {
   promptInstall,
   useInstallState
@@ -34,14 +33,13 @@ const offerInstall = () => {
 }
 
 /**
- * The app's notices: that a new version is ready, that the app can be
- * installed. Each holds until it is answered; none of them covers the page.
+ * The app's notices: that the app can be installed. Each holds until it is
+ * answered; none of them covers the page.
  * They are printed at the end of the contents, never above them: a notice that
  * arrives after the first paint must push nothing the player is looking at.
  */
 export const AppNotices: React.FC = () => {
   const translate = useTranslate()
-  const { isUpdateWaiting } = useAppUpdate()
   const install = useInstallState()
   const [isInstallDeclined, setIsInstallDeclined] = useState(wasInstallDeclined)
 
@@ -55,19 +53,7 @@ export const AppNotices: React.FC = () => {
 
   return (
     <div className='app-notices'>
-      {isUpdateWaiting && (
-        <Notice
-          actions={
-            <Button onPress={applyUpdate}>
-              {translate('pwa.update.action')}
-            </Button>
-          }
-        >
-          {translate('pwa.update.text')}
-        </Notice>
-      )}
-
-      {install === 'offered' && !isInstallDeclined && !isUpdateWaiting && (
+      {install === 'offered' && !isInstallDeclined && (
         <Notice
           actions={
             <>

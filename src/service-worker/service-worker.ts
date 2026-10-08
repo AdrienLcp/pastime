@@ -17,11 +17,11 @@ declare const self: ServiceWorkerGlobalScope
 precacheAndRoute(self.__WB_MANIFEST)
 cleanupOutdatedCaches()
 /* The first visit is served offline from the moment the worker activates, not
-   from the next load. A new version still waits for the player's reload. */
+   from the next load. A new version still waits for the page to swap it in. */
 clientsClaim()
 registerRoute(new NavigationRoute(createHandlerBoundToURL('/index.html')))
 
-/** Sent by the page when the player accepts a new version. */
+/** Sent by the page when it is at rest and may reload onto a new version. */
 const isSkipWaitingMessage = (data: unknown): boolean =>
   typeof data === 'object' &&
   data !== null &&

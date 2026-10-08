@@ -133,8 +133,9 @@ cache the device prints again. A restore replaces them all and reloads.
 
 ## PWA
 
-Installable, offline after the first visit, update prompt when a new version
-is deployed — copy Séance's `vite-plugin-pwa` + workbox setup
+Installable, offline after the first visit, a new version swapped in on its
+own at a moment of rest (before the first touch, or on the hub), never
+mid-game — copy Séance's `vite-plugin-pwa` + workbox setup
 (`C:/git/sport/src/infrastructure/pwa/`, `src/service-worker/`). Screen wake
 lock while playing (`@adrienlcp/browser`). Haptics through
 `navigator.vibrate` where it exists, off by default with sound.

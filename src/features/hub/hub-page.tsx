@@ -3,6 +3,7 @@ import type React from 'react'
 import { GAMES } from '@/features/game-frame/game-registry'
 import { readPlayRecordOrEmpty } from '@/features/game-frame/game-storage'
 import { gameRecordOf, solvedCountOf } from '@/features/game-frame/play-record'
+import { useUpdateAtRest } from '@/infrastructure/pwa/app-update'
 import { AppNotices } from '@/presentation/app-notices'
 import { Main } from '@/presentation/components/main'
 import { DocumentTitle } from '@/presentation/head/document-title'
@@ -26,6 +27,7 @@ const bestTimeOf = (
 export const HubPage: React.FC = () => {
   const translate = useTranslate()
   const record = readPlayRecordOrEmpty()
+  useUpdateAtRest()
 
   const chapters: ChapterEntry[] = GAMES.map((game) => ({
     bestMs: bestTimeOf(gameRecordOf(record, game.id).variants),

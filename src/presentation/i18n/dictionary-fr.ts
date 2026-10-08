@@ -284,10 +284,6 @@ export const FR_DICTIONARY = defineDictionary({
       action: 'Installer',
       decline: 'Pas maintenant',
       text: 'Installer Pastime : l’app s’ouvre en plein écran et marche sans réseau.'
-    },
-    update: {
-      action: 'Recharger',
-      text: 'Une nouvelle version est prête.'
     }
   },
   settings: {

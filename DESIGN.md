@@ -163,7 +163,7 @@ night it prints near-white, the colour of the board's lines.
 - **Paper** (`--paper`): the page. The app's ground, and the `theme-color`
   in `index.html` (`#f8fafd` / `#0d1013`) and the manifest (night).
 - **Paper sunk** (`--paper-sunk`): a pressed row or tool, a folded corner.
-- **Sheet** (`--sheet`): a loose sheet on the page — an install or update notice.
+- **Sheet** (`--sheet`): a loose sheet on the page — an install notice.
 - **Desk** (`--desk`): beyond the booklet's width on a wide screen.
 - **Ink** (`--ink`): all print — text, grid lines, frames, the inverted button.
   Also the focus ring (`--focus`), drawn through `_focus.sass`; on a chapter

@@ -275,10 +275,6 @@ export const EN_DICTIONARY = defineDictionary({
       action: 'Install',
       decline: 'Not now',
       text: 'Install Pastime: it opens full screen and works with no network.'
-    },
-    update: {
-      action: 'Reload',
-      text: 'A new version is ready.'
     }
   },
   settings: {
