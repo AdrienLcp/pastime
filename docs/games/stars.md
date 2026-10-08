@@ -10,8 +10,8 @@ on larger grids), and no two stars touch, diagonals included.
 
 ## Play
 
-- Tap cycles empty → cross → star; long-press or a mode switch for direct
-  star. Drag across cells to cross many at once.
+- A tap toggles a cross, a double tap toggles a star; a long press stars
+  too. Drag across cells to cross many at once.
 - Option (on by default): auto-cross the cells a star rules out.
 - Conflicts shown at once (two stars in a row, touching stars), never by
   colour alone.
@@ -31,14 +31,30 @@ on larger grids), and no two stars touch, diagonals included.
    rows).
 
 Sizes 5×5 to 10×10 (1★), 10×10 to 12×12 (2★) — 10×10 2★ only for now, see
-below. Region colours from a palette that stays distinct for colour-blind
-players, plus a thick border between regions so colour is never the only cue.
+below. Regions in flat colours from a palette that stays distinct for
+colour-blind players, plus a thick border between regions so colour is never
+the only cue.
 
 ## As built (step 04)
 
-**Play.** A tap cycles blank → cross → star; a long press (420 ms) stars a
-cell or rubs its star out; a drag crosses every cell it runs over, or rubs
-crosses out when it starts on one. Keyboard: arrows move, Enter cycles.
+**Play.** A tap crosses a cell, or rubs out its cross or star; a double tap
+(second tap within 300 ms) stars it, or rubs its star out; a long press
+(420 ms) stars too; a drag crosses every cell it runs over, or rubs crosses
+out when it starts on one. Keyboard: arrows move, Enter cycles blank → cross
+→ star. The first tap shows its cross at once but is only played when the
+window closes or another cell is tapped: a double tap plays one star move,
+never a cross first, so undo takes it back in one step
+(`presentation/cell-taps.ts`).
+
+**Look.** Stars and crosses are flat geometric icons in the ink colour; a
+broken rule is ringed. Each region is one of twelve flat inks
+(`presentation/region-inks.ts`), a light tint by day and a deep shade at
+night, chosen so every pair stays at least 0.06 apart in OKLab for typical
+vision and for protanopia, deuteranopia and tritanopia (Machado 2009), and
+marks keep 3:1 contrast on all of them. Regions are coloured as a graph
+(`presentation/region-colouring.ts`): bordering regions never share an ink,
+and with no more regions than inks every region gets its own, the one that
+looks furthest from its coloured neighbours.
 Auto-cross is a play setting (`autoCross`, on by default) and only draws:
 the crosses it adds are derived from the stars, lighter than the player's,
 and vanish with the star — they are never moves, so undo never sees them.

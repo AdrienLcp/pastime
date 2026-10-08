@@ -31,7 +31,15 @@ describe('stars engine', () => {
     expect(tapped(tapped(once)).marks[6]).toBe('blank')
   })
 
-  it('[stars] stars a long-pressed cell, and rubs out a starred one', () => {
+  it('[stars] crosses a tapped cell, and rubs out a crossed or starred one', () => {
+    const crossed = play(drawn(BLANK), { cell: 6, kind: 'cross' })
+    expect(crossed.marks[6]).toBe('cross')
+    expect(play(crossed, { cell: 6, kind: 'cross' }).marks[6]).toBe('blank')
+    const starred = play(drawn(BLANK), { cell: 6, kind: 'star' })
+    expect(play(starred, { cell: 6, kind: 'cross' }).marks[6]).toBe('blank')
+  })
+
+  it('[stars] stars a double-tapped or long-pressed cell, and rubs out a starred one', () => {
     const starred = play(drawn(BLANK), { cell: 6, kind: 'star' })
     expect(starred.marks[6]).toBe('star')
     expect(play(starred, { cell: 6, kind: 'star' }).marks[6]).toBe('blank')

@@ -18,11 +18,17 @@ const NEXT_MARK = {
   star: 'blank'
 } as const satisfies Record<StarsMark, StarsMark>
 
-const marksAfter = (
+/** The marks once a move is written, whether or not it changes any. */
+export const marksAfter = (
   marks: readonly StarsMark[],
   move: StarsMove
 ): StarsMark[] => {
   switch (move.kind) {
+    case 'cross':
+      return marks.with(
+        move.cell,
+        marks[move.cell] === 'blank' ? 'cross' : 'blank'
+      )
     case 'cycle':
       return marks.with(move.cell, NEXT_MARK[marks[move.cell] ?? 'blank'])
     case 'star':

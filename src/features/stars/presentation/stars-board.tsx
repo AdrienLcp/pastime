@@ -1,15 +1,16 @@
 import type React from 'react'
-import { useId, useMemo, useState } from 'react'
+import { useMemo, useState } from 'react'
 
 import type { BoardProps } from '@/features/game-frame/game-module'
 import { usePlaySettings } from '@/features/settings/use-play-settings'
 import { useTranslate } from '@/presentation/i18n/i18n-provider'
 
 import { conflictsOf, ruledOutCellsOf } from '../engine/stars-conflicts'
+import { marksAfter } from '../engine/stars-engine'
 import { columnOf, rowOf } from '../engine/stars-grid'
 import type { StarsHint } from '../engine/stars-hint'
 import type { StarsMark, StarsMove, StarsState } from '../engine/stars-state'
-import { PencilMarks } from './pencil-marks'
+import { BoardMarks } from './board-marks'
 import { RegionPrint } from './region-print'
 import { CELL_UNITS, cellsOf } from './stars-drawing'
 import { useCellGestures } from './use-cell-gestures'
@@ -35,37 +36,42 @@ const isArrow = (key: string): key is keyof typeof ARROW_STEPS =>
   key in ARROW_STEPS
 
 /**
- * A Stars grid printed in the chapter's yellow, each region in its own tint
- * and pattern, the player's stars and crosses drawn over it in pencil. Cells
- * are buttons laid over the print: tap, long press, drag, or the keyboard.
+ * A Stars grid, each region in its own flat ink, the player's stars and
+ * crosses drawn over it. Cells are buttons laid over the print: tap, double
+ * tap, long press, drag, or the keyboard. A tap still waiting for its second
+ * already shows, through the marks drawn, the conflicts and the auto-crosses.
  */
 export const StarsBoard: React.FC<
   BoardProps<StarsState, StarsMove, StarsHint>
 > = ({ hint, isLocked, onMove, state }) => {
   const translate = useTranslate()
   const { autoCross } = usePlaySettings()
-  const idPrefix = `stars${useId().replace(/[^\w-]/g, '')}`
   const { level, marks } = state
   const { size } = level
   const gestures = useCellGestures({ marks, onMove })
   const [focusedCell, setFocusedCell] = useState(0)
 
-  const conflicts = useMemo(() => conflictsOf(state), [state])
-  const ruledOut = useMemo(
-    () => (autoCross && !isLocked ? ruledOutCellsOf(state) : new Set<number>()),
-    [autoCross, isLocked, state]
+  const { drag, pendingMove } = gestures
+  const shownMarks = useMemo(() => {
+    const tapped = pendingMove === null ? marks : marksAfter(marks, pendingMove)
+    return tapped.map(
+      (mark, cell): StarsMark =>
+        drag?.cells.has(cell) && mark !== 'star' ? drag.mark : mark
+    )
+  }, [drag, marks, pendingMove])
+  const shownState = useMemo(
+    () => ({ ...state, marks: shownMarks }),
+    [shownMarks, state]
   )
-  const shownMarks = useMemo(
+  const conflicts = useMemo(() => conflictsOf(shownState), [shownState])
+  const ruledOut = useMemo(
     () =>
-      marks.map((mark, cell): StarsMark => {
-        const drag = gestures.drag
-        return drag?.cells.has(cell) && mark !== 'star' ? drag.mark : mark
-      }),
-    [gestures.drag, marks]
+      autoCross && !isLocked ? ruledOutCellsOf(shownState) : new Set<number>(),
+    [autoCross, isLocked, shownState]
   )
 
   const span = size * CELL_UNITS
-  const starsPlaced = marks.filter((mark) => mark === 'star').length
+  const starsPlaced = shownMarks.filter((mark) => mark === 'star').length
   const [firstConflict] = conflicts
 
   const moveFocus = (event: React.KeyboardEvent<HTMLElement>, cell: number) => {
@@ -93,7 +99,7 @@ export const StarsBoard: React.FC<
       region: (level.regions[cell] ?? 0) + 1,
       row: rowOf({ cell, size }) + 1
     })
-    const mark = marks[cell]
+    const mark = shownMarks[cell]
     if (mark === 'star')
       return `${position}, ${translate('games.stars.marks.star')}`
     if (mark === 'cross')
@@ -115,11 +121,10 @@ export const StarsBoard: React.FC<
           role={isLocked ? 'img' : undefined}
           viewBox={`${-FRAME_MARGIN} ${-FRAME_MARGIN} ${span + 2 * FRAME_MARGIN} ${span + 2 * FRAME_MARGIN}`}
         >
-          <RegionPrint idPrefix={idPrefix} puzzle={level} />
-          <PencilMarks
+          <RegionPrint puzzle={level} />
+          <BoardMarks
             conflicts={conflicts}
             hinted={hintedCellsOf(hint)}
-            idPrefix={idPrefix}
             marks={shownMarks}
             ruledOut={ruledOut}
             size={size}
