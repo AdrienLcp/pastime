@@ -32,6 +32,10 @@ export const FR_DICTIONARY = defineDictionary({
       label: 'Indice.',
       none: 'Pas d’indice à donner sur cette grille.'
     },
+    lost: {
+      label: 'Bloquée.',
+      prose: 'Annulez le dernier coup, ou recommencez.'
+    },
     pause: 'Pause',
     paused: {
       prose:
@@ -67,6 +71,33 @@ export const FR_DICTIONARY = defineDictionary({
     }
   },
   games: {
+    colorDots: {
+      ball: 'Bille {ink}, ligne {row:number}, colonne {column:number}',
+      ballCount: defineTranslation('{count:plural} à placer', {
+        plural: { count: { one: '{?} bille', other: '{?} billes' } }
+      }),
+      board: 'Plateau Color Dots',
+      boss: 'Boss',
+      hints: {
+        deadEnd:
+          'Plus aucun ordre ne vide le plateau d’ici : un coup précédent l’a scellé. Annulez-le.',
+        nextBall:
+          'Cette bille peut partir maintenant sans rien bloquer : envoyez-la.'
+      },
+      inks: {
+        black: 'noire au losange',
+        cyan: 'cyan au rond',
+        green: 'verte à la croix',
+        magenta: 'magenta au triangle',
+        yellow: 'jaune au carré'
+      },
+      name: 'Color Dots',
+      rule: 'Chaque bille rejoint son anneau. L’ordre est tout.',
+      variants: {
+        boss: 'Boss',
+        numbered: 'Niveaux'
+      }
+    },
     pipes: {
       board: 'Grille Tuyaux {size:number} par {size:number}',
       direction: {

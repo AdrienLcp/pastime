@@ -12,6 +12,8 @@ import './game-tools.sass'
 
 type GameToolsProps = {
   canUndo: boolean
+  /** Lost: the board waits for an undo, there is no step to hint at. */
+  canHint: boolean
   /** Paused: the board is hidden, so nothing may change it. */
   isPaused: boolean
   onUndo: () => void
@@ -21,6 +23,7 @@ type GameToolsProps = {
 
 /** The three tools under the thumb, at the foot of every puzzle. */
 export const GameTools: React.FC<GameToolsProps> = ({
+  canHint,
   canUndo,
   isPaused,
   onHint,
@@ -39,7 +42,11 @@ export const GameTools: React.FC<GameToolsProps> = ({
         <UndoIcon aria-hidden='true' />
         {translate('frame.tools.undo')}
       </Button>
-      <Button className='tool' isDisabled={isPaused} onPress={onHint}>
+      <Button
+        className='tool'
+        isDisabled={isPaused || !canHint}
+        onPress={onHint}
+      >
         <HintIcon aria-hidden='true' />
         {translate('frame.tools.hint')}
       </Button>

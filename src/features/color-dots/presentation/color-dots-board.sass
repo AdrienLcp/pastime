@@ -1,0 +1,163 @@
+@use '../../../presentation/styles/typography'
+
+@layer components
+  .color-dots-board
+    display: flex
+    flex: 1
+    flex-direction: column
+    gap: var(--space-2xs)
+    min-height: 0
+
+    // The board takes the room the page leaves it, whole, at its own shape.
+    .stage
+      flex: 1 0 0
+      min-height: 18rem
+      container-type: size
+
+    // A small level is not blown up past a comfortable print: the frame and
+    // the balls keep the weight they have on a large one.
+    .sheet
+      --largest-print: 1.45px
+      position: relative
+      width: min(100cqw, 100cqh * var(--print-width) / var(--print-height), var(--print-width) * var(--largest-print))
+      aspect-ratio: var(--print-width) / var(--print-height)
+      margin-inline: auto
+
+    .print
+      display: block
+      width: 100%
+      height: 100%
+      overflow: visible
+
+    .frame
+      fill: none
+      stroke: var(--ink)
+      stroke-width: 5
+
+    .tracks line
+      stroke: var(--ink)
+      stroke-width: 3.5
+      stroke-linecap: square
+      transition: opacity var(--transition-base, 0ms) var(--ease-out) var(--ride, 0ms)
+
+      &[data-gone]
+        opacity: 0
+
+    .joint
+      fill: var(--ink)
+
+    // Ink is never the only cue: every ball and ring is outlined in print and
+    // wears its colour's symbol.
+    .ball
+      fill: var(--dot-ink)
+      stroke: var(--ink)
+      stroke-width: 1.5
+
+    .ball-symbol
+      fill: var(--dot-on-ink)
+
+    .ring-band
+      fill: var(--paper)
+      stroke: var(--dot-ink)
+      stroke-width: 5.5
+
+    .ring-edge
+      fill: none
+      stroke: var(--ink)
+      stroke-width: 1.25
+
+    .ring-symbol
+      fill: var(--ink-soft)
+
+    .seated-ball
+      fill: var(--dot-ink)
+
+    .seated
+      transform-box: fill-box
+      transform-origin: center
+
+    // The ring fills when the ball gets there: a short press of the print.
+    .ring[data-arriving] .seated
+      animation: color-dots-seat var(--transition-base, 0ms) var(--ease-out) var(--ride, 0ms) backwards
+
+    .traveller
+      opacity: 0
+
+    .hint-ring
+      fill: none
+      stroke: var(--pencil)
+      stroke-width: 2
+      stroke-dasharray: 6 5
+      opacity: 0.85
+
+    // What stopped the ball is circled in pencil, drawn in once it hits.
+    .blocker-loop
+      fill: none
+      stroke: var(--pencil)
+      stroke-width: 2.2
+      stroke-linecap: round
+      stroke-dasharray: 1
+      stroke-dashoffset: 1
+      animation: color-dots-pencil-draw var(--transition-base, 0ms) var(--ease-out) var(--ride, 0ms) forwards
+
+    .balls
+      position: absolute
+      inset: 0
+      min-inline-size: 0
+      margin: 0
+      padding: 0
+      border: 0
+      touch-action: manipulation
+      user-select: none
+      -webkit-user-select: none
+      -webkit-touch-callout: none
+
+    .ball-button
+      position: absolute
+      translate: -50% -50%
+      padding: 0
+      background: transparent
+      border: 0
+      border-radius: 50%
+      cursor: pointer
+      -webkit-tap-highlight-color: transparent
+
+      &:focus-visible
+        outline: var(--ring)
+        outline-offset: calc(-1 * var(--outline-thick))
+
+      @media (hover: hover)
+        &:hover
+          background: color-mix(in oklab, var(--ink) 8%, transparent)
+
+    .status-line
+      display: flex
+      align-items: center
+      justify-content: space-between
+      gap: var(--space-s)
+      margin: 0 var(--gutter)
+
+    .ball-count
+      @include typography.meta
+      margin: 0
+      color: var(--ink-soft)
+      font-variant-numeric: tabular-nums
+
+    .boss-mark
+      @include typography.caps
+      margin: 0
+      padding: var(--space-4xs) var(--space-2xs)
+      color: var(--cover-ink)
+      background: var(--chapter-color-dots)
+
+  @keyframes color-dots-seat
+    from
+      scale: 0.4
+      opacity: 0
+    60%
+      scale: 1.12
+      opacity: 1
+
+  @keyframes color-dots-pencil-draw
+    to
+      stroke-dashoffset: 0

@@ -29,6 +29,10 @@ export const EN_DICTIONARY = defineDictionary({
       label: 'Hint.',
       none: 'No hint to give on this grid.'
     },
+    lost: {
+      label: 'Blocked.',
+      prose: 'Undo the last tap, or start again.'
+    },
     pause: 'Pause',
     paused: {
       prose:
@@ -64,6 +68,32 @@ export const EN_DICTIONARY = defineDictionary({
     }
   },
   games: {
+    colorDots: {
+      ball: '{ink} ball, row {row:number}, column {column:number}',
+      ballCount: defineTranslation('{count:plural} to place', {
+        plural: { count: { one: '{?} ball', other: '{?} balls' } }
+      }),
+      board: 'Color Dots board',
+      boss: 'Boss',
+      hints: {
+        deadEnd:
+          'No order clears the board from here: an earlier tap sealed it. Undo it.',
+        nextBall: 'This ball can go now without blocking anything: send it.'
+      },
+      inks: {
+        black: 'Black diamond',
+        cyan: 'Cyan dot',
+        green: 'Green cross',
+        magenta: 'Magenta triangle',
+        yellow: 'Yellow square'
+      },
+      name: 'Color Dots',
+      rule: 'Every ball finds its ring. The order is everything.',
+      variants: {
+        boss: 'Boss',
+        numbered: 'Levels'
+      }
+    },
     pipes: {
       board: 'Pipes grid, {size:number} by {size:number}',
       direction: {

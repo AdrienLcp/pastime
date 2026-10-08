@@ -23,7 +23,7 @@ import { dropSavedGame, saveGame, saveWin } from '../game-storage'
 import { type GameClock, useGameClock } from './use-game-clock'
 import { type WinSummary, winSummaryOf } from './win-summary'
 
-export type PlayStatus = 'paused' | 'playing' | 'won'
+export type PlayStatus = 'lost' | 'paused' | 'playing' | 'won'
 
 /** What the hint button last produced: a step to show, or nothing to give. */
 export type ShownHint<Hint> =
@@ -49,7 +49,7 @@ export type PlaySessionControls<State, Move, Hint> = {
 
 /**
  * One puzzle in play: moves, undo, hints, the clock, the pause, the save on
- * every change and the win. The clock runs only while the puzzle is playing
+ * every change, the win and — in a game a wrong move ends — the loss. The clock runs only while the puzzle is playing
  * and the page is in front of the player; hiding the page pauses the puzzle.
  */
 export const usePlaySession = <Level, State, Move, Hint>(
@@ -58,7 +58,10 @@ export const usePlaySession = <Level, State, Move, Hint>(
   const { engine } = play.module
   const { puzzle } = play
   const [session, setSession] = useState(play.session)
-  const [status, setStatus] = useState<PlayStatus>('playing')
+  const isLost = (board: State) => engine.isLost?.(board) ?? false
+  const [status, setStatus] = useState<PlayStatus>(() =>
+    isLost(currentBoard(play.session)) ? 'lost' : 'playing'
+  )
   const [shownHint, setShownHint] = useState<ShownHint<Hint> | null>(null)
   const [win, setWin] = useState<WinSummary | null>(null)
   const settings = usePlaySettings()
@@ -84,6 +87,7 @@ export const usePlaySession = <Level, State, Move, Hint>(
   const change = (next: GameSession<Level, State, Move>) => {
     setSession(next)
     setShownHint(null)
+    setStatus(isLost(currentBoard(next)) ? 'lost' : 'playing')
     save(next)
   }
 
@@ -127,6 +131,7 @@ export const usePlaySession = <Level, State, Move, Hint>(
       change(played.data)
     },
     pause: () => {
+      if (status !== 'playing') return
       setStatus('paused')
       save(session)
     },
@@ -134,11 +139,12 @@ export const usePlaySession = <Level, State, Move, Hint>(
       const fresh = startSession(engine, session.level)
       clock.restartAt(0)
       setWin(null)
-      setStatus('playing')
       change(fresh)
     },
     restart: () => change(restartSession(session)),
-    resume: () => setStatus('playing'),
+    resume: () => {
+      if (status === 'paused') setStatus('playing')
+    },
     showHint: () => {
       const hint = engine.hint(currentBoard(session))
       if (hint === null) return setShownHint({ kind: 'none' })

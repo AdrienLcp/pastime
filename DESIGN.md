@@ -369,9 +369,23 @@ on every render.
   top-right, a large suit low centre; hearts and diamonds in `--card-red`.
   The back is a halftone of the chapter ink inside a card-coloured frame.
   Empty slots: dashed 1.5 px `--ink-soft` with the suit's outline.
-- **Color Dots** (`--chapter-color-dots`): no reference board yet; it follows
-  the same grammar — tracks printed in ink, balls told apart by a shape or
-  numeral as well as their ink.
+- **Color Dots** (`--chapter-color-dots`): 40-unit grid steps, lines 3.5
+  units in ink, a joint where three lines meet a 7-unit ink block. The one
+  board that prints in several inks, since colour is the game: the four
+  process inks and ink itself, each with its symbol — cyan a dot, magenta a
+  triangle, yellow a square, green a cross, ink a diamond. A ball is a
+  13-unit disc of its ink outlined in 1.5 units of ink, its symbol in
+  `--cover-ink` (`--paper` on the ink ball). A ring is a 5.5-unit band of its
+  ink between two 1.25-unit ink lines, its symbol waiting in the hole in
+  `--ink-soft`; filled, a smaller ball sits in it with a rim of paper around.
+  A tapped ball rides its route at a steady speed (40 % of
+  `--transition-fast` per grid step, 900 ms at most), the ring then seats it
+  with a short press; the lines it leaves fade. A blocked ball stops one node
+  short, bumps the blocker, and the blocker is circled in pencil; the note
+  line then says « Bloquée » and the hint is off until an undo. The hint is
+  a dashed pencil circle around the ball to send. A boss level carries a
+  « BOSS » tab in the chapter ink on the status line. Small levels print at
+  1.45 px per unit at most. Built: `src/features/color-dots/presentation/`.
 
 ### The stamp (step 03, the win screen)
 

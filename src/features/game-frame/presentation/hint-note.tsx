@@ -1,6 +1,6 @@
 import type React from 'react'
 
-import { HintIcon } from '@/presentation/components/icons'
+import { HintIcon, UndoIcon } from '@/presentation/components/icons'
 import { useTranslate } from '@/presentation/i18n/i18n-provider'
 import type { PlainTranslationKey } from '@/presentation/i18n/translation'
 
@@ -25,6 +25,25 @@ export const HintNote: React.FC<{
           </span>
         </p>
       )}
+    </div>
+  )
+}
+
+/**
+ * In the hint's place once a wrong move ended the puzzle: what happened, and
+ * the two ways on. Announced as it appears.
+ */
+export const LostNote: React.FC = () => {
+  const translate = useTranslate()
+
+  return (
+    <div aria-live='assertive' className='hint-note-slot'>
+      <p className='hint-note'>
+        <UndoIcon aria-hidden='true' />
+        <span>
+          <b>{translate('frame.lost.label')}</b> {translate('frame.lost.prose')}
+        </span>
+      </p>
     </div>
   )
 }

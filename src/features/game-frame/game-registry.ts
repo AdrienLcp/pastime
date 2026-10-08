@@ -1,8 +1,9 @@
+import { colorDotsDefinition } from '@/features/color-dots/color-dots-definition'
 import { pipesDefinition } from '@/features/pipes/pipes-definition'
 import { solitaireDefinition } from '@/features/solitaire/solitaire-definition'
 import { starsDefinition } from '@/features/stars/stars-definition'
 
-import type { GameDefinition } from './game-definition'
+import type { GameDefinition, GameVariant } from './game-definition'
 
 /**
  * Every game in the book, in the order the hub prints them. Adding a game is
@@ -11,7 +12,8 @@ import type { GameDefinition } from './game-definition'
 export const GAMES = [
   starsDefinition,
   pipesDefinition,
-  solitaireDefinition
+  solitaireDefinition,
+  colorDotsDefinition
 ] as const satisfies readonly GameDefinition[]
 
 export type GameId = (typeof GAMES)[number]['id']
@@ -25,5 +27,7 @@ export const variantOf = ({
 }: {
   game: GameDefinition
   variantId: string
-}) =>
-  game.variants.find((variant) => variant.id === variantId) ?? game.variants[0]
+}): GameVariant =>
+  [...game.variants, game.dailyOnlyVariant].find(
+    (variant) => variant?.id === variantId
+  ) ?? game.variants[0]

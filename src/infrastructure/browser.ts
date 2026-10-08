@@ -68,3 +68,12 @@ const isPageVisible = (): boolean => !isPageHidden()
 /** Whether the page is in front of the player right now; follows every change. */
 export const usePageVisible = (): boolean =>
   useSyncExternalStore(onPageVisibilityChange, isPageVisible, () => true)
+
+/**
+ * A duration token as the page resolves it, in milliseconds: 0 once the
+ * player asked for reduced motion, which `reduced-motion.css` applies.
+ */
+export const motionDurationMs = (token: `--${string}`): number =>
+  Number.parseFloat(
+    getComputedStyle(document.documentElement).getPropertyValue(token)
+  ) || 0

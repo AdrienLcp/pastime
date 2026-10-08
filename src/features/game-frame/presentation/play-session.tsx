@@ -6,7 +6,7 @@ import type { PreparedPlay } from '../game-loader'
 import { GameBand } from './game-band'
 import { GameClock } from './game-clock'
 import { GameTools } from './game-tools'
-import { HintNote } from './hint-note'
+import { HintNote, LostNote } from './hint-note'
 import { PauseCover } from './pause-cover'
 import { usePlaySession } from './use-play-session'
 import { WinSheet } from './win-sheet'
@@ -79,14 +79,19 @@ export const PlaySession = <Level, State, Move, Hint>({
             ) : (
               <Board
                 hint={hint}
-                isLocked={false}
+                isLocked={session.status === 'lost'}
                 onMove={session.move}
                 state={session.board}
               />
             )}
           </div>
-          <HintNote explanation={explanation} />
+          {session.status === 'lost' ? (
+            <LostNote />
+          ) : (
+            <HintNote explanation={explanation} />
+          )}
           <GameTools
+            canHint={session.status !== 'lost'}
             canUndo={session.canUndo}
             isPaused={session.status === 'paused'}
             onHint={session.showHint}

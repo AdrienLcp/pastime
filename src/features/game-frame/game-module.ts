@@ -17,6 +17,11 @@ export type GameEngine<Level, State, Move, Hint> = {
     move: Move
   ) => Result<{ readonly board: State }, 'illegal'>
   readonly isWon: (state: State) => boolean
+  /**
+   * For a game a wrong move ends: the board stops there, and only an undo or
+   * a restart plays on. A game nobody can lose leaves it out.
+   */
+  readonly isLost?: (state: State) => boolean
   /** The next logical step from here, or `null` when there is none to give. */
   readonly hint: (state: State) => Hint | null
   /** Checks a level read back from storage or from the generator's worker. */

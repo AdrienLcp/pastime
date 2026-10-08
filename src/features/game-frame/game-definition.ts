@@ -25,6 +25,11 @@ export type GameDefinition = {
   readonly variants: readonly [GameVariant, ...GameVariant[]]
   /** The variant of the daily puzzle, the same for everyone. */
   readonly dailyVariant: string
+  /**
+   * A variant only the daily puzzle prints, never offered in free play — a
+   * boss level, say. `dailyVariant` then names it.
+   */
+  readonly dailyOnlyVariant?: GameVariant
   /** Whether the win screen prints the moves: a card game's, not a grid's. */
   readonly countsMoves: boolean
   /** The chapter's mark: on its cover, its tab in today's list. */

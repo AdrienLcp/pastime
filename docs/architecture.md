@@ -67,13 +67,16 @@ code, outside Biome and cspell.
 placeholder game before Stars, the first real one, took its place. A game hands it two things:
 
 - **A definition** (`<game>-definition.ts`), light and loaded with the hub:
-  name and rule keys, chapter ink, variants and the daily one, its glyph, and
-  `load()`, a dynamic import of the rest. `game-registry.ts` lists them.
+  name and rule keys, chapter ink, variants and the daily one (or a
+  `dailyOnlyVariant` free play never offers, Color Dots' boss), its glyph,
+  and `load()`, a dynamic import of the rest. `game-registry.ts` lists them.
 - **A module** (`<game>-module.ts`), loaded with the game's page and sealed by
   `sealGameModule`: the pure `GameEngine` (`start`, `applyMove`, `isWon`,
-  `hint`, the level and move schemas), the `Board` component, the hint's
-  sentence key, and `createGeneratorWorker` — a `?worker` import whose script
-  calls `serveGenerator(generate)`.
+  `hint`, the level and move schemas, and `isLost` for a game a wrong move
+  ends — the frame then locks the board and offers undo or restart), the
+  `Board` component, the hint's sentence key, and `createGeneratorWorker` — a
+  `?worker` import whose script calls `serveGenerator(generate)`. A generator
+  gets the puzzle's number with its seed, for a numbered progression.
 
 The seal keeps a game's four types (level, state, move, hint) together inside
 one value, so the registry holds games of different types and a board is only
