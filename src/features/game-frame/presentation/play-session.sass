@@ -96,9 +96,8 @@
         justify-content: safe end
         overflow-y: auto
 
-      // Before playing and once solved, the band takes one line, the game's
-      // name beside the back link, to leave the height to the choice or the score.
-      &.choose-session,
+      // Once solved, the band takes one line, the game's name beside the back
+      // link, to leave the height to the score.
       &:has(.win-sheet)
         .game-band
           grid-template-columns: auto minmax(0, 1fr)

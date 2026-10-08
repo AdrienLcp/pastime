@@ -4,10 +4,18 @@ import {
   EMPTY_PLAY_RECORD,
   type PlayRecord,
   playRecordSchema,
+  preferredVariantId,
+  preferVariant,
   recordWin,
   solvedCountOf,
   variantRecordOf
 } from './play-record'
+
+const STARS_VARIANTS = [
+  { id: '5', label: 'games.stars.variants.size5' },
+  { id: '7', label: 'games.stars.variants.size7' },
+  { id: '10', label: 'games.stars.variants.size10' }
+] as const
 
 const win = (record: PlayRecord, elapsedMs: number, moveCount = 30) =>
   recordWin({
@@ -141,5 +149,42 @@ describe('play record', () => {
       fewestMoves: 120,
       solved: 3
     })
+  })
+
+  it('[play-record] starts a game never played on its default variant', () => {
+    const game = {
+      defaultVariantId: '7',
+      id: 'stars',
+      variants: STARS_VARIANTS
+    }
+    expect(preferredVariantId({ game, record: EMPTY_PLAY_RECORD })).toBe('7')
+  })
+
+  it('[play-record] reopens a game on the variant played last', () => {
+    const game = {
+      defaultVariantId: '7',
+      id: 'stars',
+      variants: STARS_VARIANTS
+    }
+    const record = preferVariant({
+      gameId: 'stars',
+      record: EMPTY_PLAY_RECORD,
+      variantId: '10'
+    })
+    expect(preferredVariantId({ game, record })).toBe('10')
+  })
+
+  it('[play-record] falls back to the default when the variant played last is gone', () => {
+    const game = {
+      defaultVariantId: '7',
+      id: 'stars',
+      variants: STARS_VARIANTS
+    }
+    const record = preferVariant({
+      gameId: 'stars',
+      record: EMPTY_PLAY_RECORD,
+      variantId: '12'
+    })
+    expect(preferredVariantId({ game, record })).toBe('7')
   })
 })

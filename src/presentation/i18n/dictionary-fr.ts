@@ -21,10 +21,7 @@ export const FR_DICTIONARY = defineDictionary({
   },
   frame: {
     choose: {
-      new: 'Nouvelle partie',
-      play: 'Jouer',
-      resume: 'Reprendre la partie',
-      waiting: '{variant} · {time}'
+      close: 'Fermer'
     },
     clock: 'Temps',
     failed: {

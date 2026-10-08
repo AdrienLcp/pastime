@@ -248,19 +248,18 @@ is the board, centred in the room left and sized to it; the right page,
 `clamp(19rem, 25vw, 24rem)` wide, is the chapter's cover printed on its ink:
 the back link, the game's name in a large cover title, its rule, the clock,
 then the tools — or, once solved, the score. Everything printed on that page
-takes `--cover-ink`, its rules and pressed states mixed from it. The choice
-before playing uses the same spread: the empty grid on the left, the choice
-on the right.
+takes `--cover-ink`, its rules and pressed states mixed from it. The variant
+choice takes the tools' place on that page, a picked size's empty grid on the
+left.
 
 A phone held sideways — landscape, under 30rem tall and 40rem wide or more
 (`layout.short-spread`) — is a spread too: the column would push the board
 and its tools below the fold. Its cover page narrows to 16rem and everything
 fits the screen's height without a scroll: no 32rem floor, tight margins
 around the board, the title and the clock set at 2rem, the clock and the
-score on one line, and the tools two by two, each label under its icon as on
-the phone's bar. Before playing and once solved, the band takes one line,
-the game's name beside the back link; the choice drops the rule when the
-screen is under 24rem tall, and the solved page widens to 24rem with each
+score on one line, and the tools three over two, each label under its icon
+as on the phone's bar. Once solved, the band takes one line, the game's name
+beside the back link, and the page widens to 24rem with each
 figure and its note sharing a line. A panel that still cannot fit scrolls
 inside its page, never under the band. The hub lays its covers side by side,
 as tall as the masthead leaves them. Solitaire's cards are sized on the
@@ -339,9 +338,10 @@ a large cover title, the rule beneath, and the clock large under a caps
 
 ### Tool bar
 
-Four equal columns, 60 px tall, 2 px ink rule on top, 1 px `--rule`
+Five equal columns, 60 px tall, 2 px ink rule on top, 1 px `--rule`
 between them; a 22 px stroke icon over a micro label (Annuler, Indice,
-Recommencer, Nouvelle partie — « Nouvelle donne » in Solitaire). A toggled
+Recommencer, Nouvelle partie — « Nouvelle donne » in Solitaire — then the
+variant's word: Taille, Donne, Difficulté), a long word hyphenated. A toggled
 tool is `--paper-sunk`. « Nouvelle partie » on a level with moves asks once,
 in place: its label turns to « Abandonner ? » on `--paper-sunk` for 4 s, and
 a second press opens the next level; untouched, it opens it at once. Icons: 24-unit viewBox,
@@ -354,29 +354,30 @@ chapter as a full-width cover block — its ink, an uppercase condensed title,
 its rule in a sentence, a meta line once a level is solved (the solved count
 and the best time), its glyph printed large and cropped off the right edge.
 Past 40rem they lie two by two, each a page of its own. A cover opens the
-game's choice. Glyphs use a 48-unit viewBox.
+game straight on a level: the game left mid-way, else a new one of the
+variant played last — on a first game, one in the middle of the range
+(7×7, 9×9, Difficile, Gagnable). Glyphs use a 48-unit viewBox.
 `src/features/hub/chapter-covers.tsx`.
 
-### The choice before playing
+### The variant choice
 
-A game opens on its choice, under the same header band. The board's place
-shows the variant's empty grid, `--rule` lines in a 5-unit ink frame — or the
-chapter's glyph washed into the paper, for a game without a grid — so a size
-is seen before it is played. Under it on a phone, on the right page of a
-spread:
+The tool bar's last tool, named by what the variants differ by (« Taille »,
+« Donne », « Difficulté »), puts the choice in the tools' place — under the
+board on a phone, on the right page of a spread — while the board stays:
 
-- When a game was left mid-way, an ink button « Reprendre la partie », and
-  under it in meta the variant and the time it stood at.
-- The choice: a caps heading ruled out to the edge (« Taille », « Donne »,
-  « Difficulté »), then the variants as printed tabs in one 1.5 px ink box,
-  the selected one inverted, like the theme switch. A variant with a note
-  (Solitaire's deals) takes a full row, its note under its label. The one
-  played last is already picked.
-- The action, full width: « Jouer » in ink, or « Nouvelle partie » as a line
-  button when a game waits above it.
+- A caps heading ruled out to the edge, then the variants as printed tabs in
+  one 1.5 px ink box, the selected one inverted, like the theme switch. A
+  variant with a note (Solitaire's deals) takes a full row, its note under
+  its label. The variant on the board is picked when it opens.
+- Picking another size shows its empty grid in the board's place, `--rule`
+  lines in a 5-unit ink frame, so a size is seen before it is played; picking
+  the board's own variant brings the board back.
+- Then « Nouvelle partie » in ink, which asks « Abandonner ? » once when moves
+  were played, as the tool does, and a line « Fermer » at its own width.
+  Escape closes it too. On a spread the two stack full width.
 
-The device's Back from a game returns here; the band's back link goes to the
-list of games. `src/features/game-frame/presentation/choose-page.tsx`.
+The variant started this way is the one the game opens on next time.
+`src/features/game-frame/presentation/variant-panel.tsx`.
 
 ### The board grammar
 

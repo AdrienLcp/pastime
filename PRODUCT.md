@@ -44,8 +44,8 @@ player and the board.
 - One engine per game, pure and tested, apart from its screen. Adding a game
   never touches another game's folder; the hub reads a registry.
 - Shared game frame: timer, undo, restart, hint (named in words), pause, win
-  screen, save/resume, best times; the size, deal or difficulty is chosen
-  before playing.
+  screen, save/resume, best times; a game opens straight on a level of the variant
+  played last, and the size, deal or difficulty changes from the tools.
 - French is the reference language, English must fit.
 - WCAG AA in light and dark; colour never alone tells regions, balls or states
   apart; touch targets ≥ 44 px; boards fit a 360 px phone without scrolling;

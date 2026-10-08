@@ -1,8 +1,12 @@
+import { useState } from 'react'
+
 import { Main } from '@/presentation/components/main'
 import { DocumentTitle } from '@/presentation/head/document-title'
 import { useTranslate } from '@/presentation/i18n/i18n-provider'
 
 import type { PreparedPlay } from '../game-loader'
+import { variantOf } from '../game-registry'
+import { saveVariantPreference } from '../game-storage'
 import { GameBand } from './game-band'
 import { GameClock } from './game-clock'
 import { GameScore } from './game-score'
@@ -11,6 +15,8 @@ import { HintNote, LostNote } from './hint-note'
 import { PauseCover } from './pause-cover'
 import { usePlaySession } from './use-play-session'
 import { usePrintAhead } from './use-print-ahead'
+import { VariantPanel } from './variant-panel'
+import { VariantPreview } from './variant-preview'
 import { WinPlate, WinSheet } from './win-sheet'
 
 import './play-session.sass'
@@ -33,7 +39,23 @@ export const PlaySession = <Level, State, Move, Hint>({
   const session = usePlaySession(play)
   usePrintAhead(play)
   const { Board, hintKey } = play.module
-  const { game } = play
+  const { game, puzzle } = play
+  /** The variant picked in the open choice; `null` while the tools show. */
+  const [pickedVariantId, setPickedVariantId] = useState<string | null>(null)
+  const pickedVariant =
+    pickedVariantId === null
+      ? null
+      : variantOf({ game, variantId: pickedVariantId })
+  const previewSize =
+    pickedVariant !== null && pickedVariant.id !== puzzle.variantId
+      ? (pickedVariant.gridSize ?? null)
+      : null
+  const newLevelLabel = game.newLevelLabel ?? 'frame.tools.newLevel'
+  const playPicked = () => {
+    if (pickedVariantId === null) return
+    saveVariantPreference({ gameId: game.id, variantId: pickedVariantId })
+    session.newLevel()
+  }
   const hint =
     session.shownHint?.kind === 'step' ? session.shownHint.hint : null
   const explanation =
@@ -94,6 +116,8 @@ export const PlaySession = <Level, State, Move, Hint>({
             <div className='board-area'>
               {session.status === 'paused' ? (
                 <PauseCover onResume={session.resume} />
+              ) : previewSize !== null ? (
+                <VariantPreview gridSize={previewSize} />
               ) : (
                 <Board
                   hint={hint}
@@ -110,16 +134,30 @@ export const PlaySession = <Level, State, Move, Hint>({
             )}
           </div>
           <div className='play-panel'>
-            <GameTools
-              canHint={session.status !== 'lost'}
-              canUndo={session.canUndo}
-              isPaused={session.status === 'paused'}
-              newLevelLabel={game.newLevelLabel ?? 'frame.tools.newLevel'}
-              onHint={session.showHint}
-              onNewLevel={session.newLevel}
-              onRestart={session.restart}
-              onUndo={session.undo}
-            />
+            {pickedVariantId !== null && session.status !== 'paused' ? (
+              <VariantPanel
+                game={game}
+                hasProgress={session.canUndo}
+                newLevelLabel={newLevelLabel}
+                onClose={() => setPickedVariantId(null)}
+                onPick={setPickedVariantId}
+                onPlay={playPicked}
+                pickedId={pickedVariantId}
+              />
+            ) : (
+              <GameTools
+                canHint={session.status !== 'lost'}
+                canUndo={session.canUndo}
+                isPaused={session.status === 'paused'}
+                newLevelLabel={newLevelLabel}
+                onChooseVariant={() => setPickedVariantId(puzzle.variantId)}
+                onHint={session.showHint}
+                onNewLevel={session.newLevel}
+                onRestart={session.restart}
+                onUndo={session.undo}
+                variantLabel={game.variantChoice}
+              />
+            )}
           </div>
         </>
       )}

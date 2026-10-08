@@ -15,6 +15,7 @@ export {
   RotateCcwSquare as TurnBackIcon,
   RotateCwSquare as TurnClockwiseIcon,
   Settings2 as SettingsIcon,
+  SlidersHorizontal as VariantIcon,
   Undo2 as UndoIcon,
   Upload as ImportIcon
 } from 'lucide-react'

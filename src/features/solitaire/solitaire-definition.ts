@@ -5,6 +5,7 @@ import { SolitaireGlyph } from './presentation/solitaire-glyph'
 export const solitaireDefinition = {
   chapterInk: '--chapter-solitaire',
   countsMoves: true,
+  defaultVariantId: 'winnable',
   Glyph: SolitaireGlyph,
   id: 'solitaire',
   load: async () => (await import('./solitaire-module')).solitaireModule,

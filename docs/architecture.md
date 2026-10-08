@@ -82,17 +82,20 @@ ever handed its own engine's state. `applyMove` and a generator answer
 `Result<{ board }>` / `Result<{ level }>`: `Result` over a bare type parameter
 does not narrow to its `data`.
 
-A game has two pages. `/:locale/:game` is the choice before playing
-(`choose-loader.ts`, `choose-page.tsx`): the variant, the one played last
-already picked, and the game left mid-way offered first. Starting pushes
-`/:locale/:game/play` onto the history, so the device's Back returns to the
-choice; the band's back link goes to the list of games. The play route's
+A game has one page, `/:locale/:game`, and the hub links straight to it: its
 loader (`game-loader.ts`) resumes the saved game, else takes the level printed
-ahead for the variant, else prints one; the page then plays it
+ahead for the preferred variant, else prints one. The preferred variant is the
+one last started, kept in the play record, else the definition's
+`defaultVariantId`, in the middle of the range; launch prints ahead for the
+same one. The page then plays it
 (`use-play-session.ts`): every move is saved (level, moves, time), undo keeps
 every board, the clock counts only while the puzzle is in front of the player,
-and hiding the page pauses it. The win sheet's new game runs the loader again
-in place.
+and hiding the page pauses it. Another variant is picked in the tools
+(`variant-panel.tsx`), which records it as preferred and runs the loader
+again in place, as the new-game tool and the win sheet's new game do. Back
+leaves for the list of games. The retired `/:locale/:game/play`, which an
+installed app may still hold, redirects to the game.
+
 
 A puzzle is `(game, variant, seed)`: a new level's seed is 32 random bits,
 kept in the save so a resumed game and a replay print the same board.

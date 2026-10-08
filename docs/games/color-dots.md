@@ -73,7 +73,7 @@ one; without them (the solver, reduced motion) every earlier ball has landed.
 
 ## Difficulty — decided
 
-Three tiers, chosen before playing like the other games' sizes: **Facile**,
+Three tiers, chosen from the tools like the other games' sizes: **Facile**,
 **Difficile** and **Expert** (variants `easy`, `hard`, `expert`). Adrien
 finds easy levels boring, so even Facile starts above the old first levels.
 

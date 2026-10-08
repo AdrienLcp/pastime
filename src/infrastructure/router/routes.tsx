@@ -1,12 +1,16 @@
-import { type LoaderFunction, type RouteObject, redirect } from 'react-router'
+import {
+  generatePath,
+  type LoaderFunction,
+  type RouteObject,
+  redirect
+} from 'react-router'
 
-import { chooseLoader } from '@/features/game-frame/choose-loader'
 import { gameLoader } from '@/features/game-frame/game-loader'
 import { initialLocale } from '@/presentation/i18n/initial-locale'
 import { RouteFallback } from '@/presentation/route-fallback'
 
 import { LocaleRoute } from './locale-route'
-import { hubPathFor, paths } from './navigation'
+import { hubPathFor, paths, retiredPlayPath } from './navigation'
 import { RootRoute } from './root-route'
 import { ErrorScreen, NotFoundPage } from './route-error'
 
@@ -18,15 +22,11 @@ type RoutedPath = (typeof paths)[keyof typeof paths]
  */
 const pageFor = {
   [paths.game]: async () => ({
-    Component: (await import('@/features/game-frame/presentation/choose-page'))
-      .ChoosePage
+    Component: (await import('@/features/game-frame/presentation/game-page'))
+      .GamePage
   }),
   [paths.hub]: async () => ({
     Component: (await import('@/features/hub/hub-page')).HubPage
-  }),
-  [paths.play]: async () => ({
-    Component: (await import('@/features/game-frame/presentation/game-page'))
-      .GamePage
   }),
   [paths.settings]: async () => ({
     Component: (await import('@/features/settings/settings-page')).SettingsPage
@@ -35,8 +35,7 @@ const pageFor = {
 
 /** Only this file reads URL params: a loader is handed plain values. */
 const loaderFor: Partial<Record<RoutedPath, LoaderFunction>> = {
-  [paths.game]: ({ params }) => chooseLoader(params.game ?? ''),
-  [paths.play]: ({ params, request }) =>
+  [paths.game]: ({ params, request }) =>
     gameLoader({ gameId: params.game ?? '', signal: request.signal })
 }
 
@@ -62,7 +61,18 @@ export const routes: RouteObject[] = [
               loader: loaderFor[path],
               path
             })
-          )
+          ),
+          {
+            Component: RouteFallback,
+            loader: ({ params }) =>
+              redirect(
+                generatePath(paths.game, {
+                  game: params.game ?? '',
+                  locale: params.locale ?? ''
+                })
+              ),
+            path: retiredPlayPath
+          }
         ],
         path: paths.hub
       },

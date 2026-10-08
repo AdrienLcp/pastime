@@ -139,19 +139,19 @@ export const preferVariant = ({
   [gameId]: { ...gameRecordOf(record, gameId), preferredVariant: variantId }
 })
 
-/** The variant played last, or the game's first while it has none or names one gone. */
+/** The variant played last, or the game's default while it has none or names one gone. */
 export const preferredVariantId = ({
   game,
   record
 }: {
-  game: Pick<GameDefinition, 'id' | 'variants'>
+  game: Pick<GameDefinition, 'defaultVariantId' | 'id' | 'variants'>
   record: PlayRecord
 }): string => {
   const preferred = gameRecordOf(record, game.id).preferredVariant
   return game.variants.some((variant) => variant.id === preferred) &&
     preferred !== null
     ? preferred
-    : game.variants[0].id
+    : game.defaultVariantId
 }
 
 export const solvedCountOf = (record: PlayRecord, gameId: string): number =>

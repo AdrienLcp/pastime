@@ -1,15 +1,17 @@
 import type React from 'react'
-import { useEffect, useState } from 'react'
 
 import { Button } from '@/presentation/components/button'
 import {
   HintIcon,
   NewLevelIcon,
   RestartIcon,
-  UndoIcon
+  UndoIcon,
+  VariantIcon
 } from '@/presentation/components/icons'
 import { useTranslate } from '@/presentation/i18n/i18n-provider'
 import type { PlainTranslationKey } from '@/presentation/i18n/translation'
+
+import { useConfirmedNewLevel } from './use-confirmed-new-level'
 
 import './game-tools.sass'
 
@@ -26,38 +28,10 @@ type GameToolsProps = {
   newLevelLabel: PlainTranslationKey
   /** Drops this level for the next one of the same variant. */
   onNewLevel: () => void
-}
-
-/** How long a first press on « new game » waits for the second. */
-const CONFIRM_WINDOW_MS = 4000
-
-/**
- * « New game » leaves a level with moves on it only on a second press, so a
- * stray tap under the thumb never throws a game away.
- */
-const useConfirmedNewLevel = ({
-  hasProgress,
-  onNewLevel
-}: {
-  hasProgress: boolean
-  onNewLevel: () => void
-}) => {
-  const [isArmed, setArmed] = useState(false)
-
-  useEffect(() => {
-    if (!isArmed) return
-    const timer = window.setTimeout(() => setArmed(false), CONFIRM_WINDOW_MS)
-    return () => window.clearTimeout(timer)
-  }, [isArmed])
-
-  return {
-    isArmed: isArmed && hasProgress,
-    press: () => {
-      if (hasProgress && !isArmed) return setArmed(true)
-      setArmed(false)
-      onNewLevel()
-    }
-  }
+  /** What the variants differ by — « Taille », « Donne » — naming the tool that changes it. */
+  variantLabel: PlainTranslationKey
+  /** Opens the choice of another variant, in place of the tools. */
+  onChooseVariant: () => void
 }
 
 /** The tools under the thumb, at the foot of every puzzle. */
@@ -66,10 +40,12 @@ export const GameTools: React.FC<GameToolsProps> = ({
   canUndo,
   isPaused,
   newLevelLabel,
+  onChooseVariant,
   onHint,
   onNewLevel,
   onRestart,
-  onUndo
+  onUndo,
+  variantLabel
 }) => {
   const translate = useTranslate()
   const newLevel = useConfirmedNewLevel({ hasProgress: canUndo, onNewLevel })
@@ -110,6 +86,10 @@ export const GameTools: React.FC<GameToolsProps> = ({
         {translate(
           newLevel.isArmed ? 'frame.tools.newLevelConfirm' : newLevelLabel
         )}
+      </Button>
+      <Button className='tool' isDisabled={isPaused} onPress={onChooseVariant}>
+        <VariantIcon aria-hidden='true' />
+        {translate(variantLabel)}
       </Button>
     </nav>
   )

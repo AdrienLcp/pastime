@@ -18,10 +18,7 @@ export const EN_DICTIONARY = defineDictionary({
   },
   frame: {
     choose: {
-      new: 'New game',
-      play: 'Play',
-      resume: 'Resume the game',
-      waiting: '{variant} · {time}'
+      close: 'Close'
     },
     clock: 'Time',
     failed: {

@@ -19,6 +19,9 @@
       padding-inline: var(--space-3xs)
       @include typography.tool-label
       text-align: center
+      // Five to a phone's width: a long word breaks where the language allows.
+      hyphens: auto
+      overflow-wrap: break-word
       cursor: pointer
       transition: background-color var(--transition-fast, 0s)
 
@@ -61,10 +64,10 @@
           border-top: var(--hairline)
           border-left: 0
 
-    // Too short for a column of rows: the tools lie two by two, each label
-    // under its icon as on the phone's bar.
+    // Too short for a column of rows: the tools lie three over two, each
+    // label under its icon as on the phone's bar.
     @include layout.short-spread
-      grid-template-columns: repeat(2, minmax(0, 1fr))
+      grid-template-columns: repeat(6, minmax(0, 1fr))
 
       .tool
         flex-direction: column
@@ -74,11 +77,14 @@
         padding-inline: var(--space-3xs)
         @include typography.tool-label
 
+        grid-column: span 2
+
         & + .tool
           border-top: 0
 
-        &:nth-child(even)
-          border-left: var(--hairline)
-
-        &:nth-child(n + 3)
+        &:nth-child(n + 4)
+          grid-column: span 3
           border-top: var(--hairline)
+
+        &:nth-child(4)
+          border-left: 0

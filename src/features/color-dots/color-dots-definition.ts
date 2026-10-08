@@ -5,6 +5,7 @@ import { ColorDotsGlyph } from './presentation/color-dots-glyph'
 export const colorDotsDefinition = {
   chapterInk: '--chapter-color-dots',
   countsMoves: false,
+  defaultVariantId: 'hard',
   Glyph: ColorDotsGlyph,
   id: 'color-dots',
   load: async () => (await import('./color-dots-module')).colorDotsModule,

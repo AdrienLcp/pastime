@@ -27,8 +27,13 @@ export type GameDefinition = {
   readonly chapterInk: `--chapter-${string}`
   /** What the variants differ by, heading their choice: a size, a deal. */
   readonly variantChoice: PlainTranslationKey
-  /** The first one is where play starts. */
+  /** In the order they are offered: smallest or easiest first. */
   readonly variants: readonly [GameVariant, ...GameVariant[]]
+  /**
+   * Where a player who has never played the game starts: one of `variants`,
+   * neither the easiest nor the hardest.
+   */
+  readonly defaultVariantId: string
   /** The tool that drops the level for a new one, when « new game » does not name it: a deal. */
   readonly newLevelLabel?: PlainTranslationKey
   /** Whether the win screen prints the moves: a card game's, not a grid's. */
