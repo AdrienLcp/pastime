@@ -77,6 +77,14 @@
     --font-hand: 'Gochi Hand', 'Gochi Hand fallback', 'Segoe Print', cursive
 
     --text-masthead: #{sizes.fluid(3.375rem, 5rem, $from: 19.175rem, $to: 28.4rem)}
+    // a spread's display sizes, opened wide and held sideways on a phone
+    --text-spread-masthead: clamp(5rem, 9vw, 8.5rem)
+    --text-spread-title: clamp(3rem, 4.4vw, 4.25rem)
+    --text-spread-timer: clamp(3rem, 4vw, 3.75rem)
+    --text-spread-cover: clamp(2.5rem, 4.4vw, 4rem)
+    --text-short-masthead: 3.25rem
+    --text-short-figure: 2rem
+    --text-short-title: 1.75rem
     --text-cover: 2.5rem
     --text-stamp: 2.375rem
     --text-number: 2.125rem
@@ -114,8 +122,8 @@
     --tracking-stamp: 0.04em
 
     // a sentence on a cover or a pause sheet; a paragraph of explanation
-    --measure-short: 30ch
-    --measure-prose: 36ch
+    --measure-short: 17.22em
+    --measure-prose: 20.63em
 
     // the tool bar's icons, between --icon-m and --icon-l
     --icon-tool: 1.375rem
@@ -131,9 +139,6 @@
     --space-2xl: 2.625rem
     // the page's side margin, at every width
     --gutter: var(--space-m)
-    // the margin at each side, widened to the notch or the rounded corner where one is
-    --gutter-left: max(var(--gutter), var(--safe-area-left))
-    --gutter-right: max(var(--gutter), var(--safe-area-right))
 
     --radius-card: 5px
     --radius-stamp: 6px
@@ -145,7 +150,7 @@
     --stroke-heavy: 5px
     // the line every printed box is drawn with
     --print-line: var(--stroke-thin) solid var(--ink)
-    --outline-thick: 2.5px
+    --outline-thick: 2px
     --outline-offset: 2px
 
     // the house's controls stand a little taller than the smallest target, and grow with the text

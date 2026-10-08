@@ -8,4 +8,8 @@
 
 @include fonts.font-face('Archivo', '/fonts/archivo-latin.woff2', fonts.$latin, $weight: 100 900, $stretch: 62% 125%)
 @include fonts.font-face('Archivo', '/fonts/archivo-latin-ext.woff2', fonts.$latin-ext, $weight: 100 900, $stretch: 62% 125%)
+// Archivo's weights set at different widths, and fontaine measures one: a
+// fallback face per weight band, its width measured over the app's own text.
+@include fonts.fallback-faces('Archivo', (ascent: 0.878, descent: 0.21), 1.022878, (100 449: 1.0434, 450 549: 1.0241, 550 649: 1.0056, 650 749: 1.018, 750 849: 1.0353, 850 900: 1.1412))
+
 @include fonts.font-face('Gochi Hand', '/fonts/gochi-hand-latin.woff2', fonts.$latin)

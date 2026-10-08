@@ -10,13 +10,19 @@
     scrollbar-color: var(--rule-strong) var(--paper)
     scrollbar-gutter: stable
 
+  // A game laid out as a spread is held to the viewport: a reserved gutter
+  // would be an empty strip down its right edge.
+  @include layout.spread
+    :root:has(.play-session)
+      scrollbar-gutter: auto
+
   body
     @include layout.container
     @include typography.body
     -webkit-touch-callout: none
     caret-color: var(--focus)
     color: var(--ink)
-    // 'Archivo fallback' is the local face fontaine scales to Archivo's metrics
+    // 'Archivo fallback' is Arial scaled to Archivo per weight band, in _fonts.sass
     font-family: var(--font-print)
     font-synthesis: none
     user-select: none

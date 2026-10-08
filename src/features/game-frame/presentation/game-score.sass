@@ -1,5 +1,6 @@
 @use '../../../presentation/styles/typography'
 @use '../../../presentation/styles/layout'
+@use '@adrienlcp/styles/accessibility'
 
 @layer components
   .game-score
@@ -12,12 +13,7 @@
 
     // Said to a screen reader, unseen: the unit names the figure on the band.
     .score-label
-      position: absolute
-      width: 1px
-      height: 1px
-      overflow: hidden
-      clip-path: inset(50%)
-      white-space: nowrap
+      @include accessibility.visually-hidden
 
     .score-face
       @include typography.timer
@@ -54,4 +50,4 @@
       padding-top: var(--space-2xs)
 
       .score-face
-        font-size: 2rem
+        font-size: var(--text-short-figure)

@@ -151,7 +151,7 @@
 /// A game's name heading the cover page of a spread: the cover title, larger.
 @mixin spread-title
   @include cover-title
-  font-size: clamp(3rem, 4.4vw, 4.25rem)
+  font-size: var(--text-spread-title)
   line-height: 0.92
 
 /// The rule under a spread's title: a note, set close.
@@ -161,7 +161,7 @@
 
 /// The clock on a spread's cover page: large, condensed and black.
 @mixin spread-timer
-  font-size: clamp(3rem, 4vw, 3.75rem)
+  font-size: var(--text-spread-timer)
   font-stretch: var(--stretch-condensed)
   font-variant-numeric: tabular-nums
   font-weight: 900

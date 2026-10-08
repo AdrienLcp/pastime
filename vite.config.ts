@@ -16,11 +16,12 @@ import { themeStore } from './src/presentation/theme/theme-store.ts'
 /**
  * Each face gets a fallback face of its own, a local font scaled to the same
  * metrics: text paints at once in it and keeps its place when the real face
- * swaps in.
+ * swaps in. Archivo's are written per weight band in `_fonts.sass`.
  */
 const metricMatchedFallbackFaces = fontaine({
   fallbacks: ['Arial'],
-  resolvePath: (path) => resolve(import.meta.dirname, 'public', `.${path}`)
+  resolvePath: (path) => resolve(import.meta.dirname, 'public', `.${path}`),
+  skipFontFaceGeneration: (fallbackName) => fallbackName === 'Archivo fallback'
 })
 
 export default defineConfig({
