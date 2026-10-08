@@ -11,37 +11,5 @@ export type CellKnowledge =
 /** One `CellKnowledge` per cell, in reading order; the solver writes into it. */
 export type Knowledge = Uint8Array
 
-/**
- * Whether `count` stars still fit among these cells, none touching another.
- * A unit never lacks more than two, and two cells that do not touch exist
- * unless every cell sits inside one 2×2 square.
- */
-export const canHoldStars = ({
-  cells,
-  count,
-  size
-}: {
-  cells: readonly number[]
-  count: number
-  size: number
-}): boolean => {
-  if (count <= 0) return true
-  if (cells.length < count) return false
-  if (count === 1) return true
-  let firstRow = size
-  let lastRow = -1
-  let firstColumn = size
-  let lastColumn = -1
-  for (const cell of cells) {
-    const row = Math.floor(cell / size)
-    const column = cell % size
-    firstRow = Math.min(firstRow, row)
-    lastRow = Math.max(lastRow, row)
-    firstColumn = Math.min(firstColumn, column)
-    lastColumn = Math.max(lastColumn, column)
-  }
-  return lastRow - firstRow >= 2 || lastColumn - firstColumn >= 2
-}
-
 export const isDecided = (knowledge: Knowledge): boolean =>
   knowledge.every((cell) => cell !== CELL_OPEN)

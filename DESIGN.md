@@ -356,7 +356,7 @@ and the best time), its glyph printed large and cropped off the right edge.
 Past 40rem they lie two by two, each a page of its own. A cover opens the
 game straight on a level: the game left mid-way, else a new one of the
 variant played last — on a first game, one in the middle of the range
-(7×7, 9×9, Difficile, Gagnable). Glyphs use a 48-unit viewBox.
+(11×11, 9×9, Difficile, Gagnable). Glyphs use a 48-unit viewBox.
 `src/features/hub/chapter-covers.tsx`.
 
 ### The variant choice

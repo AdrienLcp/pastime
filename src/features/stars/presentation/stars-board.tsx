@@ -167,7 +167,7 @@ export const StarsBoard: React.FC<
           <p className='star-count'>
             {translate('games.stars.starCount', {
               count: starsPlaced,
-              total: size * level.starsPerUnit
+              total: size
             })}
           </p>
         </>

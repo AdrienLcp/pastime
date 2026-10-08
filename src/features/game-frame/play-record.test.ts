@@ -12,9 +12,9 @@ import {
 } from './play-record'
 
 const STARS_VARIANTS = [
-  { id: '5', label: 'games.stars.variants.size5' },
+  { id: '9', label: 'games.stars.variants.size9' },
   { id: '7', label: 'games.stars.variants.size7' },
-  { id: '10', label: 'games.stars.variants.size10' }
+  { id: '13', label: 'games.stars.variants.size13' }
 ] as const
 
 const win = (record: PlayRecord, elapsedMs: number, moveCount = 30) =>
@@ -94,7 +94,7 @@ describe('play record', () => {
     const versionOne = playRecordSchema.parse({
       stars: {
         dailies: { '2026-10-07': 60_000 },
-        preferredVariant: '10',
+        preferredVariant: '13',
         variants: {
           '8': { bestMs: 42_000, fewestMoves: 30, nextNumber: 4, solved: 3 }
         }
@@ -102,7 +102,7 @@ describe('play record', () => {
     })
     expect(versionOne).toEqual({
       stars: {
-        preferredVariant: '10',
+        preferredVariant: '13',
         variants: { '8': { bestMs: 42_000, fewestMoves: 30, solved: 3 } }
       }
     })
@@ -169,9 +169,9 @@ describe('play record', () => {
     const record = preferVariant({
       gameId: 'stars',
       record: EMPTY_PLAY_RECORD,
-      variantId: '10'
+      variantId: '13'
     })
-    expect(preferredVariantId({ game, record })).toBe('10')
+    expect(preferredVariantId({ game, record })).toBe('13')
   })
 
   it('[play-record] falls back to the default when the variant played last is gone', () => {

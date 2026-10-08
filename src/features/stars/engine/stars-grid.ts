@@ -2,7 +2,7 @@ import type { StarsPuzzle } from './stars-level'
 
 export type StarsUnitKind = 'row' | 'column' | 'region'
 
-/** A row, a column or a region: a set of cells that holds the same number of stars. */
+/** A row, a column or a region: a set of cells that holds exactly one star. */
 export type StarsUnit = {
   readonly kind: StarsUnitKind
   readonly index: number
@@ -12,7 +12,6 @@ export type StarsUnit = {
 /** A puzzle's geometry, worked out once: its units and every cell's neighbours. */
 export type StarsGrid = {
   readonly size: number
-  readonly starsPerUnit: number
   /** Rows, then columns, then regions. */
   readonly units: readonly StarsUnit[]
   /** For every cell, its row, column and region, as positions in `units`. */
@@ -66,8 +65,23 @@ const neighboursOf = (cell: number, size: number): number[] => {
   return touching
 }
 
-const buildGrid = ({ regions, size, starsPerUnit }: StarsPuzzle): StarsGrid => {
+/** Every cell's neighbours depend on the size alone: worked out once per size. */
+const neighboursBySize = new Map<number, readonly (readonly number[])[]>()
+
+const neighboursOfEveryCell = (size: number) => {
+  const known = neighboursBySize.get(size)
+  if (known !== undefined) return known
+  const neighbours = indices(size * size).map((cell) =>
+    neighboursOf(cell, size)
+  )
+  neighboursBySize.set(size, neighbours)
+  return neighbours
+}
+
+const buildGrid = ({ regions, size }: StarsPuzzle): StarsGrid => {
   const cells = indices(size * size)
+  const regionCells = indices(size).map((): number[] => [])
+  for (const cell of cells) regionCells[regions[cell] ?? 0]?.push(cell)
   const units: StarsUnit[] = [
     ...indices(size).map((row) => ({
       cells: indices(size).map((column) => row * size + column),
@@ -80,15 +94,14 @@ const buildGrid = ({ regions, size, starsPerUnit }: StarsPuzzle): StarsGrid => {
       kind: 'column' as const
     })),
     ...indices(size).map((region) => ({
-      cells: cells.filter((cell) => regions[cell] === region),
+      cells: regionCells[region] ?? [],
       index: region,
       kind: 'region' as const
     }))
   ]
   return {
-    neighbours: cells.map((cell) => neighboursOf(cell, size)),
+    neighbours: neighboursOfEveryCell(size),
     size,
-    starsPerUnit,
     units,
     unitsOfCell: cells.map((cell) => [
       rowOf({ cell, size }),

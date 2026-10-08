@@ -7,7 +7,7 @@ import {
   type Knowledge
 } from './solver/stars-knowledge'
 
-const REGION_LETTERS = 'ABCDEFGHIJKL'
+const REGION_LETTERS = 'ABCDEFGHIJKLMNO'
 
 /**
  * A grid drawn in text, one string per row: the regions as letters, a space,
@@ -22,16 +22,12 @@ const split = (rows: DrawnGrid) =>
     return { marks, regions }
   })
 
-export const levelOf = (
-  rows: DrawnGrid,
-  starsPerUnit: 1 | 2 = 1
-): StarsLevel => ({
+export const levelOf = (rows: DrawnGrid): StarsLevel => ({
   difficulty: 'single',
   regions: split(rows).flatMap(({ regions }) =>
     [...regions].map((letter) => REGION_LETTERS.indexOf(letter))
   ),
-  size: rows.length,
-  starsPerUnit
+  size: rows.length
 })
 
 const MARK_OF_SYMBOL: Record<string, StarsMark> = {
@@ -40,11 +36,8 @@ const MARK_OF_SYMBOL: Record<string, StarsMark> = {
   x: 'cross'
 }
 
-export const stateOf = (
-  rows: DrawnGrid,
-  starsPerUnit: 1 | 2 = 1
-): StarsState => ({
-  level: levelOf(rows, starsPerUnit),
+export const stateOf = (rows: DrawnGrid): StarsState => ({
+  level: levelOf(rows),
   marks: split(rows).flatMap(({ marks }) =>
     [...marks].map((symbol) => MARK_OF_SYMBOL[symbol] ?? 'blank')
   )

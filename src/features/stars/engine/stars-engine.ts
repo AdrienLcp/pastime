@@ -56,9 +56,9 @@ export const startStars = (level: StarsLevel): StarsState => ({
 })
 
 /**
- * Stars: one star (two on the 2★ grids) in every row, column and region, no
- * two touching. A move that changes nothing — a drag over stars only — is
- * refused, so it never takes an undo.
+ * Stars: one star in every row, column and region, no two touching. A move
+ * that changes nothing — a drag over stars only — is refused, so it never
+ * takes an undo.
  */
 export const starsEngine: GameEngine<
   StarsLevel,

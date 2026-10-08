@@ -21,8 +21,19 @@ export const sideNeighboursOf = ({
 }
 
 /**
+ * How unevenly regions grow: each draws an appetite, a random number raised to
+ * this power, and claims cells at that pace. Small regions next to large ones
+ * give logic a foothold, so the reshaping that follows ends much sooner.
+ */
+const APPETITE_SKEW = 2
+
+/** Draws a frontier entry again until its region's appetite accepts it, a few times at most. */
+const APPETITE_DRAWS = 50
+
+/**
  * Random flood fill: one region per seed, each growing a cell at a time from a
- * random point of the frontier, until the grid is covered.
+ * random point of the frontier, some regions hungrier than others, until the
+ * grid is covered.
  *
  * @returns The region of every cell; a seed's region is its index in `seeds`.
  */
@@ -47,9 +58,14 @@ export const growRegions = ({
 
   for (const [region, seed] of seeds.entries()) regions[seed] = region
   for (const [region, seed] of seeds.entries()) claim(seed, region)
+  const appetite = seeds.map(() => random.next() ** APPETITE_SKEW)
+  const isHungry = (index: number) =>
+    random.next() < (appetite[frontier[index]?.region ?? 0] ?? 1)
 
   while (frontier.length > 0) {
-    const index = random.below(frontier.length)
+    let index = random.below(frontier.length)
+    for (let draw = 1; draw < APPETITE_DRAWS && !isHungry(index); draw++)
+      index = random.below(frontier.length)
     const last = frontier.pop()
     if (last === undefined) break
     const picked = index < frontier.length ? frontier[index] : last
@@ -59,56 +75,4 @@ export const growRegions = ({
   }
 
   return regions
-}
-
-/**
- * Merges regions two by two, each with one it borders, so that every merged
- * region holds two seeds — how a 2★ grid gets its regions.
- *
- * @returns The merged region of every cell; `null` when no pairing exists.
- */
-export const pairRegions = ({
-  random,
-  regions,
-  size
-}: {
-  random: SeededRandom
-  regions: readonly number[]
-  size: number
-}): number[] | null => {
-  const count = Math.max(...regions) + 1
-  const borders = Array.from({ length: count }, () => new Set<number>())
-  for (const [cell, region] of regions.entries())
-    for (const neighbour of sideNeighboursOf({ cell, size })) {
-      const other = regions[neighbour]
-      if (other !== undefined && other !== region) borders[region]?.add(other)
-    }
-
-  const partner = Array<number>(count).fill(UNCLAIMED)
-  const pairFrom = (region: number): boolean => {
-    if (region === count) return true
-    if (partner[region] !== UNCLAIMED) return pairFrom(region + 1)
-    const candidates = [...(borders[region] ?? [])].filter(
-      (other) => partner[other] === UNCLAIMED
-    )
-    for (const other of random.shuffled(candidates)) {
-      partner[region] = other
-      partner[other] = region
-      if (pairFrom(region + 1)) return true
-      partner[region] = UNCLAIMED
-      partner[other] = UNCLAIMED
-    }
-    return false
-  }
-  if (!pairFrom(0)) return null
-
-  const merged = Array<number>(count).fill(UNCLAIMED)
-  let next = 0
-  for (let region = 0; region < count; region++) {
-    if (merged[region] !== UNCLAIMED) continue
-    merged[region] = next
-    merged[partner[region] ?? region] = next
-    next++
-  }
-  return regions.map((region) => merged[region] ?? UNCLAIMED)
 }

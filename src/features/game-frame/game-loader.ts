@@ -88,10 +88,22 @@ const printNewLevel = async <Level>({
     : printed
 }
 
-const resumeSaved = <Level, State, Move, Hint>(
-  module: GameModule<Level, State, Move, Hint>,
+const resumeSaved = <Level, State, Move, Hint>({
+  game,
+  module,
+  saved
+}: {
+  game: GameDefinition
+  module: GameModule<Level, State, Move, Hint>
   saved: SavedGame
-): Result<GameSession<Level, State, Move>, 'unreadable' | 'illegal'> => {
+}): Result<
+  GameSession<Level, State, Move>,
+  'retired_variant' | 'unreadable' | 'illegal'
+> => {
+  const isVariantPrinted = game.variants.some(
+    (variant) => variant.id === saved.puzzle.variantId
+  )
+  if (!isVariantPrinted) return Result.failure('retired_variant')
   const level = module.engine.levelSchema.safeParse(saved.level)
   const moves = z.array(module.engine.moveSchema).safeParse(saved.moves)
   if (!level.success || !moves.success) return Result.failure('unreadable')
@@ -126,7 +138,7 @@ const preparePlay = async <Level, State, Move, Hint>({
 
   if (waiting.status === 'success' && waiting.data !== null) {
     const saved = waiting.data
-    const session = resumeSaved(module, saved)
+    const session = resumeSaved({ game, module, saved })
     if (session.status === 'success') {
       return {
         play: sealPlay({

@@ -13,8 +13,7 @@ import {
 const LEVEL: StarsLevel = {
   difficulty: 'single',
   regions: [0, 0, 1, 1],
-  size: 2,
-  starsPerUnit: 1
+  size: 2
 }
 
 /** Taps at the given times, then lets the last window close: every move played, in order. */

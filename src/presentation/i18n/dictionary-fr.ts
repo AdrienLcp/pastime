@@ -261,13 +261,11 @@ export const FR_DICTIONARY = defineDictionary({
       }),
       variantChoice: 'Taille',
       variants: {
-        size5: '5×5',
-        size6: '6×6',
         size7: '7×7',
-        size8: '8×8',
         size9: '9×9',
-        size10: '10×10',
-        size10Double: '10×10 2★'
+        size11: '11×11',
+        size13: '13×13',
+        size15: '15×15'
       }
     }
   },
