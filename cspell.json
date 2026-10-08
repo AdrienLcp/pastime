@@ -13,6 +13,14 @@
   "language": "en,en-GB",
   "overrides": [
     {
+      "filename": "index.html",
+      "language": "en,en-GB,fr"
+    },
+    {
+      "filename": "src/infrastructure/pwa/web-app-manifest.ts",
+      "language": "en,en-GB,fr"
+    },
+    {
       "filename": "**/i18n/dictionary-fr.ts",
       "language": "en,en-GB,fr"
     },
@@ -38,6 +46,7 @@
     "Français",
     "Gochi",
     "Hashi",
+    "hreflang",
     "IHDR",
     "Lacourpaille",
     "librsvg",
@@ -58,14 +67,15 @@
     "pressable",
     "PRNG",
     "QUIC",
+    "Revalidator",
+    "revalidator",
     "Récré",
     "Résolu",
-    "revalidator",
-    "Revalidator",
     "Segoe",
     "Sokoban",
     "tnum",
     "unstub",
+    "urlset",
     "vite",
     "WCAG",
     "wdth"

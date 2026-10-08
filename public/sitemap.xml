@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  <url>
+    <loc>https://pastime.adrienlcp.com/fr</loc>
+    <xhtml:link href="https://pastime.adrienlcp.com/fr" hreflang="fr" rel="alternate" />
+    <xhtml:link href="https://pastime.adrienlcp.com/en" hreflang="en" rel="alternate" />
+  </url>
+  <url>
+    <loc>https://pastime.adrienlcp.com/en</loc>
+    <xhtml:link href="https://pastime.adrienlcp.com/fr" hreflang="fr" rel="alternate" />
+    <xhtml:link href="https://pastime.adrienlcp.com/en" hreflang="en" rel="alternate" />
+  </url>
+  <url>
+    <loc>https://pastime.adrienlcp.com/fr/stars</loc>
+    <xhtml:link href="https://pastime.adrienlcp.com/fr/stars" hreflang="fr" rel="alternate" />
+    <xhtml:link href="https://pastime.adrienlcp.com/en/stars" hreflang="en" rel="alternate" />
+  </url>
+  <url>
+    <loc>https://pastime.adrienlcp.com/en/stars</loc>
+    <xhtml:link href="https://pastime.adrienlcp.com/fr/stars" hreflang="fr" rel="alternate" />
+    <xhtml:link href="https://pastime.adrienlcp.com/en/stars" hreflang="en" rel="alternate" />
+  </url>
+  <url>
+    <loc>https://pastime.adrienlcp.com/fr/pipes</loc>
+    <xhtml:link href="https://pastime.adrienlcp.com/fr/pipes" hreflang="fr" rel="alternate" />
+    <xhtml:link href="https://pastime.adrienlcp.com/en/pipes" hreflang="en" rel="alternate" />
+  </url>
+  <url>
+    <loc>https://pastime.adrienlcp.com/en/pipes</loc>
+    <xhtml:link href="https://pastime.adrienlcp.com/fr/pipes" hreflang="fr" rel="alternate" />
+    <xhtml:link href="https://pastime.adrienlcp.com/en/pipes" hreflang="en" rel="alternate" />
+  </url>
+  <url>
+    <loc>https://pastime.adrienlcp.com/fr/solitaire</loc>
+    <xhtml:link href="https://pastime.adrienlcp.com/fr/solitaire" hreflang="fr" rel="alternate" />
+    <xhtml:link href="https://pastime.adrienlcp.com/en/solitaire" hreflang="en" rel="alternate" />
+  </url>
+  <url>
+    <loc>https://pastime.adrienlcp.com/en/solitaire</loc>
+    <xhtml:link href="https://pastime.adrienlcp.com/fr/solitaire" hreflang="fr" rel="alternate" />
+    <xhtml:link href="https://pastime.adrienlcp.com/en/solitaire" hreflang="en" rel="alternate" />
+  </url>
+  <url>
+    <loc>https://pastime.adrienlcp.com/fr/color-dots</loc>
+    <xhtml:link href="https://pastime.adrienlcp.com/fr/color-dots" hreflang="fr" rel="alternate" />
+    <xhtml:link href="https://pastime.adrienlcp.com/en/color-dots" hreflang="en" rel="alternate" />
+  </url>
+  <url>
+    <loc>https://pastime.adrienlcp.com/en/color-dots</loc>
+    <xhtml:link href="https://pastime.adrienlcp.com/fr/color-dots" hreflang="fr" rel="alternate" />
+    <xhtml:link href="https://pastime.adrienlcp.com/en/color-dots" hreflang="en" rel="alternate" />
+  </url>
+</urlset>
