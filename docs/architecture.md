@@ -125,3 +125,14 @@ lock while playing (`@adrienlcp/browser`). Haptics through
 `navigator.vibrate` where it exists, off by default with sound.
 
 Dev port: **5530** (`strictPort`).
+
+## Measuring
+
+Lighthouse's mobile figures are Lantern's simulation, and Lantern models only
+HTTP/2 as multiplexed: a run Chrome happens to make over HTTP/3, which
+Cloudflare offers, is simulated as one connection per request and reads about
+1.1 s slower on LCP, with nothing different on the page. So the production
+site is measured with QUIC off —
+`--chrome-flags="--headless=new --mute-audio --disable-quic"` — and judged on
+the median of three runs, the portfolio's gate: mobile LCP ≤ 2800 ms,
+performance ≥ 85.
