@@ -25,8 +25,9 @@ engine keeps the draw count a parameter so it costs nothing to add later.
   of 500 positions; a deal it does not solve in time is replaced by the next
   shuffle. Measured on 50 deals: 29 solved within 500 positions, the slowest
   in 27 ms; 8000 positions solve only three more, twenty times slower. So no
-  pool of seeds is pre-computed: the Worker shuffles until one comes out. The
-  deals shown lean slightly towards those a short search wins.
+  pool of seeds is pre-computed: the Worker shuffles up to 8 deals per seed,
+  over up to 4 seeds, and reports a failure past that. The deals shown lean
+  slightly towards those a short search wins.
 - A "random deal" option for the purists.
 - A deal is reproducible from its seed (shared or replayed).
 

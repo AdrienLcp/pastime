@@ -95,12 +95,14 @@ A puzzle is `(game, variant, number)`: free play numbers count up per variant
 
 ## Generation
 
-- Seeded PRNG (one helper), so a level is reproducible from `(game, size,
-  difficulty, seed)` — that tuple is also the share code of a level.
+- Seeded PRNG (one helper), so a level is reproducible from its puzzle
+  `(game, variant, number)` — the share code of a level.
 - Generators that can take more than a frame run in a Web Worker
   (`?worker` import in Vite), with a timeout and a retry on a new seed.
-- A generated level ships only if the solver solves it without guessing; the
-  solver's hardest technique used is the level's difficulty.
+- A generated level ships only if the solver solves it without guessing.
+  How hard it is depends on the game: Stars asks for a hardest technique per
+  variant, Color Dots keeps the board with the most traps, Pipes and
+  Solitaire are not graded — a board's size is its difficulty.
 
 ## Storage
 

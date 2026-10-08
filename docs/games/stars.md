@@ -25,9 +25,10 @@ on larger grids), and no two stars touch, diagonals included.
    one star.
 3. Run the solver: if the puzzle is not unique by logic alone, reshape regions
    locally and retry.
-4. Difficulty = the hardest technique the solver needed: singles, region
-   confined to a row/column, touching exclusions, then pair and
-   triple confinements (N regions in N rows).
+4. Difficulty = the hardest technique the solver needed: next-to-star,
+   full unit, single, a unit confined to another (region in a row…),
+   touching exclusions, then pair and triple confinements (N regions in N
+   rows).
 
 Sizes 5×5 to 10×10 (1★), 10×10 to 12×12 (2★) — 10×10 2★ only for now, see
 below. Region colours from a palette that stays distinct for colour-blind

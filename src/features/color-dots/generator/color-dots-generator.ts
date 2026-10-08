@@ -80,7 +80,7 @@ const growRings = ({
 const SHORTEST_CHAIN = 2
 const LONGEST_CHAIN = 4
 
-/** Rings take their inks in chains of one to three, along the lines. */
+/** Rings take their inks in chains of two to four, along the lines. */
 const paintChains = ({
   random,
   recipe,
