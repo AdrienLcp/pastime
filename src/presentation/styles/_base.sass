@@ -7,24 +7,29 @@
 @layer base
   html
     background: var(--desk)
+    scrollbar-color: var(--rule-strong) var(--paper)
+    scrollbar-gutter: stable
 
   body
     @include layout.container
     @include typography.body
     -webkit-touch-callout: none
+    caret-color: var(--focus)
     color: var(--ink)
     // 'Archivo fallback' is the local face fontaine scales to Archivo's metrics
     font-family: var(--font-print)
     font-synthesis: none
     user-select: none
 
-  :root
-    caret-color: var(--ink)
-    scrollbar-color: var(--ink-soft) var(--paper)
+  // The booklet pads by the safe area itself, so its paper runs under the
+  // notch and the home indicator instead of the desk.
+  #root
+    min-block-size: 100dvh
+    overflow-x: clip
 
   ::selection
-    background: var(--yellow)
-    color: var(--cover-ink)
+    background: var(--selection)
+    color: var(--ink)
 
   @include focus.ring-focusables
 

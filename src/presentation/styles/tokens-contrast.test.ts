@@ -39,7 +39,8 @@ const PAIRS: ContrastPair[] = [
   })),
   { background: '--card', foreground: '--card-ink', minimum: WCAG_AA.text },
   { background: '--card', foreground: '--card-red', minimum: WCAG_AA.text },
-  { background: '--paper', foreground: '--stamp', minimum: WCAG_AA.largeText }
+  { background: '--paper', foreground: '--stamp', minimum: WCAG_AA.largeText },
+  { background: '--selection', foreground: '--ink', minimum: WCAG_AA.text }
 ]
 
 it('[contrast] every ink reads on what it is printed on, in both books', () => {

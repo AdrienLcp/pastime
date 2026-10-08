@@ -12,16 +12,7 @@
 
 @use '@adrienlcp/styles/sizes'
 @use '@adrienlcp/styles/tokens'
-
-/// The night book, for the values `light-dark()` cannot carry: the explicit
-/// choice beats the system, as `color-scheme.css` does for colours.
-@mixin night-book
-  @media (prefers-color-scheme: dark)
-    :root:not([data-theme='light'])
-      @content
-
-  :root[data-theme='dark']
-    @content
+@use '@adrienlcp/theme-preference/scheme'
 
 @layer tokens
   :root
@@ -70,9 +61,15 @@
     --stamp: light-dark(oklch(53% 0.21 15), oklch(68% 0.19 18))
     // a region's halftone or hatch, printed over its tint
     --pattern: light-dark(oklch(20% 0.012 260 / 0.34), oklch(92% 0.014 95 / 0.24))
-    --shadow: light-dark(oklch(20% 0.02 260 / 0.16), oklch(0% 0 0 / 0.5))
+    --shadow-ink: light-dark(oklch(20% 0.02 260 / 0.16), oklch(0% 0 0 / 0.5))
     // a loose sheet lifted off the page: a filter, so a clipped corner shadows too
-    --shadow-lift: drop-shadow(0 4px 8px var(--shadow))
+    --shadow-lift: drop-shadow(0 4px 8px var(--shadow-ink))
+    // a card held under the finger, a little higher than a loose sheet
+    --shadow-held: drop-shadow(0 6px 8px var(--shadow-ink))
+    // the booklet's edge on the desk: a hairline, not a lift
+    --shadow-sheet: 0 0 0 var(--stroke-hair) var(--rule)
+    // selected text: a yellow highlighter the ink reads through, in both books
+    --selection: light-dark(oklch(88% 0.165 96), oklch(42% 0.085 95))
     --focus: var(--ink)
 
     // a region's tint: color-mix(in oklab, <chapter ink> <one of these>, var(--paper))
@@ -171,7 +168,7 @@
     --transition-water: calc(var(--transition-fast) * 1.2)
     --flow-step: calc(var(--transition-fast) / 6)
 
-  @include night-book
+  @include scheme.dark
     --tint-1: 9%
     --tint-2: 18%
     --tint-3: 28%

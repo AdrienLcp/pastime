@@ -1,5 +1,6 @@
 import { globSync, readFileSync } from 'node:fs'
 
+import { REACT_ARIA_TOKENS } from '@adrienlcp/react-aria'
 import {
   findTokenFailures,
   findTypeLiterals,
@@ -33,5 +34,7 @@ describe.each(STYLESHEETS)('%s', (path) => {
 })
 
 it('reads only custom properties that exist, under their one shared name', () => {
-  expect(findTokenFailures(SOURCES)).toEqual([])
+  expect(findTokenFailures(SOURCES, { provided: REACT_ARIA_TOKENS })).toEqual(
+    []
+  )
 })

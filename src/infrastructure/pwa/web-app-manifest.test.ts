@@ -19,6 +19,16 @@ const pngSize = (bytes: Buffer): string =>
 describe('web app manifest', () => {
   const icons = webAppManifest.icons ?? []
 
+  test('names the app and opens it standalone over the whole site', () => {
+    expect(webAppManifest).toMatchObject({
+      display: 'standalone',
+      name: 'Pastime',
+      scope: '/',
+      short_name: 'Pastime',
+      start_url: '/'
+    })
+  })
+
   test('offers an icon for each purpose the install needs', () => {
     expect(icons.map((icon) => icon.purpose)).toEqual(
       expect.arrayContaining(['any', 'maskable'])

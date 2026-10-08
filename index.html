@@ -9,8 +9,29 @@
     <meta content="#0d1013" data-scheme="dark" media="(prefers-color-scheme: dark)" name="theme-color" />
     <link href="/favicon.svg" rel="icon" type="image/svg+xml" />
     <link href="/icons/apple-touch-icon.png" rel="apple-touch-icon" />
-    <link as="font" crossorigin href="/fonts/archivo-latin.woff2" rel="preload" type="font/woff2" />
+    <!-- Low priority: the stylesheet and the entry script go first, and the metric-matched fallback leaves nothing waiting on the font. -->
+    <link as="font" crossorigin fetchpriority="low" href="/fonts/archivo-latin.woff2" rel="preload" type="font/woff2" />
     <title>Pastime</title>
+    <meta content="website" property="og:type" />
+    <meta content="Pastime" property="og:title" />
+    <meta content="Small solo puzzle and card games in one app: no ads, no account, works offline." property="og:description" />
+    <meta content="https://pastime.adrienlcp.com/" property="og:url" />
+    <meta content="fr_FR" property="og:locale" />
+    <meta content="en_US" property="og:locale:alternate" />
+    <meta content="summary_large_image" name="twitter:card" />
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "Pastime",
+        "url": "https://pastime.adrienlcp.com/",
+        "description": "Small solo puzzle and card games in one app: no ads, no account, works offline.",
+        "applicationCategory": "GameApplication",
+        "operatingSystem": "Any",
+        "isAccessibleForFree": true,
+        "inLanguage": ["fr", "en"]
+      }
+    </script>
     <!--
       A layer's position is fixed where its name first appears, and Vite injects
       stylesheets in module-graph order: declared here, the order cannot depend

@@ -1,0 +1,18 @@
+# Pastime
+
+> Small solo puzzle and card games in one offline web app: Stars, Pipes, Klondike solitaire and Color Dots. No ads, no account; every puzzle is generated on the device and checked solvable before it is shown, and the daily puzzle is the same for everyone.
+
+Every page exists in English (`/en`) and French (`/fr`).
+
+## Pages
+
+- [Contents](https://pastime.adrienlcp.com/en): today's four daily puzzles, the puzzle in progress, and one chapter per game.
+- [Stars](https://pastime.adrienlcp.com/en/stars): place one star per row, column and region; solvable by logic alone.
+- [Pipes](https://pastime.adrienlcp.com/en/pipes): turn the tiles until water reaches every one.
+- [Solitaire](https://pastime.adrienlcp.com/en/solitaire): Klondike, draw one, every deal checked winnable.
+- [Color Dots](https://pastime.adrienlcp.com/en/color-dots): bring every ball back to its ring.
+- [Settings](https://pastime.adrienlcp.com/en/settings): theme, language, sound, haptics, automatic crosses, and a backup of the progress kept on the device.
+
+## Source
+
+- [Repository](https://github.com/AdrienLcp/pastime): how each game's levels are generated and checked.

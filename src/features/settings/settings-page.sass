@@ -50,6 +50,7 @@
       cursor: pointer
 
       @include focus.ring('.switch-track')
+      @include focus.hidden-input-unringed
 
       &[data-pressed] .switch-track
         background: var(--paper-sunk)

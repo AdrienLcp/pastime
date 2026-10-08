@@ -252,9 +252,10 @@ the bottom (`margin-top: auto`).
 ## Elevation & Depth
 
 Flat print. Depth is drawn with lines and the paper's own shades, with one
-exception: the resume card, a loose sheet on the page, casts
-`drop-shadow(0 4px 8px var(--shadow))` (a filter, so the dog-ear's clipped
-corner shadows too). Nothing else lifts.
+exception: the resume card, a loose sheet on the page, casts `--shadow-lift`,
+`drop-shadow(0 4px 8px var(--shadow-ink))` (a filter, so the dog-ear's
+clipped corner shadows too), and a solitaire card held under the finger casts
+the slightly higher `--shadow-held`. Nothing else lifts.
 
 ## Shapes
 

@@ -10,6 +10,7 @@ import { VitePWA } from 'vite-plugin-pwa'
 
 import { webAppManifest } from './src/infrastructure/pwa/web-app-manifest.ts'
 import { REGIONAL_LOCALES } from './src/presentation/i18n/regional-locales.ts'
+import { arialMetricTwins } from './src/presentation/styles/arial-metric-twins.ts'
 import { themeStore } from './src/presentation/theme/theme-store.ts'
 
 /**
@@ -27,7 +28,7 @@ export default defineConfig({
   // nested route against that route's folder, and every nested route breaks.
   base: '/',
   css: {
-    postcss: { plugins: [metricMatchedFallbackFaces] }
+    postcss: { plugins: [metricMatchedFallbackFaces, arialMetricTwins] }
   },
   plugins: [
     react({ compiler: { logDiagnostics: true } }),
@@ -39,7 +40,10 @@ export default defineConfig({
     VitePWA({
       filename: 'service-worker.ts',
       injectManifest: {
-        globPatterns: ['**/*.{js,css,html,svg,png,woff2,webmanifest}']
+        globPatterns: ['**/*.{js,css,html,svg,png,woff2,webmanifest}'],
+        // One classic script: the worker imports nothing at runtime, and the
+        // 'es' build passes Rolldown the deprecated inlineDynamicImports.
+        rollupFormat: 'iife'
       },
       injectRegister: false,
       manifest: webAppManifest,
