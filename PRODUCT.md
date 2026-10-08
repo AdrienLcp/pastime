@@ -43,7 +43,7 @@ player and the board.
   statistic and setting lives on the device.
 - One engine per game, pure and tested, apart from its screen. Adding a game
   never touches another game's folder; the hub reads a registry.
-- Shared game frame: timer, undo, restart, hint (named in words), pause, win
+- Shared game frame: timer, undo, hint (named in words), pause, win
   screen, save/resume, best times; a game opens straight on a level of the variant
   played last, and the size, deal or difficulty changes from the tools.
 - French is the reference language, English must fit.

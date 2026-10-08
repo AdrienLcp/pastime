@@ -21,7 +21,7 @@ src/
   features/
     hub/              → the list of games
     game-frame/       → what every game shares: the choice of variant, timer,
-                        undo, restart, new game, hint, pause, win screen,
+                        undo, new game, hint, pause, win screen,
                         save/resume, the level printed ahead
     stars/            → one folder per game:
       engine/           pure rules: state, moves, win check (no React)
@@ -71,7 +71,7 @@ placeholder game before Stars, the first real one, took its place. A game hands 
 - **A module** (`<game>-module.ts`), loaded with the game's page and sealed by
   `sealGameModule`: the pure `GameEngine` (`start`, `applyMove`, `isWon`,
   `hint`, the level and move schemas, and `isLost` for a game a wrong move
-  ends — the frame then locks the board and offers undo or restart), the
+  ends — the frame then locks the board and offers undo or a new game), the
   `Board` component, the hint's sentence key, and `createGeneratorWorker` — a
   `?worker` import whose script calls `serveGenerator(generate)`. A generator
   gets a seed and a variant, nothing else.

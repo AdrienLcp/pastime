@@ -4,7 +4,6 @@ import { Button } from '@/presentation/components/button'
 import {
   HintIcon,
   NewLevelIcon,
-  RestartIcon,
   UndoIcon,
   VariantIcon
 } from '@/presentation/components/icons'
@@ -23,7 +22,6 @@ type GameToolsProps = {
   isPaused: boolean
   onUndo: () => void
   onHint: () => void
-  onRestart: () => void
   /** The tool's name: « new game », or the game's own word for it. */
   newLevelLabel: PlainTranslationKey
   /** Drops this level for the next one of the same variant. */
@@ -43,7 +41,6 @@ export const GameTools: React.FC<GameToolsProps> = ({
   onChooseVariant,
   onHint,
   onNewLevel,
-  onRestart,
   onUndo,
   variantLabel
 }) => {
@@ -67,14 +64,6 @@ export const GameTools: React.FC<GameToolsProps> = ({
       >
         <HintIcon aria-hidden='true' />
         {translate('frame.tools.hint')}
-      </Button>
-      <Button
-        className='tool'
-        isDisabled={isPaused || !canUndo}
-        onPress={onRestart}
-      >
-        <RestartIcon aria-hidden='true' />
-        {translate('frame.tools.restart')}
       </Button>
       <Button
         className='tool'

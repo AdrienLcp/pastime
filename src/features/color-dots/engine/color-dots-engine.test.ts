@@ -206,13 +206,13 @@ describe('colorDotsEngine', () => {
 
     it('[color-dots] lets the next ball go once the way is clear', () => {
       expect(
-        colorDotsEngine.isWon(play(PASSING, [4, { afterMs: 400, ball: 5 }]))
+        colorDotsEngine.isWon(play(PASSING, [4, { afterMs: 600, ball: 5 }]))
       ).toBe(true)
       expect(colorDotsEngine.isWon(play(PASSING, [4, 5]))).toBe(true)
     })
 
     it('[color-dots] pops a ball that catches up with one still rolling past a joint', () => {
-      const state = play(PASSING, [4, { afterMs: 200, ball: 5 }])
+      const state = play(PASSING, [4, { afterMs: 300, ball: 5 }])
       expect(state.rides.at(-1)?.end.kind).toBe('pops')
     })
 
@@ -281,7 +281,7 @@ describe('colorDotsEngine', () => {
     })
 
     it('[color-dots] takes a ring the moment its ball leaves', () => {
-      const state = play(CHAIN, [0, { afterMs: 100, ball: 4 }])
+      const state = play(CHAIN, [0, { afterMs: 150, ball: 4 }])
       expect(state.rides.map(({ end, route }) => ({ end, route }))).toEqual([
         { end: { kind: 'lands' }, route: [0, 1, 2, 3] },
         { end: { kind: 'lands' }, route: [4, 1, 2] }

@@ -13,13 +13,15 @@
       display: flex
       flex-direction: column
       align-items: center
-      justify-content: center
+      // Icons hang from the same line, so a label broken in two grows downward
+      // instead of lifting its icon above the others.
+      justify-content: start
       gap: var(--space-3xs)
       min-height: calc(var(--control-touch) + var(--space-s))
-      padding-inline: var(--space-3xs)
+      padding: var(--space-xs) 0 var(--space-3xs)
       @include typography.tool-label
       text-align: center
-      // Five to a phone's width: a long word breaks where the language allows.
+      // Four to a phone's width: a long word breaks where the language allows.
       hyphens: auto
       overflow-wrap: break-word
       cursor: pointer
@@ -57,34 +59,31 @@
         justify-content: start
         gap: var(--space-s)
         min-height: 3.5rem
-        padding-inline: var(--space-xl)
+        padding: 0 var(--space-xl)
         @include typography.control
 
         & + .tool
           border-top: var(--hairline)
           border-left: 0
 
-    // Too short for a column of rows: the tools lie three over two, each
+    // Too short for a column of rows: the tools lie two by two, each
     // label under its icon as on the phone's bar.
     @include layout.short-spread
-      grid-template-columns: repeat(6, minmax(0, 1fr))
+      grid-template-columns: repeat(2, minmax(0, 1fr))
 
       .tool
         flex-direction: column
         justify-content: center
         gap: var(--space-4xs)
         min-height: var(--control-touch)
-        padding-inline: var(--space-3xs)
+        padding: 0 var(--space-3xs)
         @include typography.tool-label
-
-        grid-column: span 2
 
         & + .tool
           border-top: 0
 
-        &:nth-child(n + 4)
-          grid-column: span 3
+        &:nth-child(n + 3)
           border-top: var(--hairline)
 
-        &:nth-child(4)
+        &:nth-child(3)
           border-left: 0

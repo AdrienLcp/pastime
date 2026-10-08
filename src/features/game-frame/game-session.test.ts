@@ -7,7 +7,6 @@ import {
   currentBoard,
   playMove,
   replaySession,
-  restartSession,
   startSession,
   undoMove
 } from './game-session'
@@ -60,11 +59,8 @@ describe('game session', () => {
     expect(empty.moves).toEqual([])
   })
 
-  it('[game-session] restarts on the level and keeps the hints counted', () => {
-    const restarted = restartSession(countHint(played([1, 1])))
-    expect(currentBoard(restarted)).toBe(3)
-    expect(restarted.moves).toEqual([])
-    expect(restarted.hintsUsed).toBe(1)
+  it('[game-session] counts a hint taken', () => {
+    expect(countHint(played([1, 1])).hintsUsed).toBe(1)
   })
 
   it('[game-session] drops a save whose moves no longer apply', () => {

@@ -154,6 +154,10 @@ the game frame (the right page of a spread), its wash on a board:
 A new game takes a new ink only if it holds `--cover-ink` at ≥ 4.5:1;
 otherwise it shares one and tells itself apart by its glyph.
 
+Color Dots needs a fifth ball colour: **Orange** `--orange`, a process-like
+ink of no chapter, holding `--cover-ink` like the four. Never `--ink`: at
+night it prints near-white, the colour of the board's lines.
+
 ### Neutral
 
 - **Paper** (`--paper`): the page. The app's ground, and the `theme-color`
@@ -338,9 +342,9 @@ a large cover title, the rule beneath, and the clock large under a caps
 
 ### Tool bar
 
-Five equal columns, 60 px tall, 2 px ink rule on top, 1 px `--rule`
+Four equal columns, 60 px tall, 2 px ink rule on top, 1 px `--rule`
 between them; a 22 px stroke icon over a micro label (Annuler, Indice,
-Recommencer, Nouvelle partie — « Nouvelle donne » in Solitaire — then the
+Nouvelle partie — « Nouvelle donne » in Solitaire — then the
 variant's word: Taille, Donne, Difficulté), a long word hyphenated. A toggled
 tool is `--paper-sunk`. « Nouvelle partie » on a level with moves asks once,
 in place: its label turns to « Abandonner ? » on `--paper-sunk` for 4 s, and

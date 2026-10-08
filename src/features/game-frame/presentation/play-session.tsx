@@ -153,7 +153,6 @@ export const PlaySession = <Level, State, Move, Hint>({
                 onChooseVariant={() => setPickedVariantId(puzzle.variantId)}
                 onHint={session.showHint}
                 onNewLevel={session.newLevel}
-                onRestart={session.restart}
                 onUndo={session.undo}
                 variantLabel={game.variantChoice}
               />

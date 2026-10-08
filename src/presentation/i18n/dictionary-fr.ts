@@ -55,7 +55,6 @@ export const FR_DICTIONARY = defineDictionary({
       label: 'Outils',
       newLevel: 'Nouvelle partie',
       newLevelConfirm: 'Abandonner ?',
-      restart: 'Recommencer',
       undo: 'Annuler'
     },
     win: {
@@ -88,10 +87,10 @@ export const FR_DICTIONARY = defineDictionary({
           'Cette bille peut partir maintenant sans rien bloquer : envoyez-la.'
       },
       inks: {
-        black: 'noire au losange',
         cyan: 'cyan au rond',
         green: 'verte à la croix',
         magenta: 'magenta au triangle',
+        orange: 'orange au losange',
         yellow: 'jaune au carré'
       },
       name: 'Color Dots',

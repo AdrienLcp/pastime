@@ -38,14 +38,15 @@ eraser, phantom): monetisation, none of it comes over.
 ## In Pastime
 
 - Lose on the first mistake — that is what makes it exciting. The fail
-  screen offers **undo the last tap** or restart; a level won without any
+  screen offers **undo the last tap** or a new game (no restart: every
+  level is generated, so a fresh one is as good); a level won without any
   undo counts as "perfect" in the stats.
 - A tap on a ball that has no free ring of its colour does nothing (the
   engine refuses it). With one ring per ball it never happens, so there is no
   shake to draw.
 - Animation: the ball slides segment by segment at the rules' one speed
-  (60 ms a grid step: faster than the original, whose ~3 s for a long route
-  is too slow; no cap, a cap would let a long ride overtake a short one),
+  (90 ms a grid step, slowed from 60 ms on 2026-10-08, still faster than the
+  original, whose ~3 s for a long route is too slow; no cap, a cap would let a long ride overtake a short one),
   then the ring fills with a short scale pulse. A pop: the ball swells and
   bursts into pencil strokes where it touched, circled in pencil. Reduced
   motion: every ride is instant, so balls are never on their way together and

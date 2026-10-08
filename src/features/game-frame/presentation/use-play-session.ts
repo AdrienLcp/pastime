@@ -16,7 +16,6 @@ import {
   currentBoard,
   type GameSession,
   playMove,
-  restartSession,
   startSession,
   undoMove
 } from '../game-session'
@@ -45,7 +44,6 @@ export type PlaySessionControls<State, Move, Hint> = {
   readonly canUndo: boolean
   readonly move: (move: Move) => void
   readonly undo: () => void
-  readonly restart: () => void
   /** Drops this level, unrecorded, and opens the next one of its variant. */
   readonly newLevel: () => void
   readonly showHint: () => void
@@ -196,7 +194,6 @@ export const usePlaySession = <Level, State, Move, Hint>(
       setWin(null)
       change(fresh)
     },
-    restart: () => change(restartSession(session)),
     resume: () => {
       if (status === 'paused') setStatus('playing')
     },

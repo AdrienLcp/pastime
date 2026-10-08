@@ -1,7 +1,7 @@
 import { type ColorDotsTree, routeLength } from './color-dots-tree'
 
 /** The one speed every ball rides at, so no ride ever overtakes another. */
-export const RIDE_MS_PER_STEP = 60
+export const RIDE_MS_PER_STEP = 90
 
 /** A ball's width, in grid steps: two balls whose centres come closer touch. */
 export const BALL_WIDTH = 0.65

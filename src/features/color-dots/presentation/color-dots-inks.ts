@@ -39,9 +39,9 @@ export const DOT_INKS: readonly [DotInk, ...DotInk[]] = [
     symbol: 'cross'
   },
   {
-    ink: '--ink',
-    name: 'games.colorDots.inks.black',
-    onInk: '--paper',
+    ink: '--orange',
+    name: 'games.colorDots.inks.orange',
+    onInk: '--cover-ink',
     symbol: 'diamond'
   }
 ]

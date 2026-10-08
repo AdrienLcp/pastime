@@ -62,15 +62,6 @@ export const undoMove = <Level, State, Move>(
 export const canUndo = (session: { moves: readonly unknown[] }): boolean =>
   session.moves.length > 0
 
-/** Back to the printed level; the hints already taken stay counted. */
-export const restartSession = <Level, State, Move>(
-  session: GameSession<Level, State, Move>
-): GameSession<Level, State, Move> => ({
-  ...session,
-  boards: [session.boards[0]],
-  moves: []
-})
-
 export const countHint = <Level, State, Move>(
   session: GameSession<Level, State, Move>
 ): GameSession<Level, State, Move> => ({

@@ -52,7 +52,6 @@ export const EN_DICTIONARY = defineDictionary({
       label: 'Tools',
       newLevel: 'New game',
       newLevelConfirm: 'Give up?',
-      restart: 'Restart',
       undo: 'Undo'
     },
     win: {
@@ -84,10 +83,10 @@ export const EN_DICTIONARY = defineDictionary({
         nextBall: 'This ball can go now without blocking anything: send it.'
       },
       inks: {
-        black: 'Black diamond',
         cyan: 'Cyan dot',
         green: 'Green cross',
         magenta: 'Magenta triangle',
+        orange: 'Orange diamond',
         yellow: 'Yellow square'
       },
       name: 'Color Dots',
