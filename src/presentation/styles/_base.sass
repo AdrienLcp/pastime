@@ -1,5 +1,6 @@
 // Side-effect: element defaults, loaded once from globals.sass.
 
+@use 'focus'
 @use 'layout'
 @use 'typography'
 
@@ -25,9 +26,7 @@
     background: var(--yellow)
     color: var(--cover-ink)
 
-  :focus-visible
-    outline: var(--ring)
-    outline-offset: var(--ring-offset)
+  @include focus.ring-focusables
 
   a
     text-underline-offset: var(--underline-offset)

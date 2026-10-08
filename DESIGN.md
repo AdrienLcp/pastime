@@ -214,12 +214,12 @@ and a felt-tip hand for what the player writes.
   chapter's cover on the hub.
 - **Section** (800, wdth 92 %, `--text-section`): « Reprendre »,
   « Aujourd'hui », followed by a 1.5 px ink rule to the edge.
-- **Body** (400, `--text-body`, 1.4, tabular numerals everywhere).
-- **Label** (800, `--text-control`): buttons, theme choices, tools (tools at
-  `--text-micro` 700 under their icon).
-- **Meta** (600, `--text-meta`): the issue line, counts, captions, in
+- **Body** (400, `--text-m`, 1.4, tabular numerals everywhere).
+- **Label** (800, `--text-s`): buttons, theme choices, tools (tools at
+  `--text-3xs` 700 under their icon).
+- **Meta** (600, `--text-2xs`): the issue line, counts, captions, in
   `--ink-soft`.
-- **Caps** (800, `--text-caps`, +0.07em, uppercase): the score box's terms
+- **Caps** (800, `--text-4xs`, +0.07em, uppercase): the score box's terms
   (Temps, Record, Série).
 - **Hand** (Gochi Hand 400, `--text-hand` 20 px, `--text-hand-large` 30 px):
   a pencil note under the board, the win screen's figures, « nouveau

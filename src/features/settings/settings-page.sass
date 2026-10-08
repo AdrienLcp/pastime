@@ -18,8 +18,8 @@
     .settings-back
       display: grid
       place-items: center
-      width: var(--control-touch)
-      height: var(--control-touch)
+      width: var(--control-height)
+      height: var(--control-height)
 
       svg
         width: var(--icon-l)
@@ -49,9 +49,7 @@
       min-height: var(--target)
       cursor: pointer
 
-      &[data-focus-visible] .switch-track
-        outline: var(--ring)
-        outline-offset: var(--ring-offset)
+      @include focus.ring('.switch-track')
 
       &[data-pressed] .switch-track
         background: var(--paper-sunk)
@@ -73,7 +71,7 @@
       @include typography.control
 
     .switch-prose
-      font-size: var(--text-small)
+      font-size: var(--text-xs)
       color: var(--ink-soft)
 
     // A printed box the knob slides across: on, the box is inked full.
@@ -98,7 +96,7 @@
     .backup-prose
       max-width: var(--measure-prose)
       margin-inline: var(--gutter)
-      font-size: var(--text-small)
+      font-size: var(--text-xs)
       color: var(--ink-soft)
       text-wrap: pretty
 
@@ -126,4 +124,4 @@
     .restore-refused
       padding: var(--space-xs) var(--space-s)
       border: var(--print-line)
-      @include typography.alert(var(--text-small))
+      @include typography.alert(var(--text-xs))

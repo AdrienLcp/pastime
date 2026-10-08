@@ -1,3 +1,4 @@
+@use '../../../presentation/styles/focus'
 @use '../../../presentation/styles/typography'
 
 @layer components
@@ -126,8 +127,8 @@
       &::before
         content: ''
         position: absolute
-        inset: 3px
-        border-radius: 2px
+        inset: calc(var(--card-width) * 0.06)
+        border-radius: var(--radius-card-field)
         background-color: var(--chapter-solitaire)
         background-image: radial-gradient(circle, var(--card) 0 1.05px, transparent 1.25px)
         background-size: 4.5px 4.5px
@@ -135,9 +136,9 @@
       &::after
         content: ''
         position: absolute
-        inset: 7px
+        inset: calc(var(--card-width) * 0.14)
         border: 1.25px solid var(--card)
-        border-radius: 1px
+        border-radius: var(--radius-card-frame)
 
     // Keyboard and screen reader only: the pointer plays the cards beneath,
     // but for the stock, which the button itself turns.
@@ -161,16 +162,14 @@
         cursor: pointer
         pointer-events: auto
 
-      &:focus-visible
-        outline: var(--ring)
-        outline-offset: 2px
+      @include focus.ring
 
     .status-line
       display: flex
       align-items: center
       justify-content: space-between
       gap: var(--space-s)
-      min-height: 44px
+      min-height: var(--control-height)
       margin: 0 var(--gutter)
 
     .home-count
@@ -183,7 +182,7 @@
       @include typography.control
       display: inline-flex
       align-items: center
-      min-height: 44px
+      min-height: var(--control-height)
       padding: 0 var(--space-m)
       color: var(--paper)
       background: var(--ink)
@@ -192,17 +191,15 @@
       &[data-pressed]
         background: var(--ink-soft)
 
-      &[data-focus-visible]
-        outline: var(--ring)
-        outline-offset: 2px
+      @include focus.ring
 
   @keyframes solitaire-refuse
     20%
-      translate: -4px 0
+      translate: -0.25rem 0
     45%
-      translate: 3px 0
+      translate: 0.1875rem 0
     70%
-      translate: -2px 0
+      translate: -0.125rem 0
 
   @media (prefers-reduced-motion: reduce)
     .solitaire-board

@@ -1,14 +1,22 @@
 import { globSync, readFileSync } from 'node:fs'
 
-import { findTypeLiterals, findUnitFailures } from '@adrienlcp/styles/audit'
+import {
+  findTokenFailures,
+  findTypeLiterals,
+  findUnitFailures,
+  findUnnamedValues
+} from '@adrienlcp/styles/audit'
 import { describe, expect, it } from 'vitest'
 
 const STYLESHEETS = globSync('src/**/*.{sass,css}')
+const SOURCES = globSync('src/**/*.{sass,css,ts,tsx}').map((path) =>
+  readFileSync(path, 'utf8')
+)
 
 describe.each(STYLESHEETS)('%s', (path) => {
   const stylesheet = readFileSync(path, 'utf8')
 
-  it('sizes text and spacing in rem', () => {
+  it('sizes text, spacing and boxes in rem', () => {
     expect(findUnitFailures(stylesheet)).toEqual([])
   })
 
@@ -18,4 +26,12 @@ describe.each(STYLESHEETS)('%s', (path) => {
       expect(findTypeLiterals(stylesheet)).toEqual([])
     }
   )
+
+  it('takes its radii and durations from tokens', () => {
+    expect(findUnnamedValues(stylesheet)).toEqual([])
+  })
+})
+
+it('reads only custom properties that exist, under their one shared name', () => {
+  expect(findTokenFailures(SOURCES)).toEqual([])
 })

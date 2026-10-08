@@ -72,10 +72,10 @@
     --pattern: light-dark(oklch(20% 0.012 260 / 0.34), oklch(92% 0.014 95 / 0.24))
     --shadow: light-dark(oklch(20% 0.02 260 / 0.16), oklch(0% 0 0 / 0.5))
     // a loose sheet lifted off the page: a filter, so a clipped corner shadows too
-    --sheet-lift: drop-shadow(0 4px 8px var(--shadow))
+    --shadow-lift: drop-shadow(0 4px 8px var(--shadow))
     --focus: var(--ink)
 
-    // a region's tint: color-mix(in oklab, <chapter ink> var(--tint-n), var(--paper))
+    // a region's tint: color-mix(in oklab, <chapter ink> <one of these>, var(--paper))
     --tint-1: 14%
     --tint-2: 34%
     --tint-3: 56%
@@ -94,12 +94,12 @@
     --text-section: 1.1875rem
     --text-title: 1.125rem
     --text-timer: 1.0625rem
-    --text-body: 1rem
-    --text-control: 0.9375rem
-    --text-small: 0.875rem
-    --text-meta: 0.8125rem
-    --text-micro: 0.75rem
-    --text-caps: 0.6875rem
+    --text-m: 1rem
+    --text-s: 0.9375rem
+    --text-xs: 0.875rem
+    --text-2xs: 0.8125rem
+    --text-3xs: 0.75rem
+    --text-4xs: 0.6875rem
 
     // Archivo's width axis: the masthead set wide, puzzle numbers and cover
     // titles condensed, section heads a touch narrow.
@@ -145,6 +145,9 @@
 
     --radius-card: 5px
     --radius-stamp: 6px
+    // the paper frame inside a card's back, and the field it rings
+    --radius-card-field: 2px
+    --radius-card-frame: 1px
 
     --stroke-frame: 2.5px
     --stroke-heavy: 5px
@@ -154,7 +157,7 @@
     --outline-offset: 2px
 
     // the house's controls stand a little taller than the smallest target, and grow with the text
-    --control-touch: max(var(--target), 3rem)
+    --control-height: max(var(--target), 3rem)
     // the booklet's page: a phone's width, centred on the desk beyond it
     --sheet-width: 26.875rem
 
@@ -165,15 +168,8 @@
     // the stamp pressed onto the page
     --transition-slow: 520ms
     // water reaching a pipe's channel, and its wait per tile from the join
-    --transition-water: 200ms
-    --flow-step: 28ms
-    --ease-out: cubic-bezier(0.16, 1, 0.3, 1)
-
-  // reduced-motion.css collapses only the shared durations
-  @media (prefers-reduced-motion: reduce)
-    :root
-      --transition-water: 0ms
-      --flow-step: 0ms
+    --transition-water: calc(var(--transition-fast) * 1.2)
+    --flow-step: calc(var(--transition-fast) / 6)
 
   @include night-book
     --tint-1: 9%
