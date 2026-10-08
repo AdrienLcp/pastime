@@ -123,18 +123,22 @@ const pruneBareJoints = ({
 }
 
 /**
- * A tap on a ball: it rides to its ring and fills it, or runs into a ball or
- * a filled ring and stops one node short — the level is then lost. `'illegal'`
+ * A tap on a ball: it leaves its node and rides to its ring and fills it, or
+ * runs into a ball or a filled ring — the level is then lost. `'illegal'`
  * for a node without a ball, or a ball with no free ring of its colour left.
+ * The `landing` rings are taken but their balls are still on the way: nothing
+ * sits in them yet, so they block no route.
  */
 export const tapBall = ({
   ball,
+  landing = new Set(),
   spots,
   tree
 }: {
   tree: ColorDotsTree
   spots: readonly ColorDotsSpot[]
   ball: number
+  landing?: ReadonlySet<number>
 }): Result<
   { readonly spots: readonly ColorDotsSpot[]; readonly tap: ColorDotsTap },
   'illegal'
@@ -146,12 +150,13 @@ export const tapBall = ({
   if (target === null) return Result.failure('illegal')
 
   const blockedAt = target.route.findIndex(
-    (node, step) => step > 0 && isBlocker(spots[node])
+    (node, step) => step > 0 && !landing.has(node) && isBlocker(spots[node])
   )
   const blocker = target.route[blockedAt]
+  const left = spots.with(ball, { kind: 'joint' })
   if (blocker !== undefined)
     return Result.success({
-      spots,
+      spots: pruneBareJoints({ spots: left, tree }),
       tap: {
         ball,
         blocker,
@@ -163,9 +168,7 @@ export const tapBall = ({
 
   return Result.success({
     spots: pruneBareJoints({
-      spots: spots
-        .with(ball, { kind: 'joint' })
-        .with(target.ring, { colour, isFilled: true, kind: 'ring' }),
+      spots: left.with(target.ring, { colour, isFilled: true, kind: 'ring' }),
       tree
     }),
     tap: { ball, colour, kind: 'arrived', route: target.route }

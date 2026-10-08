@@ -76,9 +76,9 @@
       transform-box: fill-box
       transform-origin: center
 
-    // The ring fills when the ball gets there: a short press of the print.
+    // The ring fills when its ball gets there: a short press of the print.
     .ring[data-arriving] .seated
-      animation: color-dots-seat var(--transition-base, 0ms) var(--ease-out) var(--ride, 0ms) backwards
+      animation: color-dots-seat var(--transition-base, 0ms) var(--ease-out) var(--arrive-in, 0ms) backwards
 
     .traveller
       opacity: 0
@@ -90,15 +90,31 @@
       stroke-dasharray: 6 5
       opacity: 0.85
 
-    // What stopped the ball is circled in pencil, drawn in once it hits.
-    .blocker-loop
+    // A popped ball splashes its ink where it touched, and the spot is
+    // circled in pencil, drawn in once it pops.
+    .ink-drop
+      fill: var(--dot-ink)
+      transform-box: fill-box
+      transform-origin: center
+      animation: color-dots-splash var(--transition-base, 0ms) var(--ease-out) var(--pop-in, 0ms) backwards
+
+    .pop-loop
       fill: none
       stroke: var(--pencil)
       stroke-width: 2.2
       stroke-linecap: round
       stroke-dasharray: 1
       stroke-dashoffset: 1
-      animation: color-dots-pencil-draw var(--transition-base, 0ms) var(--ease-out) var(--ride, 0ms) forwards
+      animation: color-dots-pencil-draw var(--transition-base, 0ms) var(--ease-out) var(--pop-in, 0ms) forwards
+
+    // A pop the board already showed, in a resumed game, is simply there.
+    .pop[data-still]
+      .ink-drop
+        animation: none
+
+      .pop-loop
+        animation: none
+        stroke-dashoffset: 0
 
     .balls
       position: absolute
@@ -150,6 +166,12 @@
     60%
       scale: 1.12
       opacity: 1
+
+  @keyframes color-dots-splash
+    from
+      translate: var(--from-x) var(--from-y)
+      scale: 0.3
+      opacity: 0
 
   @keyframes color-dots-pencil-draw
     to
