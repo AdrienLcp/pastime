@@ -77,3 +77,20 @@ export const motionDurationMs = (token: `--${string}`): number =>
   Number.parseFloat(
     getComputedStyle(document.documentElement).getPropertyValue(token)
   ) || 0
+
+/** Before giving up on an idle moment that never comes, on a page kept busy. */
+const IDLE_WAIT_LIMIT_MS = 2000
+
+/**
+ * Resolves once the browser has a quiet moment: work that can wait goes
+ * after what the player sees. Where `requestIdleCallback` is missing — Safari
+ * — it goes after the current task.
+ */
+export const whenPageIdle = (): Promise<void> =>
+  new Promise((resolve) => {
+    if ('requestIdleCallback' in globalThis) {
+      requestIdleCallback(() => resolve(), { timeout: IDLE_WAIT_LIMIT_MS })
+    } else {
+      setTimeout(resolve, 0)
+    }
+  })

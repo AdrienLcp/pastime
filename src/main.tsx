@@ -31,3 +31,7 @@ createRoot(container).render(
     </I18nProvider>
   </StrictMode>
 )
+
+void import('@/features/game-frame/print-ahead').then(({ printNextLevels }) =>
+  printNextLevels()
+)

@@ -4,6 +4,8 @@ import type {
   StorageWriteError
 } from '@adrienlcp/safe-storage'
 
+import { isReadyLevelKey } from './ready-level-storage'
+
 /** Every key the app writes starts with it; a backup carries exactly those. */
 export const APP_KEY_PREFIX = 'pastime.'
 
@@ -23,14 +25,19 @@ export const listAppKeys = (): Result<string[], StorageUnavailable> => {
   }
 }
 
-/** Everything the app stored on this device, raw, by key. */
-export const readAppEntries = (): Result<
+/**
+ * Everything the app stored on this device that a backup carries, raw, by
+ * key: the levels printed ahead are left out, the new device prints its own.
+ */
+export const readBackupEntries = (): Result<
   Record<string, string>,
   'unavailable'
 > => {
   try {
     const entries: Record<string, string> = {}
-    for (const key of appKeys(localStorage)) {
+    for (const key of appKeys(localStorage).filter(
+      (key) => !isReadyLevelKey(key)
+    )) {
       const text = localStorage.getItem(key)
       if (text !== null) entries[key] = text
     }

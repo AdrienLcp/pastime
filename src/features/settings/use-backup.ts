@@ -8,7 +8,7 @@ import {
 import { today } from '@/infrastructure/clock'
 import { warnOnFailure } from '@/infrastructure/diagnostics'
 import {
-  readAppEntries,
+  readBackupEntries,
   replaceAppEntries
 } from '@/infrastructure/storage/app-entries-storage'
 import type { PlainTranslationKey } from '@/presentation/i18n/translation'
@@ -36,7 +36,7 @@ export const useBackup = () => {
   const [restore, setRestore] = useState<RestoreState>({ status: 'idle' })
 
   const exportBackup = () => {
-    const entries = readAppEntries()
+    const entries = readBackupEntries()
     warnOnFailure(entries, 'The stored data could not be read for the backup')
     const backup = gatherBackup({
       entries: entries.status === 'success' ? entries.data : {},

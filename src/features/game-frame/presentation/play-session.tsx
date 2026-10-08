@@ -9,6 +9,7 @@ import { GameTools } from './game-tools'
 import { HintNote, LostNote } from './hint-note'
 import { PauseCover } from './pause-cover'
 import { usePlaySession } from './use-play-session'
+import { usePrintAhead } from './use-print-ahead'
 import { WinPlate, WinSheet } from './win-sheet'
 
 import './play-session.sass'
@@ -29,6 +30,7 @@ export const PlaySession = <Level, State, Move, Hint>({
 }: PlaySessionProps<Level, State, Move, Hint>) => {
   const translate = useTranslate()
   const session = usePlaySession(play)
+  usePrintAhead(play)
   const { Board, hintKey } = play.module
   const { game } = play
   const hint =
