@@ -4,12 +4,48 @@
 // both under the SIL Open Font License 1.1 (public/fonts/*-OFL.txt).
 // Self-hosted, so a puzzle opens with no network.
 
+@use 'sass:map'
+@use 'sass:math'
 @use '@adrienlcp/styles/fonts'
+
+$archivo-metrics: (ascent: 0.878, descent: 0.21)
+$archivo-size-adjust: 1.022878
+
+/// Arial Bold scaled to Archivo set at a width band of its stretch axis, one
+/// face per weight range. `fonts.fallback-faces` declares no `font-stretch`,
+/// so a title set at 70 % fell back to full-width Arial and wrapped where the
+/// web font holds one line. A face that declares a stretch range wins the match
+/// for text set inside it, before weight is matched; only the heavy weights the
+/// app sets on its narrow tokens are drawn, in Arial Bold.
+@mixin fallback-faces-at-width($stretch, $widths)
+  @each $weights, $width-ratio in $widths
+    $scale: math.div($archivo-size-adjust, $width-ratio)
+
+    @font-face
+      ascent-override: math.percentage(math.div(map.get($archivo-metrics, ascent), $scale))
+      descent-override: math.percentage(math.div(map.get($archivo-metrics, descent), $scale))
+      font-family: 'Archivo fallback'
+      font-stretch: $stretch
+      font-style: normal
+      font-weight: $weights
+      line-gap-override: 0%
+      size-adjust: math.percentage($scale)
+      src: local('Arial Bold')
 
 @include fonts.font-face('Archivo', '/fonts/archivo-latin.woff2', fonts.$latin, $weight: 100 900, $stretch: 62% 125%)
 @include fonts.font-face('Archivo', '/fonts/archivo-latin-ext.woff2', fonts.$latin-ext, $weight: 100 900, $stretch: 62% 125%)
 // Archivo's weights set at different widths, and fontaine measures one: a
 // fallback face per weight band, its width measured over the app's own text.
-@include fonts.fallback-faces('Archivo', (ascent: 0.878, descent: 0.21), 1.022878, (100 449: 1.0434, 450 549: 1.0241, 550 649: 1.0056, 650 749: 1.018, 750 849: 1.0353, 850 900: 1.1412))
+@include fonts.fallback-faces('Archivo', $archivo-metrics, $archivo-size-adjust, (100 449: 1.0434, 450 549: 1.0241, 550 649: 1.0056, 650 749: 1.018, 750 849: 1.0353, 850 900: 1.1412))
+// Each band holds the --stretch-* tokens set inside it, measured over their own
+// text: cover titles, puzzle numbers, card ranks and the stamp, the timer and
+// section heads. The cover band takes its widest title, COLOR DOTS, not the
+// mean: that title fills its cover within 3 px in the web font. The masthead
+// keeps the normal face: one word that never wraps, and Arial scaled up to its
+// wide width would climb out of its band.
+@include fallback-faces-at-width(62% 70%, (650 900: 1.33))
+@include fallback-faces-at-width(71% 75%, (650 900: 1.2415))
+@include fallback-faces-at-width(76% 85%, (650 849: 1.2871, 850 900: 1.1985))
+@include fallback-faces-at-width(86% 99%, (650 900: 1.0476))
 
 @include fonts.font-face('Gochi Hand', '/fonts/gochi-hand-latin.woff2', fonts.$latin)

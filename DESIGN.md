@@ -202,7 +202,8 @@ on screen; a new colour joins it in the commit that adds it.
 ## Typography
 
 **Print font:** Archivo (variable: weight 100–900, width 62–125 %), with
-`'Archivo fallback'` (Arial scaled to Archivo per weight band) then `system-ui`.
+`'Archivo fallback'` (Arial scaled to Archivo per weight band, and per width
+band for the condensed and narrow tokens) then `system-ui`.
 **Hand font:** Gochi Hand, with `'Segoe Print'`, `cursive`.
 
 Both self-hosted from `public/fonts/` (latin, plus latin-ext for Archivo),
