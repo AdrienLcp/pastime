@@ -296,7 +296,7 @@ playing cards (`--radius-card`, 5 px) and the stamp (`--radius-stamp`, 6 px).
 
 Line weights (CSS): hairline 1 px (`--stroke-hair`, rows, separators),
 print 1.5 px (`--stroke-thin`, boxes), bold 2 px (`--stroke-bold`, the tool
-bar's top), frame 2.5 px (`--stroke-frame`, the score box), heavy 5 px
+bar's top, the stamp's outline), frame 3 px (`--stroke-frame`, the score box), heavy 5 px
 (`--stroke-heavy`, the masthead's rule). The masthead rule is double:
 5 px over 1.5 px, 4 px apart.
 
@@ -446,12 +446,12 @@ A loop is one fixed path that overshoots where it closes, as a pencil does
 ### The stamp and the score
 
 « Résolu » in condensed 900 caps (`--text-stamp`, +0.04em), in `--stamp`: a
-4 px border, a 1.5 px outline 3 px outside it, `--radius-stamp`, turned -9°,
+4 px border, a 2 px outline 3 px outside it, `--radius-stamp`, turned -9°,
 over the solved board's corner and above every layer of it, cards included.
 It presses once: scale 1.5 → 0.96 → 1 over `--transition-slow` (520 ms) with
 `--ease-out`, then the ink spreads a hair; static under reduced motion. No
 number, no date. Under the board — on the right page of a spread — a score
-box (2.5 px frame, two columns: Temps, Record; Solitaire adds its moves, and
+box (3 px frame, two columns: Temps, Record; Solitaire adds its moves, and
 a second row, Points — the time bonus within them in small pencil — and
 Record)
 whose figures are written in pencil; a new record strikes the old one through
