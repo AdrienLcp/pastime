@@ -1,2 +1,4 @@
 User-agent: *
 Allow: /
+
+Sitemap: https://pastime.adrienlcp.com/sitemap.xml

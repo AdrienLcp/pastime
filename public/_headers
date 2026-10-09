@@ -1,2 +1,5 @@
 https://pastime-2e1.pages.dev/*
   X-Robots-Tag: noindex
+
+https://:deployment.pastime-2e1.pages.dev/*
+  X-Robots-Tag: noindex
