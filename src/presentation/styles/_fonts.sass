@@ -1,6 +1,7 @@
 // Side-effect: the @font-face rules, loaded once from globals.sass.
 //
-// Archivo, variable on weight (100–900) and width (62–125 %), and Gochi Hand:
+// Archivo, variable on weight (100–900) and width (62–125 %), and Pastime Hand,
+// Gochi Hand with tabular figures added (scripts/add-tabular-figures.py):
 // both under the SIL Open Font License 1.1 (public/fonts/*-OFL.txt).
 // Self-hosted, so a puzzle opens with no network.
 
@@ -62,4 +63,7 @@ $archivo-size-adjust: 1.022878
 @include fallback-faces-at-width(76% 85%, (650 849: 1.2871, 850 900: 1.1985), $figures: (650 849: 1.1098, 850 900: 1.0622))
 @include fallback-faces-at-width(86% 99%, (650 900: 1.0476), $figures: (650 900: 0.9895))
 
-@include fonts.font-face('Gochi Hand', '/fonts/gochi-hand-latin.woff2', fonts.$latin)
+@include fonts.font-face('Pastime Hand', '/fonts/gochi-hand-latin.woff2', fonts.$latin)
+// The hand inherits tabular-nums: its added figures all take the zero's
+// advance, and set 10 % narrower in Arial scaled on the letters.
+@include fonts.fallback-faces('Pastime Hand', (ascent: 0.771, descent: 0.4077, cap-height: 0.4761), 0.938664, (400: 1.0191), $figures: (400: 0.9193))

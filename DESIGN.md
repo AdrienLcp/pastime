@@ -62,7 +62,7 @@ typography:
     fontSize: "0.8125rem"
     fontWeight: 600
   hand:
-    fontFamily: "Gochi Hand, Segoe Print, cursive"
+    fontFamily: "Pastime Hand, Segoe Print, cursive"
     fontSize: "1.25rem"
     fontWeight: 400
     lineHeight: 1.2
@@ -130,7 +130,7 @@ off-white lines, the inks kept, a shade deeper, still AA.
 - Flat process inks per chapter; everything printed on them is near-black.
 - Square print: borders, rules and frames; corners only on cards and the stamp.
 - Archivo's width axis does the hierarchy: wide masthead, condensed titles.
-- Pencil (graphite strokes + Gochi Hand) is the player's voice, never the app's.
+- Pencil (graphite strokes + Pastime Hand) is the player's voice, never the app's.
 - One authored moment per gesture: a pencil loop drawn in, a stamp pressed.
 - A phone is one page; a wide landscape screen opens it into a spread — the
   board on the left page, the chapter's cover on the right.
@@ -205,7 +205,10 @@ on screen; a new colour joins it in the commit that adds it.
 `'Archivo fallback'` (Arial scaled to Archivo per weight band, and per width
 band for the condensed and narrow tokens, its tabular digits scaled apart)
 then `system-ui`.
-**Hand font:** Gochi Hand, with `'Segoe Print'`, `cursive`.
+**Hand font:** Pastime Hand: Gochi Hand with tabular figures added, renamed
+as its license reserves the name (`scripts/add-tabular-figures.py`), with
+`'Pastime Hand fallback'` (Arial scaled to it, its tabular digits scaled
+apart), `'Segoe Print'`, `cursive`.
 
 Both self-hosted from `public/fonts/` (latin, plus latin-ext for Archivo),
 SIL OFL 1.1. Only `archivo-latin.woff2` is preloaded.
@@ -231,11 +234,11 @@ and a felt-tip hand for what the player writes.
 - **Meta** (600, `--text-2xs`): counts, captions, in `--ink-soft`.
 - **Caps** (800, `--text-4xs`, +0.07em, uppercase): the score box's terms
   (Temps, Record), the clock's label, the choice's heading.
-- **Hand** (Gochi Hand 400, `--text-hand` 20 px, `--text-hand-large` 30 px):
+- **Hand** (Pastime Hand 400, `--text-hand` 20 px, `--text-hand-large` 30 px):
   a pencil note under the board, the win screen's figures, « nouveau
   record ! ». Always `--pencil`.
 
-**The Hand-Is-The-Player's Rule.** Gochi Hand only writes what the player
+**The Hand-Is-The-Player's Rule.** Pastime Hand only writes what the player
 did — a time, a record, a note about their own marks. Interface copy is never
 handwritten.
 
@@ -485,7 +488,7 @@ the PNGs. SVG files carry hex: librsvg does not read `oklch()`.
 
 ### Don't:
 - **Don't** put white or `--ink-soft` text on a chapter ink.
-- **Don't** use Gochi Hand for interface copy.
+- **Don't** use Pastime Hand for interface copy.
 - **Don't** round a box that is not a card or the stamp.
 - **Don't** add a shadow other than a lifted card's.
 - **Don't** tell anything apart by ink alone.

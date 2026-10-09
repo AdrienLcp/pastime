@@ -16,12 +16,18 @@ import { themeStore } from './src/presentation/theme/theme-store.ts'
 /**
  * Each face gets a fallback face of its own, a local font scaled to the same
  * metrics: text paints at once in it and keeps its place when the real face
- * swaps in. Archivo's are written per weight band in `_fonts.sass`.
+ * swaps in. Archivo's and Pastime Hand's are written in `_fonts.sass`, their
+ * tabular digits scaled apart.
  */
+const HAND_WRITTEN_FALLBACKS = new Set([
+  'Archivo fallback',
+  'Pastime Hand fallback'
+])
 const metricMatchedFallbackFaces = fontaine({
   fallbacks: ['Arial'],
   resolvePath: (path) => resolve(import.meta.dirname, 'public', `.${path}`),
-  skipFontFaceGeneration: (fallbackName) => fallbackName === 'Archivo fallback'
+  skipFontFaceGeneration: (fallbackName) =>
+    HAND_WRITTEN_FALLBACKS.has(fallbackName)
 })
 
 export default defineConfig({
