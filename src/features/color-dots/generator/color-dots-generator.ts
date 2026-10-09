@@ -6,7 +6,6 @@ import type { SeededRandom } from '@/helpers/seeded-random'
 import type { ColorDotsLevel, ColorDotsPiece } from '../engine/color-dots-level'
 import { type ColorDotsSpot, startColorDots } from '../engine/color-dots-state'
 import { tapBall } from '../engine/color-dots-tap'
-import { neighboursOf } from '../engine/color-dots-tree'
 import { countTraps, createColorDotsSolver } from '../solver/color-dots-solver'
 import {
   type ColorDotsSketch,
@@ -26,8 +25,11 @@ import {
 /** Boards built for one level; the one with the most traps ships. */
 const ATTEMPTS = 24
 
-/** Lines drawn while growing the rings, before a crowded grid gives up. */
-const GROWTH_TRIES = 400
+/**
+ * Most Expert boards dead-end while built backwards, so the build goes on past
+ * `ATTEMPTS` until one board stands, up to this many.
+ */
+const ATTEMPTS_BEFORE_GIVING_UP = 160
 
 /** Valid places to put a ball back that are weighed against each other. */
 const CHOICES_PER_STEP = 10
@@ -46,46 +48,48 @@ const filledRing = (colour: number): ColorDotsSpot => ({
 
 const LONG_LINE_ODDS = 0.55
 
-const growRings = ({
+/** A chain tends to run on in the direction it came from. */
+const STRAIGHT_ODDS = 0.6
+
+const SHORTEST_CHAIN = 2
+const LONGEST_CHAIN = 4
+
+/** Tries at laying one chain on the grid before the board is dropped. */
+const CHAIN_TRIES = 30
+
+type GridPoint = { readonly x: number; readonly y: number }
+
+/** How many rings each ink gets: every ring is in its ink's one chain. */
+const chainLengthsOf = ({
   random,
   recipe
 }: {
   random: SeededRandom
   recipe: ColorDotsRecipe
-}): ColorDotsSketch | null => {
-  let sketch: ColorDotsSketch = {
-    links: [],
-    nodes: [
-      { x: Math.floor(recipe.columns / 2), y: Math.floor(recipe.rows / 2) }
-    ],
-    spots: [filledRing(0)]
-  }
+}): number[] => {
+  const lengths = Array.from({ length: recipe.colours }, () => SHORTEST_CHAIN)
   for (
-    let tries = 0;
-    tries < GROWTH_TRIES && sketch.nodes.length < recipe.rings;
-    tries++
+    let left = recipe.rings - SHORTEST_CHAIN * recipe.colours;
+    left > 0;
+    left--
   ) {
-    const anchor = random.below(sketch.nodes.length)
-    const from = sketch.nodes[anchor]
-    const direction = DIRECTIONS[random.below(DIRECTIONS.length)]
-    if (from === undefined || direction === undefined) continue
-    const length = random.next() < LONG_LINE_ODDS ? 2 : 1
-    const to = {
-      x: from.x + direction.x * length,
-      y: from.y + direction.y * length
-    }
-    if (!isOpenLine({ ...recipe, from, taken: takenPointsOf(sketch), to }))
-      continue
-    sketch = withLeaf({ anchor, point: to, sketch, spot: filledRing(0) })
+    const growable = lengths.flatMap((length, chain) =>
+      length < LONGEST_CHAIN ? [chain] : []
+    )
+    const chain = growable[random.below(growable.length)]
+    if (chain !== undefined) lengths[chain] = (lengths[chain] ?? 0) + 1
   }
-  return sketch.nodes.length === recipe.rings ? sketch : null
+  return lengths
 }
 
-const SHORTEST_CHAIN = 2
-const LONGEST_CHAIN = 4
-
-/** Rings take their inks in chains of two to four, along the lines. */
-const paintChains = ({
+/**
+ * A new filled ring on a line out of `anchor`, or null when the grid around
+ * it is full; after `heading`, going straight on is favoured.
+ */
+const extendFrom = ({
+  anchor,
+  colour,
+  heading,
   random,
   recipe,
   sketch
@@ -93,35 +97,154 @@ const paintChains = ({
   random: SeededRandom
   recipe: ColorDotsRecipe
   sketch: ColorDotsSketch
-}): ColorDotsSketch => {
-  const neighbours = neighboursOf(sketch)
+  anchor: number
+  heading: GridPoint | null
+  colour: number
+}): { sketch: ColorDotsSketch; heading: GridPoint } | null => {
+  const from = sketch.nodes[anchor]
+  if (from === undefined) return null
+  const taken = takenPointsOf(sketch)
+  const open = DIRECTIONS.flatMap((direction) =>
+    [1, 2].flatMap((length) => {
+      const to = {
+        x: from.x + direction.x * length,
+        y: from.y + direction.y * length
+      }
+      return isOpenLine({ ...recipe, from, taken, to })
+        ? [{ direction, length, to }]
+        : []
+    })
+  )
+  const straight = open.filter(
+    ({ direction }) => direction.x === heading?.x && direction.y === heading.y
+  )
+  const directed =
+    straight.length > 0 && random.next() < STRAIGHT_ODDS ? straight : open
+  const preferredLength = random.next() < LONG_LINE_ODDS ? 2 : 1
+  const sized = directed.filter(({ length }) => length === preferredLength)
+  const choices = sized.length > 0 ? sized : directed
+  const chosen = choices[random.below(choices.length)]
+  if (chosen === undefined) return null
+  return {
+    heading: chosen.direction,
+    sketch: withLeaf({
+      anchor,
+      point: chosen.to,
+      sketch,
+      spot: filledRing(colour)
+    })
+  }
+}
+
+/**
+ * `length` rings of one ink, one after the other along the lines out of
+ * `anchor`: the chain may turn, and may leave from the middle of another
+ * ink's chain.
+ */
+const layChain = ({
+  anchor,
+  colour,
+  length,
+  random,
+  recipe,
+  sketch
+}: {
+  random: SeededRandom
+  recipe: ColorDotsRecipe
+  sketch: ColorDotsSketch
+  anchor: number
+  colour: number
+  length: number
+}): ColorDotsSketch | null => {
+  let laid = sketch
+  let tip = anchor
+  let heading: GridPoint | null = null
+  for (let ring = 0; ring < length; ring++) {
+    const extended = extendFrom({
+      anchor: tip,
+      colour,
+      heading,
+      random,
+      recipe,
+      sketch: laid
+    })
+    if (extended === null) return null
+    laid = extended.sketch
+    heading = extended.heading
+    tip = laid.nodes.length - 1
+  }
+  return laid
+}
+
+/**
+ * The solved board: one chain of filled rings per ink, each grown out of a
+ * ring already laid, so an ink's rings follow each other on one line and the
+ * order its balls land in reads off the board, as in the original.
+ */
+const growChains = ({
+  random,
+  recipe
+}: {
+  random: SeededRandom
+  recipe: ColorDotsRecipe
+}): ColorDotsSketch | null => {
   const inks = random
     .shuffled(Array.from({ length: 5 }, (_, colour) => colour))
     .slice(0, recipe.colours)
-  const colours = sketch.nodes.map(() => -1)
-  let chain = 0
-  for (const start of random.shuffled(sketch.nodes.map((_, node) => node))) {
-    if (colours[start] !== -1) continue
-    const colour = inks[chain % inks.length] ?? 0
-    chain++
-    let node = start
-    colours[node] = colour
-    for (
-      let length =
-        SHORTEST_CHAIN + random.below(LONGEST_CHAIN - SHORTEST_CHAIN + 1);
-      length > 1;
-      length--
-    ) {
-      const open = (neighbours[node] ?? []).filter(
-        (next) => colours[next] === -1
-      )
-      const next = open[random.below(open.length)]
-      if (next === undefined) break
-      colours[next] = colour
-      node = next
+  const chains = chainLengthsOf({ random, recipe }).map((length, chain) => ({
+    colour: inks[chain] ?? 0,
+    length
+  }))
+  const [first, ...others] = chains
+  if (first === undefined) return null
+  let sketch = layChain({
+    anchor: 0,
+    colour: first.colour,
+    length: first.length - 1,
+    random,
+    recipe,
+    sketch: {
+      links: [],
+      nodes: [
+        { x: Math.floor(recipe.columns / 2), y: Math.floor(recipe.rows / 2) }
+      ],
+      spots: [filledRing(first.colour)]
     }
+  })
+  for (const { colour, length } of others) {
+    const grown = sketch
+    if (grown === null) return null
+    sketch = null
+    for (let tries = 0; tries < CHAIN_TRIES && sketch === null; tries++)
+      sketch = layChain({
+        anchor: random.below(grown.nodes.length),
+        colour,
+        length,
+        random,
+        recipe,
+        sketch: grown
+      })
   }
-  return { ...sketch, spots: colours.map(filledRing) }
+  return sketch
+}
+
+/** A line between two rings of one ink: cutting it would split the chain. */
+const isInsideChain = ({
+  from,
+  sketch,
+  to
+}: {
+  sketch: ColorDotsSketch
+  from: number
+  to: number
+}): boolean => {
+  const start = sketch.spots[from]
+  const end = sketch.spots[to]
+  return (
+    start?.kind === 'ring' &&
+    end?.kind === 'ring' &&
+    start.colour === end.colour
+  )
 }
 
 /** Somewhere a ball can be put back, before its colour is known. */
@@ -163,6 +286,7 @@ const placementsOf = ({
     const start = sketch.nodes[from]
     const end = sketch.nodes[to]
     if (start === undefined || end === undefined) return []
+    if (isInsideChain({ from, sketch, to })) return []
     return pointsInside({ from: start, to: end }).flatMap(
       (point): Placement[] => [
         {
@@ -343,7 +467,7 @@ const buildLevel = ({
   random: SeededRandom
   recipe: ColorDotsRecipe
 }): { level: ColorDotsLevel; order: readonly number[] } | null => {
-  const rings = growRings({ random, recipe })
+  const rings = growChains({ random, recipe })
   if (rings === null) return null
   let budget = REVERSE_STEP_BUDGET
 
@@ -363,7 +487,7 @@ const buildLevel = ({
     return null
   }
 
-  const built = unPlayFrom(paintChains({ random, recipe, sketch: rings }))
+  const built = unPlayFrom(rings)
   if (built === null) return null
   const level = levelOf(built.sketch)
   const order = built.unPlayed.toReversed()
@@ -381,7 +505,12 @@ export const generateColorDots: LevelGenerator<ColorDotsLevel> = ({
   if (!isColorDotsTierId(variantId)) return Result.failure('gave_up')
   const recipe = COLOR_DOTS_TIERS[variantId]
   let hardest: { level: ColorDotsLevel; traps: number } | null = null
-  for (let attempt = 0; attempt < ATTEMPTS; attempt++) {
+  for (
+    let attempt = 0;
+    attempt < ATTEMPTS ||
+    (hardest === null && attempt < ATTEMPTS_BEFORE_GIVING_UP);
+    attempt++
+  ) {
     const built = buildLevel({ random, recipe })
     if (built === null) continue
     const { level, order } = built

@@ -1,13 +1,18 @@
 # Color Dots
 
-After the "Color Dots" game Adrien plays on the Play Store. Rules read from
-his screenshots and a recording of level 50 (2026-10-07).
+After the "Color Dots" game Adrien plays on the Play Store
+(`com.uniqcko.ColorDots`, whose listing says only "put the dots in their
+respective slots, avoid hitting other dots"). Rules read from his screenshots
+and a recording of level 50 (2026-10-07), and from the listing's screenshots.
 
 ## Rules
 
 - The board is a **tree** of nodes joined by lines. A node holds either a
   coloured **ball** or an empty **ring** (a target) of some colour. Each
-  colour has as many balls as rings; rings of a colour often form a chain.
+  colour has as many balls as rings, and **its rings form one chain**: they
+  follow each other along the lines, so the order its balls land in reads off
+  the board. The chain may turn, and other colours' chains may branch off it
+  — filling it then cuts them off, or a ball bound past it is stopped.
 - Tapping a ball sends it along the lines (the only path, since it is a tree)
   to the **deepest free ring of its colour**: it enters the nearest chain of
   free rings of its colour (rings of that colour joined directly by a line)
@@ -94,13 +99,17 @@ minimum of traps, calibrated on measured levels: the generator builds up to
 ## Generation
 
 Build backwards from the solved board: grow a tree of rings on the grid
-(straight orthogonal lines, as in the original), paint them in chains of two
-to four, all filled. Then "un-play" balls one at a time: a ball goes back on a
+(straight orthogonal lines, as in the original), one chain of two to four
+filled rings per ink, each chain leaving from a ring already laid and tending
+to run straight on (since 2026-10-09; before, an ink was spread over several
+short chains and the landing order could not be read). No ball and no joint
+ever goes on a line inside a chain, so it is never cut in two. Then "un-play" balls one at a time: a ball goes back on a
 new leaf, on a point of a line (it then blocks that line), or on a branch from
 a point of a line, wherever tapping it would ride straight back into the ring
 just emptied — checked with the engine's own tap. A ring walled in by the
 balls already put back sends the build back a step (bounded backtracking);
-about half the Expert boards still dead-end and are rebuilt. Played forwards,
+most Expert boards dead-end (about six in seven) and are rebuilt, the build
+going on past 24 boards until one stands. Played forwards,
 the reverse order is a guaranteed solution, replayed once more before the
 level ships. The solver (depth-first over tap orders, boards already settled
 kept, a ball cut off by a filled ring proving a board hopeless at once) grades
