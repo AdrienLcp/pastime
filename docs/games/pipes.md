@@ -13,7 +13,7 @@ tile is connected to the source, with no open end and no loop.
 - A tap turns a tile a quarter in the chosen direction; the direction toggle
   under the board (Clockwise / Anticlockwise) flips it for one-handed play. A right
   click turns the other way on desktop.
-- A long press locks a tile the player is sure of (tinted, boxed in pencil);
+- A long press locks a tile the player is sure of (set on a tinted ground);
   a locked tile refuses to turn, and a second long press frees it. Keyboard:
   arrows move, Enter turns, `L` locks.
 - Water fills from the source in real time: a joined tile's channel turns

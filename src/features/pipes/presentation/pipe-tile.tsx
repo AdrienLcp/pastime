@@ -20,7 +20,7 @@ type PipeTileProps = {
 
 /**
  * One printed tile: an ink pipe with a channel inside, paper when dry, water
- * when joined to the source. A locked tile is tinted and boxed in pencil.
+ * when joined to the source. A locked tile sits on a tinted ground.
  */
 export const PipeTile: React.FC<PipeTileProps> = ({
   cell,
@@ -79,17 +79,6 @@ export const PipeTile: React.FC<PipeTileProps> = ({
           </>
         )}
       </g>
-      {isLocked && (
-        <rect
-          className='lock-box'
-          height={TILE_UNITS - 7}
-          pathLength={1}
-          rx='2'
-          width={TILE_UNITS - 7}
-          x='3.5'
-          y='3.5'
-        />
-      )}
       {isHinted && (
         <rect
           className='hint-box'

@@ -124,16 +124,6 @@
     .lock-tint
       fill: color-mix(in oklab, var(--chapter-pipes) var(--tint), var(--paper))
 
-    // Locking is the player's call: written in pencil, drawn in.
-    .lock-box
-      fill: none
-      stroke: var(--pencil)
-      stroke-width: 1.8
-      stroke-linejoin: round
-      stroke-dasharray: 1
-      stroke-dashoffset: 1
-      animation: pipes-pencil-draw var(--transition-base, 0s) var(--ease-out) forwards
-
     .hint-box
       fill: none
       stroke: var(--pencil)
@@ -173,6 +163,3 @@
 
       @include focus.ring-inset
 
-  @keyframes pipes-pencil-draw
-    to
-      stroke-dashoffset: 0
