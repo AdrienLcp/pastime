@@ -10,29 +10,36 @@ import type { ColorDotsTierId } from './color-dots-tiers'
 
 const SEEDS = 200
 
+/** Generates and solves 200 levels: about 90 s alone, over 120 s beside a busy machine's other jobs. */
+const TWO_HUNDRED_LEVELS_TIMEOUT_MS = 300_000
+
 const TIERS: readonly ColorDotsTierId[] = ['easy', 'hard', 'expert']
 
 describe('generateColorDots', () => {
-  it('[color-dots] prints valid levels that the solver clears, over 200 seeds across the tiers', () => {
-    for (let seed = 0; seed < SEEDS; seed++) {
-      const variantId = TIERS[seed % TIERS.length] ?? 'easy'
-      const generated = generateColorDots({
-        random: createSeededRandom(seed),
-        variantId
-      })
-      if (generated.status === 'failure')
-        throw new Error(`seed ${seed} (${variantId}) gave up`)
-      const { level } = generated.data
-      expect(
-        colorDotsLevelSchema.safeParse(level).success,
-        `seed ${seed} (${variantId})`
-      ).toBe(true)
-      const solution = createColorDotsSolver(level).solve(
-        startColorDots(level).spots
-      )
-      expect(solution.kind, `seed ${seed} (${variantId})`).toBe('solved')
-    }
-  }, 120_000)
+  it(
+    '[color-dots] prints valid levels that the solver clears, over 200 seeds across the tiers',
+    () => {
+      for (let seed = 0; seed < SEEDS; seed++) {
+        const variantId = TIERS[seed % TIERS.length] ?? 'easy'
+        const generated = generateColorDots({
+          random: createSeededRandom(seed),
+          variantId
+        })
+        if (generated.status === 'failure')
+          throw new Error(`seed ${seed} (${variantId}) gave up`)
+        const { level } = generated.data
+        expect(
+          colorDotsLevelSchema.safeParse(level).success,
+          `seed ${seed} (${variantId})`
+        ).toBe(true)
+        const solution = createColorDotsSolver(level).solve(
+          startColorDots(level).spots
+        )
+        expect(solution.kind, `seed ${seed} (${variantId})`).toBe('solved')
+      }
+    },
+    TWO_HUNDRED_LEVELS_TIMEOUT_MS
+  )
 
   it('[color-dots] makes each tier larger and harder than the one before it', () => {
     const trapsOf = (variantId: ColorDotsTierId) => {

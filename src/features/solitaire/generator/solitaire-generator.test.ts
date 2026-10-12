@@ -13,6 +13,9 @@ import { generateSolitaire, WINNABLE_DEAL_BUDGET } from './solitaire-generator'
 
 const SEEDS = 100
 
+/** Deals and solves 100 games: about 4 s alone, many times that beside a busy machine's other jobs. */
+const HUNDRED_DEALS_TIMEOUT_MS = 120_000
+
 /** More than enough for 52 cards home, each maybe a full turn of the stock away. */
 const MOST_AUTO_COMPLETE_MOVES = DECK_SIZE * DECK_SIZE
 
@@ -44,24 +47,28 @@ const generated = (seed: number, variantId: string): SolitaireLevel | null => {
 }
 
 describe('solitaire generator', () => {
-  it('[solitaire] deals only games the solver wins, its moves then auto-complete', () => {
-    for (let seed = 0; seed < SEEDS; seed++) {
-      const level = generated(seed, 'winnable')
-      expect(level).not.toBeNull()
-      if (level === null) continue
-      const start = dealKlondike(level)
-      const solved = solveSolitaire({
-        nodeBudget: WINNABLE_DEAL_BUDGET,
-        state: start
-      })
-      expect(solved.status).toBe('success')
-      if (solved.status === 'failure') continue
-      const revealed = replay(start, solved.data.moves)
-      expect(revealed).not.toBeNull()
-      if (revealed === null) continue
-      expect(isSolitaireWon(autoCompleted(revealed))).toBe(true)
-    }
-  }, 120_000)
+  it(
+    '[solitaire] deals only games the solver wins, its moves then auto-complete',
+    () => {
+      for (let seed = 0; seed < SEEDS; seed++) {
+        const level = generated(seed, 'winnable')
+        expect(level).not.toBeNull()
+        if (level === null) continue
+        const start = dealKlondike(level)
+        const solved = solveSolitaire({
+          nodeBudget: WINNABLE_DEAL_BUDGET,
+          state: start
+        })
+        expect(solved.status).toBe('success')
+        if (solved.status === 'failure') continue
+        const revealed = replay(start, solved.data.moves)
+        expect(revealed).not.toBeNull()
+        if (revealed === null) continue
+        expect(isSolitaireWon(autoCompleted(revealed))).toBe(true)
+      }
+    },
+    HUNDRED_DEALS_TIMEOUT_MS
+  )
 
   it('[solitaire] deals the same game from the same seed', () => {
     expect(generated(42, 'winnable')).toEqual(generated(42, 'winnable'))
