@@ -4,6 +4,7 @@
 **/node_modules
 
 *.tsbuildinfo
+lighthouse-reports/
 *.local
 
 .claude/settings.local.json

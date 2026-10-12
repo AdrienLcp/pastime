@@ -41,6 +41,25 @@ jobs:
       - name: Test
         run: pnpm test
 
+      # `--with-deps` runs `apt-get update` over every source the runner image
+      # carries, Google's Chrome repository among them; an index published
+      # half-way fails the whole job on a hash mismatch. Playwright ships its
+      # own Chromium, so the source goes.
+      - name: Install Chromium
+        run: |
+          sudo rm -f /etc/apt/sources.list.d/*google*
+          pnpm exec playwright install --with-deps chromium
+
+      - name: Lighthouse
+        run: pnpm lighthouse
+
+      - if: failure()
+        uses: actions/upload-artifact@v5
+        with:
+          name: lighthouse-reports
+          path: lighthouse-reports
+          if-no-files-found: ignore
+
       - name: Deploy
         if: github.event_name == 'push' && github.ref == 'refs/heads/main' && env.CLOUDFLARE_API_TOKEN != ''
         run: pnpm dlx wrangler@4 pages deploy dist --project-name pastime --branch main
