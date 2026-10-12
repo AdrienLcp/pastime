@@ -25,7 +25,9 @@
       min-height: 0
 
     .board-area
-      padding: var(--space-m) max(var(--space-3xs), var(--safe-area-right)) 0 max(var(--space-3xs), var(--safe-area-left))
+      --gutter-left: max(var(--space-3xs), var(--safe-area-left))
+      --gutter-right: max(var(--space-3xs), var(--safe-area-right))
+      padding: var(--space-m) var(--gutter-right) 0 var(--gutter-left)
 
       // A board that sizes itself to the room left takes the page's spare
       // height, the note and the tools pushed down under it.

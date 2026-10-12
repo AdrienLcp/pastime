@@ -227,7 +227,7 @@ and a felt-tip hand for what the player writes.
   chapter's cover on the hub and, larger, the game's name heading the right
   page of a spread.
 - **Section** (800, wdth 92 %, `--text-section`): a heading in running print,
-  followed by a 1.5 px ink rule to the edge.
+  followed by a 2 px ink rule to the edge.
 - **Body** (400, `--text-m`, 1.4, tabular numerals everywhere).
 - **Label** (800, `--text-s`): buttons, theme choices, tools (tools at
   `--text-3xs` 700 under their icon).
@@ -294,15 +294,15 @@ exception: a Solitaire card the player lifts casts `--shadow-held`,
 
 ## Shapes
 
-Square by default: every box is drawn with `--print-line` (1.5 px ink) or a
+Square by default: every box is drawn with `--print-line` (2 px ink) or a
 heavier frame. Rounded corners exist only where the object is round in life:
 playing cards (`--radius-card`, 5 px) and the stamp (`--radius-stamp`, 6 px).
 
 Line weights (CSS): hairline 1 px (`--stroke-hair`, rows, separators),
-print 1.5 px (`--stroke-thin`, boxes), bold 2 px (`--stroke-bold`, the tool
+print 2 px (`--stroke-thin`, boxes), bold 3 px (`--stroke-bold`, the tool
 bar's top, the stamp's outline), frame 3 px (`--stroke-frame`, the score box), heavy 5 px
 (`--stroke-heavy`, the masthead's rule). The masthead rule is double:
-5 px over 1.5 px, 4 px apart.
+5 px over 2 px, 4 px apart.
 
 ## Components
 
@@ -315,7 +315,7 @@ style, then the double rule. Nothing else: no date, no count.
 
 ### Theme switch
 
-Three printed tabs in one 1.5 px ink box — Auto / Clair / Sombre — the
+Three printed tabs in one 2 px ink box — Auto / Clair / Sombre — the
 selected one inverted (ink ground, paper text), the pressed one
 `--paper-sunk`. 44 px tall. A react-aria `RadioGroup` on
 `@adrienlcp/theme-preference`: the choice is stored (`pastime.theme`), stamped
@@ -327,7 +327,7 @@ follow it. `src/presentation/theme/`.
 - **Ink** (primary): `--ink` ground, `--paper` text, label type, 48 px tall
   (54 px for the win screen's main action), square, an 18 px icon after the
   label.
-- **Line** (secondary): 1.5 px ink border, ink text, 50 px tall.
+- **Line** (secondary): 2 px ink border, ink text, 50 px tall.
 - **Text** (notices): the label underlined 2 px.
 - Pressed: a line button, a row or a tool takes the `--paper-sunk` ground;
   the ink button lightens to `--ink-soft` under its `--paper` label; a cover
@@ -375,7 +375,7 @@ The tool bar's last tool, named by what the variants differ by (« Taille »,
 board on a phone, on the right page of a spread — while the board stays:
 
 - A caps heading ruled out to the edge, then the variants as printed tabs in
-  one 1.5 px ink box, the selected one inverted, like the theme switch. A
+  one 2 px ink box, the selected one inverted, like the theme switch. A
   variant with a note (Solitaire's deals) takes a full row, its note under
   its label. The variant on the board is picked when it opens.
 - Picking another size shows its empty grid in the board's place, `--rule`
@@ -429,7 +429,7 @@ A loop is one fixed path that overshoots where it closes, as a pencil does
   `--card-ink` border on `--card`. Rank top-left (800, wdth 78 %), a suit pip
   top-right, a large suit low centre; hearts and diamonds in `--card-red`.
   The back is a halftone of the chapter ink inside a card-coloured frame.
-  Empty slots: dashed 1.5 px `--ink-soft` with the suit's outline.
+  Empty slots: dashed 2 px `--ink-soft` with the suit's outline.
 - **Color Dots** (`--chapter-color-dots`): 40-unit grid steps, lines 3.5
   units in ink, a joint where three lines meet a 7-unit ink block. The one
   board that prints in several inks, since colour is the game: the four

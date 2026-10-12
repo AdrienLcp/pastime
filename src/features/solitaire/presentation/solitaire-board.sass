@@ -86,7 +86,7 @@
       inset: 0
       overflow: hidden
       background: var(--card)
-      border: 1.25px solid var(--card-ink)
+      border: var(--stroke-hair) solid var(--card-ink)
       border-radius: var(--radius-card)
       backface-visibility: hidden
 
@@ -136,7 +136,7 @@
         content: ''
         position: absolute
         inset: calc(var(--card-width) * 0.14)
-        border: 1.25px solid var(--card)
+        border: var(--stroke-hair) solid var(--card)
         border-radius: var(--radius-card-frame)
 
     // Keyboard and screen reader only: the pointer plays the cards beneath,
@@ -166,7 +166,7 @@
       align-items: center
       justify-content: flex-end
       min-height: var(--control-height)
-      margin: 0 var(--gutter-right) 0 var(--gutter-left)
+      margin: 0 var(--gutter)
 
     .finish
       @include typography.control
