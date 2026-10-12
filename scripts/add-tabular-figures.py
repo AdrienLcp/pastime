@@ -15,7 +15,7 @@ already holds the figures:
 
     git show 9266f79:public/fonts/gochi-hand-latin.woff2 > gochi-hand-original.woff2
     python -m venv .venv && .venv/bin/pip install fonttools brotli
-    .venv/bin/python scripts/add-tabular-figures.py gochi-hand-original.woff2 public/fonts/gochi-hand-latin.woff2
+    .venv/bin/python scripts/add-tabular-figures.py gochi-hand-original.woff2 public/fonts/pastime-hand-latin.woff2
 """
 
 import sys
