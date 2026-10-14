@@ -463,6 +463,20 @@ and loops the new one, the loop behind and around the figure, never across
 it. Then « Nouvelle partie », which opens the next level at once, over
 « Rejouer » and « Accueil ».
 
+### Colophon and legal page
+
+Every screen ends on the booklet's imprint: a 1 px `--rule` across the page,
+then « Mentions légales et confidentialité » centred in meta type,
+`--ink-soft`, underlined, 44 px tall. It sits below the fold of a game
+screen, whose board and tools keep the whole height.
+`src/presentation/colophon.tsx`.
+
+The legal page (`/:locale/legal`) is running print under the same head as
+the settings — the back arrow, the title in the number style, the heavy
+rule — then section heads ruled to the edge, body text at most 40rem wide,
+the host's address in a 1.5 px ink box, and each stored key on its own
+row, the key over what it remembers. `src/features/legal/`.
+
 ### App icon
 
 Process yellow, a 3×3 printed grid with a heavy frame, a magenta top-left

@@ -1,38 +1,11 @@
 @use '../../presentation/styles/print'
 @use '../../presentation/styles/typography'
-@use '../../presentation/styles/focus'
 
 @layer components
   .settings-page
     display: grid
     align-content: start
-    padding-bottom: max(var(--space-2xl), var(--safe-area-bottom))
-
-    .settings-head
-      display: flex
-      align-items: center
-      gap: var(--space-2xs)
-      --gutter-left: max(var(--space-3xs), var(--safe-area-left))
-      padding: max(var(--space-xs), var(--safe-area-top)) var(--gutter-right) var(--space-s) var(--gutter-left)
-      border-bottom: var(--stroke-heavy) solid var(--ink)
-
-    .settings-back
-      display: grid
-      place-items: center
-      width: var(--control-height)
-      height: var(--control-height)
-
-      svg
-        width: var(--icon-l)
-        height: var(--icon-l)
-
-      &[data-pressed]
-        background: var(--paper-sunk)
-
-      @include focus.ring-inset
-
-    .settings-title
-      @include typography.number
+    padding-bottom: var(--space-2xl)
 
     .settings-group
       display: grid

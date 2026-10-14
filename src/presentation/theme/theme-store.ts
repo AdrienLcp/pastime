@@ -5,6 +5,8 @@ import { createThemePreferenceStore } from '@adrienlcp/theme-preference'
  * theme switch and by the Vite plugin that inlines the pre-paint script, so
  * both read the same key. No `@/` import, so `vite.config.ts` can load it.
  */
+export const THEME_STORAGE_KEY = 'pastime.theme'
+
 export const themeStore = createThemePreferenceStore({
-  storageKey: 'pastime.theme'
+  storageKey: THEME_STORAGE_KEY
 })

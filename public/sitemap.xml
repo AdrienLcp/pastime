@@ -50,4 +50,14 @@
     <xhtml:link href="https://pastime.adrienlcp.com/fr/color-dots" hreflang="fr" rel="alternate" />
     <xhtml:link href="https://pastime.adrienlcp.com/en/color-dots" hreflang="en" rel="alternate" />
   </url>
+  <url>
+    <loc>https://pastime.adrienlcp.com/fr/legal</loc>
+    <xhtml:link href="https://pastime.adrienlcp.com/fr/legal" hreflang="fr" rel="alternate" />
+    <xhtml:link href="https://pastime.adrienlcp.com/en/legal" hreflang="en" rel="alternate" />
+  </url>
+  <url>
+    <loc>https://pastime.adrienlcp.com/en/legal</loc>
+    <xhtml:link href="https://pastime.adrienlcp.com/fr/legal" hreflang="fr" rel="alternate" />
+    <xhtml:link href="https://pastime.adrienlcp.com/en/legal" hreflang="en" rel="alternate" />
+  </url>
 </urlset>

@@ -1,0 +1,21 @@
+@use 'styles/typography'
+
+@layer components
+  .colophon
+    display: flex
+    justify-content: center
+    padding: var(--space-xs) var(--gutter-right) max(var(--space-xs), var(--safe-area-bottom)) var(--gutter-left)
+    border-top: var(--hairline)
+
+    .colophon-link
+      display: inline-flex
+      align-items: center
+      min-height: var(--target)
+      padding-inline: var(--space-xs)
+      @include typography.meta
+      color: var(--ink-soft)
+      text-decoration: underline
+      text-decoration-thickness: var(--stroke-hair)
+
+      &[data-pressed]
+        color: var(--ink)

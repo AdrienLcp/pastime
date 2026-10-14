@@ -38,7 +38,7 @@ describe('share card', () => {
 })
 
 describe('sitemap', () => {
-  const pages = ['', ...GAMES.map((game) => `/${game.id}`)]
+  const pages = ['', ...GAMES.map((game) => `/${game.id}`), '/legal']
 
   test.each(pages)('lists %s in every language', (page) => {
     for (const locale of LOCALES) {

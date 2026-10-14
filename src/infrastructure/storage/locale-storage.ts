@@ -9,7 +9,7 @@ import {
 import { isLocale, type Locale } from '@/presentation/i18n/locale'
 
 /** The language last read in on this device: a bare address opens in it. */
-const LOCALE_KEY = 'pastime.locale'
+export const LOCALE_KEY = 'pastime.locale'
 
 /** `null` when this device never chose. */
 export const readStoredLocale = (): Result<Locale | null, StorageReadError> =>

@@ -16,7 +16,9 @@ import { listAppKeys } from './app-entries-storage'
 import { readStoredShape } from './read-stored-shape'
 
 /** One game in progress per game. */
-const savedGameKey = (gameId: string) => `pastime.saved-game.v2.${gameId}`
+export const SAVED_GAME_KEY_PREFIX = 'pastime.saved-game.v2.'
+
+const savedGameKey = (gameId: string) => `${SAVED_GAME_KEY_PREFIX}${gameId}`
 
 /** Version 1 kept a daily and a free game per game. */
 const VERSION_ONE_PREFIX = 'pastime.saved-game.v1.'

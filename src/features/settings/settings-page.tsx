@@ -7,13 +7,9 @@ import {
 } from '@/infrastructure/router/navigation'
 import { Button } from '@/presentation/components/button'
 import { FileTrigger } from '@/presentation/components/file-trigger'
-import {
-  BackIcon,
-  ExportIcon,
-  ImportIcon
-} from '@/presentation/components/icons'
-import { Link } from '@/presentation/components/link'
+import { ExportIcon, ImportIcon } from '@/presentation/components/icons'
 import { Main } from '@/presentation/components/main'
+import { PageHead } from '@/presentation/components/page-head'
 import { SegmentedChoice } from '@/presentation/components/segmented-choice'
 import { SettingSwitch } from '@/presentation/components/setting-switch'
 import { DocumentTitle } from '@/presentation/head/document-title'
@@ -40,16 +36,11 @@ export const SettingsPage: React.FC = () => {
   return (
     <Main className='settings-page'>
       <DocumentTitle>{`${translate('settings.title')} — ${translate('app.name')}`}</DocumentTitle>
-      <header className='settings-head'>
-        <Link
-          aria-label={translate('common.backToGames')}
-          className='settings-back'
-          href={hubPathFor(locale)}
-        >
-          <BackIcon aria-hidden='true' />
-        </Link>
-        <h1 className='settings-title'>{translate('settings.title')}</h1>
-      </header>
+      <PageHead
+        backHref={hubPathFor(locale)}
+        backLabel={translate('common.backToGames')}
+        title={translate('settings.title')}
+      />
 
       <div className='settings-group'>
         <SettingSwitch
