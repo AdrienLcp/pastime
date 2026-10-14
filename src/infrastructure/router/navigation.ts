@@ -16,6 +16,7 @@ import { isLocale, type Locale } from '@/presentation/i18n/locale'
 export const paths = {
   game: '/:locale/:game',
   hub: '/:locale',
+  legal: '/:locale/legal',
   settings: '/:locale/settings'
 } as const
 
@@ -32,6 +33,9 @@ const pathFor = <Path extends string>(
 
 export const hubPathFor = (locale: Locale): string =>
   pathFor(paths.hub, { locale })
+
+export const legalPathFor = (locale: Locale): string =>
+  pathFor(paths.legal, { locale })
 
 export const settingsPathFor = (locale: Locale): string =>
   pathFor(paths.settings, { locale })

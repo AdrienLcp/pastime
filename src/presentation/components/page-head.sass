@@ -1,0 +1,31 @@
+@use '../styles/typography'
+@use '../styles/focus'
+
+@layer components
+  .page-head
+    display: flex
+    align-items: center
+    gap: var(--space-2xs)
+    --gutter-left: max(var(--space-3xs), var(--safe-area-left))
+    padding: max(var(--space-xs), var(--safe-area-top)) var(--gutter-right) var(--space-s) var(--gutter-left)
+    border-bottom: var(--stroke-heavy) solid var(--ink)
+
+    .page-back
+      display: grid
+      flex: none
+      place-items: center
+      width: var(--control-height)
+      height: var(--control-height)
+
+      svg
+        width: var(--icon-l)
+        height: var(--icon-l)
+
+      &[data-pressed]
+        background: var(--paper-sunk)
+
+      @include focus.ring-inset
+
+    .page-title
+      @include typography.number
+      text-wrap: balance

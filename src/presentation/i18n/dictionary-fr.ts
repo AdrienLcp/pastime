@@ -277,6 +277,59 @@ export const FR_DICTIONARY = defineDictionary({
     }),
     settings: 'Réglages'
   },
+  legal: {
+    host: {
+      body: 'Pastime est hébergé par :',
+      heading: 'Hébergeur'
+    },
+    intro:
+      'Qui édite Pastime, ce que l’app garde sur votre appareil, et comment l’effacer.',
+    measurement: {
+      body: 'Pastime ne mesure pas son audience : aucun outil de statistiques, aucun traceur, aucun cookie.',
+      heading: 'Mesure d’audience'
+    },
+    publisher: {
+      address:
+        'Éditeur non professionnel, je donne l’identité de l’hébergeur à la place d’une adresse postale (LCEN, article 6-III-2).',
+      body: 'Pastime est édité par {name}, à titre de particulier et non de professionnel. Vous pouvez m’écrire depuis <contact>ma page de contact</contact>.',
+      heading: 'Éditeur'
+    },
+    rights: {
+      body: 'Le RGPD vous permet d’accéder à ce qui vous concerne, de le rectifier ou de l’effacer, et de vous opposer à son utilisation. Tout ce que Pastime garde est sur votre appareil, et vous l’effacez vous-même ; pour toute question, écrivez-moi depuis <contact>ma page de contact</contact> : je réponds sous un mois.',
+      complaint:
+        'Si vous estimez que vos droits ne sont pas respectés, vous pouvez adresser une réclamation à la <authority>CNIL</authority>.',
+      heading: 'Vos droits'
+    },
+    storage: {
+      device:
+        'Pastime ne dépose aucun cookie. Ce qu’il retient reste dans le stockage de votre navigateur, pour ce seul site, jusqu’à ce que vous l’effaciez :',
+      erase:
+        'Effacer les données de ce site dans les réglages de votre navigateur, ou désinstaller l’app, supprime tout. Le fichier exporté depuis les réglages reste là où vous l’enregistrez.',
+      heading: 'Ce que l’app conserve',
+      keys: {
+        installDeclined:
+          'Votre refus d’installer l’app, pour ne plus vous le proposer.',
+        locale: 'La langue choisie, pour rouvrir l’app dans la même.',
+        playRecord:
+          'Vos résultats : grilles résolues et meilleurs temps, par jeu et par variante.',
+        playSettings: 'Vos réglages : son, vibrations, croix automatiques.',
+        readyLevel:
+          'Le prochain niveau de chaque jeu, préparé d’avance pour qu’une partie n’attende jamais.',
+        savedGame:
+          'La partie en cours de chaque jeu, pour la reprendre où vous l’avez laissée.',
+        theme: 'Le thème choisi : auto, clair ou sombre.'
+      },
+      offline:
+        'Les fichiers de l’app eux-mêmes sont gardés dans le cache de votre navigateur, pour qu’elle s’ouvre sans réseau.',
+      server:
+        'Pastime n’a pas de serveur : rien de ce que vous jouez ne quitte votre appareil.'
+    },
+    thirdParties: {
+      body: 'Votre navigateur ne communique qu’avec ce site, qui sert aussi ses polices. Son hébergeur, Cloudflare, reçoit votre adresse IP à chaque requête, pour servir les fichiers et protéger le site des abus.',
+      heading: 'Qui d’autre reçoit vos données'
+    },
+    title: 'Mentions légales et confidentialité'
+  },
   notFound: {
     prose: 'Aucune page ne porte l’adresse {path}.',
     title: 'Page introuvable',
@@ -321,6 +374,11 @@ export const FR_DICTIONARY = defineDictionary({
       prose: 'Coupé tant que vous ne l’allumez pas.'
     },
     title: 'Réglages'
+  },
+  shell: {
+    colophon: {
+      legal: 'Mentions légales et confidentialité'
+    }
   },
   theme: {
     dark: 'Sombre',

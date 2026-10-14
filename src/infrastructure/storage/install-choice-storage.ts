@@ -6,7 +6,7 @@ import {
 } from '@adrienlcp/safe-storage'
 
 /** A device choice: declining the install notice once is declining it here. */
-const INSTALL_DECLINED_KEY = 'pastime.install-declined'
+export const INSTALL_DECLINED_KEY = 'pastime.install-declined'
 
 const DECLINED = 'yes'
 

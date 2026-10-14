@@ -268,6 +268,58 @@ export const EN_DICTIONARY = defineDictionary({
     }),
     settings: 'Settings'
   },
+  legal: {
+    host: {
+      body: 'Pastime is hosted by:',
+      heading: 'Host'
+    },
+    intro:
+      'Who publishes Pastime, what the app keeps on your device, and how to erase it.',
+    measurement: {
+      body: 'Pastime does not measure its audience: no analytics tool, no tracker, no cookie.',
+      heading: 'Audience measurement'
+    },
+    publisher: {
+      address:
+        'As a non-professional publisher, I give the host’s identity in place of a postal address (LCEN, article 6-III-2).',
+      body: 'Pastime is published by {name}, a private individual, not a business. You can write to me through <contact>my contact page</contact>.',
+      heading: 'Publisher'
+    },
+    rights: {
+      body: 'Under the GDPR, you may access, correct or erase what concerns you, or object to its use. Everything Pastime keeps is on your device, and you erase it yourself; for any question, write to me through <contact>my contact page</contact>: I answer within a month.',
+      complaint:
+        'If you believe your rights are not respected, you may lodge a complaint with the <authority>CNIL</authority>.',
+      heading: 'Your rights'
+    },
+    storage: {
+      device:
+        'Pastime sets no cookies. What it remembers stays in your browser’s storage, for this site only, until you clear it:',
+      erase:
+        'Clearing this site’s data in your browser’s settings, or uninstalling the app, removes all of it. A file exported from the settings stays wherever you save it.',
+      heading: 'What the app keeps',
+      keys: {
+        installDeclined:
+          'That you declined to install the app, so it is not offered again.',
+        locale: 'The language you picked, to open the app in it again.',
+        playRecord:
+          'Your results: puzzles solved and best times, per game and variant.',
+        playSettings: 'Your settings: sound, vibration, automatic crosses.',
+        readyLevel:
+          'Each game’s next level, prepared ahead so a game never waits.',
+        savedGame:
+          'The game in progress in each game, to pick it up where you left it.',
+        theme: 'The theme you picked: auto, light or dark.'
+      },
+      offline:
+        'The app’s own files are kept in your browser’s cache, so it opens without a network.',
+      server: 'Pastime has no server: nothing you play leaves your device.'
+    },
+    thirdParties: {
+      body: 'Your browser talks to this site only, which also serves its fonts. Its host, Cloudflare, receives your IP address with each request, to deliver the files and protect the site from abuse.',
+      heading: 'Who else receives your data'
+    },
+    title: 'Legal notice and privacy'
+  },
   notFound: {
     prose: 'No page lives at {path}.',
     title: 'Page not found',
@@ -310,6 +362,11 @@ export const EN_DICTIONARY = defineDictionary({
       prose: 'Off until you turn it on.'
     },
     title: 'Settings'
+  },
+  shell: {
+    colophon: {
+      legal: 'Legal notice and privacy'
+    }
   },
   theme: {
     dark: 'Dark',

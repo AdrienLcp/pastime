@@ -1,0 +1,68 @@
+@use '../../presentation/styles/print'
+@use '../../presentation/styles/typography'
+
+@layer components
+  .legal-page
+    display: grid
+    align-content: start
+    padding-bottom: var(--space-2xl)
+
+    // A page of running print: one reading measure, whatever the screen opens to.
+    > :not(.page-head)
+      max-width: 40rem
+
+    .legal-intro
+      margin: var(--space-l) var(--gutter-right) 0 var(--gutter-left)
+      @include typography.cover-blurb
+      color: var(--ink-soft)
+      text-wrap: pretty
+
+    .section-head
+      @include print.section-head
+
+    .legal-section
+      display: grid
+      gap: var(--space-s)
+      @include typography.body
+      text-wrap: pretty
+
+      > :not(.section-head)
+        margin-right: var(--gutter-right)
+        margin-left: var(--gutter-left)
+
+    .legal-aside
+      @include typography.note
+      color: var(--ink-soft)
+
+    .legal-link
+      @include typography.emphasis
+      text-decoration: underline
+      text-decoration-thickness: var(--stroke-thin)
+
+      &[data-pressed]
+        color: var(--ink-soft)
+
+    .host-address
+      display: grid
+      padding: var(--space-xs) var(--space-s)
+      border: var(--print-line)
+      font-style: normal
+      justify-self: start
+
+    .stored-keys
+      display: grid
+      border-top: var(--print-line)
+
+    .stored-key
+      display: grid
+      gap: var(--space-4xs)
+      padding-block: var(--space-xs)
+      border-bottom: var(--hairline)
+
+      dt
+        @include typography.meta-strong
+        overflow-wrap: anywhere
+
+      dd
+        margin: 0
+        @include typography.note

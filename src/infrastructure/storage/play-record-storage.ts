@@ -12,7 +12,7 @@ import {
 
 import { readStoredShape } from './read-stored-shape'
 
-const PLAY_RECORD_KEY = 'pastime.play-record.v1'
+export const PLAY_RECORD_KEY = 'pastime.play-record.v1'
 
 /** `null` before the first win on this device. */
 export const readPlayRecord = (): Result<PlayRecord | null, StorageReadError> =>

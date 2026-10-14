@@ -14,7 +14,7 @@ import {
 
 import { readStoredShape } from './read-stored-shape'
 
-const READY_LEVEL_KEY_PREFIX = 'pastime.next-level.v1.'
+export const READY_LEVEL_KEY_PREFIX = 'pastime.next-level.v1.'
 
 type Slot = { gameId: string; variantId: string }
 

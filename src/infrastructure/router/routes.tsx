@@ -28,6 +28,9 @@ const pageFor = {
   [paths.hub]: async () => ({
     Component: (await import('@/features/hub/hub-page')).HubPage
   }),
+  [paths.legal]: async () => ({
+    Component: (await import('@/features/legal/legal-page')).LegalPage
+  }),
   [paths.settings]: async () => ({
     Component: (await import('@/features/settings/settings-page')).SettingsPage
   })
