@@ -2,8 +2,11 @@ import { describe, expect, it } from 'vitest'
 
 import { colorDotsEngine } from './color-dots-engine'
 import type { ColorDotsLevel, ColorDotsPiece } from './color-dots-level'
-import { BALL_WIDTH } from './color-dots-ride'
+import { BALL_WIDTH, RIDE_MS_PER_STEP } from './color-dots-ride'
 import type { ColorDotsMove, ColorDotsState } from './color-dots-state'
+
+/** A delay between two taps, counted in grid steps ridden. */
+const afterSteps = (steps: number) => steps * RIDE_MS_PER_STEP
 
 const ball = (colour: number): ColorDotsPiece => ({ colour, kind: 'ball' })
 const ring = (colour: number): ColorDotsPiece => ({ colour, kind: 'ring' })
@@ -206,13 +209,15 @@ describe('colorDotsEngine', () => {
 
     it('[color-dots] lets the next ball go once the way is clear', () => {
       expect(
-        colorDotsEngine.isWon(play(PASSING, [4, { afterMs: 600, ball: 5 }]))
+        colorDotsEngine.isWon(
+          play(PASSING, [4, { afterMs: afterSteps(20 / 3), ball: 5 }])
+        )
       ).toBe(true)
       expect(colorDotsEngine.isWon(play(PASSING, [4, 5]))).toBe(true)
     })
 
     it('[color-dots] pops a ball that catches up with one still rolling past a joint', () => {
-      const state = play(PASSING, [4, { afterMs: 300, ball: 5 }])
+      const state = play(PASSING, [4, { afterMs: afterSteps(10 / 3), ball: 5 }])
       expect(state.rides.at(-1)?.end.kind).toBe('pops')
     })
 
@@ -281,7 +286,7 @@ describe('colorDotsEngine', () => {
     })
 
     it('[color-dots] takes a ring the moment its ball leaves', () => {
-      const state = play(CHAIN, [0, { afterMs: 150, ball: 4 }])
+      const state = play(CHAIN, [0, { afterMs: afterSteps(5 / 3), ball: 4 }])
       expect(state.rides.map(({ end, route }) => ({ end, route }))).toEqual([
         { end: { kind: 'lands' }, route: [0, 1, 2, 3] },
         { end: { kind: 'lands' }, route: [4, 1, 2] }
