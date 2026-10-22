@@ -22,7 +22,7 @@ tile is connected to the source, with no open end and no loop.
 - Sizes 5, 7, 9, 11 and 13, odd so the source sits in the middle. No size
   cap on narrow phones: a tile is a tap, not a precise control, and the board
   fits without scrolling (≈ 38 px tiles at 9×9, ≈ 25 px at 13×13 on a 360 px
-  screen). "Wrapping" variant later (edges connect around).
+  screen).
 - The hint names a tile locked the wrong way first, then the next tile logic
   settles from the locked ones that does not face its way yet.
 

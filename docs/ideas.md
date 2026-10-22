@@ -16,4 +16,3 @@ always solvable. Adding one is Adrien's call; then it gets a
 | 2048 | Merge tiles up to 2048 | Zero rules to learn, a good "relax" game |
 | Lights Out | Toggle a cell and its neighbours until all are off | Tiny, solvable by linear algebra over GF(2) |
 | Sokoban | Push boxes onto targets | Handmade or generated levels, deeper puzzles |
-| FreeCell / Spider | Two more solitaires on Klondike's card engine | Reuses the cards, almost every FreeCell deal is winnable |
