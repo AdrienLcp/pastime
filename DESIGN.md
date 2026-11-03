@@ -466,10 +466,13 @@ it. Then « Nouvelle partie », which opens the next level at once, over
 ### Colophon and legal page
 
 Every screen ends on the booklet's imprint: a 1 px `--rule` across the page,
-then « Mentions légales et confidentialité » centred in meta type,
-`--ink-soft`, underlined, 44 px tall. It sits below the fold of a game
-screen, whose board and tools keep the whole height.
-`src/presentation/colophon.tsx`.
+then one centred row in meta type, `--ink-soft` — « Réalisé par Adrien
+Lacourpaille », the name linked to his site in the reader's language,
+« Code source » to the public repository, then « Mentions légales et
+confidentialité ». Each link is underlined and 44 px tall; on a phone the
+row wraps onto a second line. It sits below the fold of a game screen, whose
+board and tools keep the whole height. `src/presentation/colophon.tsx`, the
+author and the repository in `src/presentation/site-credits.ts`.
 
 The legal page (`/:locale/legal`) is running print under the same head as
 the settings — the back arrow, the title in the number style, the heavy

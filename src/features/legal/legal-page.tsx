@@ -1,5 +1,5 @@
 import type React from 'react'
-import { createElement, Fragment, useId } from 'react'
+import { useId } from 'react'
 
 import { hubPathFor } from '@/infrastructure/router/navigation'
 import { Link } from '@/presentation/components/link'
@@ -7,15 +7,12 @@ import { Main } from '@/presentation/components/main'
 import { PageHead } from '@/presentation/components/page-head'
 import { DocumentTitle } from '@/presentation/head/document-title'
 import { useI18n } from '@/presentation/i18n/i18n-provider'
+import { RichText } from '@/presentation/i18n/rich-text'
 
 import { CNIL_COMPLAINT_HREF, HOST, PUBLISHER } from './legal-details'
 import { STORED_KEYS } from './stored-keys'
 
 import './legal-page.sass'
-
-/** Spreads what `translate.rich` returned as children, so React asks none of them for a key. */
-const RichText: React.FC<{ parts: readonly React.ReactNode[] }> = ({ parts }) =>
-  createElement(Fragment, null, ...parts)
 
 type LegalSectionProps = {
   children: React.ReactNode

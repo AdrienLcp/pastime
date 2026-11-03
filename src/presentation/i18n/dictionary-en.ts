@@ -365,7 +365,9 @@ export const EN_DICTIONARY = defineDictionary({
   },
   shell: {
     colophon: {
-      legal: 'Legal notice and privacy'
+      credit: 'Made by <author>{name}</author>',
+      legal: 'Legal notice and privacy',
+      source: 'Source code'
     }
   },
   theme: {

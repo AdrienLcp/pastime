@@ -3,15 +3,25 @@
 @layer components
   .colophon
     display: flex
+    flex-wrap: wrap
     justify-content: center
+    column-gap: var(--space-m)
     padding: var(--space-xs) var(--gutter-right) max(var(--space-xs), var(--safe-area-bottom)) var(--gutter-left)
     border-top: var(--hairline)
+
+    // The author's link sits inside the credit's sentence, so it takes no
+    // padding of its own: the space past the words belongs to each item.
+    > *
+      padding-inline: var(--space-xs)
+
+    .colophon-credit
+      @include typography.meta
+      color: var(--ink-soft)
 
     .colophon-link
       display: inline-flex
       align-items: center
       min-height: var(--target)
-      padding-inline: var(--space-xs)
       @include typography.meta
       color: var(--ink-soft)
       text-decoration: underline
