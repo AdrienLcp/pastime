@@ -55,13 +55,16 @@ export const startServiceWorker = (): void => {
   })
 }
 
+/** Counts a screen at rest for as long as it is shown, applying a waiting update at once. */
+const holdScreenAtRest = () => {
+  screensAtRest++
+  applyWhenAtRest()
+  return () => {
+    screensAtRest--
+  }
+}
+
 /** Marks the screen it is called from as one a new version may reload. */
 export const useUpdateAtRest = (): void => {
-  useEffect(() => {
-    screensAtRest++
-    applyWhenAtRest()
-    return () => {
-      screensAtRest--
-    }
-  }, [])
+  useEffect(holdScreenAtRest, [])
 }

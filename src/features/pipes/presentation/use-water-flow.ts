@@ -1,8 +1,20 @@
-import { useRef } from 'react'
+import { useState } from 'react'
 
 type Flow = {
   readonly depths: ReadonlyMap<number, number>
   readonly delays: ReadonlyMap<number, number>
+}
+
+const flowAfter = (
+  previous: Flow,
+  depths: ReadonlyMap<number, number>
+): Flow => {
+  const joined = [...depths].filter(([cell]) => !previous.depths.has(cell))
+  const nearest = Math.min(...joined.map(([, depth]) => depth))
+  return {
+    delays: new Map(joined.map(([cell, depth]) => [cell, depth - nearest])),
+    depths
+  }
 }
 
 /**
@@ -13,17 +25,9 @@ type Flow = {
 export const useWaterFlow = (
   depths: ReadonlyMap<number, number>
 ): ReadonlyMap<number, number> => {
-  const flow = useRef<Flow | null>(null)
-  const previous = flow.current
-  if (previous === null) {
-    flow.current = { delays: new Map(), depths }
-  } else if (previous.depths !== depths) {
-    const joined = [...depths].filter(([cell]) => !previous.depths.has(cell))
-    const nearest = Math.min(...joined.map(([, depth]) => depth))
-    flow.current = {
-      delays: new Map(joined.map(([cell, depth]) => [cell, depth - nearest])),
-      depths
-    }
-  }
-  return flow.current?.delays ?? new Map()
+  const [flow, setFlow] = useState<Flow>(() => ({ delays: new Map(), depths }))
+  if (flow.depths === depths) return flow.delays
+  const next = flowAfter(flow, depths)
+  setFlow(next)
+  return next.delays
 }
