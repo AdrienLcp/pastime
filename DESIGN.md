@@ -144,12 +144,12 @@ Paper, ink, pencil, and four process inks — one per chapter.
 Each game owns one ink, used for its cover on the hub, its header band in
 the game frame (the right page of a spread), its wash on a board:
 
-| Game | Token | Ink |
-| --- | --- | --- |
-| Pipes | `--chapter-pipes` | **Process Cyan** `--cyan` |
-| Solitaire | `--chapter-solitaire` | **Process Magenta-Red** `--magenta` |
-| Stars | `--chapter-stars` | **Process Yellow** `--yellow` |
-| Color Dots | `--chapter-color-dots` | **Process Green** `--green` |
+| Game       | Token                  | Ink                                 |
+| ---------- | ---------------------- | ----------------------------------- |
+| Pipes      | `--chapter-pipes`      | **Process Cyan** `--cyan`           |
+| Solitaire  | `--chapter-solitaire`  | **Process Magenta-Red** `--magenta` |
+| Stars      | `--chapter-stars`      | **Process Yellow** `--yellow`       |
+| Color Dots | `--chapter-color-dots` | **Process Green** `--green`         |
 
 A new game takes a new ink only if it holds `--cover-ink` at ≥ 4.5:1;
 otherwise it shares one and tells itself apart by its glyph.
@@ -492,6 +492,7 @@ the PNGs. SVG files carry hex: librsvg does not read `oklch()`.
 ## Do's and Don'ts
 
 ### Do:
+
 - **Do** give every game screen its chapter ink, and only that one.
 - **Do** keep 44 px targets on everything outside a board; a board cell is
   as large as the 360 px column allows.
@@ -504,6 +505,7 @@ the PNGs. SVG files carry hex: librsvg does not read `oklch()`.
   night book.
 
 ### Don't:
+
 - **Don't** put white or `--ink-soft` text on a chapter ink.
 - **Don't** use Pastime Hand for interface copy.
 - **Don't** round a box that is not a card or the stamp.
@@ -513,4 +515,3 @@ the PNGs. SVG files carry hex: librsvg does not read `oklch()`.
 ## Open issues
 
 None.
-

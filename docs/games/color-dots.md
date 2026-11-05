@@ -90,11 +90,11 @@ tier's recipe (`color-dots-tiers.ts`) sets its rings, inks, grid and a
 minimum of traps, calibrated on measured levels: the generator builds up to
 24 boards and ships the first that reaches it, else the hardest.
 
-| Tier | Balls | Inks | Grid | Traps at least |
-| --- | --- | --- | --- | --- |
-| Facile | 8 | 4 | 7×9 | 6 |
-| Difficile | 11 | 5 | 7×9 | 16 |
-| Expert | 14 | 5 | 7×10 | 24 |
+| Tier      | Balls | Inks | Grid | Traps at least |
+| --------- | ----- | ---- | ---- | -------------- |
+| Facile    | 8     | 4    | 7×9  | 6              |
+| Difficile | 11    | 5    | 7×9  | 16             |
+| Expert    | 14    | 5    | 7×10 | 24             |
 
 ## Generation
 

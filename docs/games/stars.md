@@ -62,14 +62,14 @@ and vanish with the star — they are never moves, so undo never sees them.
 
 **Solver** (`solver/`). Techniques, easiest first, each sound on its own:
 
-| Technique | What it sees |
-| --- | --- |
-| next-to-star | a cell touching a star holds none |
-| full-unit | a unit with its star: the rest holds none |
-| single | a unit with one open cell left |
-| confinement | one unit's open cells inside one unit of another kind (region in a row, row in a region…) |
-| touching | a star on this cell would leave some unit without room — one placement deep, never further |
-| pair, triple | the same count over two or three units |
+| Technique    | What it sees                                                                               |
+| ------------ | ------------------------------------------------------------------------------------------ |
+| next-to-star | a cell touching a star holds none                                                          |
+| full-unit    | a unit with its star: the rest holds none                                                  |
+| single       | a unit with one open cell left                                                             |
+| confinement  | one unit's open cells inside one unit of another kind (region in a row, row in a region…)  |
+| touching     | a star on this cell would leave some unit without room — one placement deep, never further |
+| pair, triple | the same count over two or three units                                                     |
 
 Logic reaching a full grid means the solution is unique; the generator test
 checks it against a separate brute-force counter on 200 seeds per size up to
@@ -93,13 +93,13 @@ so a retry draws the same derived seed on every device).
 Generation time, 40 seeds per size, Chrome with the CPU throttled ×4
 (a mid-range phone), 2026-10-08, no failure on any size:
 
-| Size | Median | 90th pct | Worst |
-| --- | --- | --- | --- |
-| 7×7 | 15 ms | 65 ms | 197 ms |
-| 9×9 | 53 ms | 323 ms | 958 ms |
-| 11×11 | 338 ms | 1.6 s | 4.4 s |
-| 13×13 | 615 ms | 2.2 s | 3.4 s |
-| 15×15 | 1.2 s | 4.6 s | 9.4 s |
+| Size  | Median | 90th pct | Worst  |
+| ----- | ------ | -------- | ------ |
+| 7×7   | 15 ms  | 65 ms    | 197 ms |
+| 9×9   | 53 ms  | 323 ms   | 958 ms |
+| 11×11 | 338 ms | 1.6 s    | 4.4 s  |
+| 13×13 | 615 ms | 2.2 s    | 3.4 s  |
+| 15×15 | 1.2 s  | 4.6 s    | 9.4 s  |
 
 About one 15×15 grid in twenty overruns the worker's 6 s timeout on such a
 phone; the attempt is dropped and a derived seed drawn, which is faster than

@@ -22,15 +22,15 @@ engine keeps the draw count a parameter so it costs nothing to add later.
 
 Windows' standard scoring, shown in the band beside the clock:
 
-| Move | Points |
-| --- | --- |
-| Waste to tableau | +5 |
-| Waste or tableau to foundation | +10 |
-| A tableau card turned over | +5 |
-| Foundation back to tableau | −15 |
-| Tableau to tableau, a draw | 0 |
+| Move                           | Points                              |
+| ------------------------------ | ----------------------------------- |
+| Waste to tableau               | +5                                  |
+| Waste or tableau to foundation | +10                                 |
+| A tableau card turned over     | +5                                  |
+| Foundation back to tableau     | −15                                 |
+| Tableau to tableau, a draw     | 0                                   |
 | Recycling the stock, drawing 1 | −100 for every pass after the first |
-| Recycling the stock, drawing 3 | −20 for every pass after the third |
+| Recycling the stock, drawing 3 | −20 for every pass after the third  |
 
 - The score never drops below 0: each move's points are added, then the
   total is held at 0 at least.
