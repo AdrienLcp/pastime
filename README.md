@@ -65,7 +65,9 @@ generator: [`docs/games/`](docs/games).
 ## Deploy
 
 Every push to `main` that passes CI deploys `dist/` to Cloudflare Pages. There
-is nothing else to run: no server, no database, no running cost.
+is nothing else to run: no server, no database, no running cost. Shipping
+(`pnpm ship`), the hosting, the CI secrets and what to do when a step breaks:
+[`docs/operations/`](docs/operations/README.md).
 
 ## License
 
